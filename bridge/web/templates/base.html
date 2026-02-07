@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{{ station_name }}{% endblock %}</title>
+    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <div class="layout">
+        <nav class="sidebar">
+            <div class="sidebar-header">
+                <h1>🎧 {{ station_name }}</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/" class="{% if page == 'dashboard' %}active{% endif %}">📊 Dashboard</a></li>
+                <li><a href="/plugins" class="{% if page == 'plugins' %}active{% endif %}">🔌 Plugins</a></li>
+                <li><a href="/audio" class="{% if page == 'audio' %}active{% endif %}">🎚️ Audio</a></li>
+                <li><a href="/config" class="{% if page == 'config' %}active{% endif %}">⚙️ Settings</a></li>
+                <li><a href="/timeline" class="{% if page == 'timeline' %}active{% endif %}">📐 Timeline</a></li>
+            </ul>
+            <div class="sidebar-footer">
+                <span class="version">v0.2.0</span>
+            </div>
+        </nav>
+        <main class="{% block content_class %}content{% endblock %}">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,64 @@
+# RadioDan Configuration
+# Station: Radio Dan
+
+station_name: Radio Dan
+
+server:
+  host: 0.0.0.0
+  port: 8080
+
+audio:
+  icecast:
+    host: icecast
+    port: 8000
+    mount: /stream
+    external_port: 49994  # Port exposed to outside world
+
+  liquidsoap:
+    telnet_host: localhost  # Bot runs on host, connects via exposed port
+    telnet_port: 1234
+    crossfade_duration: 5.0
+
+  playlist:
+    music_dir: ./music
+    lookahead: 5
+    scan_interval: 300      # Rescan music library every 5 minutes
+
+  tts:
+    endpoint: http://localhost:42001/tts/custom-voice
+    speaker: Aiden
+    language: English
+    instruct: "Speak calmly and clearly"
+    cache_dir: /tmp/tts_cache
+
+  stt:
+    endpoint: http://localhost:5000/v1/audio/transcriptions
+
+ollama:
+  endpoint: http://localhost:11434/v1/chat/completions
+  model: gpt-oss:20b
+  system_prompt: "You are Radio Dan, a friendly AI assistant. Keep responses brief."
+
+sources:
+  - id: claude-code-main
+    type: claude_code
+    enabled: true
+
+channels:
+  telegram:
+    enabled: true
+    # Token and user IDs loaded from environment variables
+
+plugins:
+  simple_playlist_feeder:
+    enabled: true
+    no_repeat_count: 10     # Avoid repeating last N tracks
+
+  presenter:
+    enabled: true
+    periodic_interval: 0         # Periodic announcements in seconds (0 = disabled)
+    system_prompt: "You are Radio Dan, a chill and friendly radio presenter on an ambient music stream. Keep announcements brief (1-3 sentences). Be warm, conversational, and occasionally witty. Never use hashtags, emojis, or markdown formatting — your words will be spoken aloud. If given song info, weave it naturally into your announcement."
+
+sounds:
+  theme: 8bit
+  directory: /sounds

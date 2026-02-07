@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — {{ station_name }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>Dashboard</h2>
+</div>
+
+<div class="card-grid">
+    <!-- Now Playing -->
+    <div class="card">
+        <h3>Now Playing</h3>
+        {% if track and track.get('artist') %}
+        <div class="now-playing">
+            <div class="track-artist">{{ track.get('artist', 'Unknown') }}</div>
+            <div class="track-title">{{ track.get('title', 'Unknown') }}</div>
+            {% if track.get('album') %}
+            <div class="track-meta">{{ track.get('album') }}</div>
+            {% endif %}
+            {% if track.get('genre') or track.get('year') %}
+            <div class="track-meta">
+                {{ track.get('genre', '') }}
+                {% if track.get('genre') and track.get('year') %} · {% endif %}
+                {{ track.get('year', '') }}
+            </div>
+            {% endif %}
+            <div class="track-timing">
+                {% set elapsed_min = (elapsed // 60)|int %}
+                {% set elapsed_sec = (elapsed % 60)|int %}
+                {% set remaining_min = (remaining // 60)|int %}
+                {% set remaining_sec = (remaining % 60)|int %}
+                {{ '%d:%02d'|format(elapsed_min, elapsed_sec) }} /
+                -{{ '%d:%02d'|format(remaining_min, remaining_sec) }}
+            </div>
+            <div style="margin-top: 0.6rem;">
+                <button class="btn btn-sm btn-primary"
+                        hx-post="/audio/skip"
+                        hx-target="#skip-status"
+                        hx-swap="innerHTML">
+                    Skip
+                </button>
+                <span id="skip-status"></span>
+            </div>
+        </div>
+        {% else %}
+        <p class="muted">No track information available</p>
+        {% endif %}
+    </div>
+
+    <!-- System Status -->
+    <div class="card">
+        <h3>System Status</h3>
+        <table class="system-table">
+            <thead>
+                <tr>
+                    <th>Component</th>
+                    <th>Status</th>
+                    <th>PID</th>
+                    <th>Uptime</th>
+                    <th>Memory</th>
+                </tr>
+            </thead>
+            <tbody id="system-status"
+                   hx-get="/api/system/status"
+                   hx-trigger="every 10s"
+                   hx-swap="innerHTML">
+                {% for key in ['python', 'liquidsoap', 'icecast'] %}
+                {% set p = processes[key] %}
+                <tr>
+                    <td>{{ p.name }}</td>
+                    <td>
+                        <span class="badge {{ 'badge-ok' if p.status == 'running' else 'badge-err' }}">
+                            {{ p.status|capitalize }}
+                        </span>
+                    </td>
+                    <td class="mono">{{ p.pid or '—' }}</td>
+                    <td class="mono">{{ p.uptime or '—' }}</td>
+                    <td class="mono">
+                        {% if p.memory is number %}
+                            {{ p.memory }} MB
+                        {% elif p.memory %}
+                            {{ p.memory }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- System Controls -->
+    <div class="card">
+        <h3>System Controls</h3>
+        <div class="restart-group">
+            <button class="btn btn-secondary"
+                    hx-post="/system/restart-docker"
+                    hx-target="#restart-status"
+                    hx-swap="innerHTML">
+                Restart Docker
+            </button>
+            <button class="btn btn-warning"
+                    hx-post="/system/restart-python"
+                    hx-target="#restart-status"
+                    hx-swap="innerHTML"
+                    hx-confirm="Restart the Python bridge? The page will reconnect automatically.">
+                Restart Python
+            </button>
+            <button class="btn btn-danger"
+                    hx-post="/system/restart"
+                    hx-target="#restart-status"
+                    hx-swap="innerHTML"
+                    hx-confirm="Restart ALL services? This will briefly interrupt the stream.">
+                Restart All
+            </button>
+        </div>
+        <div id="restart-status" style="margin-top: 0.6rem;"></div>
+    </div>
+
+    <!-- Active Plugins -->
+    <div class="card">
+        <h3>Active Plugins</h3>
+        {% if plugins %}
+        <div class="status-list">
+            {% for p in plugins %}
+            <div class="status-row">
+                <span>{{ p.display_name }}</span>
+                <span class="badge badge-info">{{ p.name }} v{{ p.version }}</span>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <p class="muted">No plugins loaded</p>
+        {% endif %}
+        <a href="/plugins" class="link-subtle">Manage plugins →</a>
+    </div>
+</div>
+{% endblock %}

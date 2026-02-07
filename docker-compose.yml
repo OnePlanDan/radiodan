@@ -1,0 +1,45 @@
+# RadioDan - Docker Compose
+# Audio streaming infrastructure: Icecast + Liquidsoap
+
+services:
+  icecast:
+    image: infiniteproject/icecast
+    ports:
+      - "49994:8000"
+    volumes:
+      - ./config/icecast.xml:/tmp/icecast-template.xml:ro
+    environment:
+      - ICECAST_SOURCE_PASSWORD=${ICECAST_SOURCE_PASSWORD}
+      - ICECAST_ADMIN_PASSWORD=${ICECAST_ADMIN_PASSWORD}
+      - STATION_NAME=${STATION_NAME:-Radio Dan}
+    entrypoint: ["sh", "-c"]
+    command:
+      - |
+        sed "s/__SOURCE_PASSWORD__/$ICECAST_SOURCE_PASSWORD/g; s/__ADMIN_PASSWORD__/$ICECAST_ADMIN_PASSWORD/g; s/__STATION_NAME__/$STATION_NAME/g" /tmp/icecast-template.xml > /etc/icecast.xml
+        exec icecast -c /etc/icecast.xml
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1:8000/status.xsl || exit 1"]
+      interval: 5s
+      timeout: 5s
+      retries: 3
+      start_period: 5s
+
+  liquidsoap:
+    image: savonet/liquidsoap:v2.4.2
+    volumes:
+      - ./config/station.liq:/etc/liquidsoap/station.liq:ro
+      - ./music:/music:ro
+      - ./sounds:/sounds:ro
+      - ./tmp:/tmp  # TTS cache - separate from music to avoid playlist pickup
+    depends_on:
+      icecast:
+        condition: service_healthy
+    restart: unless-stopped
+    environment:
+      - ICECAST_SOURCE_PASSWORD=${ICECAST_SOURCE_PASSWORD}
+      - STATION_NAME=${STATION_NAME:-Radio Dan}
+    # Expose telnet port for mixer control
+    ports:
+      - "127.0.0.1:1234:1234"
+    command: ["liquidsoap", "/etc/liquidsoap/station.liq"]

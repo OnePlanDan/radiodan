@@ -1,0 +1,33 @@
+<tr id="instance-{{ inst.id }}" class="{{ 'row-disabled' if not inst.enabled }}">
+    <td>
+        <strong>{{ inst.display_name }}</strong>
+    </td>
+    <td><code>{{ inst.id }}</code></td>
+    <td>
+        {% if inst.enabled %}
+            {% if inst.id in running_ids %}
+            <span class="badge badge-ok">Running</span>
+            {% else %}
+            <span class="badge badge-warn">Enabled (restart needed)</span>
+            {% endif %}
+        {% else %}
+        <span class="badge badge-disabled">Disabled</span>
+        {% endif %}
+    </td>
+    <td class="actions">
+        <button class="btn btn-sm {{ 'btn-danger' if inst.enabled else 'btn-success' }}"
+                hx-post="/plugins/instances/{{ inst.id }}/toggle"
+                hx-target="#instance-{{ inst.id }}"
+                hx-swap="outerHTML">
+            {{ 'Disable' if inst.enabled else 'Enable' }}
+        </button>
+        <a href="/plugins/instances/{{ inst.id }}" class="btn btn-sm btn-secondary">Edit</a>
+        <button class="btn btn-sm btn-danger"
+                hx-delete="/plugins/instances/{{ inst.id }}"
+                hx-target="#instance-{{ inst.id }}"
+                hx-swap="outerHTML"
+                hx-confirm="Delete instance '{{ inst.display_name }}'?">
+            Delete
+        </button>
+    </td>
+</tr>

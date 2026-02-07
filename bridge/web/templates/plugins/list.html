@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Plugins — {{ station_name }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>🔌 Plugins</h2>
+</div>
+
+{% for ptype in plugin_types %}
+<div class="card">
+    <div class="card-header">
+        <div>
+            <h3>{{ ptype.name }}</h3>
+            <p class="muted">{{ ptype.description }} — v{{ ptype.version }}</p>
+        </div>
+        <button class="btn btn-primary"
+                onclick="document.getElementById('new-{{ ptype.name }}').classList.toggle('hidden')">
+            + New Instance
+        </button>
+    </div>
+
+    <!-- Create Instance Form (hidden by default) -->
+    <div id="new-{{ ptype.name }}" class="hidden form-inline">
+        <form hx-post="/plugins/instances" hx-target="body">
+            <input type="hidden" name="plugin_type" value="{{ ptype.name }}">
+            <input type="text" name="display_name" placeholder="Instance name (e.g. Chill Intro DJ)" required class="input">
+            <input type="hidden" name="config" value="{}">
+            <button type="submit" class="btn btn-primary">Create</button>
+        </form>
+    </div>
+
+    <!-- Instances Table -->
+    {% if ptype.instances %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Instance</th>
+                <th>ID</th>
+                <th>Status</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for inst in ptype.instances %}
+            {% include "plugins/_instance_row.html" %}
+            {% endfor %}
+        </tbody>
+    </table>
+    {% else %}
+    <p class="muted" style="padding: 1rem;">No instances yet. Create one above.</p>
+    {% endif %}
+</div>
+{% endfor %}
+{% endblock %}

@@ -1,0 +1,139 @@
+{% extends "base.html" %}
+{% block title %}Audio — {{ station_name }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>🎚️ Audio Controls</h2>
+</div>
+
+<div class="card">
+    <h3>🎵 Music Volume</h3>
+    <div class="slider-group">
+        <input type="range" min="0" max="100" value="{{ (music_vol * 100)|int }}"
+               class="slider"
+               hx-post="/audio/volume"
+               hx-trigger="change"
+               hx-target="#music-vol-label"
+               hx-swap="innerHTML"
+               name="value"
+               hx-vals='js:{"value": event.target.value / 100}'>
+        <span id="music-vol-label" class="slider-label">{{ (music_vol * 100)|int }}%</span>
+        <button class="btn {{ 'btn-danger' if music_muted else 'btn-secondary' }}"
+                hx-post="/audio/music-mute"
+                hx-swap="outerHTML">
+            {{ 'Unmute' if music_muted else 'Mute' }}
+        </button>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🎤 Voice Volume</h3>
+    <div class="slider-group">
+        <input type="range" min="0" max="100" value="{{ (tts_vol * 100)|int }}"
+               class="slider"
+               hx-post="/audio/tts-volume"
+               hx-trigger="change"
+               hx-target="#tts-vol-label"
+               hx-swap="innerHTML"
+               name="value"
+               hx-vals='js:{"value": event.target.value / 100}'>
+        <span id="tts-vol-label" class="slider-label">{{ (tts_vol * 100)|int }}%</span>
+        <button class="btn {{ 'btn-danger' if tts_muted else 'btn-secondary' }}"
+                hx-post="/audio/tts-mute"
+                hx-swap="outerHTML">
+            {{ 'Unmute' if tts_muted else 'Mute' }}
+        </button>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🔉 Duck Amount</h3>
+    <p class="muted">How loud the music plays during voice announcements (0% = silent, 100% = full volume)</p>
+    <div class="slider-group">
+        <input type="range" min="0" max="100" value="{{ (duck_amount * 100)|int }}"
+               class="slider" id="duck-amount-slider"
+               hx-post="/audio/duck"
+               hx-trigger="change"
+               hx-target="#duck-label"
+               hx-swap="innerHTML"
+               name="value"
+               hx-vals='js:{"value": event.target.value / 100}'
+               oninput="if(window.updateDuckEnvelope) updateDuckEnvelope({duckAmount: this.value / 100})">
+        <span id="duck-label" class="slider-label">{{ (duck_amount * 100)|int }}%</span>
+    </div>
+</div>
+
+<div class="card">
+    <h3>📈 Duck Envelope</h3>
+    <p class="muted">Shape how music volume transitions when voice starts and stops</p>
+    <div id="duck-envelope-editor"
+         data-duck-amount="{{ duck_amount }}"
+         data-duck-in-duration="{{ duck_in_duration }}"
+         data-duck-out-duration="{{ duck_out_duration }}"
+         data-duck-in-curve="{{ duck_in_curve }}"
+         data-duck-out-curve="{{ duck_out_curve }}">
+        <svg id="duck-envelope-svg" viewBox="0 0 500 200"></svg>
+        <div class="envelope-sliders">
+            <div class="slider-group">
+                <label class="slider-label-left">Duck-in</label>
+                <input type="range" min="5" max="500" value="{{ (duck_in_duration * 100)|int }}"
+                       class="slider" id="duck-in-dur-slider"
+                       hx-post="/audio/duck-in-duration"
+                       hx-trigger="change"
+                       hx-target="#duck-in-dur-label"
+                       hx-swap="innerHTML"
+                       name="value"
+                       hx-vals='js:{"value": event.target.value / 100}'
+                       oninput="if(window.updateDuckEnvelope) updateDuckEnvelope({duckInDuration: this.value / 100}); document.getElementById('duck-in-dur-label').textContent = (this.value / 100).toFixed(2) + 's'">
+                <span id="duck-in-dur-label" class="slider-label">{{ "%.2f"|format(duck_in_duration) }}s</span>
+            </div>
+            <div class="slider-group">
+                <label class="slider-label-left">Duck-out</label>
+                <input type="range" min="5" max="500" value="{{ (duck_out_duration * 100)|int }}"
+                       class="slider" id="duck-out-dur-slider"
+                       hx-post="/audio/duck-out-duration"
+                       hx-trigger="change"
+                       hx-target="#duck-out-dur-label"
+                       hx-swap="innerHTML"
+                       name="value"
+                       hx-vals='js:{"value": event.target.value / 100}'
+                       oninput="if(window.updateDuckEnvelope) updateDuckEnvelope({duckOutDuration: this.value / 100}); document.getElementById('duck-out-dur-label').textContent = (this.value / 100).toFixed(2) + 's'">
+                <span id="duck-out-dur-label" class="slider-label">{{ "%.2f"|format(duck_out_duration) }}s</span>
+            </div>
+        </div>
+    </div>
+    <script src="/static/duck-envelope.js"></script>
+</div>
+
+<div class="card">
+    <h3>🔔 Earcon Volume</h3>
+    <p class="muted">Volume for notification sounds and jingles</p>
+    <div class="slider-group">
+        <input type="range" min="0" max="100" value="{{ (earcon_vol * 100)|int }}"
+               class="slider"
+               hx-post="/audio/earcon-volume"
+               hx-trigger="change"
+               hx-target="#earcon-vol-label"
+               hx-swap="innerHTML"
+               name="value"
+               hx-vals='js:{"value": event.target.value / 100}'>
+        <span id="earcon-vol-label" class="slider-label">{{ (earcon_vol * 100)|int }}%</span>
+    </div>
+</div>
+
+<div class="card">
+    <h3>🔀 Crossfade Duration</h3>
+    <p class="muted">How long tracks overlap during transitions (affects new crossfades only)</p>
+    <div class="slider-group">
+        <input type="range" min="1" max="15" step="0.5" value="{{ crossfade_duration }}"
+               class="slider"
+               hx-post="/audio/crossfade"
+               hx-trigger="change"
+               hx-target="#crossfade-label"
+               hx-swap="innerHTML"
+               name="value">
+        <span id="crossfade-label" class="slider-label">{{ "%.1f"|format(crossfade_duration) }}s</span>
+    </div>
+</div>
+
+{% endblock %}

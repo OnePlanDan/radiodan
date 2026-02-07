@@ -1,0 +1,17 @@
+# Place your 8-bit earcon sounds here
+#
+# Generate them using:
+# - https://www.bfxr.net/ (browser)
+# - https://sfbgames.itch.io/chiptone (browser)
+#
+# Recommended sounds (11 total for MVP):
+# - tick.wav (tool start)
+# - tock.wav (tool complete)
+# - coin.wav (test pass)
+# - damage.wav (test fail)
+# - levelup.wav (build success)
+# - gameover.wav (build fail)
+# - warning.wav (error)
+# - question.wav (question pending)
+# - confirm.wav (answer received)
+# - victory.wav (task complete)

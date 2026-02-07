@@ -1,0 +1,244 @@
+{% extends "base.html" %}
+{% block title %}Edit {{ instance.display_name }} — {{ station_name }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>🔌 Edit Instance</h2>
+    <a href="/plugins" class="btn btn-secondary">← Back to Plugins</a>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div>
+            <h3>{{ instance.display_name }}</h3>
+            <p class="muted">Type: {{ instance.plugin_type }} · ID: <code>{{ instance.id }}</code></p>
+            {% if plugin_description %}
+            <p class="muted">{{ plugin_description }}</p>
+            {% endif %}
+        </div>
+    </div>
+
+    <form hx-put="/plugins/instances/{{ instance.id }}"
+          hx-target="#status-message"
+          hx-swap="outerHTML"
+          class="form">
+
+        <div class="form-group">
+            <label for="display_name">Display Name</label>
+            <input type="text" id="display_name" name="display_name"
+                   value="{{ instance.display_name }}" class="input" required>
+        </div>
+
+        {% if config_fields %}
+          {% for field in config_fields %}
+
+            {% if field.type == "text" %}
+            <div class="form-group{% if field.show_when %} field-conditional{% endif %}"
+                 {% if field.show_when %}
+                 data-show-when-field="{{ field.show_when.field }}"
+                 data-show-when-value="{{ field.show_when.value }}"
+                 {% endif %}>
+                <label for="field__{{ field.key }}">{{ field.label }}</label>
+                <input type="text" id="field__{{ field.key }}" name="field__{{ field.key }}"
+                       value="{{ field.value }}" class="input">
+                {% if field.help %}<p class="help-text">{{ field.help }}</p>{% endif %}
+            </div>
+
+            {% elif field.type == "number" %}
+            <div class="form-group{% if field.show_when %} field-conditional{% endif %}"
+                 {% if field.show_when %}
+                 data-show-when-field="{{ field.show_when.field }}"
+                 data-show-when-value="{{ field.show_when.value }}"
+                 {% endif %}>
+                <label for="field__{{ field.key }}">{{ field.label }}</label>
+                <input type="number" id="field__{{ field.key }}" name="field__{{ field.key }}"
+                       value="{{ field.value }}" class="input" step="1">
+                {% if field.help %}<p class="help-text">{{ field.help }}</p>{% endif %}
+            </div>
+
+            {% elif field.type == "bool" %}
+            <div class="form-group{% if field.show_when %} field-conditional{% endif %}"
+                 {% if field.show_when %}
+                 data-show-when-field="{{ field.show_when.field }}"
+                 data-show-when-value="{{ field.show_when.value }}"
+                 {% endif %}>
+                <label class="toggle-label">
+                    <span class="toggle-text">{{ field.label }}</span>
+                    <label class="toggle">
+                        <input type="checkbox" name="field__{{ field.key }}"
+                               {% if field.value %}checked{% endif %}>
+                        <span class="toggle-slider"></span>
+                    </label>
+                </label>
+                {% if field.help %}<p class="help-text">{{ field.help }}</p>{% endif %}
+            </div>
+
+            {% elif field.type == "select" %}
+            <div class="form-group{% if field.show_when %} field-conditional{% endif %}"
+                 {% if field.show_when %}
+                 data-show-when-field="{{ field.show_when.field }}"
+                 data-show-when-value="{{ field.show_when.value }}"
+                 {% endif %}>
+                <label for="field__{{ field.key }}">{{ field.label }}</label>
+                <select id="field__{{ field.key }}" name="field__{{ field.key }}" class="input">
+                    {% for opt in field.options %}
+                    <option value="{{ opt.value }}"
+                            {% if field.value == opt.value %}selected{% endif %}>
+                        {{ opt.label }}
+                    </option>
+                    {% endfor %}
+                </select>
+                {% if field.help %}<p class="help-text">{{ field.help }}</p>{% endif %}
+            </div>
+
+            {% elif field.type == "datetime" %}
+            <div class="form-group{% if field.show_when %} field-conditional{% endif %}"
+                 {% if field.show_when %}
+                 data-show-when-field="{{ field.show_when.field }}"
+                 data-show-when-value="{{ field.show_when.value }}"
+                 {% endif %}>
+                <label for="field__{{ field.key }}">{{ field.label }}</label>
+                <input type="datetime-local" id="field__{{ field.key }}" name="field__{{ field.key }}"
+                       value="{{ field.value }}" class="input">
+                {% if field.help %}<p class="help-text">{{ field.help }}</p>{% endif %}
+            </div>
+
+            {% elif field.type == "style_picker" %}
+            <div class="form-group{% if field.show_when %} field-conditional{% endif %}"
+                 {% if field.show_when %}
+                 data-show-when-field="{{ field.show_when.field }}"
+                 data-show-when-value="{{ field.show_when.value }}"
+                 {% endif %}>
+                <label>{{ field.label }}</label>
+                <div class="style-picker">
+                    {% for opt in field.options %}
+                    <div class="style-row">
+                        <label class="style-check">
+                            <input type="checkbox" name="style__{{ opt.value }}"
+                                   {% if opt.value in field.active_styles %}checked{% endif %}>
+                            <span class="style-label">{{ opt.label }}</span>
+                            <span class="style-desc">{{ opt.desc }}</span>
+                        </label>
+                        <div class="style-weight">
+                            <label>Weight:</label>
+                            <input type="number" name="weight__{{ opt.value }}"
+                                   value="{{ field.weights.get(opt.value, opt.default_weight) }}"
+                                   min="0" max="99" class="weight-input">
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+
+            {% elif field.type == "textarea" %}
+              {% if field.key.startswith("style_prompts.") %}
+                {# Style prompt textareas are grouped below #}
+              {% else %}
+              <div class="form-group{% if field.show_when %} field-conditional{% endif %}"
+                   {% if field.show_when %}
+                   data-show-when-field="{{ field.show_when.field }}"
+                   data-show-when-value="{{ field.show_when.value }}"
+                   {% endif %}>
+                  <label for="field__{{ field.key }}">{{ field.label }}</label>
+                  <textarea id="field__{{ field.key }}" name="field__{{ field.key }}"
+                            class="input textarea-code" rows="4">{{ field.value }}</textarea>
+                  {% if field.help %}<p class="help-text">{{ field.help }}</p>{% endif %}
+              </div>
+              {% endif %}
+            {% endif %}
+
+          {% endfor %}
+
+          {# Collapsible Prompt Templates section #}
+          {% set prompt_fields = [] %}
+          {% for field in config_fields %}
+            {% if field.type == "textarea" and field.key.startswith("style_prompts.") %}
+              {% if prompt_fields.append(field) %}{% endif %}
+            {% endif %}
+          {% endfor %}
+
+          {% if prompt_fields %}
+          <div class="form-section">
+              <div class="form-section-header" onclick="this.parentElement.classList.toggle('collapsed')">
+                  <span class="section-indicator">▼</span> Prompt Templates
+              </div>
+              <div class="form-section-content">
+                  {% for field in prompt_fields %}
+                  <div class="form-group">
+                      {% set style_name = field.key.replace("style_prompts.", "") %}
+                      <label for="prompt__{{ style_name }}">{{ field.label }}</label>
+                      <textarea id="prompt__{{ style_name }}" name="prompt__{{ style_name }}"
+                                class="input textarea-code" rows="4">{{ field.value }}</textarea>
+                      {% if field.help %}<p class="help-text">{{ field.help }}</p>{% endif %}
+                  </div>
+                  {% endfor %}
+              </div>
+          </div>
+          {% endif %}
+
+        {% else %}
+          {# Fallback: JSON textarea for plugins without config_fields #}
+          <div class="form-group">
+              <label for="config">Configuration (JSON)</label>
+              <textarea id="config" name="config" class="input textarea-code" rows="20">{{ config_json }}</textarea>
+              <p class="help-text">
+                  Edit the instance configuration as JSON. Available keys depend on the plugin type.
+              </p>
+          </div>
+        {% endif %}
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <div id="status-message"></div>
+        </div>
+    </form>
+</div>
+
+<script>
+(function() {
+    function updateConditionalFields() {
+        document.querySelectorAll('[data-show-when-field]').forEach(function(el) {
+            var depField = el.getAttribute('data-show-when-field');
+            var depValue = el.getAttribute('data-show-when-value');
+            var input = document.getElementById('field__' + depField);
+            if (!input) { el.classList.add('field-hidden'); return; }
+
+            // Check if the input's own container is visible (handles chained deps)
+            var inputContainer = input.closest('.form-group');
+            if (inputContainer && inputContainer.classList.contains('field-hidden')) {
+                el.classList.add('field-hidden');
+                return;
+            }
+
+            var currentValue;
+            if (input.type === 'checkbox') {
+                currentValue = input.checked ? 'true' : 'false';
+            } else {
+                currentValue = input.value;
+            }
+
+            if (currentValue === depValue) {
+                el.classList.remove('field-hidden');
+            } else {
+                el.classList.add('field-hidden');
+            }
+        });
+    }
+
+    // Run on load
+    updateConditionalFields();
+
+    // Run on any form change (covers selects, inputs, checkboxes)
+    var form = document.querySelector('form.form');
+    if (form) {
+        form.addEventListener('change', function() {
+            // Small delay to allow chained deps to cascade
+            setTimeout(updateConditionalFields, 0);
+        });
+        form.addEventListener('input', function() {
+            setTimeout(updateConditionalFields, 0);
+        });
+    }
+})();
+</script>
+{% endblock %}

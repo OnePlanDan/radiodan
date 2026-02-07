@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+{% block title %}Settings — {{ station_name }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>⚙️ Settings</h2>
+</div>
+
+<form hx-put="/config" hx-target="#status-message" hx-swap="outerHTML" class="form">
+    {% for section_key, section in sections.items() %}
+    <div class="card">
+        <h3>{{ section.label }}</h3>
+
+        {% for field_key, field in section.fields.items() %}
+        <div class="form-group">
+            <label for="{{ section_key }}.{{ field_key }}">{{ field.label }}</label>
+            {% if field.type == 'textarea' %}
+            <textarea id="{{ section_key }}.{{ field_key }}"
+                      name="{{ section_key }}.{{ field_key }}"
+                      class="input textarea-code"
+                      rows="4"
+                      placeholder="{{ field.get('placeholder', '') }}">{{ field.value }}</textarea>
+            {% else %}
+            <input type="{{ field.type }}"
+                   id="{{ section_key }}.{{ field_key }}"
+                   name="{{ section_key }}.{{ field_key }}"
+                   value="{{ field.value }}"
+                   placeholder="{{ field.get('placeholder', '') }}"
+                   class="input">
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+
+    <div class="form-actions">
+        <button type="submit" class="btn btn-primary">Save Settings</button>
+        <div id="status-message"></div>
+    </div>
+
+    <p class="muted" style="margin-top: 1rem;">
+        Settings saved here override the YAML config. Leave blank to use YAML defaults.
+        Some changes require a restart to take effect.
+    </p>
+</form>
+{% endblock %}

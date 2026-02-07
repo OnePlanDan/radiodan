@@ -1,0 +1,1333 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Radio Station Timeline (3D Ortho)</title>
+  <style>
+    :root{
+      --bg0:#0b0d14;
+      --bg1:#0f1117;
+      --panel:#121829;
+      --panel2:#0f1626;
+      --line:rgba(255,255,255,.08);
+      --line2:rgba(255,255,255,.12);
+      --text:rgba(240,245,255,.92);
+      --muted:rgba(240,245,255,.62);
+
+      --accentA:#8783E5; /* lavender */
+      --accentB:#BF7724; /* orange */
+      --cyan:#4dd6ff;
+      --good:#3be2a5;
+      --warn:#ffce6a;
+
+      --shadow: 0 18px 80px rgba(0,0,0,.55);
+      --radius: 16px;
+      --radius2: 22px;
+    }
+
+    *{ box-sizing:border-box; }
+    html,body{
+      height:100%;
+      margin:0;
+      color:var(--text);
+      background:
+        radial-gradient(1200px 600px at 20% -20%, rgba(135,131,229,.25), transparent 55%),
+        radial-gradient(900px 700px at 120% 10%, rgba(77,214,255,.16), transparent 55%),
+        radial-gradient(1200px 700px at 40% 130%, rgba(191,119,36,.16), transparent 55%),
+        linear-gradient(180deg, var(--bg0), var(--bg1));
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      overflow:hidden;
+    }
+
+    /* subtle animated scanlines */
+    body::before{
+      content:"";
+      position:fixed; inset:0;
+      pointer-events:none;
+      background:
+        repeating-linear-gradient(
+          to bottom,
+          rgba(255,255,255,.04) 0px,
+          rgba(255,255,255,.04) 1px,
+          transparent 2px,
+          transparent 6px
+        );
+      mix-blend-mode: overlay;
+      opacity:.18;
+      animation: scan 10s linear infinite;
+    }
+    @keyframes scan{
+      from{ transform: translateY(0); }
+      to{ transform: translateY(60px); }
+    }
+
+    .app{
+      height:100%;
+      display:grid;
+      grid-template-columns: 1fr 360px;
+      gap:16px;
+      padding:18px;
+    }
+
+    .main{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      min-width:0;
+    }
+
+    .topbar{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    .title{
+      display:flex;
+      align-items:center;
+      gap:12px;
+      min-width:0;
+    }
+    .title h1{
+      font-size:18px;
+      letter-spacing:.4px;
+      margin:0;
+      font-weight:720;
+    }
+    .pill{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:7px 10px;
+      border-radius:999px;
+      background:rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      color:var(--muted);
+      font-size:12px;
+      white-space:nowrap;
+    }
+    .dot{
+      width:8px;height:8px;border-radius:99px;
+      background:var(--good);
+      box-shadow:0 0 12px rgba(59,226,165,.65);
+    }
+
+    .actions{
+      display:flex; align-items:center; gap:10px;
+    }
+    button{
+      appearance:none;
+      border:1px solid rgba(255,255,255,.14);
+      background: linear-gradient(180deg, rgba(255,255,255,.10), rgba(255,255,255,.06));
+      color:var(--text);
+      padding:9px 12px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:650;
+      letter-spacing:.2px;
+      box-shadow: 0 10px 30px rgba(0,0,0,.25);
+      transition: transform .12s ease, border-color .12s ease, background .12s ease;
+    }
+    button:hover{ transform: translateY(-1px); border-color: rgba(255,255,255,.22); }
+    button:active{ transform: translateY(0px); }
+    .btn-live{
+      background: linear-gradient(180deg, rgba(191,119,36,.35), rgba(191,119,36,.18));
+      border-color: rgba(191,119,36,.55);
+    }
+
+    .card{
+      background: linear-gradient(180deg, rgba(18,24,41,.84), rgba(10,14,26,.72));
+      border:1px solid rgba(255,255,255,.10);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+      position:relative;
+    }
+    .card::after{
+      content:"";
+      position:absolute; inset:0;
+      pointer-events:none;
+      background:
+        radial-gradient(800px 240px at 20% 0%, rgba(135,131,229,.18), transparent 60%),
+        radial-gradient(900px 280px at 90% 10%, rgba(77,214,255,.14), transparent 55%);
+      opacity:.9;
+    }
+    .card > *{ position:relative; z-index:1; }
+
+    /* Timeline shell */
+    .timeline{
+      height:310px;
+      display:grid;
+      grid-template-columns: 160px 1fr;
+      min-width:0;
+    }
+    .labels{
+      padding:16px 12px 14px 14px;
+      border-right:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.02));
+    }
+    .labels .hdr{
+      display:flex; align-items:center; justify-content:space-between;
+      margin-bottom:10px;
+    }
+    .labels .hdr span{
+      font-size:12px;
+      color:var(--muted);
+      letter-spacing:.9px;
+      text-transform:uppercase;
+    }
+    .tracklist{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+      margin-top:10px;
+      user-select:none;
+    }
+    .track{
+      display:flex; align-items:center; justify-content:space-between;
+      gap:10px;
+      padding:10px 10px;
+      border-radius: 12px;
+      background: rgba(0,0,0,.16);
+      border:1px solid rgba(255,255,255,.08);
+    }
+    .track .name{
+      font-weight:700;
+      font-size:12px;
+      letter-spacing:.5px;
+    }
+    .badge{
+      font-size:11px;
+      padding:4px 8px;
+      border-radius:999px;
+      background: rgba(255,255,255,.06);
+      border:1px solid rgba(255,255,255,.10);
+      color:var(--muted);
+      white-space:nowrap;
+    }
+
+    .viewport{
+      position:relative;
+      min-width:0;
+      height:100%;
+      overflow:hidden;
+      background:
+        radial-gradient(1200px 600px at 10% 0%, rgba(135,131,229,.08), transparent 55%),
+        radial-gradient(900px 400px at 80% 0%, rgba(77,214,255,.06), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,.03), rgba(255,255,255,.01));
+    }
+
+    canvas#gl{
+      position:absolute;
+      inset:44px 0 0 0; /* ruler space */
+      width:100%;
+      height:calc(100% - 44px);
+      filter: drop-shadow(0 18px 40px rgba(0,0,0,.55));
+    }
+
+    /* time ruler overlay */
+    .ruler{
+      position:absolute;
+      inset:0 0 auto 0;
+      height:44px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+      background: linear-gradient(180deg, rgba(0,0,0,.18), rgba(0,0,0,.06));
+      backdrop-filter: blur(10px);
+    }
+    canvas#ruler{
+      width:100%;
+      height:44px;
+      display:block;
+    }
+
+    .hintbar{
+      position:absolute;
+      left:12px;
+      bottom:12px;
+      display:flex;
+      gap:8px;
+      align-items:center;
+      padding:8px 10px;
+      border-radius:999px;
+      background: rgba(0,0,0,.30);
+      border:1px solid rgba(255,255,255,.10);
+      color: var(--muted);
+      font-size:12px;
+      pointer-events:none;
+    }
+    .kbd{
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+      padding:2px 6px;
+      border-radius:8px;
+      border:1px solid rgba(255,255,255,.14);
+      background: rgba(255,255,255,.05);
+      color: rgba(240,245,255,.75);
+    }
+
+    /* Tooltip */
+    .tip{
+      position:absolute;
+      pointer-events:none;
+      transform: translate(-50%, -120%);
+      background: rgba(10,14,26,.92);
+      border:1px solid rgba(255,255,255,.14);
+      padding:10px 12px;
+      border-radius: 12px;
+      box-shadow: 0 18px 60px rgba(0,0,0,.6);
+      min-width: 200px;
+      opacity:0;
+      transition: opacity .12s ease;
+    }
+    .tip strong{ display:block; font-size:12px; letter-spacing:.2px; margin-bottom:4px;}
+    .tip span{ display:block; font-size:12px; color:var(--muted); }
+    .tip .row{ display:flex; justify-content:space-between; gap:10px; margin-top:6px; font-size:12px; color:rgba(240,245,255,.72);}
+
+    /* Activity table */
+    .activity{
+      padding:18px;
+    }
+    .activity h2{
+      margin:0 0 12px 0;
+      font-size:16px;
+      letter-spacing:.3px;
+      font-weight:780;
+    }
+    .table{
+      width:100%;
+      border-collapse:collapse;
+      font-size:13px;
+    }
+    .table thead th{
+      text-align:left;
+      font-size:12px;
+      color:var(--muted);
+      letter-spacing:.9px;
+      text-transform:uppercase;
+      padding:10px 8px;
+      border-bottom:1px solid rgba(255,255,255,.10);
+    }
+    .table tbody td{
+      padding:12px 8px;
+      border-bottom:1px solid rgba(255,255,255,.07);
+      color:rgba(240,245,255,.86);
+    }
+    .mono{ font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace; }
+    .status{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      padding:5px 10px;
+      border-radius:999px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.06);
+      color: rgba(240,245,255,.80);
+      font-size:12px;
+    }
+    .status .s{
+      width:7px;height:7px;border-radius:99px;
+      background: var(--good);
+      box-shadow: 0 0 10px rgba(59,226,165,.6);
+    }
+    .status.pending .s{
+      background: var(--warn);
+      box-shadow: 0 0 10px rgba(255,206,106,.55);
+    }
+
+    /* Controls side panel */
+    .side{
+      display:flex;
+      flex-direction:column;
+      gap:16px;
+      min-width:0;
+    }
+    .controls{
+      padding:16px;
+    }
+    .controls h2{
+      margin:0 0 12px 0;
+      font-size:16px;
+      font-weight:800;
+      letter-spacing:.3px;
+    }
+    .group{
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(0,0,0,.12);
+      border-radius: var(--radius);
+      padding:12px;
+      margin-bottom:12px;
+    }
+    .group .gtitle{
+      color: rgba(240,245,255,.72);
+      font-size:12px;
+      letter-spacing:.9px;
+      text-transform:uppercase;
+      margin-bottom:10px;
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+    }
+    .row2{
+      display:grid;
+      grid-template-columns: 1fr 86px;
+      gap:10px;
+      align-items:center;
+      margin:10px 0;
+    }
+    label{
+      font-size:12px;
+      color: rgba(240,245,255,.82);
+    }
+    output{
+      text-align:right;
+      font-size:12px;
+      color: rgba(240,245,255,.68);
+      font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    }
+
+    input[type="range"]{
+      width:100%;
+      accent-color: var(--cyan);
+      height: 22px;
+      background: transparent;
+    }
+    input[type="checkbox"]{
+      transform: translateY(1px);
+      accent-color: var(--accentA);
+    }
+    .toggle{
+      display:flex;
+      justify-content:space-between;
+      align-items:center;
+      gap:10px;
+      padding:10px 0 0 0;
+    }
+    .small{
+      color: var(--muted);
+      font-size:12px;
+      line-height:1.35;
+      margin-top:10px;
+    }
+
+    .footerNote{
+      padding:14px 16px;
+      color: var(--muted);
+      font-size:12px;
+    }
+    .warnbox{
+      border:1px dashed rgba(255,255,255,.18);
+      border-radius: var(--radius);
+      padding:10px 12px;
+      margin-top:10px;
+      background: rgba(0,0,0,.12);
+    }
+
+    @media (max-width: 1100px){
+      .app{ grid-template-columns: 1fr; overflow:auto; }
+      body{ overflow:auto; }
+    }
+  </style>
+</head>
+
+<body>
+  <div class="app">
+
+    <div class="main">
+      <div class="topbar">
+        <div class="title">
+          <h1>Timeline</h1>
+          <div class="pill"><span class="dot"></span>Live system</div>
+          <div class="pill mono" id="clock">--:--:--</div>
+        </div>
+        <div class="actions">
+          <button id="btnCenter">Center</button>
+          <button class="btn-live" id="btnLive">Back to Live</button>
+        </div>
+      </div>
+
+      <div class="card timeline">
+        <div class="labels">
+          <div class="hdr">
+            <span>Tracks</span>
+            <span class="badge mono" id="rangeReadout">—</span>
+          </div>
+          <div class="tracklist" id="trackList"></div>
+          <div class="small">
+            Tip: Scroll to pan time. <span class="kbd">Shift</span> + scroll to pan tracks.
+            <span class="kbd">Ctrl</span> + scroll to zoom. Drag to pan.
+          </div>
+        </div>
+
+        <div class="viewport" id="viewport">
+          <div class="ruler">
+            <canvas id="ruler"></canvas>
+          </div>
+
+          <canvas id="gl"></canvas>
+
+          <div class="tip" id="tip">
+            <strong id="tipTitle">—</strong>
+            <span id="tipMeta">—</span>
+            <div class="row">
+              <span class="mono" id="tipTime">—</span>
+              <span class="mono" id="tipDur">—</span>
+            </div>
+          </div>
+
+          <div class="hintbar">
+            <span class="kbd">Drag</span> pan
+            <span class="kbd">Ctrl</span>+<span class="kbd">Wheel</span> zoom
+            <span class="kbd">Shift</span>+<span class="kbd">Wheel</span> vertical
+          </div>
+        </div>
+      </div>
+
+      <div class="card activity">
+        <h2>Activity</h2>
+        <table class="table">
+          <thead>
+            <tr>
+              <th style="width:110px;">Time</th>
+              <th style="width:140px;">Type</th>
+              <th>Title</th>
+              <th style="width:120px;">Status</th>
+              <th style="width:90px;">Duration</th>
+            </tr>
+          </thead>
+          <tbody id="activityBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="card controls">
+        <h2>View Controls</h2>
+
+        <div class="group">
+          <div class="gtitle"><span>Timeline</span><span class="mono">DAW / Ortho</span></div>
+
+          <div class="row2">
+            <label for="timeScale">Time scale (px/sec)</label>
+            <output id="timeScaleOut">140</output>
+          </div>
+          <input id="timeScale" type="range" min="60" max="260" step="1" value="140"/>
+
+          <div class="row2">
+            <label for="zoom">Ortho zoom</label>
+            <output id="zoomOut">1.00</output>
+          </div>
+          <input id="zoom" type="range" min="0.55" max="2.60" step="0.01" value="1.00"/>
+
+          <div class="row2">
+            <label for="laneH">Lane height</label>
+            <output id="laneHOut">56</output>
+          </div>
+          <input id="laneH" type="range" min="38" max="86" step="1" value="56"/>
+
+          <div class="row2">
+            <label for="boxDepth">Box depth</label>
+            <output id="boxDepthOut">18</output>
+          </div>
+          <input id="boxDepth" type="range" min="6" max="44" step="1" value="18"/>
+        </div>
+
+        <div class="group">
+          <div class="gtitle"><span>3D Camera</span><span class="mono">Ortho Orbit</span></div>
+
+          <div class="row2">
+            <label for="tilt">Tilt (deg)</label>
+            <output id="tiltOut">38</output>
+          </div>
+          <input id="tilt" type="range" min="0" max="72" step="1" value="38"/>
+
+          <div class="row2">
+            <label for="yaw">Yaw (deg)</label>
+            <output id="yawOut">-18</output>
+          </div>
+          <input id="yaw" type="range" min="-45" max="45" step="1" value="-18"/>
+
+          <div class="row2">
+            <label for="orbit">Orbit radius</label>
+            <output id="orbitOut">650</output>
+          </div>
+          <input id="orbit" type="range" min="420" max="980" step="5" value="650"/>
+
+          <div class="toggle">
+            <label for="follow">Auto-follow playhead</label>
+            <input id="follow" type="checkbox" checked />
+          </div>
+        </div>
+
+        <div class="group">
+          <div class="gtitle"><span>Look</span><span class="mono">Grid / Glow</span></div>
+
+          <div class="row2">
+            <label for="grid">Grid opacity</label>
+            <output id="gridOut">0.35</output>
+          </div>
+          <input id="grid" type="range" min="0" max="0.8" step="0.01" value="0.35"/>
+
+          <div class="row2">
+            <label for="glow">Glow intensity</label>
+            <output id="glowOut">0.55</output>
+          </div>
+          <input id="glow" type="range" min="0" max="1.2" step="0.01" value="0.55"/>
+
+          <div class="toggle">
+            <label for="reduced">Reduced motion</label>
+            <input id="reduced" type="checkbox" />
+          </div>
+        </div>
+
+        <div class="small warnbox">
+          Data lives in <span class="mono">tracks</span> and <span class="mono">clips</span>.
+          Replace those arrays with your station schedule + event history.
+        </div>
+      </div>
+
+      <div class="card footerNote" id="libNote">
+        Loading 3D engine…
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Three.js (CDN). Still a single HTML file; remove this and embed three.min.js if you need fully offline. 
+  <script src="https://cdn.jsdelivr.net/npm/three@0.161.0/build/three.min.js"></script>   
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.161.0/three.min.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+
+  <script>
+  (() => {
+    const $ = (s, el=document) => el.querySelector(s);
+
+    // ---------- Sample data (swap with your real station data) ----------
+    const tracks = [
+      { name: "MUSIC", color: 0x8783E5 },
+      { name: "DEFAULT-PRESENT", color: 0x4dd6ff },
+      { name: "TIME", color: 0xBF7724 },
+      { name: "API", color: 0xBF7724 }
+    ];
+
+    // Timeline start around 17:05 like your screenshot.
+    const timelineStart = new Date();
+    timelineStart.setHours(17, 5, 0, 0);
+
+    // Clips in seconds from timelineStart
+    const clips = [
+      { track:0, start:  0, end:  55, label:"// — Keygen", color:0x8783E5 },
+      { track:0, start: 60, end: 235, label:"Jan Blomqvist — Canopée des Cîmes", color:0x8783E5 },
+      { track:0, start: 185, end: 330, label:"Jan Blomqvist — Empty Floor", color:0x8783E5 },
+      { track:0, start: 345, end: 520, label:"Let You Go — Let You Go", color:0x8783E5 },
+      { track:0, start: 515, end: 610, label:"LukHash — Cliptune Ride", color:0x8783E5 },
+
+      // sparse triggers like your UI
+      { track:1, start:  45, end:  52, label:"DEFAULT-PRESENT", color:0x4dd6ff },
+      { track:1, start: 185, end: 192, label:"DEFAULT-PRESENT", color:0x4dd6ff },
+      { track:1, start: 330, end: 338, label:"DEFAULT-PRESENT", color:0x4dd6ff },
+      { track:1, start: 520, end: 528, label:"DEFAULT-PRESENT", color:0x4dd6ff },
+
+      { track:3, start:  40, end:  48, label:"api", color:0xBF7724 },
+      { track:3, start:  55, end:  62, label:"api", color:0xBF7724 },
+      { track:3, start: 180, end: 188, label:"api", color:0xBF7724 },
+      { track:3, start: 195, end: 203, label:"api", color:0xBF7724 },
+      { track:3, start: 330, end: 338, label:"api", color:0xBF7724 },
+      { track:3, start: 520, end: 528, label:"api", color:0xBF7724 },
+    ];
+
+    const activity = [
+      { t:"17:17:50", type:"tts_generate", title:"TTS: Hey lovely listeners, here's a…", status:"completed", dur:"0:04" },
+      { t:"17:17:49", type:"llm_request", title:"LLM: Announce this song that just s…", status:"completed", dur:"0:01" },
+      { t:"17:14:22", type:"tts_generate", title:"TTS: Hey, we've just queued up a fr…", status:"completed", dur:"0:04" },
+      { t:"17:12:04", type:"api", title:"API: /station/now-playing", status:"completed", dur:"0:00" },
+      { t:"17:10:31", type:"api", title:"API: /schedule/segment", status:"pending", dur:"0:00" },
+    ];
+
+    // ---------- UI: track list + activity ----------
+    const trackList = $("#trackList");
+    tracks.forEach((tr, i) => {
+      const el = document.createElement("div");
+      el.className = "track";
+      el.innerHTML = `
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="
+            width:10px;height:10px;border-radius:99px;
+            background:#${tr.color.toString(16).padStart(6,'0')};
+            box-shadow:0 0 14px rgba(135,131,229,.55);
+          "></span>
+          <div class="name">${tr.name}</div>
+        </div>
+        <div class="badge mono">T${i+1}</div>
+      `;
+      trackList.appendChild(el);
+    });
+
+    const activityBody = $("#activityBody");
+    function renderActivity(){
+      activityBody.innerHTML = "";
+      activity.forEach(row => {
+        const tr = document.createElement("tr");
+        const pending = row.status !== "completed";
+        tr.innerHTML = `
+          <td class="mono" style="color:rgba(240,245,255,.75)">${row.t}</td>
+          <td class="mono">${row.type}</td>
+          <td>${row.title}</td>
+          <td>
+            <span class="status ${pending ? "pending" : ""}">
+              <span class="s"></span>${row.status}
+            </span>
+          </td>
+          <td class="mono" style="color:rgba(240,245,255,.75)">${row.dur}</td>
+        `;
+        activityBody.appendChild(tr);
+      });
+    }
+    renderActivity();
+
+    // ---------- Utility time formatting ----------
+    const pad2 = (n) => String(n).padStart(2,"0");
+    function secToClock(sec){
+      const d = new Date(timelineStart.getTime() + sec*1000);
+      return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+    }
+    function secToClockFull(sec){
+      const d = new Date(timelineStart.getTime() + sec*1000);
+      return `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`;
+    }
+    function fmtDur(s){
+      const m = Math.floor(s/60);
+      const r = Math.floor(s%60);
+      return `${m}:${pad2(r)}`;
+    }
+
+    // ---------- Live clock ----------
+    const clockEl = $("#clock");
+    setInterval(() => {
+      const d = new Date();
+      clockEl.textContent = `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`;
+    }, 200);
+
+    // ---------- Guard: three.js ----------
+    const libNote = $("#libNote");
+    if (!window.THREE){
+      libNote.innerHTML = `
+        <div style="color:rgba(240,245,255,.88);font-weight:700;margin-bottom:6px;">3D library not loaded</div>
+        <div style="color:rgba(240,245,255,.62);font-size:12px;line-height:1.35;">
+          This demo uses Three.js via CDN. If your environment blocks CDNs, embed three.min.js inline (still single-file),
+          or host it locally.
+        </div>
+      `;
+      return;
+    } else {
+      libNote.innerHTML = `
+        <div style="display:flex;justify-content:space-between;gap:12px;">
+          <span>3D renderer ready</span>
+          <span class="mono" style="opacity:.85;">THREE r161</span>
+        </div>
+      `;
+    }
+
+    // ---------- Three.js scene ----------
+    const viewport = $("#viewport");
+    const glCanvas = $("#gl");
+    const rulerCanvas = $("#ruler");
+    const rulerCtx = rulerCanvas.getContext("2d");
+
+    const renderer = new THREE.WebGLRenderer({ canvas: glCanvas, antialias:true, alpha:true });
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0x0b0d14, 800, 2600);
+
+    const ambient = new THREE.AmbientLight(0xffffff, 0.85);
+    scene.add(ambient);
+
+    const key = new THREE.DirectionalLight(0xaac7ff, 0.75);
+    key.position.set(400, 500, 900);
+    scene.add(key);
+
+    const rim = new THREE.DirectionalLight(0x8a7cf6, 0.55);
+    rim.position.set(-600, 120, 650);
+    scene.add(rim);
+
+    const root = new THREE.Group();
+    scene.add(root);
+
+    const lanesGroup = new THREE.Group();
+    const clipsGroup = new THREE.Group();
+    const gridGroup  = new THREE.Group();
+    root.add(gridGroup, lanesGroup, clipsGroup);
+
+    // camera (orthographic)
+    let camera = null;
+
+    // ---------- State (smooth / inertial) ----------
+    const endTime = Math.max(...clips.map(c => c.end)) + 60;
+    const s = {
+      timeScale: 140,   // px per sec
+      zoom: 1.0,
+      laneH: 56,
+      boxDepth: 18,
+      tilt: 38,        // degrees
+      yaw: -18,        // degrees
+      orbit: 650,
+      grid: 0.35,
+      glow: 0.55,
+      follow: true,
+      reducedMotion: false,
+
+      panX: 380,       // in px-world
+      panY: -70,
+      vPanX: 0,
+      vPanY: 0,
+      vZoom: 0
+    };
+
+    const target = { ...s };
+
+    // ---------- Build lanes & clips ----------
+    const clipMeshes = [];
+    let playhead = null;
+    let totalH = 0;
+
+    const laneMat = (hex, a=0.13) => new THREE.MeshBasicMaterial({
+      color: hex,
+      transparent: true,
+      opacity: a,
+      depthWrite: false
+    });
+
+    const clipMat = (hex) => new THREE.MeshStandardMaterial({
+      color: hex,
+      roughness: 0.28,
+      metalness: 0.18,
+      emissive: new THREE.Color(hex),
+      emissiveIntensity: 0.35
+    });
+
+    const outlineMat = new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      transparent:true,
+      opacity: 0.05,
+      depthWrite:false
+    });
+
+    function rebuildSceneGeometry(){
+      // clear
+      while (lanesGroup.children.length) lanesGroup.remove(lanesGroup.children[0]);
+      while (clipsGroup.children.length) clipsGroup.remove(clipsGroup.children[0]);
+      while (gridGroup.children.length)  gridGroup.remove(gridGroup.children[0]);
+      clipMeshes.length = 0;
+
+      totalH = tracks.length * s.laneH;
+
+      // lanes
+      const laneGeo = new THREE.PlaneGeometry(1,1);
+      tracks.forEach((tr, i) => {
+        const yTop = -(i * s.laneH);
+        const yCenter = yTop - s.laneH/2;
+
+        const m = laneMat(0x223055, 0.10);
+        const lane = new THREE.Mesh(laneGeo, m);
+        lane.scale.set(endTime * s.timeScale + 1200, s.laneH - 6, 1);
+        lane.position.set((endTime*s.timeScale)/2, yCenter, -4);
+        lanesGroup.add(lane);
+
+        // lane separator glow line
+        const sepGeo = new THREE.PlaneGeometry(endTime * s.timeScale + 1200, 1);
+        const sepMat = new THREE.MeshBasicMaterial({
+          color: 0x9fb5ff,
+          transparent:true,
+          opacity: 0.04,
+          depthWrite:false
+        });
+        const sep = new THREE.Mesh(sepGeo, sepMat);
+        sep.position.set((endTime*s.timeScale)/2, yTop, -3.5);
+        lanesGroup.add(sep);
+      });
+
+      // grid (lines along x and y)
+      const gridMat = new THREE.LineBasicMaterial({
+        color: 0x3a4a78,
+        transparent:true,
+        opacity: s.grid
+      });
+
+      const points = [];
+      const width = endTime * s.timeScale + 1200;
+      const left = -200;
+      const right = width - 200;
+
+      // vertical grid based on seconds (adaptive: 1s/5s/10s/30s)
+      const majorStepSec = (s.timeScale * s.zoom > 220) ? 5 :
+                           (s.timeScale * s.zoom > 120) ? 10 :
+                           (s.timeScale * s.zoom > 70)  ? 30 : 60;
+      const minorStepSec = majorStepSec / 5;
+
+      function addVLine(x, y0, y1){
+        points.push(x, y0, -5, x, y1, -5);
+      }
+      function addHLine(y){
+        points.push(left, y, -5, right, y, -5);
+      }
+
+      // horizontal lines for lanes
+      for (let i=0;i<=tracks.length;i++){
+        addHLine(-(i*s.laneH));
+      }
+
+      // vertical lines over duration
+      const totalSec = endTime;
+      for (let sec=0; sec<=totalSec; sec+=minorStepSec){
+        const x = sec * s.timeScale;
+        addVLine(x, 0, -totalH);
+      }
+
+      const gridGeo = new THREE.BufferGeometry();
+      gridGeo.setAttribute("position", new THREE.Float32BufferAttribute(points, 3));
+      const gridLines = new THREE.LineSegments(gridGeo, gridMat);
+      gridGroup.add(gridLines);
+
+      // clips
+      const unitBox = new THREE.BoxGeometry(1, 1, 1);
+      clips.forEach((c, idx) => {
+        const duration = Math.max(0.2, c.end - c.start);
+        const w = duration * s.timeScale;
+        const h = s.laneH * (c.track === 0 ? 0.58 : 0.36);
+        const d = s.boxDepth + (c.track === 0 ? 8 : 0);
+
+        const mesh = new THREE.Mesh(unitBox, clipMat(c.color ?? tracks[c.track].color));
+        mesh.scale.set(w, h, d);
+        mesh.position.set(c.start * s.timeScale + w/2, -(c.track*s.laneH) - s.laneH/2, d/2);
+        mesh.userData.clip = c;
+        mesh.userData.baseEmissive = mesh.material.emissiveIntensity;
+        mesh.castShadow = false;
+        mesh.receiveShadow = false;
+
+        // faint outer shell to feel "glowy"
+        const shell = new THREE.Mesh(unitBox, outlineMat);
+        shell.scale.set(w + 6, h + 5, d + 6);
+        shell.position.copy(mesh.position);
+        shell.userData.isShell = true;
+
+        clipsGroup.add(shell);
+        clipsGroup.add(mesh);
+
+        clipMeshes.push(mesh);
+      });
+
+      // playhead (thin glowing slab)
+      const phGeo = new THREE.BoxGeometry(2, totalH + 40, 120);
+      const phMat = new THREE.MeshBasicMaterial({
+        color: 0x4dd6ff,
+        transparent:true,
+        opacity: 0.28,
+        depthWrite:false
+      });
+      playhead = new THREE.Mesh(phGeo, phMat);
+      playhead.position.set(0, -totalH/2 + 20, 50);
+      clipsGroup.add(playhead);
+    }
+
+    // ---------- Camera / resize ----------
+    function resize(){
+      const rect = viewport.getBoundingClientRect();
+      const w = Math.max(1, Math.floor(rect.width));
+      const h = Math.max(1, Math.floor(rect.height - 44)); // minus ruler
+
+      renderer.setSize(w, h, false);
+
+      // ruler canvas
+      rulerCanvas.width = Math.floor(rect.width * (window.devicePixelRatio||1));
+      rulerCanvas.height = Math.floor(44 * (window.devicePixelRatio||1));
+      rulerCanvas.style.width = rect.width + "px";
+      rulerCanvas.style.height = "44px";
+
+      // camera
+      camera = new THREE.OrthographicCamera(-w/2, w/2, h/2, -h/2, -5000, 5000);
+      camera.zoom = s.zoom;
+      camera.updateProjectionMatrix();
+    }
+    window.addEventListener("resize", () => resize());
+
+    // ---------- Mapping NDC -> plane z=0 to compute visible range ----------
+    function ndcToWorldOnZ0(ndcX, ndcY){
+      const v = new THREE.Vector3(ndcX, ndcY, 0);
+      v.unproject(camera);
+      const dir = new THREE.Vector3();
+      camera.getWorldDirection(dir);
+      const t = (0 - v.z) / dir.z;
+      return v.addScaledVector(dir, t);
+    }
+
+    // ---------- Ruler draw ----------
+    const rangeReadout = $("#rangeReadout");
+    function drawRuler(){
+      const dpr = window.devicePixelRatio || 1;
+      const W = rulerCanvas.width, H = rulerCanvas.height;
+      rulerCtx.clearRect(0,0,W,H);
+
+      // background vignette
+      const g = rulerCtx.createLinearGradient(0,0,0,H);
+      g.addColorStop(0, "rgba(255,255,255,0.05)");
+      g.addColorStop(1, "rgba(255,255,255,0.00)");
+      rulerCtx.fillStyle = g;
+      rulerCtx.fillRect(0,0,W,H);
+
+      // compute visible x range (sample center line)
+      const leftW  = ndcToWorldOnZ0(-1, 0);
+      const rightW = ndcToWorldOnZ0( 1, 0);
+      const x0 = leftW.x;
+      const x1 = rightW.x;
+
+      const sec0 = x0 / s.timeScale;
+      const sec1 = x1 / s.timeScale;
+
+      rangeReadout.textContent = `${secToClock(Math.max(0, sec0))} → ${secToClock(Math.max(0, sec1))}`;
+
+      // adaptive tick spacing
+      const pxPerSecOnScreen = (W/dpr) / Math.max(1e-6, (sec1 - sec0));
+      const major = (pxPerSecOnScreen > 200) ? 5 :
+                    (pxPerSecOnScreen > 120) ? 10 :
+                    (pxPerSecOnScreen > 70)  ? 30 : 60;
+      const minor = major / 5;
+
+      const start = Math.max(0, Math.floor(sec0 / minor) * minor);
+      const end   = Math.min(endTime, Math.ceil(sec1 / minor) * minor);
+
+      rulerCtx.save();
+      rulerCtx.scale(dpr,dpr);
+
+      const wCSS = W/dpr, hCSS = H/dpr;
+
+      rulerCtx.strokeStyle = "rgba(255,255,255,0.12)";
+      rulerCtx.beginPath();
+      rulerCtx.moveTo(0, hCSS-0.5);
+      rulerCtx.lineTo(wCSS, hCSS-0.5);
+      rulerCtx.stroke();
+
+      for (let t = start; t <= end; t += minor){
+        const x = (t - sec0) * pxPerSecOnScreen;
+        const isMajor = (Math.abs((t/major) - Math.round(t/major)) < 1e-6);
+
+        rulerCtx.strokeStyle = isMajor ? "rgba(255,255,255,0.22)" : "rgba(255,255,255,0.12)";
+        rulerCtx.beginPath();
+        rulerCtx.moveTo(x, isMajor ? 10 : 18);
+        rulerCtx.lineTo(x, hCSS);
+        rulerCtx.stroke();
+
+        if (isMajor){
+          rulerCtx.fillStyle = "rgba(240,245,255,0.78)";
+          rulerCtx.font = "12px ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace";
+          rulerCtx.fillText(secToClock(t), x + 6, 18);
+        }
+      }
+
+      rulerCtx.restore();
+    }
+
+    // ---------- Tooltip / picking ----------
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    const tip = $("#tip");
+    const tipTitle = $("#tipTitle");
+    const tipMeta  = $("#tipMeta");
+    const tipTime  = $("#tipTime");
+    const tipDur   = $("#tipDur");
+
+    let hovered = null;
+
+    function setHover(mesh, clientX, clientY){
+      if (hovered === mesh) return;
+
+      // reset old
+      if (hovered){
+        hovered.material.emissiveIntensity = hovered.userData.baseEmissive;
+      }
+      hovered = mesh;
+
+      if (hovered){
+        hovered.material.emissiveIntensity = Math.min(1.4, 0.45 + s.glow);
+        const c = hovered.userData.clip;
+        tipTitle.textContent = c.label;
+        tipMeta.textContent = tracks[c.track].name;
+        tipTime.textContent = `${secToClockFull(c.start)} → ${secToClockFull(c.end)}`;
+        tipDur.textContent = `dur ${fmtDur(c.end - c.start)}`;
+        tip.style.opacity = "1";
+        tip.style.left = clientX + "px";
+        tip.style.top  = clientY + "px";
+      } else {
+        tip.style.opacity = "0";
+      }
+    }
+
+    function onPointerMove(e){
+      const rect = glCanvas.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width;
+      const y = (e.clientY - rect.top) / rect.height;
+
+      mouse.x = x * 2 - 1;
+      mouse.y = -(y * 2 - 1);
+
+      raycaster.setFromCamera(mouse, camera);
+      const hits = raycaster.intersectObjects(clipMeshes, false);
+      if (hits.length){
+        setHover(hits[0].object, e.clientX, e.clientY);
+      } else {
+        setHover(null);
+      }
+    }
+
+    // ---------- Smooth scroll / pan / zoom ----------
+    let isDragging = false;
+    let last = { x:0, y:0 };
+
+    function clamp(v,a,b){ return Math.max(a, Math.min(b,v)); }
+
+    function centerOnTime(sec){
+      const x = sec * s.timeScale;
+      target.panX = x;
+    }
+
+    function clampPan(){
+      const maxX = endTime * s.timeScale + 600;
+      target.panX = clamp(target.panX, -200, maxX);
+      target.panY = clamp(target.panY, -totalH - 160, 140);
+      target.zoom = clamp(target.zoom, 0.55, 2.6);
+    }
+
+    viewport.addEventListener("pointerdown", (e) => {
+      isDragging = true;
+      last.x = e.clientX;
+      last.y = e.clientY;
+      viewport.setPointerCapture(e.pointerId);
+    });
+    viewport.addEventListener("pointerup", (e) => {
+      isDragging = false;
+      viewport.releasePointerCapture(e.pointerId);
+    });
+    viewport.addEventListener("pointermove", (e) => {
+      onPointerMove(e);
+      if (!isDragging) return;
+
+      const dx = e.clientX - last.x;
+      const dy = e.clientY - last.y;
+      last.x = e.clientX;
+      last.y = e.clientY;
+
+      // drag pan (inertia handled by smoothing)
+      target.panX -= dx / target.zoom;
+      target.panY += dy / target.zoom;
+      clampPan();
+    });
+
+    viewport.addEventListener("wheel", (e) => {
+      e.preventDefault();
+      const delta = e.deltaY;
+
+      // reduced-motion: less inertia; more direct
+      const panFactor = s.reducedMotion ? 1.0 : 0.8;
+
+      if (e.ctrlKey){
+        // zoom about cursor (approx)
+        const z = target.zoom * (delta > 0 ? 0.94 : 1.06);
+        target.zoom = clamp(z, 0.55, 2.6);
+      } else if (e.shiftKey){
+        target.panY += (delta * 0.9) / target.zoom * panFactor;
+      } else {
+        target.panX += (delta * 1.1) / target.zoom * panFactor;
+      }
+      clampPan();
+    }, { passive:false });
+
+    // keyboard nudges
+    window.addEventListener("keydown", (e) => {
+      const step = 80 / target.zoom;
+      if (e.key === "ArrowLeft")  target.panX -= step;
+      if (e.key === "ArrowRight") target.panX += step;
+      if (e.key === "ArrowUp")    target.panY += step*0.7;
+      if (e.key === "ArrowDown")  target.panY -= step*0.7;
+      clampPan();
+    });
+
+    // ---------- Controls binding ----------
+    function bindRange(id, key, fmt=(v)=>v){
+      const el = $("#"+id);
+      const out = $("#"+id+"Out");
+      const setOut = () => out.textContent = fmt(parseFloat(el.value));
+      setOut();
+
+      el.addEventListener("input", () => {
+        target[key] = parseFloat(el.value);
+        setOut();
+
+        // immediate rebuild when geometry changes
+        if (key === "laneH" || key === "timeScale" || key === "boxDepth"){
+          // copy to s first to rebuild with consistent values (but still lerp other camera params)
+          s[key] = target[key];
+          rebuildSceneGeometry();
+        }
+      });
+    }
+
+    bindRange("timeScale","timeScale",(v)=>String(Math.round(v)));
+    bindRange("zoom","zoom",(v)=>v.toFixed(2));
+    bindRange("laneH","laneH",(v)=>String(Math.round(v)));
+    bindRange("boxDepth","boxDepth",(v)=>String(Math.round(v)));
+    bindRange("tilt","tilt",(v)=>String(Math.round(v)));
+    bindRange("yaw","yaw",(v)=>String(Math.round(v)));
+    bindRange("orbit","orbit",(v)=>String(Math.round(v)));
+    bindRange("grid","grid",(v)=>v.toFixed(2));
+    bindRange("glow","glow",(v)=>v.toFixed(2));
+
+    $("#follow").addEventListener("change", (e)=> target.follow = e.target.checked);
+    $("#reduced").addEventListener("change", (e)=> target.reducedMotion = e.target.checked);
+
+    // buttons
+    $("#btnCenter").addEventListener("click", () => {
+      target.panY = - (tracks.length * s.laneH)/2 + 10;
+      target.zoom = 1.0;
+      clampPan();
+    });
+
+    $("#btnLive").addEventListener("click", () => {
+      // jump playhead near "now" within demo range
+      const now = (Date.now() - timelineStart.getTime())/1000;
+      demoTime = clamp(now, 0, endTime);
+      centerOnTime(demoTime);
+      target.follow = true;
+      $("#follow").checked = true;
+      clampPan();
+    });
+
+    // ---------- Animation / render ----------
+    let demoTime = 470; // start around ~17:12-17:13
+    let lastT = performance.now();
+
+    function updateCamera(){
+      const rect = viewport.getBoundingClientRect();
+      const w = Math.max(1, rect.width);
+      const h = Math.max(1, rect.height - 44);
+
+      camera.left = -w/2;
+      camera.right = w/2;
+      camera.top = h/2;
+      camera.bottom = -h/2;
+      camera.zoom = s.zoom;
+      camera.updateProjectionMatrix();
+
+      // orbit around (panX, panY)
+      const yawR = THREE.MathUtils.degToRad(s.yaw);
+      const tiltR = THREE.MathUtils.degToRad(s.tilt);
+      const R = s.orbit;
+
+      const cx = s.panX;
+      const cy = s.panY;
+
+      camera.position.x = cx + Math.sin(yawR) * R * Math.cos(tiltR);
+      camera.position.y = cy + Math.sin(tiltR) * R;
+      camera.position.z =        Math.cos(yawR) * R * Math.cos(tiltR);
+
+      camera.lookAt(cx, cy, 0);
+    }
+
+    function applyLook(){
+      // grid opacity
+      if (gridGroup.children[0] && gridGroup.children[0].material){
+        gridGroup.children[0].material.opacity = s.grid;
+        gridGroup.children[0].material.needsUpdate = true;
+      }
+
+      // glow intensity (affects emissiveIntensity on clips)
+      for (const m of clipMeshes){
+        m.material.emissiveIntensity = Math.min(1.6, 0.25 + s.glow);
+      }
+
+      // overall canvas glow
+      glCanvas.style.filter =
+        `drop-shadow(0 18px 40px rgba(0,0,0,.55)) drop-shadow(0 0 ${18 + s.glow*24}px rgba(77,214,255,${0.10 + s.glow*0.12}))`;
+    }
+
+    function tick(now){
+      const dt = Math.min(0.05, (now - lastT) / 1000);
+      lastT = now;
+
+      // demo playhead speed
+      demoTime += dt * 1.0;
+      if (demoTime > endTime) demoTime = 0;
+
+      // follow playhead (soft)
+      if (s.follow){
+        const desired = demoTime * s.timeScale;
+        // follow only if playhead drifts from center
+        const err = desired - s.panX;
+        target.panX += err * 0.02;
+      }
+
+      // smooth state (inertial / damped)
+      const damp = s.reducedMotion ? 0.35 : 0.14;
+
+      // copy toggles
+      s.follow = target.follow;
+      s.reducedMotion = target.reducedMotion;
+
+      // lerp camera params
+      s.panX += (target.panX - s.panX) * damp;
+      s.panY += (target.panY - s.panY) * damp;
+      s.zoom += (target.zoom - s.zoom) * (s.reducedMotion ? 0.25 : 0.16);
+
+      s.tilt += (target.tilt - s.tilt) * 0.10;
+      s.yaw  += (target.yaw  - s.yaw ) * 0.10;
+      s.orbit+= (target.orbit- s.orbit) * 0.10;
+
+      // look params
+      s.grid += (target.grid - s.grid) * 0.12;
+      s.glow += (target.glow - s.glow) * 0.12;
+
+      // update playhead position
+      const phX = demoTime * s.timeScale;
+      if (playhead){
+        playhead.position.x = phX;
+      }
+
+      updateCamera();
+      applyLook();
+      drawRuler();
+
+      renderer.render(scene, camera);
+
+      requestAnimationFrame(tick);
+    }
+
+    // ---------- Boot ----------
+    resize();
+    rebuildSceneGeometry();
+
+    // initial framing
+    target.panY = -(tracks.length * s.laneH)/2 + 10;
+    centerOnTime(demoTime);
+    clampPan();
+
+    requestAnimationFrame(tick);
+
+    // optional: pulse activity (demo)
+    setInterval(() => {
+      // rotate top entry
+      const d = new Date();
+      const t = `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`;
+      activity.unshift({
+        t,
+        type: Math.random() > 0.5 ? "api" : "tts_generate",
+        title: Math.random() > 0.5 ? "API: /station/heartbeat" : "TTS: Quick station ID…",
+        status: Math.random() > 0.15 ? "completed" : "pending",
+        dur: "0:00"
+      });
+      activity.length = Math.min(activity.length, 8);
+      renderActivity();
+    }, 4500);
+
+  })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,33 @@
+# Secrets
+.env
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.egg-info/
+.venv/
+venv/
+.Python
+
+# Media files (user-provided)
+music/
+sounds/8bit/*.wav
+sounds/8bit/*.mp3
+
+# IDE
+.vscode/
+.idea/
+
+# Station presets (secrets + runtime state)
+.station
+stations/*/.env
+
+# Runtime
+*.log
+*.db
+*.db-shm
+*.db-wal
+*.db-journal
+*.sqlite
+tmp/

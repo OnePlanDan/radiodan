@@ -1,0 +1,1846 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>RADIODÁN — 3D Ortho Timeline</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+    :root {
+      --bg0: #080a12;
+      --bg1: #0c0f1a;
+      --panel: rgba(14,18,32,0.82);
+      --panelSolid: #0e1220;
+      --glass: rgba(16,22,42,0.65);
+      --line: rgba(255,255,255,0.07);
+      --line2: rgba(255,255,255,0.12);
+      --text: rgba(235,240,255,0.92);
+      --muted: rgba(200,210,240,0.55);
+      --dim: rgba(200,210,240,0.35);
+
+      --lavender: #9b8aff;
+      --coral: #ff6b6b;
+      --cyan: #56d4f5;
+      --mint: #4aeabc;
+      --amber: #f0a840;
+      --rose: #f472b6;
+      --sky: #38bdf8;
+
+      --shadow: 0 24px 80px rgba(0,0,0,0.6);
+      --radius: 14px;
+      --radius2: 20px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      color: var(--text);
+      background: var(--bg0);
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+      overflow: hidden;
+    }
+
+    /* ── Animated aurora background ── */
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 1400px 700px at 15% -10%, rgba(155,138,255,0.22), transparent 60%),
+        radial-gradient(ellipse 1000px 600px at 85% 5%, rgba(86,212,245,0.16), transparent 55%),
+        radial-gradient(ellipse 1200px 800px at 50% 110%, rgba(240,168,64,0.12), transparent 55%),
+        radial-gradient(ellipse 800px 500px at 105% 60%, rgba(244,114,182,0.10), transparent 50%);
+      animation: auroraShift 20s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+    @keyframes auroraShift {
+      0%   { filter: hue-rotate(0deg); opacity: 1; }
+      50%  { filter: hue-rotate(12deg); opacity: 0.85; }
+      100% { filter: hue-rotate(-8deg); opacity: 1; }
+    }
+
+    /* Subtle scanlines */
+    body::after {
+      content: "";
+      position: fixed; inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(0deg,
+        transparent 0px, transparent 3px,
+        rgba(255,255,255,0.015) 3px, rgba(255,255,255,0.015) 4px
+      );
+      z-index: 99999;
+    }
+
+    /* ── Layout ── */
+    .app {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: grid;
+      grid-template-columns: 1fr 360px;
+      gap: 14px;
+      padding: 16px;
+    }
+
+    .main {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-width: 0;
+    }
+
+    /* ── Card base ── */
+    .card {
+      background: var(--glass);
+      backdrop-filter: blur(24px) saturate(1.4);
+      -webkit-backdrop-filter: blur(24px) saturate(1.4);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: "";
+      position: absolute; inset: 0;
+      pointer-events: none;
+      border-radius: inherit;
+      background:
+        radial-gradient(ellipse 700px 200px at 15% 0%, rgba(155,138,255,0.12), transparent 60%),
+        radial-gradient(ellipse 500px 200px at 85% 0%, rgba(86,212,245,0.08), transparent 55%);
+      z-index: 0;
+    }
+    .card > * { position: relative; z-index: 1; }
+
+    /* ── Top bar ── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .title { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .title h1 {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      user-select: none;
+      background: linear-gradient(135deg, var(--lavender), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-size: 11.5px;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .dot {
+      width: 7px; height: 7px; border-radius: 99px;
+      background: var(--mint);
+      box-shadow: 0 0 10px rgba(74,234,188,0.7);
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+    @keyframes dotPulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 10px rgba(74,234,188,0.7); }
+      50% { opacity: 0.6; box-shadow: 0 0 4px rgba(74,234,188,0.3); }
+    }
+
+    .actions { display: flex; align-items: center; gap: 8px; }
+
+    button {
+      appearance: none;
+      font-family: inherit;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(8px);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.2px;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+    button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.09);
+    }
+    button:active { transform: translateY(0); }
+    .btn-now {
+      background: linear-gradient(135deg, rgba(86,212,245,0.18), rgba(155,138,255,0.14));
+      border-color: rgba(86,212,245,0.35);
+    }
+
+    /* ── Timeline card ── */
+    .timeline {
+      flex: 1;
+      min-height: 280px;
+      display: grid;
+      grid-template-columns: 160px 1fr;
+    }
+
+    .labels {
+      padding: 14px 12px;
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+    }
+    .labels .hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .labels .hdr span {
+      font-size: 10.5px;
+      color: var(--muted);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      user-select: none;
+    }
+
+    .tracklist {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-top: 6px;
+    }
+    .track {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 9px 10px;
+      border-radius: 10px;
+      background: rgba(0,0,0,0.20);
+      border: 1px solid rgba(255,255,255,0.06);
+      cursor: pointer;
+      transition: all 0.12s ease;
+      user-select: none;
+    }
+    .track:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.28);
+    }
+    .track.isRecording {
+      border-color: rgba(86,212,245,0.55);
+      box-shadow: 0 0 0 1px rgba(86,212,245,0.18), 0 0 20px rgba(86,212,245,0.15);
+      background: rgba(86,212,245,0.06);
+    }
+    .track.isSelected {
+      border-color: rgba(155,138,255,0.40);
+      box-shadow: 0 0 0 1px rgba(155,138,255,0.14), 0 0 18px rgba(155,138,255,0.10);
+    }
+    .track .name {
+      font-weight: 700;
+      font-size: 11.5px;
+      letter-spacing: 0.4px;
+    }
+    .badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--dim);
+      white-space: nowrap;
+    }
+
+    .hint {
+      margin-top: auto;
+      padding-top: 10px;
+      font-size: 10.5px;
+      color: var(--dim);
+      line-height: 1.5;
+    }
+    .hint b { color: var(--muted); }
+    .kbd {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: 5px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: rgba(235,240,255,0.7);
+    }
+
+    /* Viewport */
+    .viewport {
+      position: relative;
+      min-width: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+    canvas#gl {
+      position: absolute;
+      inset: 42px 0 0 0;
+      width: 100%;
+      height: calc(100% - 42px);
+    }
+
+    .ruler {
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 42px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(0,0,0,0.22), rgba(0,0,0,0.08));
+      backdrop-filter: blur(12px);
+    }
+    canvas#ruler { width: 100%; height: 42px; display: block; }
+
+    .centerLine {
+      position: absolute;
+      left: 50%;
+      top: 42px;
+      bottom: 0;
+      width: 2px;
+      transform: translateX(-1px);
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(86,212,245,0.50), rgba(155,138,255,0.20), transparent);
+      box-shadow: 0 0 16px rgba(86,212,245,0.18);
+    }
+    .centerLine::after {
+      content: "NOW";
+      position: absolute;
+      top: 8px;
+      left: 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: rgba(86,212,245,0.85);
+      border: 1px solid rgba(86,212,245,0.20);
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(8px);
+    }
+
+    .tip {
+      position: absolute;
+      pointer-events: none;
+      transform: translate(-50%, -120%);
+      background: rgba(10,14,26,0.94);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 10px 14px;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      min-width: 200px;
+      opacity: 0;
+      transition: opacity 0.12s ease;
+      z-index: 50;
+      backdrop-filter: blur(12px);
+    }
+    .tip strong { display: block; font-size: 12px; margin-bottom: 3px; }
+    .tip .meta { font-size: 11px; color: var(--muted); }
+    .tip .row { display: flex; justify-content: space-between; gap: 10px; margin-top: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: rgba(235,240,255,0.65); }
+
+    /* ── Focus / Inspect mode ── */
+    .focus-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+    }
+    .focus-overlay.active {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    .focus-overlay .vignette {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 65% 55% at 50% 50%, transparent 25%, rgba(4,6,14,0.70) 100%);
+    }
+    .focus-badge {
+      position: absolute;
+      top: 52px; right: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(86,212,245,0.10);
+      border: 1px solid rgba(86,212,245,0.25);
+      backdrop-filter: blur(12px);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: rgba(86,212,245,0.85);
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: opacity 0.4s ease 0.35s, transform 0.4s ease 0.35s;
+      pointer-events: none;
+      z-index: 25;
+    }
+    .focus-badge.active { opacity: 1; transform: translateY(0); }
+    .focus-badge .esc-hint {
+      padding: 2px 6px;
+      border-radius: 5px;
+      border: 1px solid rgba(86,212,245,0.25);
+      background: rgba(86,212,245,0.08);
+      font-size: 9px;
+    }
+
+    /* ── Minimap ── */
+    .minimap {
+      position: absolute;
+      right: 12px;
+      bottom: 42px;
+      width: 260px;
+      height: 130px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(8,10,18,0.80);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04);
+      overflow: hidden;
+      z-index: 30;
+      cursor: crosshair;
+    }
+    .minimap-label {
+      position: absolute;
+      top: 5px;
+      left: 8px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: rgba(200,210,240,0.35);
+      pointer-events: none;
+      z-index: 4;
+      text-transform: uppercase;
+    }
+    .minimap canvas#miniGL {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+    }
+    .minimap canvas#miniOverlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 3;
+    }
+    .minimap-now {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      transform: translateX(-0.5px);
+      background: linear-gradient(180deg, rgba(86,212,245,0.6), rgba(86,212,245,0.1));
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .hintbar {
+      position: absolute;
+      left: 12px;
+      bottom: 10px;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--dim);
+      font-size: 10.5px;
+      pointer-events: none;
+      backdrop-filter: blur(8px);
+    }
+
+    /* ── Activity ── */
+    .activity {
+      padding: 16px;
+      min-height: 180px;
+      max-height: 260px;
+      display: flex;
+      flex-direction: column;
+    }
+    .activity h2 {
+      margin: 0 0 10px 0;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .activity .sub {
+      font-size: 10.5px;
+      color: var(--dim);
+      font-weight: 500;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+    .tableWrap {
+      flex: 1;
+      overflow: auto;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(0,0,0,0.12);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    thead th {
+      position: sticky;
+      top: 0;
+      text-align: left;
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 8px 8px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panelSolid);
+      user-select: none;
+      z-index: 5;
+      font-weight: 600;
+    }
+    tbody tr {
+      cursor: pointer;
+      transition: background 0.1s ease;
+    }
+    tbody tr:hover { background: rgba(255,255,255,0.03); }
+    tbody tr.isSelected {
+      background: rgba(86,212,245,0.07);
+      outline: 1px solid rgba(86,212,245,0.14);
+    }
+    tbody td {
+      padding: 9px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: rgba(235,240,255,0.80);
+      vertical-align: middle;
+    }
+    .mono { font-family: 'IBM Plex Mono', monospace; }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      font-size: 10.5px;
+      color: rgba(235,240,255,0.72);
+      white-space: nowrap;
+    }
+    .status .s {
+      width: 6px; height: 6px; border-radius: 99px;
+      background: var(--mint);
+      box-shadow: 0 0 8px rgba(74,234,188,0.6);
+    }
+    .status.pending .s { background: var(--amber); box-shadow: 0 0 8px rgba(240,168,64,0.6); }
+    .status.failed .s { background: var(--coral); box-shadow: 0 0 8px rgba(255,107,107,0.6); }
+
+    /* ── Side panel ── */
+    .side {
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      min-width: 0;
+    }
+    .controls { padding: 16px; }
+    .controls h2 {
+      margin: 0 0 12px 0;
+      font-size: 14px;
+      font-weight: 800;
+      user-select: none;
+    }
+    .group {
+      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(0,0,0,0.14);
+      border-radius: var(--radius);
+      padding: 11px;
+      margin-bottom: 10px;
+    }
+    .group .gtitle {
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    .row2 {
+      display: grid;
+      grid-template-columns: 1fr 80px;
+      gap: 8px;
+      align-items: center;
+      margin: 7px 0;
+    }
+    label {
+      font-size: 11.5px;
+      color: rgba(235,240,255,0.75);
+      user-select: none;
+    }
+    output {
+      text-align: right;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--dim);
+      user-select: none;
+    }
+    input[type="range"] {
+      width: 100%;
+      height: 20px;
+      accent-color: var(--cyan);
+      background: transparent;
+    }
+    input[type="checkbox"] {
+      accent-color: var(--lavender);
+      transform: translateY(1px);
+    }
+    .toggle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0 0;
+    }
+    .small {
+      color: var(--dim);
+      font-size: 11px;
+      line-height: 1.4;
+      margin-top: 8px;
+    }
+    .footNote {
+      padding: 12px 14px;
+      color: var(--dim);
+      font-size: 11px;
+    }
+
+    @media (max-width: 1100px) {
+      .app { grid-template-columns: 1fr; overflow: auto; }
+      body { overflow: auto; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <div class="main">
+      <div class="topbar">
+        <div class="title">
+          <h1>RADIODÁN // Timeline</h1>
+          <div class="pill"><span class="dot"></span>Live</div>
+          <div class="pill mono" id="clock">--:--:--</div>
+          <div class="pill mono" id="nowBadge">NOW --:--:--</div>
+        </div>
+        <div class="actions">
+          <button id="btnClear">Clear sel.</button>
+          <button class="btn-now" id="btnLive">⟳ Recenter</button>
+        </div>
+      </div>
+
+      <div class="card timeline">
+        <div class="labels">
+          <div class="hdr">
+            <span>Tracks</span>
+            <span class="badge mono" id="rangeReadout">—</span>
+          </div>
+          <div class="tracklist" id="trackList"></div>
+          <div class="hint">
+            <b>Hold</b> a track to record at <span class="kbd">Now</span>.<br/>
+            Click a 3D box or table row to cross-select.
+          </div>
+        </div>
+
+        <div class="viewport" id="viewport">
+          <div class="ruler"><canvas id="ruler"></canvas></div>
+          <div class="centerLine" aria-hidden="true"></div>
+          <canvas id="gl"></canvas>
+
+          <div class="focus-overlay" id="focusOverlay"><div class="vignette"></div></div>
+          <div class="focus-badge" id="focusBadge">INSPECT <span class="esc-hint">CLICK OUTSIDE · ESC</span></div>
+
+          <div class="tip" id="tip">
+            <strong id="tipTitle">—</strong>
+            <span class="meta" id="tipMeta">—</span>
+            <div class="row">
+              <span class="mono" id="tipTime">—</span>
+              <span class="mono" id="tipDur">—</span>
+            </div>
+          </div>
+
+          <div class="minimap" id="minimap">
+            <div class="minimap-label">MINIMAP</div>
+            <canvas id="miniGL"></canvas>
+            <canvas id="miniOverlay"></canvas>
+            <div class="minimap-now"></div>
+          </div>
+
+          <div class="hintbar">
+            <span class="kbd">Now</span> locked
+            <span class="kbd">Ctrl</span>+<span class="kbd">⎡⎤</span> zoom
+            <span class="kbd">Shift</span>+<span class="kbd">⎡⎤</span> pan
+          </div>
+        </div>
+      </div>
+
+      <div class="card activity">
+        <h2><span>Activity</span><span class="sub" id="actSub">linked 1:1</span></h2>
+        <div class="tableWrap">
+          <table>
+            <thead><tr>
+              <th style="width:78px">Start</th>
+              <th style="width:78px">Stop</th>
+              <th style="width:80px">Track</th>
+              <th>Title</th>
+              <th style="width:90px">Status</th>
+              <th style="width:62px">Dur</th>
+            </tr></thead>
+            <tbody id="actBody"></tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="side">
+      <div class="card controls">
+        <h2>View Controls</h2>
+
+        <div class="group">
+          <div class="gtitle"><span>Timeline</span><span class="mono">Now-locked</span></div>
+          <div class="row2"><label for="timeScale">Time scale px/s</label><output id="timeScaleOut"></output></div>
+          <input id="timeScale" type="range" min="30" max="700" step="1" value="200"/>
+          <div class="row2"><label for="zoom">Ortho zoom</label><output id="zoomOut"></output></div>
+          <input id="zoom" type="range" min="0.25" max="5.00" step="0.01" value="1.10"/>
+          <div class="row2"><label for="laneH">Lane height</label><output id="laneHOut"></output></div>
+          <input id="laneH" type="range" min="28" max="120" step="1" value="56"/>
+          <div class="row2"><label for="boxDepth">Box depth</label><output id="boxDepthOut"></output></div>
+          <input id="boxDepth" type="range" min="2" max="100" step="1" value="20"/>
+        </div>
+
+        <div class="group">
+          <div class="gtitle"><span>3D Camera</span><span class="mono">Orbit</span></div>
+          <div class="row2"><label for="tilt">Tilt</label><output id="tiltOut"></output></div>
+          <input id="tilt" type="range" min="0" max="85" step="1" value="32"/>
+          <div class="row2"><label for="yaw">Yaw</label><output id="yawOut"></output></div>
+          <input id="yaw" type="range" min="-80" max="80" step="1" value="-16"/>
+          <div class="row2"><label for="orbit">Distance</label><output id="orbitOut"></output></div>
+          <input id="orbit" type="range" min="260" max="2200" step="5" value="700"/>
+        </div>
+
+        <div class="group">
+          <div class="gtitle"><span>Look</span><span class="mono">FX</span></div>
+          <div class="row2"><label for="grid">Grid opacity</label><output id="gridOut"></output></div>
+          <input id="grid" type="range" min="0" max="1" step="0.01" value="0.30"/>
+          <div class="row2"><label for="glow">Glow</label><output id="glowOut"></output></div>
+          <input id="glow" type="range" min="0" max="2.5" step="0.01" value="0.70"/>
+          <div class="row2"><label for="musicZ">Music Z-offset</label><output id="musicZOut"></output></div>
+          <input id="musicZ" type="range" min="0" max="60" step="1" value="24"/>
+          <div class="toggle">
+            <label for="reduced">Reduced motion</label>
+            <input id="reduced" type="checkbox"/>
+          </div>
+        </div>
+      </div>
+
+      <div class="card footNote" id="libNote">Loading…</div>
+    </div>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script>
+  (() => {
+    const $ = (s, el=document) => el.querySelector(s);
+
+    if (!window.THREE) {
+      $("#libNote").innerHTML = '<b>Three.js failed to load.</b>';
+      return;
+    }
+    $("#libNote").innerHTML = '<div style="display:flex;justify-content:space-between"><span>3D ready</span><span class="mono" style="opacity:.7">THREE r128</span></div>';
+
+    // ── Tracks ──
+    const tracks = [
+      { id:"MUSIC", name:"MUSIC", color:0x9b8aff },
+      { id:"TTS",   name:"TTS",   color:0x56d4f5 },
+      { id:"LLM",   name:"LLM",   color:0x4aeabc },
+      { id:"API",   name:"API",   color:0xf0a840 },
+      { id:"ADS",   name:"ADS",   color:0xf472b6 },
+    ];
+    const trackIdx = new Map(tracks.map((t,i) => [t.id, i]));
+
+    // ── Event model (1:1) ──
+    const timelineStart = new Date();
+    timelineStart.setHours(17, 5, 0, 0);
+
+    const pad2 = n => String(n).padStart(2,"0");
+    const hhmmss = d => `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`;
+    const hhmm = d => `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+    const fmtDur = ms => { ms=Math.max(0,ms|0); const s=Math.floor(ms/1000); return `${Math.floor(s/60)}:${pad2(s%60)}`; };
+    const clamp = (v,a,b) => Math.max(a, Math.min(b,v));
+    const secFrom = d => (d.getTime() - timelineStart.getTime()) / 1000;
+
+    let uid = 0;
+    const events = [];
+    const eventsById = new Map();
+
+    function addEvent({trackId, title, start, stop, status="completed", kind="planned"}) {
+      const id = "e" + (++uid);
+      const e = { id, trackId, title, start, stop, status, kind };
+      events.push(e);
+      eventsById.set(id, e);
+      return e;
+    }
+
+    // Seed
+    [
+      { t:"MUSIC", title:"Jan Blomqvist — Canopée des Cîmes", off:5*60+55, dur:175000 },
+      { t:"MUSIC", title:"Jan Blomqvist — Empty Floor",       off:8*60+55, dur:145000 },
+      { t:"MUSIC", title:"Let You Go — Let You Go",           off:11*60+30, dur:120000 },
+      { t:"MUSIC", title:"LukHash — Chiptune Ride",           off:13*60+45, dur:110000 },
+      { t:"LLM",   title:"LLM: Announce this song…",          off:12*60+49, dur:650 },
+      { t:"TTS",   title:"TTS: Hey lovely listeners…",        off:12*60+50, dur:4200 },
+      { t:"API",   title:"API: /station/now-playing",         off:12*60+4,  dur:120 },
+      { t:"API",   title:"API: /schedule/segment",            off:10*60+31, dur:110, status:"pending" },
+      { t:"ADS",   title:"Ad break A — Sponsor",              off:7*60+40,  dur:30000 },
+      { t:"ADS",   title:"Ad break B — Promo",                off:11*60+10, dur:22000 },
+      { t:"TTS",   title:"TTS: Welcome back everyone…",       off:8*60+50,  dur:3800 },
+      { t:"LLM",   title:"LLM: Generate weather update…",     off:10*60+20, dur:900 },
+      { t:"API",   title:"API: /station/heartbeat",           off:13*60+6,  dur:60 },
+    ].forEach(s => {
+      const start = new Date(timelineStart.getTime() + s.off*1000);
+      addEvent({ trackId:s.t, title:s.title, start, stop:new Date(start.getTime()+s.dur), status:s.status||"completed" });
+    });
+
+    // ── DOM refs ──
+    const clockEl = $("#clock"), nowBadge = $("#nowBadge");
+    const trackListEl = $("#trackList"), actBody = $("#actBody"), actSub = $("#actSub");
+    const trackLegendEls = new Map();
+
+    // ── Selection ──
+    let selectedId = null;
+
+    function setSelected(id, {source="ui", centerNow=true}={}) {
+      selectedId = id;
+      actBody.querySelectorAll("tr").forEach(tr => tr.classList.toggle("isSelected", tr.dataset.eid===id));
+      trackLegendEls.forEach(el => el.classList.remove("isSelected"));
+      if (id) {
+        const e = eventsById.get(id);
+        if (e) { const el = trackLegendEls.get(e.trackId); if (el) el.classList.add("isSelected"); }
+      }
+      applySelGlow();
+      if (id && source==="timeline") {
+        const row = actBody.querySelector(`tr[data-eid="${id}"]`);
+        if (row) row.scrollIntoView({ block:"center", behavior: s.reducedMotion?"auto":"smooth" });
+      }
+      if (id && source==="activity" && centerNow) {
+        const e = eventsById.get(id);
+        if (e) nowTime = new Date(e.start.getTime());
+      }
+    }
+
+    // ── Escape HTML ──
+    const esc = s => String(s).replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]));
+
+    // ── Activity render ──
+    function renderActivity() {
+      const sorted = [...events].sort((a,b) => b.start.getTime()-a.start.getTime());
+      actBody.innerHTML = "";
+      sorted.forEach(e => {
+        const tr = document.createElement("tr");
+        tr.dataset.eid = e.id;
+        const sc = e.status==="pending"?"pending":e.status==="failed"?"failed":e.status==="recording"?"pending":"";
+        const dur = Math.max(0, e.stop.getTime()-e.start.getTime());
+        tr.innerHTML = `
+          <td class="mono" style="font-size:11px;color:rgba(235,240,255,.7)">${hhmmss(e.start)}</td>
+          <td class="mono" style="font-size:11px;color:rgba(235,240,255,.6)">${hhmmss(e.stop)}</td>
+          <td class="mono" style="font-size:11px">${e.trackId}</td>
+          <td style="font-size:12px">${esc(e.title)}</td>
+          <td><span class="status ${sc}"><span class="s"></span>${e.status}</span></td>
+          <td class="mono" style="font-size:11px">${fmtDur(dur)}</td>`;
+        tr.addEventListener("click", () => setSelected(e.id, {source:"activity"}));
+        actBody.appendChild(tr);
+      });
+      actSub.textContent = `linked 1:1 · ${events.length}`;
+      if (selectedId) setSelected(selectedId, {source:"ui", centerNow:false});
+    }
+
+    // ── Track legend (hold to record) ──
+    const rec = { active:false, id:null, trackId:null, startMs:0, el:null, raf:0, pointerId:null };
+
+    function buildLegend() {
+      trackListEl.innerHTML = "";
+      trackLegendEls.clear();
+      tracks.forEach(tr => {
+        const el = document.createElement("div");
+        el.className = "track";
+        el.dataset.trackId = tr.id;
+        el.title = "Hold to record";
+        const hex = "#"+tr.color.toString(16).padStart(6,"0");
+        el.innerHTML = `
+          <div style="display:flex;align-items:center;gap:8px;min-width:0">
+            <span style="width:8px;height:8px;border-radius:99px;background:${hex};box-shadow:0 0 10px ${hex}80;flex:0 0 auto"></span>
+            <div class="name">${tr.name}</div>
+          </div>
+          <div class="badge mono">${tr.id}</div>`;
+        el.addEventListener("pointerdown", onRecDown);
+        el.addEventListener("pointerup", onRecUp);
+        el.addEventListener("pointercancel", finalizeRec);
+        trackLegendEls.set(tr.id, el);
+        trackListEl.appendChild(el);
+      });
+    }
+
+    function onRecDown(e) {
+      if (e.button!=null && e.button!==0) return;
+      e.preventDefault(); e.stopPropagation();
+      const el = e.currentTarget;
+      el.setPointerCapture(e.pointerId);
+      rec.active=true; rec.trackId=el.dataset.trackId; rec.pointerId=e.pointerId; rec.el=el;
+      rec.startMs=performance.now();
+      el.classList.add("isRecording");
+
+      const start = new Date(nowTime.getTime());
+      const ev = addEvent({ trackId:rec.trackId, title:`REC ${rec.trackId}`, start, stop:new Date(start.getTime()+150), status:"recording", kind:"recorded" });
+      rec.id = ev.id;
+      addOrUpdateMesh(ev, true);
+      renderActivity();
+      setSelected(ev.id, {source:"legend", centerNow:false});
+
+      const tickHold = () => {
+        if (!rec.active) return;
+        const ev2 = eventsById.get(rec.id);
+        if (!ev2) return;
+        ev2.stop = new Date(ev2.start.getTime() + Math.max(120, performance.now()-rec.startMs));
+        addOrUpdateMesh(ev2);
+        const row = actBody.querySelector(`tr[data-eid="${ev2.id}"]`);
+        if (row) { const tds=row.querySelectorAll("td"); if(tds[1])tds[1].textContent=hhmmss(ev2.stop); if(tds[5])tds[5].textContent=fmtDur(ev2.stop-ev2.start); }
+        rec.raf = requestAnimationFrame(tickHold);
+      };
+      rec.raf = requestAnimationFrame(tickHold);
+    }
+
+    function onRecUp(e) {
+      if (!rec.active || (rec.pointerId!=null && e.pointerId!==rec.pointerId)) return;
+      e.preventDefault(); e.stopPropagation();
+      finalizeRec();
+    }
+
+    function finalizeRec() {
+      cancelAnimationFrame(rec.raf);
+      const ev = eventsById.get(rec.id);
+      if (ev) { ev.status="completed"; ev.title=`REC ${ev.trackId} · ${fmtDur(ev.stop-ev.start)}`; addOrUpdateMesh(ev); }
+      if (rec.el) rec.el.classList.remove("isRecording");
+      rec.active=false; rec.id=null; rec.trackId=null; rec.el=null;
+      renderActivity();
+      if (ev) setSelected(ev.id, {source:"legend", centerNow:false});
+    }
+    window.addEventListener("pointerup", e => { if (rec.active && (rec.pointerId==null||e.pointerId===rec.pointerId)) finalizeRec(); });
+    window.addEventListener("blur", () => { if (rec.active) finalizeRec(); });
+
+    // ── Now / Time ──
+    let nowTime = new Date(timelineStart.getTime() + 13*60*1000 + 6000);
+    const nowSpeed = 1.0;
+
+    // ── Three.js ──
+    const viewport = $("#viewport"), glCanvas = $("#gl");
+    const rulerCanvas = $("#ruler"), rulerCtx = rulerCanvas.getContext("2d");
+
+    const renderer = new THREE.WebGLRenderer({ canvas:glCanvas, antialias:true, alpha:true });
+    renderer.setPixelRatio(Math.min(devicePixelRatio||1, 2));
+
+    // Minimap renderer
+    const miniGLCanvas = $("#miniGL");
+    const miniOverlay = $("#miniOverlay");
+    const miniCtx = miniOverlay.getContext("2d");
+    const miniRenderer = new THREE.WebGLRenderer({ canvas:miniGLCanvas, antialias:true, alpha:true });
+    miniRenderer.setPixelRatio(Math.min(devicePixelRatio||1, 2));
+    miniRenderer.setClearColor(0x080a12, 0.9);
+    let miniCamera = null;
+    const MINI_ZOOM_FACTOR = 0.12; // how zoomed out the minimap is vs main
+
+    const scene = new THREE.Scene();
+    scene.fog = new THREE.Fog(0x080a12, 900, 3000);
+
+    scene.add(new THREE.AmbientLight(0xffffff, 0.80));
+    const keyLight = new THREE.DirectionalLight(0xc4d4ff, 0.70);
+    keyLight.position.set(400, 500, 900);
+    scene.add(keyLight);
+    const rimLight = new THREE.DirectionalLight(0x9b8aff, 0.45);
+    rimLight.position.set(-600, 120, 650);
+    scene.add(rimLight);
+    const fillLight = new THREE.DirectionalLight(0x56d4f5, 0.20);
+    fillLight.position.set(0, -200, 400);
+    scene.add(fillLight);
+
+    const root = new THREE.Group();
+    scene.add(root);
+    const lanesGroup = new THREE.Group();
+    const clipsGroup = new THREE.Group();
+    const gridGroup = new THREE.Group();
+    const nowPlaneGroup = new THREE.Group();
+    root.add(gridGroup, lanesGroup, clipsGroup, nowPlaneGroup);
+
+    let camera = null;
+
+    // ── Focus / Inspect state ──
+    const focus = {
+      active: false,
+      eventId: null,
+      swoopT: 0,
+      drawerT: 0,
+      drawerGroup: null,
+      drawerMesh: null,
+      connMesh: null,
+      savedZoom: 1.10,
+      savedPanY: -70,
+      savedTilt: 32,
+      savedYaw: -16,
+      savedOrbit: 700,
+    };
+
+    // ── State ──
+    const s = {
+      timeScale:200, zoom:1.10, laneH:56, boxDepth:20,
+      tilt:32, yaw:-16, orbit:700,
+      grid:0.30, glow:0.70, musicZ:24,
+      reducedMotion:false,
+      panY:-70
+    };
+    const target = { ...s };
+
+    // ── Scene objects ──
+    let totalH = 0, gridLines = null;
+    const eventMeshes = new Map();
+    const pickMeshes = [];
+    const unitBox = new THREE.BoxGeometry(1,1,1);
+
+    function makeClipMat(color, kind) {
+      const base = new THREE.Color(color);
+      const isRec = kind==="recorded";
+      const col = isRec ? base.clone().lerp(new THREE.Color(0x56d4f5), 0.30) : base;
+      return new THREE.MeshStandardMaterial({
+        color:col, roughness:isRec?0.15:0.28, metalness:isRec?0.35:0.20,
+        emissive:col.clone(), emissiveIntensity:isRec?0.55:0.32
+      });
+    }
+    function makeShellMat(kind) {
+      return new THREE.MeshBasicMaterial({
+        color: kind==="recorded"?0x56d4f5:0xffffff,
+        transparent:true, opacity:kind==="recorded"?0.10:0.05, depthWrite:false
+      });
+    }
+
+    function rebuildLanesAndGrid() {
+      while(lanesGroup.children.length) lanesGroup.remove(lanesGroup.children[0]);
+      while(gridGroup.children.length) gridGroup.remove(gridGroup.children[0]);
+      totalH = tracks.length * s.laneH;
+
+      const planeGeo = new THREE.PlaneGeometry(1,1);
+      tracks.forEach((tr,i) => {
+        const yCenter = -(i*s.laneH) - s.laneH/2;
+        const lane = new THREE.Mesh(planeGeo, new THREE.MeshBasicMaterial({
+          color:0x1a2848, transparent:true, opacity:0.12, depthWrite:false
+        }));
+        lane.scale.set(200000, s.laneH-4, 1);
+        lane.position.set(0, yCenter, -5);
+        lanesGroup.add(lane);
+
+        // Subtle colored line per track
+        const sep = new THREE.Mesh(new THREE.PlaneGeometry(200000, 1.5), new THREE.MeshBasicMaterial({
+          color:tr.color, transparent:true, opacity:0.06, depthWrite:false
+        }));
+        sep.position.set(0, -(i*s.laneH), -4);
+        lanesGroup.add(sep);
+      });
+
+      // Grid
+      const pts = [];
+      const addV = (x,y0,y1) => pts.push(x,y0,-6, x,y1,-6);
+      const addH = (y) => pts.push(-100000,y,-6, 100000,y,-6);
+      for (let i=0;i<=tracks.length;i++) addH(-(i*s.laneH));
+
+      const effScale = s.timeScale * s.zoom;
+      const major = effScale>350?2 : effScale>200?5 : effScale>120?10 : effScale>70?30 : 60;
+      const minor = major/5;
+      for (let sec=-600;sec<=600;sec+=minor) addV(sec*s.timeScale, 0, -totalH);
+
+      const geo = new THREE.BufferGeometry();
+      geo.setAttribute("position", new THREE.Float32BufferAttribute(pts, 3));
+      gridLines = new THREE.LineSegments(geo, new THREE.LineBasicMaterial({
+        color:0x3a4a78, transparent:true, opacity:s.grid
+      }));
+      gridGroup.add(gridLines);
+      buildNowPlane();
+    }
+
+    // ── Now Plane (Guitar Hero cutting slab at x=0) ──
+    function buildNowPlane() {
+      while (nowPlaneGroup.children.length) nowPlaneGroup.remove(nowPlaneGroup.children[0]);
+      const pH = totalH + 80;
+      const pD = 220;
+
+      // Translucent slab
+      const slab = new THREE.Mesh(
+        new THREE.BoxGeometry(2.5, pH, pD),
+        new THREE.MeshBasicMaterial({ color:0x56d4f5, transparent:true, opacity:0.032, depthWrite:false, side:THREE.DoubleSide })
+      );
+      slab.position.set(0, -pH/2 + 40, pD/2 - 25);
+      nowPlaneGroup.add(slab);
+
+      // Bright leading edge
+      const edge = new THREE.Mesh(
+        new THREE.BoxGeometry(1.8, pH, 1.2),
+        new THREE.MeshBasicMaterial({ color:0x56d4f5, transparent:true, opacity:0.22, depthWrite:false })
+      );
+      edge.position.set(0, -pH/2 + 40, -3);
+      nowPlaneGroup.add(edge);
+
+      // Wide glow halo
+      const glow = new THREE.Mesh(
+        new THREE.BoxGeometry(14, pH, pD),
+        new THREE.MeshBasicMaterial({ color:0x56d4f5, transparent:true, opacity:0.010, depthWrite:false, side:THREE.DoubleSide })
+      );
+      glow.position.copy(slab.position);
+      nowPlaneGroup.add(glow);
+
+      rebuildLanesAndGrid.nowPlaneBuilt = true;
+    }
+
+    // ── Event meshes ──
+    function addOrUpdateMesh(ev, forceCreate=false) {
+      const tr = tracks[trackIdx.get(ev.trackId)];
+      if (!tr) return;
+      const nowSec = secFrom(nowTime);
+      const tStart = secFrom(ev.start), tStop = secFrom(ev.stop);
+      const startRel = tStart-nowSec, endRel = tStop-nowSec;
+      const durSec = Math.max(0.03, endRel-startRel);
+      const w = durSec * s.timeScale;
+
+      const isMusic = ev.trackId==="MUSIC";
+      const h = s.laneH * (isMusic ? 0.55 : 0.38);
+      const d = s.boxDepth + (isMusic ? 10 : 0);
+
+      const xCenter = ((startRel+endRel)/2) * s.timeScale;
+      const baseY = -(trackIdx.get(ev.trackId)*s.laneH) - s.laneH/2;
+
+      // Music Z-stagger: alternate music events on different Z lanes
+      let zPos = d/2;
+      if (isMusic) {
+        const musicEvents = events.filter(e => e.trackId==="MUSIC").sort((a,b)=>a.start-b.start);
+        const idx = musicEvents.indexOf(ev);
+        if (idx % 2 === 1) zPos += s.musicZ;
+      }
+
+      let pair = eventMeshes.get(ev.id);
+      if (!pair || forceCreate) {
+        const mesh = new THREE.Mesh(unitBox, makeClipMat(tr.color, ev.kind));
+        mesh.userData.eventId = ev.id;
+        mesh.userData.baseEmissive = mesh.material.emissiveIntensity;
+        const shell = new THREE.Mesh(unitBox, makeShellMat(ev.kind));
+        clipsGroup.add(shell);
+        clipsGroup.add(mesh);
+        pair = { mesh, shell };
+        eventMeshes.set(ev.id, pair);
+        pickMeshes.push(mesh);
+      }
+      pair.mesh.userData.kind = ev.kind;
+      pair.mesh.scale.set(w, h, d);
+      pair.mesh.position.set(xCenter, baseY, zPos);
+      pair.shell.scale.set(w+5, h+4, d+5);
+      pair.shell.position.copy(pair.mesh.position);
+    }
+
+    function updateAllMeshes() {
+      for (const ev of events) addOrUpdateMesh(ev);
+    }
+
+    // ── Selection glow ──
+    function applySelGlow() {
+      for (const [id, pair] of eventMeshes) {
+        const m = pair.mesh;
+        const base = m.userData.baseEmissive ?? 0.32;
+        if (!selectedId) {
+          m.material.emissiveIntensity = base + s.glow*0.5;
+          m.material.opacity=1; m.material.transparent=false;
+        } else if (id===selectedId) {
+          m.material.emissiveIntensity = Math.min(2.5, base+0.65+s.glow);
+          m.material.opacity=1; m.material.transparent=false;
+        } else {
+          m.material.emissiveIntensity = Math.max(0.05, (base+s.glow*0.2)*0.25);
+          m.material.transparent=true; m.material.opacity=0.72;
+        }
+      }
+    }
+
+    // ── Picking ──
+    const raycaster = new THREE.Raycaster();
+    const mouse = new THREE.Vector2();
+    const tip = $("#tip"), tipTitle=$("#tipTitle"), tipMeta=$("#tipMeta"), tipTime=$("#tipTime"), tipDur=$("#tipDur");
+    let hoveredMesh = null;
+
+    function setHover(mesh, cx, cy) {
+      hoveredMesh = mesh;
+      if (!mesh) { tip.style.opacity="0"; return; }
+      const ev = eventsById.get(mesh.userData.eventId);
+      if (!ev) { tip.style.opacity="0"; return; }
+      const dur = Math.max(0, ev.stop-ev.start);
+      tipTitle.textContent = ev.title;
+      tipMeta.textContent = `${ev.trackId} · ${ev.status}`;
+      tipTime.textContent = `${hhmmss(ev.start)} → ${hhmmss(ev.stop)}`;
+      tipDur.textContent = `dur ${fmtDur(dur)}`;
+      tip.style.opacity="1"; tip.style.left=cx+"px"; tip.style.top=cy+"px";
+    }
+
+    viewport.addEventListener("pointermove", e => {
+      if (focus.active) return;
+      const rect = glCanvas.getBoundingClientRect();
+      mouse.x = ((e.clientX-rect.left)/rect.width)*2-1;
+      mouse.y = -((e.clientY-rect.top)/rect.height)*2-1;
+      raycaster.setFromCamera(mouse, camera);
+      const hits = raycaster.intersectObjects(pickMeshes, false);
+      setHover(hits.length ? hits[0].object : null, e.clientX, e.clientY);
+    });
+
+    viewport.addEventListener("click", e => {
+      if (focus.active) {
+        // Check if clicking the focused box itself → ignore. Otherwise exit.
+        const rect = glCanvas.getBoundingClientRect();
+        mouse.x = ((e.clientX-rect.left)/rect.width)*2-1;
+        mouse.y = -((e.clientY-rect.top)/rect.height)*2-1;
+        raycaster.setFromCamera(mouse, camera);
+        const hits = raycaster.intersectObjects(pickMeshes, false);
+        if (hits.length && hits[0].object.userData.eventId === focus.eventId) return;
+        exitFocus();
+        return;
+      }
+      if (hoveredMesh) enterFocus(hoveredMesh.userData.eventId);
+    });
+
+    // Focus overlay click → exit
+    $("#focusOverlay").addEventListener("click", () => { if (focus.active) exitFocus(); });
+
+    // ── Mock JSON for drawer ──
+    function mockJson(ev) {
+      const tr = tracks[trackIdx.get(ev.trackId)];
+      return JSON.stringify({
+        id: ev.id,
+        type: ev.trackId,
+        title: ev.title,
+        status: ev.status,
+        kind: ev.kind,
+        start: hhmmss(ev.start),
+        stop: hhmmss(ev.stop),
+        duration_ms: Math.max(0, ev.stop - ev.start),
+        track: {
+          name: tr ? tr.name : "?",
+          color: tr ? "#" + tr.color.toString(16).padStart(6, "0") : "#fff",
+          index: trackIdx.get(ev.trackId) ?? -1
+        },
+        metadata: {
+          source: ev.kind === "recorded" ? "live_recording" : "scheduler",
+          bitrate: ev.trackId === "MUSIC" ? "320kbps" : null,
+          codec: ev.trackId === "MUSIC" ? "opus" : ev.trackId === "TTS" ? "wav" : null,
+          model: ev.trackId === "LLM" ? "claude-sonnet-4-20250514" : null,
+          endpoint: ev.trackId === "API" ? "/v1/station/" + ev.title.split("/").pop() : null,
+          priority: Math.floor(Math.random() * 5) + 1,
+          retries: 0,
+          region: "eu-west-1"
+        },
+        timestamps: {
+          created: hhmmss(new Date(ev.start.getTime() - 200)),
+          queued: hhmmss(new Date(ev.start.getTime() - 50)),
+          started: hhmmss(ev.start),
+          completed: hhmmss(ev.stop)
+        }
+      }, null, 2);
+    }
+
+    // ── Drawer texture (canvas → Three.js texture) ──
+    function createDrawerTexture(jsonStr, w, h) {
+      const cvs = document.createElement("canvas");
+      const dpr = 2;
+      cvs.width = w * dpr; cvs.height = h * dpr;
+      const ctx = cvs.getContext("2d");
+      ctx.scale(dpr, dpr);
+
+      // BG
+      const grad = ctx.createLinearGradient(0, 0, 0, h);
+      grad.addColorStop(0, "rgba(8,12,24,0.97)");
+      grad.addColorStop(1, "rgba(4,6,14,0.99)");
+      ctx.fillStyle = grad;
+      roundRect(ctx, 0, 0, w, h, 10); ctx.fill();
+
+      // Border
+      ctx.strokeStyle = "rgba(86,212,245,0.22)"; ctx.lineWidth = 1;
+      roundRect(ctx, 0.5, 0.5, w - 1, h - 1, 10); ctx.stroke();
+
+      // Top accent line
+      ctx.strokeStyle = "rgba(86,212,245,0.40)"; ctx.lineWidth = 2;
+      ctx.beginPath(); ctx.moveTo(12, 2); ctx.lineTo(w - 12, 2); ctx.stroke();
+
+      // Header
+      ctx.fillStyle = "rgba(86,212,245,0.82)";
+      ctx.font = "bold 12px 'IBM Plex Mono', monospace";
+      ctx.fillText("EVENT DATA", 14, 24);
+      ctx.fillStyle = "rgba(155,138,255,0.50)";
+      ctx.font = "10px 'IBM Plex Mono', monospace";
+      ctx.fillText("// raw payload", 120, 24);
+
+      // Divider
+      ctx.strokeStyle = "rgba(255,255,255,0.06)";
+      ctx.lineWidth = 1;
+      ctx.beginPath(); ctx.moveTo(14, 32); ctx.lineTo(w - 14, 32); ctx.stroke();
+
+      // JSON lines
+      ctx.font = "10px 'IBM Plex Mono', monospace";
+      const lines = jsonStr.split("\n");
+      let y = 48;
+      const lineH = 14;
+      for (let i = 0; i < lines.length && y < h - 10; i++) {
+        const line = lines[i];
+        if (line.includes(":")) {
+          const ci = line.indexOf(":");
+          const key = line.slice(0, ci + 1);
+          const val = line.slice(ci + 1);
+          ctx.fillStyle = "rgba(155,138,255,0.78)";
+          ctx.fillText(key, 14, y);
+          const kw = ctx.measureText(key).width;
+          if (val.trim().startsWith('"')) ctx.fillStyle = "rgba(74,234,188,0.72)";
+          else if (val.trim().match(/^[0-9]/) || val.trim() === "null") ctx.fillStyle = "rgba(240,168,64,0.78)";
+          else ctx.fillStyle = "rgba(235,240,255,0.45)";
+          ctx.fillText(val, 14 + kw, y);
+        } else {
+          ctx.fillStyle = "rgba(235,240,255,0.35)";
+          ctx.fillText(line, 14, y);
+        }
+        y += lineH;
+      }
+
+      const tex = new THREE.CanvasTexture(cvs);
+      tex.minFilter = THREE.LinearFilter;
+      tex.magFilter = THREE.LinearFilter;
+      return tex;
+    }
+
+    function roundRect(ctx, x, y, w, h, r) {
+      ctx.beginPath();
+      ctx.moveTo(x + r, y);
+      ctx.lineTo(x + w - r, y);
+      ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+      ctx.lineTo(x + w, y + h - r);
+      ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+      ctx.lineTo(x + r, y + h);
+      ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+      ctx.lineTo(x, y + r);
+      ctx.quadraticCurveTo(x, y, x + r, y);
+      ctx.closePath();
+    }
+
+    // ── Enter focus (swoop in) ──
+    function enterFocus(eventId) {
+      const ev = eventsById.get(eventId);
+      if (!ev) return;
+      const pair = eventMeshes.get(eventId);
+      if (!pair) return;
+
+      // Save current camera
+      focus.savedZoom = target.zoom;
+      focus.savedPanY = target.panY;
+      focus.savedTilt = target.tilt;
+      focus.savedYaw = target.yaw;
+      focus.savedOrbit = target.orbit;
+
+      focus.active = true;
+      focus.eventId = eventId;
+      focus.swoopT = 0;
+      focus.drawerT = 0;
+
+      setSelected(eventId, { source: "timeline", centerNow: false });
+      tip.style.opacity = "0";
+
+      // Build drawer
+      destroyDrawer();
+      const json = mockJson(ev);
+      const tex = createDrawerTexture(json, 340, 480);
+
+      // Drawer plane: sized relative to the box
+      const bx = pair.mesh.scale;
+      const drawerW = Math.max(bx.x * 0.85, 80);
+      const drawerH = drawerW * (480 / 340);
+
+      const dMat = new THREE.MeshBasicMaterial({
+        map: tex, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false
+      });
+      const dMesh = new THREE.Mesh(new THREE.PlaneGeometry(drawerW, drawerH), dMat);
+
+      // Connector strip
+      const cMat = new THREE.MeshBasicMaterial({
+        color: 0x56d4f5, transparent: true, opacity: 0, depthWrite: false
+      });
+      const cMesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), cMat);
+
+      const grp = new THREE.Group();
+      grp.add(dMesh); grp.add(cMesh);
+      clipsGroup.add(grp);
+
+      focus.drawerGroup = grp;
+      focus.drawerMesh = dMesh;
+      focus.connMesh = cMesh;
+      focus.drawerH = drawerH;
+
+      // UI
+      $("#focusOverlay").classList.add("active");
+      $("#focusBadge").classList.add("active");
+    }
+
+    // ── Exit focus (swoop back) ──
+    function exitFocus() {
+      if (!focus.active) return;
+
+      // Restore camera targets
+      target.zoom = focus.savedZoom;
+      target.panY = focus.savedPanY;
+      target.tilt = focus.savedTilt;
+      target.yaw = focus.savedYaw;
+      target.orbit = focus.savedOrbit;
+
+      focus.active = false;
+
+      // Animate drawer close
+      const grp = focus.drawerGroup;
+      const dm = focus.drawerMesh;
+      const cm = focus.connMesh;
+      const startOp = dm ? dm.material.opacity : 0;
+      const t0 = performance.now();
+      function animClose(now) {
+        const p = Math.min(1, (now - t0) / 350);
+        const e = 1 - Math.pow(1 - p, 3);
+        if (dm) { dm.material.opacity = startOp * (1 - e); dm.position.y += 0.15; }
+        if (cm) cm.material.opacity *= (1 - e * 0.05);
+        if (p < 1) requestAnimationFrame(animClose);
+        else if (grp && grp.parent) grp.parent.remove(grp);
+      }
+      requestAnimationFrame(animClose);
+
+      focus.drawerGroup = null;
+      focus.drawerMesh = null;
+      focus.connMesh = null;
+      focus.eventId = null;
+      focus.swoopT = 0;
+      focus.drawerT = 0;
+
+      setSelected(null, { source: "ui", centerNow: false });
+      $("#focusOverlay").classList.remove("active");
+      $("#focusBadge").classList.remove("active");
+    }
+
+    function destroyDrawer() {
+      if (focus.drawerGroup && focus.drawerGroup.parent) focus.drawerGroup.parent.remove(focus.drawerGroup);
+      focus.drawerGroup = null;
+      focus.drawerMesh = null;
+      focus.connMesh = null;
+    }
+
+    // ── Ruler ──
+    const rangeReadout = $("#rangeReadout");
+    function ndcToWorld(nx, ny) {
+      const v = new THREE.Vector3(nx,ny,0).unproject(camera);
+      const dir = new THREE.Vector3(); camera.getWorldDirection(dir);
+      return v.addScaledVector(dir, -v.z/dir.z);
+    }
+
+    function drawRuler() {
+      const dpr = devicePixelRatio||1;
+      const W = rulerCanvas.width, H = rulerCanvas.height;
+      rulerCtx.clearRect(0,0,W,H);
+
+      const g = rulerCtx.createLinearGradient(0,0,0,H);
+      g.addColorStop(0,"rgba(255,255,255,0.04)"); g.addColorStop(1,"rgba(255,255,255,0.00)");
+      rulerCtx.fillStyle = g; rulerCtx.fillRect(0,0,W,H);
+
+      const leftW = ndcToWorld(-1,0), rightW = ndcToWorld(1,0);
+      const sL = leftW.x/s.timeScale, sR = rightW.x/s.timeScale;
+      const now = nowTime;
+      rangeReadout.textContent = `${hhmm(new Date(now.getTime()+sL*1000))} → ${hhmm(new Date(now.getTime()+sR*1000))}`;
+
+      const pxPS = (W/dpr) / Math.max(1e-6, sR-sL);
+      const major = pxPS>320?2 : pxPS>200?5 : pxPS>120?10 : pxPS>70?30 : 60;
+      const minor = major/5;
+      const start = Math.floor(sL/minor)*minor, end = Math.ceil(sR/minor)*minor;
+
+      rulerCtx.save(); rulerCtx.scale(dpr,dpr);
+      const wC = W/dpr, hC = H/dpr;
+      rulerCtx.strokeStyle = "rgba(255,255,255,0.10)";
+      rulerCtx.beginPath(); rulerCtx.moveTo(0,hC-0.5); rulerCtx.lineTo(wC,hC-0.5); rulerCtx.stroke();
+
+      for (let t=start;t<=end;t+=minor) {
+        const x = ((t-sL)/(sR-sL))*wC;
+        const isM = Math.abs(t/major - Math.round(t/major)) < 1e-6;
+        rulerCtx.strokeStyle = isM ? "rgba(255,255,255,0.20)" : "rgba(255,255,255,0.08)";
+        rulerCtx.beginPath(); rulerCtx.moveTo(x, isM?8:16); rulerCtx.lineTo(x,hC); rulerCtx.stroke();
+        if (isM) {
+          const d = new Date(now.getTime()+t*1000);
+          rulerCtx.fillStyle = "rgba(235,240,255,0.72)";
+          rulerCtx.font = "11px 'IBM Plex Mono', monospace";
+          rulerCtx.fillText(hhmm(d), x+5, 16);
+        }
+      }
+
+      // Now label
+      rulerCtx.fillStyle = "rgba(86,212,245,0.70)";
+      rulerCtx.font = "11px 'IBM Plex Mono', monospace";
+      rulerCtx.fillText(hhmm(now), wC/2+8, 32);
+
+      rulerCtx.restore();
+    }
+
+    // ── Resize / Camera ──
+    function resize() {
+      const rect = viewport.getBoundingClientRect();
+      const w = Math.max(1, Math.floor(rect.width));
+      const h = Math.max(1, Math.floor(rect.height-42));
+      renderer.setSize(w, h, false);
+      rulerCanvas.width = Math.floor(rect.width*(devicePixelRatio||1));
+      rulerCanvas.height = Math.floor(42*(devicePixelRatio||1));
+      rulerCanvas.style.width = rect.width+"px";
+      rulerCanvas.style.height = "42px";
+      camera = new THREE.OrthographicCamera(-w/2, w/2, h/2, -h/2, -5000, 5000);
+      camera.zoom = s.zoom;
+      camera.updateProjectionMatrix();
+
+      // Minimap
+      const miniEl = $("#minimap");
+      const mw = miniEl.offsetWidth, mh = miniEl.offsetHeight;
+      const mdpr = Math.min(devicePixelRatio||1, 2);
+      miniRenderer.setSize(Math.floor(mw*mdpr), Math.floor(mh*mdpr), false);
+      miniGLCanvas.style.width = mw+"px";
+      miniGLCanvas.style.height = mh+"px";
+      miniOverlay.width = Math.floor(mw*mdpr);
+      miniOverlay.height = Math.floor(mh*mdpr);
+      miniOverlay.style.width = mw+"px";
+      miniOverlay.style.height = mh+"px";
+      miniCamera = new THREE.OrthographicCamera(-mw/2, mw/2, mh/2, -mh/2, -5000, 5000);
+      miniCamera.zoom = MINI_ZOOM_FACTOR;
+      miniCamera.updateProjectionMatrix();
+    }
+    window.addEventListener("resize", resize);
+
+    function updateCamera() {
+      const rect = viewport.getBoundingClientRect();
+      const w = Math.max(1, rect.width), h = Math.max(1, rect.height-42);
+      camera.left=-w/2; camera.right=w/2; camera.top=h/2; camera.bottom=-h/2;
+      camera.zoom = s.zoom;
+      camera.updateProjectionMatrix();
+
+      const cy = s.panY;
+      const yawR = THREE.MathUtils.degToRad(s.yaw);
+      const tiltR = THREE.MathUtils.degToRad(s.tilt);
+      const R = s.orbit;
+      camera.position.set(
+        Math.sin(yawR)*R*Math.cos(tiltR),
+        cy + Math.sin(tiltR)*R,
+        Math.cos(yawR)*R*Math.cos(tiltR)
+      );
+      camera.lookAt(0, cy, 0);
+    }
+
+    function applyLook() {
+      if (gridLines) { gridLines.material.opacity=s.grid; gridLines.material.needsUpdate=true; }
+      glCanvas.style.filter = `drop-shadow(0 16px 40px rgba(0,0,0,.5)) drop-shadow(0 0 ${16+s.glow*22}px rgba(86,212,245,${0.08+s.glow*0.08}))`;
+    }
+
+    // ── Minimap camera + overlay ──
+    function updateMiniCamera() {
+      if (!miniCamera) return;
+      const miniEl = $("#minimap");
+      const mw = miniEl.offsetWidth, mh = miniEl.offsetHeight;
+      miniCamera.left = -mw/2;
+      miniCamera.right = mw/2;
+      miniCamera.top = mh/2;
+      miniCamera.bottom = -mh/2;
+      miniCamera.zoom = MINI_ZOOM_FACTOR;
+      miniCamera.updateProjectionMatrix();
+
+      // Same orbit angles as main but fixed far distance
+      const cy = s.panY;
+      const yawR = THREE.MathUtils.degToRad(s.yaw);
+      const tiltR = THREE.MathUtils.degToRad(s.tilt);
+      const R = s.orbit;
+      miniCamera.position.set(
+        Math.sin(yawR)*R*Math.cos(tiltR),
+        cy + Math.sin(tiltR)*R,
+        Math.cos(yawR)*R*Math.cos(tiltR)
+      );
+      miniCamera.lookAt(0, cy, 0);
+    }
+
+    function drawMiniOverlay() {
+      if (!miniCamera || !camera) return;
+      const miniEl = $("#minimap");
+      const mw = miniEl.offsetWidth, mh = miniEl.offsetHeight;
+      const dpr = Math.min(devicePixelRatio||1, 2);
+      const W = miniOverlay.width, H = miniOverlay.height;
+      miniCtx.clearRect(0, 0, W, H);
+
+      // Project the main camera's visible frustum corners into minimap screen space
+      // Main camera visible world corners (at z=0 plane)
+      function mainNdcToWorld(nx, ny) {
+        const v = new THREE.Vector3(nx, ny, 0).unproject(camera);
+        const dir = new THREE.Vector3(); camera.getWorldDirection(dir);
+        if (Math.abs(dir.z) < 1e-6) return v;
+        return v.addScaledVector(dir, -v.z / dir.z);
+      }
+      function worldToMiniScreen(wp) {
+        const v = wp.clone().project(miniCamera);
+        return {
+          x: (v.x * 0.5 + 0.5) * mw * dpr,
+          y: (-v.y * 0.5 + 0.5) * mh * dpr
+        };
+      }
+
+      const corners = [
+        mainNdcToWorld(-1, -1),
+        mainNdcToWorld( 1, -1),
+        mainNdcToWorld( 1,  1),
+        mainNdcToWorld(-1,  1),
+      ];
+
+      const screenCorners = corners.map(c => worldToMiniScreen(c));
+
+      // Draw viewport rectangle
+      miniCtx.save();
+      miniCtx.strokeStyle = "rgba(86,212,245,0.65)";
+      miniCtx.lineWidth = 1.5 * dpr;
+      miniCtx.setLineDash([4*dpr, 3*dpr]);
+      miniCtx.beginPath();
+      miniCtx.moveTo(screenCorners[0].x, screenCorners[0].y);
+      for (let i = 1; i < 4; i++) miniCtx.lineTo(screenCorners[i].x, screenCorners[i].y);
+      miniCtx.closePath();
+      miniCtx.stroke();
+
+      // Fill with very subtle tint
+      miniCtx.fillStyle = "rgba(86,212,245,0.04)";
+      miniCtx.fill();
+
+      // Corner dots
+      miniCtx.fillStyle = "rgba(86,212,245,0.80)";
+      screenCorners.forEach(c => {
+        miniCtx.beginPath();
+        miniCtx.arc(c.x, c.y, 2.5*dpr, 0, Math.PI*2);
+        miniCtx.fill();
+      });
+
+      miniCtx.restore();
+    }
+
+    // Minimap click → navigate (adjust panY based on click position)
+    $("#minimap").addEventListener("click", e => {
+      if (!miniCamera) return;
+      const miniEl = $("#minimap");
+      const rect = miniEl.getBoundingClientRect();
+      const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+      const ny = -((e.clientY - rect.top) / rect.height) * 2 - 1;
+
+      // Unproject click to world Y
+      const v = new THREE.Vector3(nx, ny, 0).unproject(miniCamera);
+      const dir = new THREE.Vector3();
+      miniCamera.getWorldDirection(dir);
+      if (Math.abs(dir.z) > 1e-6) {
+        v.addScaledVector(dir, -v.z / dir.z);
+      }
+      // Set panY to the clicked world Y
+      target.panY = clamp(v.y, -totalH - 180, 140);
+    });
+
+    // ── Controls ──
+    viewport.addEventListener("wheel", e => {
+      e.preventDefault();
+      if (focus.active) return; // locked during inspect
+      const d = e.deltaY;
+      if (e.ctrlKey) { target.zoom = clamp(target.zoom*(d>0?0.94:1.06), 0.25, 5); }
+      else if (e.shiftKey) { target.panY = clamp(target.panY + (d*0.9)/target.zoom*(s.reducedMotion?1:0.75), -totalH-180, 140); }
+    }, {passive:false});
+
+    window.addEventListener("keydown", e => {
+      if (e.key === "Escape" && focus.active) { exitFocus(); return; }
+      const step = 80/target.zoom;
+      if (e.key==="ArrowUp") target.panY = clamp(target.panY+step*0.7, -totalH-180, 140);
+      if (e.key==="ArrowDown") target.panY = clamp(target.panY-step*0.7, -totalH-180, 140);
+    });
+
+    function bindRange(id, key, fmt=v=>v) {
+      const el=$("#"+id), out=$("#"+id+"Out");
+      const set = () => out.textContent = fmt(parseFloat(el.value));
+      set();
+      el.addEventListener("input", () => {
+        target[key] = parseFloat(el.value);
+        set();
+        if (["laneH","timeScale","boxDepth","musicZ"].includes(key)) {
+          s[key]=target[key];
+          rebuildLanesAndGrid();
+        }
+      });
+    }
+    bindRange("timeScale","timeScale",v=>Math.round(v)+"");
+    bindRange("zoom","zoom",v=>v.toFixed(2));
+    bindRange("laneH","laneH",v=>Math.round(v)+"");
+    bindRange("boxDepth","boxDepth",v=>Math.round(v)+"");
+    bindRange("tilt","tilt",v=>Math.round(v)+"°");
+    bindRange("yaw","yaw",v=>Math.round(v)+"°");
+    bindRange("orbit","orbit",v=>Math.round(v)+"");
+    bindRange("grid","grid",v=>v.toFixed(2));
+    bindRange("glow","glow",v=>v.toFixed(2));
+    bindRange("musicZ","musicZ",v=>Math.round(v)+"px");
+
+    $("#reduced").addEventListener("change", e => target.reducedMotion=e.target.checked);
+    $("#btnLive").addEventListener("click", () => { if (focus.active) exitFocus(); target.panY=-(tracks.length*s.laneH)/2+10; target.zoom=1.10; });
+    $("#btnClear").addEventListener("click", () => { if (focus.active) exitFocus(); setSelected(null, {source:"ui", centerNow:false}); });
+
+    // ── Demo: periodic API events ──
+    setInterval(() => {
+      const start = new Date(nowTime.getTime()-120);
+      const ev = addEvent({ trackId:"API", title:"API: /station/heartbeat", start, stop:new Date(start.getTime()+60+Math.random()*120), status:"completed" });
+      if (events.length > 100) events.splice(0, events.length-100);
+      eventsById.clear(); events.forEach(e => eventsById.set(e.id, e));
+      renderActivity();
+      addOrUpdateMesh(ev, true);
+    }, 5000);
+
+    // ── Boot ──
+    function boot() {
+      buildLegend();
+      renderActivity();
+      resize();
+      rebuildLanesAndGrid();
+      updateAllMeshes();
+      target.panY = -(tracks.length*s.laneH)/2 + 10;
+    }
+
+    // ── Main loop ──
+    let lastT = performance.now();
+    function tick(now) {
+      const dt = Math.min(0.05, (now-lastT)/1000);
+      lastT = now;
+
+      const real = new Date();
+      clockEl.textContent = hhmmss(real);
+      nowTime = new Date(nowTime.getTime() + dt*nowSpeed*1000);
+      nowBadge.textContent = "NOW "+hhmmss(nowTime);
+
+      const damp = s.reducedMotion ? 0.35 : 0.13;
+      s.reducedMotion = target.reducedMotion;
+
+      // ── Focus swooping ──
+      if (focus.active && focus.eventId) {
+        focus.swoopT = Math.min(1, focus.swoopT + dt * 2.0);
+        const e3 = 1 - Math.pow(1 - focus.swoopT, 3); // ease-out cubic
+
+        const pair = eventMeshes.get(focus.eventId);
+        if (pair) {
+          const mp = pair.mesh.position;
+
+          // Swoop: zoom in tight, flatten angle, close orbit
+          target.zoom = THREE.MathUtils.lerp(focus.savedZoom, 4.0, e3);
+          target.panY = THREE.MathUtils.lerp(focus.savedPanY, mp.y, e3);
+          target.tilt = THREE.MathUtils.lerp(focus.savedTilt, 16, e3);
+          target.yaw = THREE.MathUtils.lerp(focus.savedYaw, -5, e3);
+          target.orbit = THREE.MathUtils.lerp(focus.savedOrbit, 350, e3);
+
+          // Drawer slides open after swoop passes 35%
+          if (focus.swoopT > 0.35 && focus.drawerMesh) {
+            focus.drawerT = Math.min(1, focus.drawerT + dt * 2.8);
+            const de = 1 - Math.pow(1 - focus.drawerT, 3);
+
+            const bx = pair.mesh.scale;
+            const dH = focus.drawerH || bx.y * 3;
+
+            // Drawer slides down from bottom of box
+            focus.drawerMesh.material.opacity = de * 0.92;
+            focus.drawerMesh.position.set(
+              mp.x,
+              mp.y - bx.y * 0.5 - dH * 0.5 * de - 2 * de,
+              mp.z + bx.z * 0.5 + 3
+            );
+
+            // Connector strip between box and drawer
+            if (focus.connMesh) {
+              const connH = Math.max(0.1, (dH * 0.5 * de + 2 * de));
+              focus.connMesh.material.opacity = de * 0.30;
+              focus.connMesh.scale.set(2, connH, 1);
+              focus.connMesh.position.set(
+                mp.x,
+                mp.y - bx.y * 0.5 - connH * 0.5,
+                mp.z + bx.z * 0.5 + 2
+              );
+            }
+          }
+        }
+      }
+
+      // Standard damping
+      s.panY += (target.panY-s.panY)*damp;
+      s.zoom += (target.zoom-s.zoom)*(s.reducedMotion?0.26:0.15);
+      s.tilt += (target.tilt-s.tilt)*0.09;
+      s.yaw += (target.yaw-s.yaw)*0.09;
+      s.orbit += (target.orbit-s.orbit)*0.09;
+      s.grid += (target.grid-s.grid)*0.11;
+      s.glow += (target.glow-s.glow)*0.11;
+      s.musicZ += (target.musicZ-s.musicZ)*0.11;
+
+      // ── Now Plane pulse ──
+      if (nowPlaneGroup.children.length >= 3) {
+        const t2 = now * 0.001;
+        nowPlaneGroup.children[0].material.opacity = 0.032 + Math.sin(t2 * 1.8) * 0.012;
+        nowPlaneGroup.children[1].material.opacity = 0.22 + Math.sin(t2 * 2.4) * 0.07;
+        nowPlaneGroup.children[2].material.opacity = 0.010 + Math.sin(t2 * 1.2) * 0.004;
+      }
+
+      updateCamera();
+      updateAllMeshes();
+      applyLook();
+      applySelGlow();
+      drawRuler();
+
+      renderer.render(scene, camera);
+
+      // Minimap
+      updateMiniCamera();
+      miniRenderer.render(scene, miniCamera);
+      drawMiniOverlay();
+
+      requestAnimationFrame(tick);
+    }
+
+    boot();
+    requestAnimationFrame(tick);
+  })();
+  </script>
+</body>
+</html>

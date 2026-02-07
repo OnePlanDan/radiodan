@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Timeline — {{ station_name }}{% endblock %}
+{% block content_class %}content content-wide{% endblock %}
+{% block content %}
+<div class="page-header">
+    <div class="button-group">
+        <h2>Timeline</h2>
+        <button class="btn btn-sm tl-snap-live hidden" id="snapLive">Back to Live</button>
+    </div>
+</div>
+
+<div class="timeline-container" id="timeline">
+    <div class="tl-axis" id="tlAxis"></div>
+    <div class="tl-playhead" id="tlPlayhead"></div>
+    <div class="tl-lanes" id="tlLanes"></div>
+</div>
+
+<div class="card" style="margin-top: 1rem; max-width: 1000px;">
+    <h3>Activity</h3>
+    <table class="table" id="activityTable">
+        <thead>
+            <tr>
+                <th>Time</th>
+                <th>Type</th>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Duration</th>
+            </tr>
+        </thead>
+        <tbody id="activityBody"></tbody>
+    </table>
+</div>
+
+<script src="/static/timeline.js"></script>
+{% endblock %}
