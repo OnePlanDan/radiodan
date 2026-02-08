@@ -38,7 +38,6 @@ logging.basicConfig(
 )
 logger = logging.getLogger("radiodan")
 
-
 def get_local_ip() -> str:
     """Get the local IP address for LAN access."""
     try:
@@ -187,6 +186,7 @@ async def main() -> None:
     logger.info(f"Loaded {len(plugins)} plugin instance(s)")
 
     # Create Telegram channel
+    icecast_url = f"http://localhost:{config.audio.icecast.external_port}"
     telegram = TelegramChannel(
         token=config.telegram.token,
         allowed_users=config.telegram.allowed_users,
@@ -196,6 +196,8 @@ async def main() -> None:
         stt_service=stt_service,
         llm_service=llm_service,
         station_name=station_name,
+        stream_context=stream_context,
+        icecast_url=icecast_url,
     )
     telegram.register_plugins(plugins)
 
@@ -210,12 +212,12 @@ async def main() -> None:
         station_name=station_name,
     )
 
-    # Store startup metadata for system status page
-    web_server.app["start_time"] = time.time()
-    web_server.app["project_root"] = project_root
-
     # Set up graceful shutdown
     shutdown_event = asyncio.Event()
+
+    # Store startup metadata and control events for system routes
+    web_server.app["start_time"] = time.time()
+    web_server.app["project_root"] = project_root
 
     def handle_shutdown(sig: signal.Signals) -> None:
         logger.info(f"Received {sig.name}, initiating shutdown...")

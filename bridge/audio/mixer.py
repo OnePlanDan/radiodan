@@ -531,7 +531,7 @@ class LiquidsoapMixer:
         """
         async with self._lock:
             try:
-                await self._send_command("music.skip")
+                await self._send_command("music_q.skip")
                 logger.info("Skipped to next track")
                 return True
             except RuntimeError as e:

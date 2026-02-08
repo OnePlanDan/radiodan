@@ -9,9 +9,12 @@ Provides user interaction through Telegram:
 - Restricts access to allowed user IDs
 """
 
+import asyncio
 import logging
+import time
 from typing import TYPE_CHECKING, Callable
 
+import aiohttp
 from telegram import BotCommand, InlineKeyboardButton, InlineKeyboardMarkup, Update
 from telegram.ext import (
     Application,
@@ -27,6 +30,7 @@ if TYPE_CHECKING:
     from bridge.services.stt_service import STTService
     from bridge.services.llm_service import LLMService
     from bridge.audio.mixer import LiquidsoapMixer
+    from bridge.audio.stream_context import StreamContext
     from bridge.plugins.base import DJPlugin
 
 from bridge.booth import booth
@@ -47,20 +51,9 @@ class TelegramChannel:
         stt_service: "STTService | None" = None,
         llm_service: "LLMService | None" = None,
         station_name: str = "Radio Dan",
+        stream_context: "StreamContext | None" = None,
+        icecast_url: str | None = None,
     ):
-        """
-        Initialize Telegram channel.
-
-        Args:
-            token: Telegram bot token from BotFather
-            allowed_users: List of allowed Telegram user IDs
-            stream_url_getter: Callable that returns the current stream URL
-            tts_service: TTS service for generating speech
-            mixer: Liquidsoap mixer for queueing audio
-            stt_service: STT service for transcribing voice messages
-            llm_service: LLM service for chat
-            station_name: Station name for user-facing messages
-        """
         self.token = token
         self.allowed_users = set(allowed_users)
         self.get_stream_url = stream_url_getter
@@ -69,6 +62,9 @@ class TelegramChannel:
         self.stt_service = stt_service
         self.llm_service = llm_service
         self.station_name = station_name
+        self.stream_context = stream_context
+        self.icecast_url = icecast_url
+        self._start_time = time.monotonic()
         self.app: Application | None = None
 
         # Volume step size for ±buttons
@@ -104,6 +100,107 @@ class TelegramChannel:
             )
             return False
         return True
+
+    async def _check_icecast(self) -> tuple[str, str]:
+        """Check Icecast stream status. Returns (status, detail)."""
+        if not self.icecast_url:
+            return "not_configured", ""
+        try:
+            async with aiohttp.ClientSession() as session:
+                async with session.get(
+                    f"{self.icecast_url}/status-json.xsl",
+                    timeout=aiohttp.ClientTimeout(total=5),
+                ) as resp:
+                    if resp.status != 200:
+                        return "down", ""
+                    data = await resp.json(content_type=None)
+                    stats = data.get("icestats", {})
+                    source = stats.get("source")
+                    if source is None:
+                        return "no_source", ""
+                    # source can be a list if multiple mount points
+                    if isinstance(source, list):
+                        source = source[0]
+                    listeners = source.get("listeners", 0)
+                    return "live", str(listeners)
+        except Exception:
+            return "down", ""
+
+    async def _service_status(self, service, label: str) -> str:
+        """Return a status line for a service: Online / Offline / N/A."""
+        if service is None:
+            return f"⚪ {label}: N/A"
+        try:
+            ok = await service.health_check()
+        except Exception:
+            ok = False
+        icon = "🟢" if ok else "🔴"
+        return f"{icon} {label}"
+
+    async def _build_status_text(self) -> str:
+        """Build the full status message with parallel health checks."""
+        # Run all checks in parallel
+        icecast_task = asyncio.ensure_future(self._check_icecast())
+        mixer_task = asyncio.ensure_future(self._service_status(self.mixer, "Mixer"))
+        tts_task = asyncio.ensure_future(self._service_status(self.tts_service, "TTS"))
+        stt_task = asyncio.ensure_future(self._service_status(self.stt_service, "STT"))
+        llm_task = asyncio.ensure_future(self._service_status(self.llm_service, "LLM"))
+
+        results = await asyncio.gather(
+            icecast_task, mixer_task, tts_task, stt_task, llm_task,
+            return_exceptions=True,
+        )
+
+        icecast_result = results[0] if not isinstance(results[0], Exception) else ("down", "")
+        mixer_line = results[1] if not isinstance(results[1], Exception) else "🔴 Mixer"
+        tts_line = results[2] if not isinstance(results[2], Exception) else "🔴 TTS"
+        stt_line = results[3] if not isinstance(results[3], Exception) else "🔴 STT"
+        llm_line = results[4] if not isinstance(results[4], Exception) else "🔴 LLM"
+
+        # Stream status line
+        status, detail = icecast_result
+        if status == "live":
+            count = detail or "0"
+            stream_line = f"🟢 Stream: {count} listener{'s' if count != '1' else ''}"
+        elif status == "no_source":
+            stream_line = "🟡 Stream: No source"
+        elif status == "not_configured":
+            stream_line = "⚪ Stream: N/A"
+        else:
+            stream_line = "🔴 Stream: Down"
+
+        # Current track
+        track_line = ""
+        if self.stream_context and self.stream_context.current_track:
+            track = self.stream_context.current_track
+            artist = track.get("artist", "")
+            title = track.get("title", "")
+            if artist and title:
+                track_line = f"\n🎵 {artist} — {title}\n"
+            elif title:
+                track_line = f"\n🎵 {title}\n"
+
+        # Uptime
+        elapsed = time.monotonic() - self._start_time
+        hours, remainder = divmod(int(elapsed), 3600)
+        minutes, _ = divmod(remainder, 60)
+        if hours > 0:
+            uptime_str = f"{hours}h {minutes:02d}m"
+        else:
+            uptime_str = f"{minutes}m"
+
+        lines = [
+            f"📊 *{self.station_name} Status*",
+            track_line,
+            f"• {stream_line}",
+            f"• {mixer_line}",
+            f"• {tts_line}",
+            f"• {stt_line}",
+            f"• {llm_line}",
+            "",
+            f"Uptime: {uptime_str}",
+        ]
+        return "\n".join(lines)
 
     def _build_main_menu_keyboard(self) -> InlineKeyboardMarkup:
         """Build the main menu inline keyboard."""
@@ -185,19 +282,8 @@ class TelegramChannel:
         if not await self._check_access(update):
             return
 
-        # Check service health
-        tts_status = "🟢 Online" if self.tts_service and await self.tts_service.health_check() else "🔴 Offline"
-        mixer_status = "🟢 Online" if self.mixer and await self.mixer.health_check() else "🔴 Offline"
-
-        await update.message.reply_text(
-            f"📊 *{self.station_name} Status*\n\n"
-            "• Stream: 🟢 Online\n"
-            f"• TTS: {tts_status}\n"
-            f"• Mixer: {mixer_status}\n"
-            "• Claude Code: ⚪ Idle\n\n"
-            "_Phase 2: TTS Integration_",
-            parse_mode="Markdown",
-        )
+        status_text = await self._build_status_text()
+        await update.message.reply_text(status_text, parse_mode="Markdown")
 
     async def cmd_say(self, update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
         """Handle /say command - speak text through the stream."""
@@ -317,7 +403,7 @@ class TelegramChannel:
             ],
             # Action row
             [
-                InlineKeyboardButton("⏭ Next", callback_data="next"),
+                InlineKeyboardButton("⏭ Skip", callback_data="next"),
                 InlineKeyboardButton("🔀 Random", callback_data="random"),
                 InlineKeyboardButton("🗑 Flush", callback_data="flush"),
             ],
@@ -466,19 +552,12 @@ class TelegramChannel:
 
         elif menu_action == "status":
             # Show status inline
-            tts_status = "🟢 Online" if self.tts_service and await self.tts_service.health_check() else "🔴 Offline"
-            mixer_status = "🟢 Online" if self.mixer and await self.mixer.health_check() else "🔴 Offline"
-
+            status_text = await self._build_status_text()
             keyboard = InlineKeyboardMarkup([
                 [InlineKeyboardButton("« Back to Menu", callback_data="menu:back")],
             ])
-
             await query.edit_message_text(
-                f"📊 *{self.station_name} Status*\n\n"
-                "• Stream: 🟢 Online\n"
-                f"• TTS: {tts_status}\n"
-                f"• Mixer: {mixer_status}\n"
-                "• Claude Code: ⚪ Idle",
+                status_text,
                 parse_mode="Markdown",
                 reply_markup=keyboard,
             )

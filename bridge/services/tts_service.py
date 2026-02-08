@@ -93,12 +93,12 @@ class TTSService:
         timestamp = int(time.time() * 1000)
         output_path = self.cache_dir / f"msg_{timestamp}.wav"
 
-        # Prepare form data for the API
-        form_data = aiohttp.FormData()
-        form_data.add_field("text", text)
-        form_data.add_field("language", self.language)
-        form_data.add_field("speaker", speaker or self.speaker)
-        form_data.add_field("instruct", instruct or self.instruct)
+        # Prepare JSON payload for the API
+        payload = {
+            "text": text,
+            "speaker": speaker or self.speaker,
+            "instruct": instruct or self.instruct,
+        }
 
         booth.tts_request(text, speaker or self.speaker)
         logger.info(f"Generating TTS: '{text[:50]}...' with speaker={speaker or self.speaker}")
@@ -112,7 +112,7 @@ class TTSService:
             )
 
         try:
-            async with self._session.post(self.endpoint, data=form_data) as response:
+            async with self._session.post(self.endpoint, json=payload) as response:
                 if response.status != 200:
                     error_text = await response.text()
                     booth.tts_error(f"API error ({response.status})")

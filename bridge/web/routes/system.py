@@ -202,6 +202,12 @@ _RECONNECT_HTML = """
 """
 
 
+def _open_log() -> int:
+    """Open the station log file for appending, return the file descriptor."""
+    station = os.environ.get("STATION", "unknown")
+    return os.open(f"/tmp/radiodan-{station}.log", os.O_WRONLY | os.O_CREAT | os.O_APPEND)
+
+
 @routes.post("/system/restart-python")
 async def restart_python(request: web.Request) -> web.Response:
     """Restart the Python bridge via detached run_radiodan.sh restart-pyhost."""
@@ -212,15 +218,15 @@ async def restart_python(request: web.Request) -> web.Response:
             content_type="text/html",
         )
 
-    script = str(project_root / "run_radiodan.sh")
-    # Spawn detached — this process will be killed by the script
+    log_fd = _open_log()
     await asyncio.create_subprocess_exec(
-        "nohup", "bash", script, "restart-pyhost",
+        "bash", str(project_root / "run_radiodan.sh"), "restart-pyhost",
         cwd=str(project_root),
-        stdout=asyncio.subprocess.DEVNULL,
-        stderr=asyncio.subprocess.DEVNULL,
+        stdout=log_fd,
+        stderr=log_fd,
         start_new_session=True,
     )
+    os.close(log_fd)
     logger.info("Python bridge restart triggered from web UI")
 
     return web.Response(text=_RECONNECT_HTML, content_type="text/html")
@@ -236,14 +242,15 @@ async def restart_all(request: web.Request) -> web.Response:
             content_type="text/html",
         )
 
-    script = str(project_root / "run_radiodan.sh")
+    log_fd = _open_log()
     await asyncio.create_subprocess_exec(
-        "nohup", "bash", script, "restart",
+        "bash", str(project_root / "run_radiodan.sh"), "restart",
         cwd=str(project_root),
-        stdout=asyncio.subprocess.DEVNULL,
-        stderr=asyncio.subprocess.DEVNULL,
+        stdout=log_fd,
+        stderr=log_fd,
         start_new_session=True,
     )
+    os.close(log_fd)
     logger.info("Full restart triggered from web UI")
 
     return web.Response(text=_RECONNECT_HTML, content_type="text/html")
