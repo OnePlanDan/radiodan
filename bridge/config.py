@@ -145,8 +145,9 @@ class Config:
             scan_interval=playlist_cfg.get("scan_interval", 300.0),
         )
 
+        # Env vars override yaml for deployment-specific endpoints
         tts = TTSConfig(
-            endpoint=tts_cfg.get("endpoint", "http://localhost:42001/tts/custom-voice"),
+            endpoint=os.getenv("TTS_ENDPOINT", tts_cfg.get("endpoint", "http://localhost:42001/tts/custom-voice")),
             speaker=tts_cfg.get("speaker", "Aiden"),
             language=tts_cfg.get("language", "English"),
             instruct=tts_cfg.get("instruct", "Speak calmly and clearly"),
@@ -155,15 +156,15 @@ class Config:
 
         stt_cfg = audio_cfg.get("stt", {})
         stt = STTConfig(
-            endpoint=stt_cfg.get("endpoint", "http://localhost:5000/v1/audio/transcriptions"),
+            endpoint=os.getenv("STT_ENDPOINT", stt_cfg.get("endpoint", "http://localhost:5000/v1/audio/transcriptions")),
         )
 
         # Ollama/AI config — interpolate station_name into system_prompt
         ollama_cfg = yaml_config.get("ollama", {})
         default_prompt = f"You are {station_name}, a friendly AI assistant. Keep responses concise (1-2 sentences) since they'll be spoken aloud."
         ollama = OllamaConfig(
-            endpoint=ollama_cfg.get("endpoint", "http://localhost:11434/v1/chat/completions"),
-            model=ollama_cfg.get("model", "gpt-oss:20b"),
+            endpoint=os.getenv("OLLAMA_ENDPOINT", ollama_cfg.get("endpoint", "http://localhost:11434/v1/chat/completions")),
+            model=os.getenv("OLLAMA_MODEL", ollama_cfg.get("model", "gpt-oss:20b")),
             system_prompt=ollama_cfg.get("system_prompt", default_prompt),
         )
 
