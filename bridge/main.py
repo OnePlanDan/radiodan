@@ -165,6 +165,7 @@ async def main() -> None:
     tts_service.set_event_store(event_store)
     llm_service.set_event_store(event_store)
     playlist_planner.set_event_store(event_store)
+    playlist_planner.set_stream_context(stream_context)
 
     # Shared services for plugin contexts
     ctx_kwargs = {

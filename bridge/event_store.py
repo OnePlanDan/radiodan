@@ -49,6 +49,7 @@ class EventStore:
         self._db_path = db_path
         self._subscribers: list[asyncio.Queue] = []
         self._lock = asyncio.Lock()
+        self._last_music_z_stagger: int = 0
 
     async def open(self) -> None:
         """Open database and create tables.
@@ -62,16 +63,40 @@ class EventStore:
         await self._db.executescript(EVENT_STORE_SCHEMA)
         await self._db.commit()
 
-        # Close orphaned events from previous process — set ended_at to
+        # Close orphaned active events from previous process — set ended_at to
         # started_at so they collapse to zero-width on the timeline rather
         # than stretching all the way to "now" and overlapping current events
-        cursor = await self._db.execute(
-            "UPDATE event_log SET ended_at = started_at, status = 'completed' "
-            "WHERE status IN ('active', 'scheduled') AND ended_at IS NULL",
+        cursor_active = await self._db.execute(
+            "UPDATE event_log SET ended_at = COALESCE(ended_at, started_at), status = 'completed' "
+            "WHERE status = 'active'",
+        )
+        # Mark orphaned scheduled events as cancelled
+        cursor_scheduled = await self._db.execute(
+            "UPDATE event_log SET ended_at = COALESCE(ended_at, started_at), status = 'cancelled' "
+            "WHERE status = 'scheduled'",
         )
         await self._db.commit()
-        if cursor.rowcount:
-            logger.info(f"Closed {cursor.rowcount} orphaned events from previous run")
+        orphaned = (cursor_active.rowcount or 0) + (cursor_scheduled.rowcount or 0)
+        if orphaned:
+            logger.info(
+                f"Closed {cursor_active.rowcount} orphaned active and "
+                f"{cursor_scheduled.rowcount} orphaned scheduled events from previous run"
+            )
+
+        # Recover last music z_stagger from DB for stable alternation
+        async with self._db.execute(
+            "SELECT d.value FROM event_detail d "
+            "JOIN event_log e ON d.event_id = e.id "
+            "WHERE e.lane = 'music' AND d.key = 'z_stagger' "
+            "ORDER BY e.id DESC LIMIT 1"
+        ) as cur:
+            row = await cur.fetchone()
+            if row:
+                try:
+                    self._last_music_z_stagger = int(json.loads(row["value"]))
+                except (ValueError, TypeError, json.JSONDecodeError):
+                    pass
+        logger.info(f"Last music z_stagger: {self._last_music_z_stagger}")
 
         logger.info("Event store opened")
 
@@ -118,6 +143,10 @@ class EventStore:
 
             await self._db.commit()
 
+        # Track z_stagger for stable music lane alternation
+        if lane == "music" and details and "z_stagger" in details:
+            self._last_music_z_stagger = int(details["z_stagger"])
+
         event = {
             "id": event_id,
             "event_type": event_type,
@@ -131,6 +160,40 @@ class EventStore:
         }
         self._publish({"action": "start", "event": event})
         return event_id
+
+    @property
+    def last_music_z_stagger(self) -> int:
+        """Last z_stagger value used for a music event (0 or 1)."""
+        return self._last_music_z_stagger
+
+    async def get_last_music_filename(self) -> str | None:
+        """Return the filename from the most recent music event, or None."""
+        if not self._db:
+            return None
+        async with self._db.execute(
+            "SELECT d.value FROM event_detail d "
+            "JOIN event_log e ON d.event_id = e.id "
+            "WHERE e.lane = 'music' AND d.key = 'filename' "
+            "ORDER BY e.id DESC LIMIT 1"
+        ) as cur:
+            row = await cur.fetchone()
+            if row:
+                try:
+                    return json.loads(row["value"])
+                except (json.JSONDecodeError, TypeError):
+                    return None
+        return None
+
+    async def get_last_music_event_id(self) -> int | None:
+        """Return the id of the most recent music event, or None."""
+        if not self._db:
+            return None
+        async with self._db.execute(
+            "SELECT id FROM event_log "
+            "WHERE lane = 'music' ORDER BY id DESC LIMIT 1"
+        ) as cur:
+            row = await cur.fetchone()
+            return row["id"] if row else None
 
     async def end_event(
         self,
@@ -166,7 +229,7 @@ class EventStore:
         if not self._db or event_id < 0:
             return
 
-        allowed = {"title", "status", "ended_at"}
+        allowed = {"title", "status", "ended_at", "started_at"}
         updates = {k: v for k, v in kwargs.items() if k in allowed}
         if not updates:
             return

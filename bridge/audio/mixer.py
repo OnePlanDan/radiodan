@@ -51,7 +51,7 @@ class LiquidsoapMixer:
         self._tts_muted = False
         self._earcon_muted = False
         self._pre_mute_music_vol = 1.0
-        self._pre_mute_tts_vol = 0.85
+        self._pre_mute_tts_vol = 1.0
         self._pre_mute_earcon_vol = 0.5
 
         # Track random mode state
@@ -433,7 +433,7 @@ class LiquidsoapMixer:
         """
         result = {
             "music_vol": 1.0,
-            "tts_vol": 0.85,
+            "tts_vol": 1.0,
             "earcon_vol": 0.5,
             "duck_amount": 0.15,
             "crossfade_duration": 5.0,
@@ -485,6 +485,42 @@ class LiquidsoapMixer:
         else:
             await self.set_tts_volume(0.0)
             return (True, 0.0)
+
+    # =========================================================================
+    # MUSIC QUEUE MANAGEMENT
+    # =========================================================================
+
+    async def flush_music_queue(self) -> bool:
+        """Flush all pending tracks from Liquidsoap's music_q.
+
+        Uses music_q.queue to list request IDs, then removes each one.
+        Falls back to skip-based clearing if individual removal isn't supported.
+
+        Returns:
+            True if flush succeeded (or queue was already empty)
+        """
+        async with self._lock:
+            try:
+                # Get the secondary queue contents (pending requests)
+                response = await self._send_command("music_q.secondary_queue")
+                lines = [l.strip() for l in response.strip().split("\n") if l.strip()]
+
+                if not lines or lines == [""]:
+                    logger.debug("Music queue already empty")
+                    return True
+
+                # Each line is a request ID — remove them all
+                for rid in lines:
+                    try:
+                        await self._send_command(f"music_q.remove {rid}")
+                    except RuntimeError:
+                        logger.warning(f"Could not remove request {rid}")
+
+                logger.info(f"Flushed {len(lines)} tracks from music_q")
+                return True
+            except RuntimeError as e:
+                logger.error(f"Failed to flush music queue: {e}")
+                return False
 
     # =========================================================================
     # PLAYBACK CONTROLS

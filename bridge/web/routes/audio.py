@@ -28,7 +28,7 @@ async def audio_page(request: web.Request) -> dict:
 async def _get_volumes(mixer):
     """Get volumes with fallback defaults."""
     defaults = {
-        "music_vol": 1.0, "tts_vol": 0.85, "earcon_vol": 0.5,
+        "music_vol": 1.0, "tts_vol": 1.0, "earcon_vol": 0.5,
         "duck_amount": 0.15, "crossfade_duration": 5.0,
         "duck_in_duration": 0.8, "duck_out_duration": 0.6,
         "duck_in_curve": 0.7, "duck_out_curve": 0.3,
@@ -207,4 +207,6 @@ async def skip_track(request: web.Request) -> web.Response:
     """Skip to next track via HTMX."""
     mixer = request.app["mixer"]
     await mixer.next_track()
+    stream_context = request.app["stream_context"]
+    await stream_context.notify_skip()
     return web.Response(text='<span class="flash success">Skipped!</span>', content_type="text/html")

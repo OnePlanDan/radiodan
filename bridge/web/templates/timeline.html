@@ -1,35 +1,818 @@
-{% extends "base.html" %}
-{% block title %}Timeline — {{ station_name }}{% endblock %}
-{% block content_class %}content content-wide{% endblock %}
-{% block content %}
-<div class="page-header">
-    <div class="button-group">
-        <h2>Timeline</h2>
-        <button class="btn btn-sm tl-snap-live hidden" id="snapLive">Back to Live</button>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>{{ station_name }} — Timeline</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+    :root {
+      --bg0: #080a12;
+      --bg1: #0c0f1a;
+      --panel: rgba(14,18,32,0.82);
+      --panelSolid: #0e1220;
+      --glass: rgba(16,22,42,0.65);
+      --line: rgba(255,255,255,0.07);
+      --line2: rgba(255,255,255,0.12);
+      --text: rgba(235,240,255,0.92);
+      --muted: rgba(200,210,240,0.55);
+      --dim: rgba(200,210,240,0.35);
+
+      --lavender: #9b8aff;
+      --coral: #ff6b6b;
+      --cyan: #56d4f5;
+      --mint: #4aeabc;
+      --amber: #f0a840;
+      --rose: #f472b6;
+      --sky: #38bdf8;
+
+      --shadow: 0 24px 80px rgba(0,0,0,0.6);
+      --radius: 14px;
+      --radius2: 20px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      color: var(--text);
+      background: var(--bg0);
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+      overflow: hidden;
+    }
+
+    /* ── Animated aurora background ── */
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 1400px 700px at 15% -10%, rgba(155,138,255,0.22), transparent 60%),
+        radial-gradient(ellipse 1000px 600px at 85% 5%, rgba(86,212,245,0.16), transparent 55%),
+        radial-gradient(ellipse 1200px 800px at 50% 110%, rgba(240,168,64,0.12), transparent 55%),
+        radial-gradient(ellipse 800px 500px at 105% 60%, rgba(244,114,182,0.10), transparent 50%);
+      animation: auroraShift 20s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+    @keyframes auroraShift {
+      0%   { filter: hue-rotate(0deg); opacity: 1; }
+      50%  { filter: hue-rotate(12deg); opacity: 0.85; }
+      100% { filter: hue-rotate(-8deg); opacity: 1; }
+    }
+
+    /* Subtle scanlines */
+    body::after {
+      content: "";
+      position: fixed; inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(0deg,
+        transparent 0px, transparent 3px,
+        rgba(255,255,255,0.015) 3px, rgba(255,255,255,0.015) 4px
+      );
+      z-index: 99999;
+    }
+
+    /* ── Layout: single column ── */
+    .app {
+      position: relative;
+      z-index: 1;
+      height: 100%;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      padding: 16px;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    /* ── Card base ── */
+    .card {
+      background: var(--glass);
+      backdrop-filter: blur(24px) saturate(1.4);
+      -webkit-backdrop-filter: blur(24px) saturate(1.4);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: "";
+      position: absolute; inset: 0;
+      pointer-events: none;
+      border-radius: inherit;
+      background:
+        radial-gradient(ellipse 700px 200px at 15% 0%, rgba(155,138,255,0.12), transparent 60%),
+        radial-gradient(ellipse 500px 200px at 85% 0%, rgba(86,212,245,0.08), transparent 55%);
+      z-index: 0;
+    }
+    .card > * { position: relative; z-index: 1; }
+
+    /* ── Top bar ── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+    }
+    .title { display: flex; align-items: center; gap: 12px; min-width: 0; }
+    .title h1 {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      user-select: none;
+      background: linear-gradient(135deg, var(--lavender), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .title a {
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 11px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      transition: all 0.15s ease;
+    }
+    .title a:hover {
+      border-color: rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.06);
+      color: var(--text);
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-size: 11.5px;
+      white-space: nowrap;
+      user-select: none;
+    }
+    .dot {
+      width: 7px; height: 7px; border-radius: 99px;
+      background: var(--mint);
+      box-shadow: 0 0 10px rgba(74,234,188,0.7);
+      animation: dotPulse 2s ease-in-out infinite;
+    }
+    @keyframes dotPulse {
+      0%, 100% { opacity: 1; box-shadow: 0 0 10px rgba(74,234,188,0.7); }
+      50% { opacity: 0.6; box-shadow: 0 0 4px rgba(74,234,188,0.3); }
+    }
+    .dot.disconnected {
+      background: var(--coral);
+      box-shadow: 0 0 10px rgba(255,107,107,0.7);
+      animation: none;
+    }
+
+    .actions { display: flex; align-items: center; gap: 8px; }
+
+    button {
+      appearance: none;
+      font-family: inherit;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(255,255,255,0.06);
+      backdrop-filter: blur(8px);
+      color: var(--text);
+      padding: 8px 14px;
+      border-radius: 999px;
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.2px;
+      transition: all 0.15s ease;
+      user-select: none;
+    }
+    button:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.09);
+    }
+    button:active { transform: translateY(0); }
+    .btn-now {
+      background: linear-gradient(135deg, rgba(86,212,245,0.18), rgba(155,138,255,0.14));
+      border-color: rgba(86,212,245,0.35);
+    }
+
+    /* ── Timeline card ── */
+    .timeline {
+      flex: 1;
+      min-height: 400px;
+      display: grid;
+      grid-template-columns: 160px 1fr;
+    }
+
+    .labels {
+      padding: 14px 12px;
+      border-right: 1px solid var(--line);
+      display: flex;
+      flex-direction: column;
+    }
+    .labels .hdr {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    .labels .hdr span {
+      font-size: 10.5px;
+      color: var(--muted);
+      letter-spacing: 1.2px;
+      text-transform: uppercase;
+      user-select: none;
+    }
+
+    .tracklist {
+      display: flex;
+      flex-direction: column;
+      gap: 7px;
+      margin-top: 6px;
+    }
+    .track {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 9px 10px;
+      border-radius: 10px;
+      background: rgba(0,0,0,0.20);
+      border: 1px solid rgba(255,255,255,0.06);
+      cursor: pointer;
+      transition: all 0.12s ease;
+      user-select: none;
+    }
+    .track:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.12);
+      background: rgba(0,0,0,0.28);
+    }
+    .track.isSelected {
+      border-color: rgba(155,138,255,0.40);
+      box-shadow: 0 0 0 1px rgba(155,138,255,0.14), 0 0 18px rgba(155,138,255,0.10);
+    }
+    .track .name {
+      font-weight: 700;
+      font-size: 11.5px;
+      letter-spacing: 0.4px;
+    }
+    .badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      padding: 3px 7px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--dim);
+      white-space: nowrap;
+    }
+
+    .hint {
+      margin-top: auto;
+      padding-top: 10px;
+      font-size: 10.5px;
+      color: var(--dim);
+      line-height: 1.5;
+    }
+    .hint b { color: var(--muted); }
+    .kbd {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      padding: 1px 5px;
+      border-radius: 5px;
+      border: 1px solid rgba(255,255,255,0.12);
+      background: rgba(255,255,255,0.04);
+      color: rgba(235,240,255,0.7);
+    }
+
+    /* Viewport */
+    .viewport {
+      position: relative;
+      min-width: 0;
+      height: 100%;
+      overflow: hidden;
+    }
+    canvas#gl {
+      position: absolute;
+      inset: 42px 0 0 0;
+      width: 100%;
+      height: calc(100% - 42px);
+      z-index: 1;
+      cursor: default;
+    }
+
+    .ruler {
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 42px;
+      border-bottom: 1px solid var(--line);
+      background: linear-gradient(180deg, rgba(0,0,0,0.22), rgba(0,0,0,0.08));
+      backdrop-filter: blur(12px);
+    }
+    canvas#ruler { width: 100%; height: 42px; display: block; }
+
+    .centerLine {
+      position: absolute;
+      left: 50%;
+      top: 42px;
+      bottom: 0;
+      width: 2px;
+      transform: translateX(-1px);
+      pointer-events: none;
+      background: linear-gradient(180deg, rgba(86,212,245,0.50), rgba(155,138,255,0.20), transparent);
+      box-shadow: 0 0 16px rgba(86,212,245,0.18);
+      transition: opacity 0.5s ease;
+    }
+    .centerLine::after {
+      content: "NOW";
+      position: absolute;
+      top: 8px;
+      left: 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: rgba(86,212,245,0.85);
+      border: 1px solid rgba(86,212,245,0.20);
+      background: rgba(0,0,0,0.35);
+      backdrop-filter: blur(8px);
+    }
+
+    .tip {
+      position: absolute;
+      pointer-events: none;
+      transform: translate(-50%, -120%);
+      background: rgba(10,14,26,0.94);
+      border: 1px solid rgba(255,255,255,0.12);
+      padding: 10px 14px;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.6);
+      min-width: 200px;
+      opacity: 0;
+      transition: opacity 0.12s ease;
+      z-index: 10;
+      backdrop-filter: blur(12px);
+    }
+    .tip strong { display: block; font-size: 12px; margin-bottom: 3px; }
+    .tip .meta { font-size: 11px; color: var(--muted); }
+    .tip .row { display: flex; justify-content: space-between; gap: 10px; margin-top: 5px; font-family: 'IBM Plex Mono', monospace; font-size: 11px; color: rgba(235,240,255,0.65); }
+
+    /* ── Focus / Inspect mode ── */
+    .focus-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 20;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.6s ease;
+    }
+    .focus-overlay.active { opacity: 1; }
+    .focus-overlay .vignette {
+      position: absolute; inset: 0;
+      background: radial-gradient(ellipse 65% 55% at 50% 50%, transparent 25%, rgba(4,6,14,0.70) 100%);
+    }
+    .focus-badge {
+      position: absolute;
+      top: 52px; right: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px;
+      border-radius: 999px;
+      background: rgba(86,212,245,0.10);
+      border: 1px solid rgba(86,212,245,0.25);
+      backdrop-filter: blur(12px);
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      font-weight: 600;
+      letter-spacing: 1px;
+      color: rgba(86,212,245,0.85);
+      opacity: 0;
+      transform: translateY(-8px);
+      transition: opacity 0.4s ease 0.35s, transform 0.4s ease 0.35s;
+      pointer-events: none;
+      z-index: 25;
+    }
+    .focus-badge.active { opacity: 1; transform: translateY(0); }
+    .focus-badge .esc-hint {
+      padding: 2px 6px;
+      border-radius: 5px;
+      border: 1px solid rgba(86,212,245,0.25);
+      background: rgba(86,212,245,0.08);
+      font-size: 9px;
+    }
+
+    /* ── Minimap ── */
+    .minimap {
+      position: absolute;
+      right: 12px;
+      bottom: 42px;
+      width: 260px;
+      height: 130px;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.10);
+      background: rgba(8,10,18,0.80);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.5), inset 0 1px 0 rgba(255,255,255,0.04);
+      overflow: hidden;
+      z-index: 30;
+      cursor: crosshair;
+    }
+    .minimap-label {
+      position: absolute;
+      top: 5px;
+      left: 8px;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 8px;
+      font-weight: 600;
+      letter-spacing: 1.5px;
+      color: rgba(200,210,240,0.35);
+      pointer-events: none;
+      z-index: 4;
+      text-transform: uppercase;
+    }
+    .minimap canvas#miniGL {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      border-radius: inherit;
+    }
+    .minimap canvas#miniOverlay {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 3;
+    }
+    .minimap-now {
+      position: absolute;
+      left: 50%;
+      top: 0;
+      bottom: 0;
+      width: 1px;
+      transform: translateX(-0.5px);
+      background: linear-gradient(180deg, rgba(86,212,245,0.6), rgba(86,212,245,0.1));
+      pointer-events: none;
+      z-index: 2;
+    }
+
+    .hintbar {
+      position: absolute;
+      left: 12px;
+      bottom: 10px;
+      display: flex;
+      gap: 6px;
+      align-items: center;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(0,0,0,0.35);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--dim);
+      font-size: 10.5px;
+      pointer-events: none;
+      backdrop-filter: blur(8px);
+      z-index: 5;
+    }
+
+    /* ── Activity ── */
+    .activity {
+      padding: 16px;
+      min-height: 180px;
+      max-height: 320px;
+      display: flex;
+      flex-direction: column;
+    }
+    .activity h2 {
+      margin: 0 0 10px 0;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+      flex-shrink: 0;
+    }
+    .activity .sub {
+      font-size: 10.5px;
+      color: var(--dim);
+      font-weight: 500;
+      letter-spacing: 0.6px;
+      text-transform: uppercase;
+    }
+    .tableWrap {
+      flex: 1;
+      overflow: auto;
+      border-radius: 12px;
+      border: 1px solid rgba(255,255,255,0.06);
+      background: rgba(0,0,0,0.12);
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 12px;
+    }
+    thead th {
+      position: sticky;
+      top: 0;
+      text-align: left;
+      font-size: 10px;
+      color: var(--dim);
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      padding: 8px 8px;
+      border-bottom: 1px solid var(--line);
+      background: var(--panelSolid);
+      user-select: none;
+      z-index: 5;
+      font-weight: 600;
+    }
+    tbody tr {
+      cursor: pointer;
+      transition: background 0.1s ease;
+    }
+    tbody tr:hover { background: rgba(255,255,255,0.03); }
+    tbody tr.isSelected {
+      background: rgba(86,212,245,0.07);
+      outline: 1px solid rgba(86,212,245,0.14);
+    }
+    tbody td {
+      padding: 9px 8px;
+      border-bottom: 1px solid rgba(255,255,255,0.04);
+      color: rgba(235,240,255,0.80);
+      vertical-align: middle;
+    }
+    .mono { font-family: 'IBM Plex Mono', monospace; }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      border: 1px solid rgba(255,255,255,0.08);
+      background: rgba(255,255,255,0.04);
+      font-size: 10.5px;
+      color: rgba(235,240,255,0.72);
+      white-space: nowrap;
+    }
+    .status .s {
+      width: 6px; height: 6px; border-radius: 99px;
+      background: var(--mint);
+      box-shadow: 0 0 8px rgba(74,234,188,0.6);
+    }
+    .status.pending .s { background: var(--amber); box-shadow: 0 0 8px rgba(240,168,64,0.6); }
+    .status.failed .s { background: var(--coral); box-shadow: 0 0 8px rgba(255,107,107,0.6); }
+
+    /* ── Settings (collapsed by default) ── */
+    details.settings-panel {
+      flex-shrink: 0;
+    }
+    details.settings-panel summary {
+      cursor: pointer;
+      user-select: none;
+      padding: 14px 16px;
+      font-size: 14px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    details.settings-panel summary::-webkit-details-marker { display: none; }
+    details.settings-panel summary::before {
+      content: "\25B6";
+      font-size: 10px;
+      color: var(--muted);
+      transition: transform 0.2s ease;
+    }
+    details.settings-panel[open] summary::before {
+      transform: rotate(90deg);
+    }
+    .settings-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 12px;
+      padding: 0 16px 16px;
+    }
+    .group {
+      border: 1px solid rgba(255,255,255,0.07);
+      background: rgba(0,0,0,0.14);
+      border-radius: var(--radius);
+      padding: 11px;
+    }
+    .group .gtitle {
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: 1px;
+      text-transform: uppercase;
+      margin-bottom: 8px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      user-select: none;
+    }
+    .row2 {
+      display: grid;
+      grid-template-columns: 1fr 80px;
+      gap: 8px;
+      align-items: center;
+      margin: 7px 0;
+    }
+    label {
+      font-size: 11.5px;
+      color: rgba(235,240,255,0.75);
+      user-select: none;
+    }
+    output {
+      text-align: right;
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--dim);
+      user-select: none;
+    }
+    input[type="range"] {
+      width: 100%;
+      height: 20px;
+      accent-color: var(--cyan);
+      background: transparent;
+    }
+    input[type="checkbox"] {
+      accent-color: var(--lavender);
+      transform: translateY(1px);
+    }
+    .toggle {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 8px 0 0;
+    }
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Top bar -->
+    <div class="topbar">
+      <div class="title">
+        <h1>{{ station_name }} // Timeline</h1>
+        <a href="/">&#8592; Dashboard</a>
+        <div class="pill"><span class="dot" id="sseDot"></span><span id="sseStatus">Connecting</span></div>
+        <div class="pill mono" id="clock">--:--:--</div>
+        <div class="pill mono" id="nowBadge">NOW --:--:--</div>
+      </div>
+      <div class="actions">
+        <button id="btnClear">Clear sel.</button>
+        <button class="btn-now" id="btnLive">&#10227; Recenter</button>
+      </div>
     </div>
-</div>
 
-<div class="timeline-container" id="timeline">
-    <div class="tl-axis" id="tlAxis"></div>
-    <div class="tl-playhead" id="tlPlayhead"></div>
-    <div class="tl-lanes" id="tlLanes"></div>
-</div>
+    <!-- 3D Timeline card -->
+    <div class="card timeline">
+      <div class="labels">
+        <div class="hdr">
+          <span>Tracks</span>
+          <span class="badge mono" id="rangeReadout">&mdash;</span>
+        </div>
+        <div class="tracklist" id="trackList"></div>
+        <div class="hint">
+          <b>Click</b> a 3D box or table row to inspect.<br/>
+          <span class="kbd">Ctrl</span>+scroll to zoom.
+        </div>
+      </div>
 
-<div class="card" style="margin-top: 1rem; max-width: 1000px;">
-    <h3>Activity</h3>
-    <table class="table" id="activityTable">
-        <thead>
-            <tr>
-                <th>Time</th>
-                <th>Type</th>
-                <th>Title</th>
-                <th>Status</th>
-                <th>Duration</th>
-            </tr>
-        </thead>
-        <tbody id="activityBody"></tbody>
-    </table>
-</div>
+      <div class="viewport" id="viewport">
+        <div class="ruler"><canvas id="ruler"></canvas></div>
+        <div class="centerLine" aria-hidden="true"></div>
+        <canvas id="gl"></canvas>
+        <div id="clickCapture" style="position:absolute;inset:42px 0 0 0;z-index:2;cursor:default"></div>
 
-<script src="/static/timeline.js"></script>
-{% endblock %}
+        <div class="focus-overlay" id="focusOverlay"><div class="vignette"></div></div>
+        <div class="focus-badge" id="focusBadge">INSPECT <span class="esc-hint">CLICK OUTSIDE &middot; ESC</span></div>
+
+        <div class="tip" id="tip">
+          <strong id="tipTitle">&mdash;</strong>
+          <span class="meta" id="tipMeta">&mdash;</span>
+          <div class="row">
+            <span class="mono" id="tipTime">&mdash;</span>
+            <span class="mono" id="tipDur">&mdash;</span>
+          </div>
+        </div>
+
+        <div class="minimap" id="minimap">
+          <div class="minimap-label">MINIMAP</div>
+          <canvas id="miniGL"></canvas>
+          <canvas id="miniOverlay"></canvas>
+          <div class="minimap-now"></div>
+        </div>
+
+        <div class="hintbar">
+          <span class="kbd">Click</span> box to inspect
+          <span class="kbd">Ctrl</span>+scroll zoom
+          <span class="kbd">Shift</span>+scroll pan
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity table -->
+    <div class="card activity">
+      <h2><span>Activity</span><span class="sub" id="actSub">linked 1:1</span></h2>
+      <div class="tableWrap">
+        <table>
+          <thead><tr>
+            <th style="width:78px">Start</th>
+            <th style="width:78px">Stop</th>
+            <th style="width:80px">Track</th>
+            <th>Title</th>
+            <th style="width:90px">Status</th>
+            <th style="width:62px">Dur</th>
+          </tr></thead>
+          <tbody id="actBody"></tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- View Settings (collapsed by default) -->
+    <details class="settings-panel card">
+      <summary>View Settings</summary>
+      <div class="settings-grid">
+        <div class="group">
+          <div class="gtitle"><span>Timeline</span><span class="mono">Now-locked</span></div>
+          <div class="row2"><label for="timeScale">Time scale px/s</label><output id="timeScaleOut"></output></div>
+          <input id="timeScale" type="range" min="1" max="700" step="1" value="20"/>
+          <div class="row2"><label for="zoom">Ortho zoom</label><output id="zoomOut"></output></div>
+          <input id="zoom" type="range" min="0.25" max="5.00" step="0.01" value="0.70"/>
+          <div class="row2"><label for="laneH">Lane height</label><output id="laneHOut"></output></div>
+          <input id="laneH" type="range" min="28" max="120" step="1" value="42"/>
+          <div class="row2"><label for="boxDepth">Box depth</label><output id="boxDepthOut"></output></div>
+          <input id="boxDepth" type="range" min="2" max="100" step="1" value="20"/>
+        </div>
+
+        <div class="group">
+          <div class="gtitle"><span>3D Camera</span><span class="mono">Orbit</span></div>
+          <div class="row2"><label for="tilt">Tilt</label><output id="tiltOut"></output></div>
+          <input id="tilt" type="range" min="0" max="85" step="1" value="2"/>
+          <div class="row2"><label for="yaw">Yaw</label><output id="yawOut"></output></div>
+          <input id="yaw" type="range" min="-80" max="80" step="1" value="-78"/>
+          <div class="row2"><label for="orbit">Distance</label><output id="orbitOut"></output></div>
+          <input id="orbit" type="range" min="260" max="2200" step="5" value="260"/>
+        </div>
+
+        <div class="group">
+          <div class="gtitle"><span>Look</span><span class="mono">FX</span></div>
+          <div class="row2"><label for="grid">Grid opacity</label><output id="gridOut"></output></div>
+          <input id="grid" type="range" min="0" max="1" step="0.01" value="0.30"/>
+          <div class="row2"><label for="glow">Glow</label><output id="glowOut"></output></div>
+          <input id="glow" type="range" min="0" max="2.5" step="0.01" value="0.10"/>
+          <div class="row2"><label for="musicZ">Music Z-offset</label><output id="musicZOut"></output></div>
+          <input id="musicZ" type="range" min="0" max="300" step="5" value="200"/>
+          <div class="toggle">
+            <label for="reduced">Reduced motion</label>
+            <input id="reduced" type="checkbox"/>
+          </div>
+        </div>
+      </div>
+    </details>
+
+    <!-- Inspect Settings (collapsed by default) -->
+    <details class="settings-panel card">
+      <summary>Inspect Settings</summary>
+      <div class="settings-grid">
+        <div class="group">
+          <div class="gtitle"><span>Focus Camera</span><span class="mono">Click-to-inspect</span></div>
+          <div class="row2"><label for="focusZoom">Zoom</label><output id="focusZoomOut"></output></div>
+          <input id="focusZoom" type="range" min="0.5" max="12" step="0.1" value="4.0"/>
+          <div class="row2"><label for="focusTilt">Tilt</label><output id="focusTiltOut"></output></div>
+          <input id="focusTilt" type="range" min="0" max="85" step="1" value="16"/>
+          <div class="row2"><label for="focusYaw">Yaw</label><output id="focusYawOut"></output></div>
+          <input id="focusYaw" type="range" min="-80" max="80" step="1" value="-5"/>
+          <div class="row2"><label for="focusOrbit">Distance</label><output id="focusOrbitOut"></output></div>
+          <input id="focusOrbit" type="range" min="100" max="2200" step="5" value="350"/>
+        </div>
+
+        <div class="group">
+          <div class="gtitle"><span>JSON Drawer</span><span class="mono">Card</span></div>
+          <div class="row2"><label for="drawerW">Drawer width</label><output id="drawerWOut"></output></div>
+          <input id="drawerW" type="range" min="40" max="400" step="5" value="120"/>
+          <div class="row2"><label for="drawerScale">Auto-scale to event</label><output id="drawerScaleOut"></output></div>
+          <input id="drawerScale" type="range" min="0" max="1" step="0.01" value="0"/>
+        </div>
+      </div>
+    </details>
+  </div>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+  <script src="/static/timeline.js"></script>
+</body>
+</html>

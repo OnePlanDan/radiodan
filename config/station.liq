@@ -20,7 +20,7 @@ station_name = environment.get("STATION_NAME") ?? "Radio Dan"
 
 # Volume controls (0.0 - 1.0)
 music_vol = interactive.float("music_vol", 1.0)       # Music volume (0 = muted)
-tts_vol = interactive.float("tts_vol", 0.85)          # TTS/voice volume
+tts_vol = interactive.float("tts_vol", 1.0)           # TTS/voice volume
 earcon_vol = interactive.float("earcon_vol", 0.5)     # Earcon/notification volume
 duck_amount = interactive.float("duck_amount", 0.15)  # Music level during TTS (0.15 = -16.5 dB)
 

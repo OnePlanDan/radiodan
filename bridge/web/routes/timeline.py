@@ -1,24 +1,33 @@
 """
 Timeline route — GET /timeline (page) + GET /api/timeline/events (SSE)
 
-DAW-like timeline visualization with Server-Sent Events for live updates.
+DAW-like 3D timeline visualization with Server-Sent Events for live updates.
 """
 
 import asyncio
 import json
 import time
 
-import aiohttp_jinja2
 from aiohttp import web
 
 routes = web.RouteTableDef()
 
 
 @routes.get("/timeline")
-@aiohttp_jinja2.template("timeline.html")
-async def timeline_page(request: web.Request) -> dict:
-    """Render the timeline page."""
-    return {"page": "timeline"}
+async def timeline_page(request: web.Request) -> web.Response:
+    """Render the standalone timeline page.
+
+    This is a standalone template (not extending base.html) because the
+    3D visualization has its own full-page layout that conflicts with
+    the standard sidebar layout.
+    """
+    import aiohttp_jinja2
+
+    env = aiohttp_jinja2.get_env(request.app)
+    template = env.get_template("timeline.html")
+    station_name = env.globals.get("station_name", "Radio Dan")
+    html = template.render(station_name=station_name)
+    return web.Response(text=html, content_type="text/html")
 
 
 @routes.get("/api/timeline/events")
@@ -53,34 +62,16 @@ async def timeline_sse(request: web.Request) -> web.StreamResponse:
     }
     await response.write(f"event: playback_state\ndata: {json.dumps(state)}\n\n".encode())
 
-    # 3. Send upcoming queue
-    upcoming = [
-        {
-            "artist": t.get("artist", ""),
-            "title": t.get("title", ""),
-            "duration_seconds": t.get("duration_seconds", 0),
-            "file_path": t.get("file_path", ""),
-        }
-        for t in stream_context.upcoming_tracks
-    ]
-    await response.write(f"event: upcoming\ndata: {json.dumps(upcoming)}\n\n".encode())
-
-    # 4. Stream live events with periodic playback state refresh
+    # 3. Stream live events with periodic playback state refresh
     queue = event_store.subscribe()
     last_playback_push = time.time()
     try:
         while True:
             try:
                 msg = await asyncio.wait_for(queue.get(), timeout=3)
-                if msg.get("action") == "queue_changed":
-                    # Forward upcoming queue update to client
-                    await response.write(
-                        f"event: upcoming\ndata: {json.dumps(msg['upcoming'])}\n\n".encode()
-                    )
-                else:
-                    await response.write(
-                        f"event: event_update\ndata: {json.dumps(msg)}\n\n".encode()
-                    )
+                await response.write(
+                    f"event: event_update\ndata: {json.dumps(msg)}\n\n".encode()
+                )
             except asyncio.TimeoutError:
                 pass
 

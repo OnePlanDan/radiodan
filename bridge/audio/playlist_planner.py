@@ -317,9 +317,20 @@ class PlaylistPlanner:
         # Event store for timeline (optional)
         self._event_store: "EventStore | None" = None
 
+        # Stream context reference (set via set_stream_context)
+        self._stream_context: Any = None
+
+        # Active event tracking for unified timeline
+        self._current_active_event_id: int | None = None
+        self._skip_pending: bool = False
+
     def set_event_store(self, event_store: "EventStore") -> None:
         """Set the event store for timeline instrumentation."""
         self._event_store = event_store
+
+    def set_stream_context(self, stream_context: Any) -> None:
+        """Set the stream context for accessing playback timing."""
+        self._stream_context = stream_context
 
     # =====================================================================
     # PROPERTIES
@@ -376,7 +387,6 @@ class PlaylistPlanner:
                     if added:
                         await self._save_queue_to_db()
                         await self._emit("queue_changed", self._upcoming)
-                        self._publish_upcoming()
 
                     # Push all queued tracks (re-push handles startup failures)
                     await self._push_all_to_liquidsoap()
@@ -442,6 +452,23 @@ class PlaylistPlanner:
         # Load any persisted queue
         self._upcoming = await self._load_queue_from_db()
 
+        # Backfill z_stagger on queued tracks that don't have it yet
+        if self._upcoming and "z_stagger" not in self._upcoming[0]:
+            prev_z = self._event_store.last_music_z_stagger if self._event_store else 0
+            for t in self._upcoming:
+                t["z_stagger"] = 1 - prev_z
+                prev_z = t["z_stagger"]
+            await self._save_queue_to_db()
+            logger.info(f"Backfilled z_stagger on {len(self._upcoming)} queued tracks")
+
+        # Clear stale event_ids from persisted queue (those events were
+        # just marked cancelled by EventStore.open()) and create fresh
+        # scheduled events for the persisted tracks
+        if self._upcoming:
+            for t in self._upcoming:
+                t.pop("event_id", None)
+            await self._create_events_for_queue()
+
         # Load recent history
         self._history = await self.get_history(limit=50)
 
@@ -486,28 +513,56 @@ class PlaylistPlanner:
     async def advance(self, track_info: dict) -> None:
         """Called by StreamContext when a new track starts playing.
 
-        1. Record play in history
-        2. Shift queue (pop position 0 if it matches)
-        3. Fill queue with new track(s)
-        4. Push new track to Liquidsoap
-        5. Emit tts_needed for track at position 1 (= N+2)
+        1. End previous active event (completed or skipped)
+        2. Record play in history
+        3. Shift queue (pop matching track), transition its event to active
+        4. Fill queue with new track(s)
+        5. Push new track to Liquidsoap
+        6. Update predicted times for remaining scheduled events
+        7. Emit tts_needed for track at position 1 (= N+2)
         """
+        import time as _time
+
         async with self._lock:
             current_filename = track_info.get("filename", "")
+
+            # End previous active event
+            if self._current_active_event_id is not None and self._event_store:
+                end_status = "skipped" if self._skip_pending else "completed"
+                await self._event_store.end_event(self._current_active_event_id, status=end_status)
+                self._current_active_event_id = None
+            self._skip_pending = False
 
             # Record in history
             await self._record_history(current_filename)
 
             # Shift queue: remove the track that just started playing
+            popped_track = None
             if self._upcoming and self._is_same_track(self._upcoming[0], current_filename):
-                self._upcoming.pop(0)
+                popped_track = self._upcoming.pop(0)
             elif self._upcoming:
-                # Track playing doesn't match queue head — might be fallback playlist
-                # Try to find and remove it from elsewhere in the queue
                 for i, t in enumerate(self._upcoming):
                     if self._is_same_track(t, current_filename):
-                        self._upcoming.pop(i)
+                        popped_track = self._upcoming.pop(i)
                         break
+
+            # Transition the popped track's scheduled event to active
+            if popped_track and self._event_store:
+                event_id = popped_track.get("event_id")
+                if event_id and event_id > 0:
+                    now = _time.time()
+                    elapsed = 0.0
+                    remaining = 0.0
+                    if self._stream_context:
+                        elapsed = self._stream_context.elapsed_seconds
+                        remaining = self._stream_context.remaining_seconds
+                    real_start = now - elapsed
+                    real_end = now + remaining if remaining > 0 else None
+                    updates: dict = {"status": "active", "started_at": real_start}
+                    if real_end:
+                        updates["ended_at"] = real_end
+                    await self._event_store.update_event(event_id, **updates)
+                    self._current_active_event_id = event_id
 
             # Fill queue back up
             added = await self._fill_queue_unlocked()
@@ -516,12 +571,14 @@ class PlaylistPlanner:
             for track in added:
                 await self._push_track_to_liquidsoap(track)
 
+            # Update predicted times for remaining scheduled events
+            await self._update_scheduled_times()
+
             # Persist queue
             await self._save_queue_to_db()
 
             # Emit queue_changed
             await self._emit("queue_changed", self._upcoming)
-            self._publish_upcoming()
 
             # Emit tts_needed for N+2 position (index 1 in the 0-based upcoming list)
             if len(self._upcoming) > 1:
@@ -583,28 +640,225 @@ class PlaylistPlanner:
         self._history.insert(0, {"file_path": file_path, "played_at": now})
         self._history = self._history[:50]  # Keep bounded
 
-    def _serialize_upcoming(self) -> list[dict]:
-        """Serialize the upcoming queue for SSE broadcast."""
-        return [
-            {
-                "artist": t.get("artist", ""),
-                "title": t.get("title", ""),
-                "duration_seconds": t.get("duration_seconds", 0),
-                "file_path": t.get("file_path", ""),
-            }
-            for t in self._upcoming
-        ]
+    # =====================================================================
+    # TIMELINE EVENT HELPERS
+    # =====================================================================
 
-    def _publish_upcoming(self) -> None:
-        """Publish upcoming queue to event_store subscribers (non-blocking)."""
-        if self._event_store:
-            self._event_store._publish({
-                "action": "queue_changed",
-                "upcoming": self._serialize_upcoming(),
-            })
+    def _predict_start_times(self) -> list[tuple[float, float]]:
+        """Predict (started_at, ended_at) for each track in self._upcoming.
+
+        Chains through the queue using stream context timing:
+        anchor = now + remaining - crossfade, then each subsequent track's
+        start = previous end - crossfade.
+        """
+        import time as _time
+        now = _time.time()
+        cf = self.crossfade_duration
+
+        # Anchor: when the first queued track will start
+        if self._stream_context and self._stream_context.remaining_seconds > 0:
+            anchor = now + self._stream_context.remaining_seconds - cf
+        else:
+            anchor = now
+
+        results = []
+        cursor = anchor
+        for t in self._upcoming:
+            dur = t.get("duration_seconds", 180) or 180
+            start = cursor
+            end = start + dur
+            results.append((start, end))
+            cursor = end - cf
+        return results
+
+    async def _create_scheduled_event(self, track: dict, started_at: float, ended_at: float) -> int:
+        """Create a scheduled event in the event store for a queued track."""
+        if not self._event_store:
+            return -1
+
+        artist = track.get("artist", "Unknown")
+        title = track.get("title", "Unknown")
+        z_stagger = track.get("z_stagger", 0)
+
+        event_id = await self._event_store.start_event(
+            event_type="track_play",
+            lane="music",
+            title=f"{artist} \u2014 {title}",
+            status="scheduled",
+            started_at=started_at,
+            details={
+                "filename": track.get("file_path", ""),
+                "artist": artist,
+                "title": title,
+                "duration_seconds": track.get("duration_seconds", 0),
+                "z_stagger": z_stagger,
+            },
+        )
+        # Set the predicted end time
+        await self._event_store.update_event(event_id, ended_at=ended_at)
+        return event_id
+
+    async def _update_scheduled_times(self) -> None:
+        """Recalculate predicted times for all remaining scheduled events."""
+        if not self._event_store:
+            return
+        times = self._predict_start_times()
+        for i, t in enumerate(self._upcoming):
+            eid = t.get("event_id")
+            if eid and eid > 0 and i < len(times):
+                started_at, ended_at = times[i]
+                await self._event_store.update_event(
+                    eid, started_at=started_at, ended_at=ended_at,
+                )
+
+    async def _create_events_for_queue(self) -> None:
+        """Create fresh scheduled events for all tracks currently in the queue.
+
+        Used at startup after clearing stale event_ids.
+        """
+        if not self._event_store or not self._upcoming:
+            return
+        times = self._predict_start_times()
+        for i, t in enumerate(self._upcoming):
+            if i < len(times):
+                started_at, ended_at = times[i]
+                event_id = await self._create_scheduled_event(t, started_at, ended_at)
+                t["event_id"] = event_id
+        await self._save_queue_to_db()
+        logger.info(f"Created {len(self._upcoming)} scheduled events for persisted queue")
+
+    def notify_skip(self) -> None:
+        """Mark that the current advance() should use 'skipped' status."""
+        self._skip_pending = True
 
     # =====================================================================
-    # QUEUE MANAGEMENT
+    # QUEUE MANAGEMENT (public API)
+    # =====================================================================
+
+    async def insert_track(self, file_path: str, position: int | None = None) -> bool:
+        """Insert a track into the upcoming queue.
+
+        Args:
+            file_path: Path to the audio file (must exist in library)
+            position: 0-based insertion index, or None to append
+
+        Returns:
+            True if inserted successfully
+        """
+        # Find track in library
+        track = None
+        for t in self._library:
+            if t["file_path"] == file_path:
+                track = dict(t)
+                break
+        if track is None:
+            logger.warning(f"insert_track: file not in library: {file_path}")
+            return False
+
+        async with self._lock:
+            if position is None or position >= len(self._upcoming):
+                position = len(self._upcoming)
+                self._upcoming.append(track)
+            else:
+                position = max(0, position)
+                self._upcoming.insert(position, track)
+
+            # Assign z_stagger: alternate from the previous track in queue
+            if position > 0:
+                prev_z = self._upcoming[position - 1].get("z_stagger", 0)
+            elif self._event_store:
+                prev_z = self._event_store.last_music_z_stagger
+            else:
+                prev_z = 0
+            track["z_stagger"] = 1 - prev_z
+
+            # Create a scheduled event for the inserted track
+            if self._event_store:
+                times = self._predict_start_times()
+                if position < len(times):
+                    started_at, ended_at = times[position]
+                    event_id = await self._create_scheduled_event(track, started_at, ended_at)
+                    track["event_id"] = event_id
+                await self._update_scheduled_times()
+
+            await self._sync_liquidsoap_queue()
+            await self._save_queue_to_db()
+            await self._emit("queue_changed", self._upcoming)
+
+        logger.info(f"Inserted track at pos {position}: {track.get('artist', '?')} - {track.get('title', '?')}")
+        return True
+
+    async def remove_track(self, position: int) -> dict | None:
+        """Remove a track from the upcoming queue by position.
+
+        Args:
+            position: 0-based index in the upcoming queue
+
+        Returns:
+            The removed track dict, or None if position was invalid
+        """
+        async with self._lock:
+            if position < 0 or position >= len(self._upcoming):
+                logger.warning(f"remove_track: invalid position {position} (queue has {len(self._upcoming)} tracks)")
+                return None
+
+            removed = self._upcoming.pop(position)
+
+            # Mark removed track's event as skipped
+            event_id = removed.get("event_id")
+            if event_id and event_id > 0 and self._event_store:
+                await self._event_store.end_event(event_id, status="skipped")
+
+            await self._sync_liquidsoap_queue()
+            await self._update_scheduled_times()
+            await self._save_queue_to_db()
+            await self._emit("queue_changed", self._upcoming)
+
+        logger.info(f"Removed track at pos {position}: {removed.get('artist', '?')} - {removed.get('title', '?')}")
+        return removed
+
+    async def move_track(self, from_pos: int, to_pos: int) -> bool:
+        """Move a track from one position to another in the upcoming queue.
+
+        Args:
+            from_pos: Current 0-based index
+            to_pos: Target 0-based index
+
+        Returns:
+            True if moved successfully
+        """
+        async with self._lock:
+            n = len(self._upcoming)
+            if from_pos < 0 or from_pos >= n or to_pos < 0 or to_pos >= n:
+                logger.warning(f"move_track: invalid positions {from_pos}->{to_pos} (queue has {n} tracks)")
+                return False
+            if from_pos == to_pos:
+                return True
+
+            track = self._upcoming.pop(from_pos)
+            self._upcoming.insert(to_pos, track)
+
+            await self._sync_liquidsoap_queue()
+            await self._update_scheduled_times()
+            await self._save_queue_to_db()
+            await self._emit("queue_changed", self._upcoming)
+
+        logger.info(f"Moved track from pos {from_pos} to {to_pos}: {track.get('artist', '?')} - {track.get('title', '?')}")
+        return True
+
+    async def _sync_liquidsoap_queue(self) -> None:
+        """Flush Liquidsoap's music_q and re-push all upcoming tracks.
+
+        Called after any queue mutation (insert/remove/move) to keep
+        Liquidsoap's request queue in sync with our in-memory state.
+        Caller must hold self._lock.
+        """
+        await self.mixer.flush_music_queue()
+        for track in self._upcoming:
+            await self._push_track_to_liquidsoap(track)
+
+    # =====================================================================
+    # QUEUE MANAGEMENT (internal)
     # =====================================================================
 
     async def _fill_queue(self) -> list[dict]:
@@ -613,7 +867,10 @@ class PlaylistPlanner:
             return await self._fill_queue_unlocked()
 
     async def _fill_queue_unlocked(self) -> list[dict]:
-        """Fill queue without acquiring lock (caller must hold lock)."""
+        """Fill queue without acquiring lock (caller must hold lock).
+
+        Creates scheduled events in the event store for each newly added track.
+        """
         if self._strategy is None:
             if self._library and not self._no_feeder_warned:
                 logger.warning("No feeder plugin active — queue will not be filled")
@@ -627,8 +884,28 @@ class PlaylistPlanner:
             )
             if track is None:
                 break
+            # Assign z_stagger: alternate from the previous track in queue
+            if self._upcoming:
+                prev_z = self._upcoming[-1].get("z_stagger", 0)
+            elif self._event_store:
+                prev_z = self._event_store.last_music_z_stagger
+            else:
+                prev_z = 0
+            track["z_stagger"] = 1 - prev_z
             self._upcoming.append(track)
             added.append(track)
+
+        # Create scheduled events for newly added tracks
+        if added and self._event_store:
+            times = self._predict_start_times()
+            # Only the last len(added) entries are the new ones
+            offset = len(self._upcoming) - len(added)
+            for i, track in enumerate(added):
+                idx = offset + i
+                if idx < len(times):
+                    started_at, ended_at = times[idx]
+                    event_id = await self._create_scheduled_event(track, started_at, ended_at)
+                    track["event_id"] = event_id
 
         return added
 

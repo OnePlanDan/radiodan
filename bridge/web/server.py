@@ -79,6 +79,7 @@ class WebServer:
         from bridge.web.routes.config import routes as config_routes
         from bridge.web.routes.timeline import routes as timeline_routes
         from bridge.web.routes.system import routes as system_routes
+        from bridge.web.routes.queue import routes as queue_routes
 
         self.app.router.add_routes(dashboard_routes)
         self.app.router.add_routes(plugin_routes)
@@ -86,6 +87,7 @@ class WebServer:
         self.app.router.add_routes(config_routes)
         self.app.router.add_routes(timeline_routes)
         self.app.router.add_routes(system_routes)
+        self.app.router.add_routes(queue_routes)
 
         # Static files
         self.app.router.add_static("/static", STATIC_DIR, name="static")

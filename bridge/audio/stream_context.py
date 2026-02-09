@@ -60,7 +60,6 @@ class StreamContext:
 
         # Event store for timeline (optional)
         self._event_store: "EventStore | None" = None
-        self._current_track_event_id: int | None = None
 
         # Event subscribers: event_name -> list of async callbacks
         self._listeners: dict[str, list[EventCallback]] = {}
@@ -190,22 +189,6 @@ class StreamContext:
             booth.track_change(artist, title)
             logger.info(f"Track changed: {artist} - {title}")
 
-            # Timeline events
-            if self._event_store:
-                if self._current_track_event_id is not None:
-                    await self._event_store.end_event(self._current_track_event_id)
-                self._current_track_event_id = await self._event_store.start_event(
-                    event_type="track_play",
-                    lane="music",
-                    title=f"{artist} \u2014 {title}",
-                    details={
-                        "filename": current_filename,
-                        "artist": artist,
-                        "title": title,
-                        "duration_seconds": self.remaining_seconds + self.elapsed_seconds,
-                    },
-                )
-
             await self._emit("track_changed", track_info)
 
         # Detect track ending
@@ -218,10 +201,22 @@ class StreamContext:
             logger.info(f"Track ending in {remaining:.1f}s")
             await self._emit("track_ending", remaining)
 
+    async def notify_skip(self) -> None:
+        """Force an immediate poll after a skip, so events transition instantly."""
+        if self._planner:
+            self._planner.notify_skip()
+        await self._poll_once()
+
     async def start(self) -> None:
         """Start the background poller."""
         if self._poll_task is not None:
             return
+        # Recover state from previous run to prevent re-firing on restart
+        if self._event_store:
+            last_fn = await self._event_store.get_last_music_filename()
+            if last_fn:
+                self._last_filename = last_fn
+                logger.info(f"Recovered last filename: {Path(last_fn).name}")
         self._poll_task = asyncio.create_task(self._poll())
         booth.start(f"Stream context (polling every {self.poll_interval}s)")
         logger.info(f"Stream context started (polling every {self.poll_interval}s)")

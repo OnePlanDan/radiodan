@@ -1,671 +1,1286 @@
 /**
- * RadioDan — DAW-Like Timeline Visualization
+ * RadioDan — 3D Ortho Timeline Visualization
  *
- * Connects to the SSE endpoint, renders a multi-lane scrolling timeline
- * with a playhead, auto-scroll, and hover tooltips.
+ * Three.js orthographic renderer with SSE live data, inspect mode,
+ * minimap, activity table, and adaptive camera controls.
  *
- * The timeline shows audible events (music + voice lanes) and API calls
- * (LLM/TTS) in an "api" lane. System events also appear in the Activity
- * table below the timeline.
+ * Ported from prototype (doc/radio_timeline_viz prototype.html),
+ * connected to real SSE data from /api/timeline/events.
  */
+(() => {
+  "use strict";
 
-// ============================================================
-// Configuration
-// ============================================================
+  const $ = (s, el = document) => el.querySelector(s);
 
-const PX_PER_SECOND = 1;           // Zoom level: 1px per second — 5-min song ≈ 300px
-const HISTORY_SECONDS = 300;       // 5 minutes of past visible
-const FUTURE_SECONDS = 3600;       // 60 minutes of future visible (shows upcoming tracks)
-const LANE_HEIGHT = 40;            // Height of each lane in pixels
-const AXIS_HEIGHT = 28;            // Height of the time axis
-const LANE_LABEL_WIDTH = 110;      // Width of the sticky lane labels
-const MAX_ACTIVITY_ROWS = 20;      // Max rows in the activity table
+  if (!window.THREE) {
+    console.error("Three.js failed to load");
+    return;
+  }
 
-const LANE_COLORS = {
-    music:  '#6c5ce7',
-    time:   '#f39c12',
-    api:    '#e67e22',
-    _palette: ['#3498db', '#2ecc71', '#e74c3c', '#1abc9c', '#e67e22'],
-};
+  // ── Color palette for dynamic lanes ──
+  const LANE_COLORS = {
+    music:     0x2a2094,
+    presenter: 0x56d4f5,
+    dong:      0x4aeabc,
+    api:       0xf0a840,
+    system:    0xf0a840,
+    _palette: [0xf472b6, 0x38bdf8, 0xff6b6b, 0x56d4f5, 0x4aeabc],
+  };
 
-const STATUS_OPACITY = {
-    active: 1.0,
-    scheduled: 0.5,
-    completed: 0.8,
-    failed: 0.4,
-    cancelled: 0.3,
-};
+  // ── Helpers ──
+  const pad2 = n => String(n).padStart(2, "0");
+  const hhmmss = ts => {
+    const d = new Date(ts * 1000);
+    return `${pad2(d.getHours())}:${pad2(d.getMinutes())}:${pad2(d.getSeconds())}`;
+  };
+  const hhmm = ts => {
+    const d = new Date(ts * 1000);
+    return `${pad2(d.getHours())}:${pad2(d.getMinutes())}`;
+  };
+  const fmtDur = sec => {
+    if (!sec || sec <= 0) return "\u2014";
+    sec = Math.max(0, Math.floor(sec));
+    return `${Math.floor(sec / 60)}:${pad2(sec % 60)}`;
+  };
+  const clamp = (v, a, b) => Math.max(a, Math.min(b, v));
+  const escHtml = s => String(s).replace(/[&<>"']/g, c =>
+    ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;" }[c]));
 
-// ============================================================
-// State
-// ============================================================
+  // ============================================================
+  // SSE State
+  // ============================================================
 
-class TimelineState {
-    constructor() {
-        this.events = new Map();         // event_id -> event object (audible only)
-        this.systemEvents = new Map();   // event_id -> event object (system lane)
-        this.upcomingTracks = [];        // upcoming queue from server
-        this.laneOrder = [];             // ordered lane IDs
-        this.laneColors = new Map();     // lane_id -> color
-        this.serverTimeOffset = 0;       // server_time - local_time
-        this.playbackElapsed = 0;
-        this.playbackRemaining = 0;
-        this.currentTrackEndAt = 0;      // absolute timestamp when current track ends
-        this.crossfadeDuration = 5.0;
-        this._paletteIndex = 0;
-    }
+  const sseState = {
+    events: new Map(),          // event_id -> event object
+    serverTimeOffset: 0,        // server_time - local_time
+    currentTrackEndAt: 0,
+    crossfadeDuration: 5.0,
+  };
 
-    getLaneColor(laneId) {
-        if (this.laneColors.has(laneId)) return this.laneColors.get(laneId);
-        let color;
-        if (LANE_COLORS[laneId]) {
-            color = LANE_COLORS[laneId];
+  function serverNow() {
+    return Date.now() / 1000 + sseState.serverTimeOffset;
+  }
+
+  // ============================================================
+  // Track / Lane management (dynamic)
+  // ============================================================
+
+  let tracks = [];          // [{id, name, color}]
+  const trackIdx = new Map(); // track.id -> index
+  let paletteIdx = 0;
+
+  function getLaneColor(laneId) {
+    if (LANE_COLORS[laneId] !== undefined && laneId !== "_palette") return LANE_COLORS[laneId];
+    const pal = LANE_COLORS._palette;
+    const c = pal[paletteIdx % pal.length];
+    paletteIdx++;
+    LANE_COLORS[laneId] = c;
+    return c;
+  }
+
+  function ensureLane(laneId) {
+    if (trackIdx.has(laneId)) return;
+    // Map system -> api lane
+    const effectiveId = laneId === "system" ? "api" : laneId;
+    if (trackIdx.has(effectiveId)) return;
+
+    const color = getLaneColor(effectiveId);
+    const name = effectiveId.toUpperCase();
+
+    if (effectiveId === "music") {
+      // Music goes last (bottom of the 3D scene)
+      tracks.push({ id: effectiveId, name, color });
+    } else if (effectiveId === "api") {
+      // API just above music
+      const musicPos = tracks.findIndex(t => t.id === "music");
+      if (musicPos !== -1) {
+        tracks.splice(musicPos, 0, { id: effectiveId, name, color });
+      } else {
+        tracks.push({ id: effectiveId, name, color });
+      }
+    } else {
+      // Other lanes go at top; insert before api if it exists
+      const apiPos = tracks.findIndex(t => t.id === "api");
+      if (apiPos !== -1) {
+        tracks.splice(apiPos, 0, { id: effectiveId, name, color });
+      } else {
+        const musicPos = tracks.findIndex(t => t.id === "music");
+        if (musicPos !== -1) {
+          tracks.splice(musicPos, 0, { id: effectiveId, name, color });
         } else {
-            const palette = LANE_COLORS._palette;
-            color = palette[this._paletteIndex % palette.length];
-            this._paletteIndex++;
+          tracks.push({ id: effectiveId, name, color });
         }
-        this.laneColors.set(laneId, color);
-        return color;
+      }
     }
 
-    ensureLane(laneId) {
-        if (!this.laneOrder.includes(laneId)) {
-            // music always first, api always last, voice lanes in the middle
-            if (laneId === 'music') {
-                this.laneOrder.unshift(laneId);
-            } else if (laneId === 'api') {
-                this.laneOrder.push(laneId);
-            } else {
-                // Insert before 'api' if it exists, otherwise append
-                const apiIdx = this.laneOrder.indexOf('api');
-                if (apiIdx !== -1) {
-                    this.laneOrder.splice(apiIdx, 0, laneId);
-                } else {
-                    this.laneOrder.push(laneId);
-                }
-            }
-            this.getLaneColor(laneId);
-        }
+    // Rebuild index
+    trackIdx.clear();
+    tracks.forEach((t, i) => trackIdx.set(t.id, i));
+  }
+
+  function effectiveLane(ev) {
+    return ev.lane === "system" ? "api" : ev.lane;
+  }
+
+  // ============================================================
+  // SSE Connection
+  // ============================================================
+
+  let eventSource = null;
+  let reconnectDelay = 1000;
+  const sseDot = $("#sseDot");
+  const sseStatusEl = $("#sseStatus");
+
+  function setSseStatus(connected) {
+    if (connected) {
+      sseDot.classList.remove("disconnected");
+      sseStatusEl.textContent = "Live";
+    } else {
+      sseDot.classList.add("disconnected");
+      sseStatusEl.textContent = "Reconnecting";
     }
+  }
 
-    applySnapshot(events) {
-        this.events.clear();
-        this.systemEvents.clear();
-        for (const ev of events) {
-            if (ev.lane === 'system') {
-                // Keep in systemEvents for the Activity table
-                this.systemEvents.set(ev.id, ev);
-                // Also render on the timeline in the 'api' lane
-                ev.lane = 'api';
-                this.events.set(ev.id, ev);
-                this.ensureLane('api');
-            } else {
-                this.events.set(ev.id, ev);
-                this.ensureLane(ev.lane);
-            }
-        }
-    }
+  function connectSSE() {
+    eventSource = new EventSource("/api/timeline/events");
 
-    applyUpdate(msg) {
-        const { action, event } = msg;
-        if (!event) return;
+    eventSource.addEventListener("snapshot", e => {
+      const events = JSON.parse(e.data);
+      sseState.events.clear();
+      for (const ev of events) {
+        const lane = effectiveLane(ev);
+        ensureLane(lane);
+        ev.lane = lane;
+        sseState.events.set(ev.id, ev);
+      }
+      needsFullRebuild = true;
+      setSseStatus(true);
+      reconnectDelay = 1000;
+    });
 
-        if (action === 'start') {
-            // Full event object — route by lane
-            if (event.lane === 'system') {
-                // Keep in systemEvents for the Activity table
-                this.systemEvents.set(event.id, event);
-                renderActivityTable();
-                // Also render on the timeline in the 'api' lane
-                event.lane = 'api';
-                this.events.set(event.id, event);
-                this.ensureLane('api');
-            } else {
-                this.events.set(event.id, event);
-                this.ensureLane(event.lane);
-            }
-            return;
-        }
+    eventSource.addEventListener("playback_state", e => {
+      const data = JSON.parse(e.data);
+      sseState.serverTimeOffset = data.server_time - Date.now() / 1000;
+      sseState.currentTrackEndAt = data.server_time + data.remaining;
+      if (data.crossfade_duration !== undefined) {
+        sseState.crossfadeDuration = data.crossfade_duration;
+      }
+    });
 
-        // end/update are partial (no lane) — look up by ID in both maps
-        const systemExisting = this.systemEvents.get(event.id);
-        if (systemExisting) {
-            Object.assign(systemExisting, event);
-            renderActivityTable();
-            // Also exists in events map — update there too (same object ref)
-        }
+    eventSource.addEventListener("event_update", e => {
+      const msg = JSON.parse(e.data);
+      if (!msg.event) return;
+      const ev = msg.event;
 
-        const existing = this.events.get(event.id);
+      if (msg.action === "start") {
+        const lane = effectiveLane(ev);
+        ensureLane(lane);
+        ev.lane = lane;
+        sseState.events.set(ev.id, ev);
+        addOrUpdateMesh(ev, true);
+        renderActivity();
+      } else {
+        // end/update — merge into existing
+        const existing = sseState.events.get(ev.id);
         if (existing) {
-            // If it's a system event, the object is shared so already updated above,
-            // but for non-system events we still need to merge
-            if (!systemExisting) {
-                Object.assign(existing, event);
-            }
+          Object.assign(existing, ev);
+          addOrUpdateMesh(existing);
+          renderActivity();
         }
-    }
-}
-
-const state = new TimelineState();
-
-// ============================================================
-// Time helpers
-// ============================================================
-
-function serverNow() {
-    return Date.now() / 1000 + state.serverTimeOffset;
-}
-
-function formatTime(ts) {
-    const d = new Date(ts * 1000);
-    const h = d.getHours().toString().padStart(2, '0');
-    const m = d.getMinutes().toString().padStart(2, '0');
-    const s = d.getSeconds().toString().padStart(2, '0');
-    return `${h}:${m}:${s}`;
-}
-
-function formatTimeShort(ts) {
-    const d = new Date(ts * 1000);
-    const h = d.getHours().toString().padStart(2, '0');
-    const m = d.getMinutes().toString().padStart(2, '0');
-    return `${h}:${m}`;
-}
-
-function formatDuration(seconds) {
-    if (!seconds || seconds <= 0) return '\u2014';
-    const m = Math.floor(seconds / 60);
-    const s = Math.floor(seconds % 60);
-    return `${m}:${s.toString().padStart(2, '0')}`;
-}
-
-// ============================================================
-// SSE Connection
-// ============================================================
-
-let eventSource = null;
-let reconnectDelay = 1000;
-
-function connectSSE() {
-    eventSource = new EventSource('/api/timeline/events');
-
-    eventSource.addEventListener('snapshot', (e) => {
-        const events = JSON.parse(e.data);
-        state.applySnapshot(events);
-        rebuildLanes();
-        renderActivityTable();
-        reconnectDelay = 1000;
-    });
-
-    eventSource.addEventListener('playback_state', (e) => {
-        const data = JSON.parse(e.data);
-        state.serverTimeOffset = data.server_time - Date.now() / 1000;
-        state.playbackElapsed = data.elapsed;
-        state.playbackRemaining = data.remaining;
-        // Anchor: absolute timestamp for when the current track ends (drift-free)
-        state.currentTrackEndAt = data.server_time + data.remaining;
-        if (data.crossfade_duration !== undefined) {
-            state.crossfadeDuration = data.crossfade_duration;
-        }
-    });
-
-    eventSource.addEventListener('upcoming', (e) => {
-        state.upcomingTracks = JSON.parse(e.data);
-        rebuildUpcoming();
-    });
-
-    eventSource.addEventListener('event_update', (e) => {
-        const msg = JSON.parse(e.data);
-        state.applyUpdate(msg);
-        // Incremental DOM update for all events on the timeline
-        if (!msg.event) return;
-        const ev = state.events.get(msg.event.id);
-        if (ev) {
-            if (msg.action === 'start') {
-                addEventElement(ev);
-            } else {
-                updateEventElement(msg.event);
-            }
-        }
+      }
     });
 
     eventSource.onerror = () => {
-        eventSource.close();
-        setTimeout(connectSSE, reconnectDelay);
-        reconnectDelay = Math.min(reconnectDelay * 2, 30000);
+      eventSource.close();
+      setSseStatus(false);
+      setTimeout(connectSSE, reconnectDelay);
+      reconnectDelay = Math.min(reconnectDelay * 2, 30000);
     };
-}
+  }
 
-// ============================================================
-// DOM References
-// ============================================================
+  // ============================================================
+  // DOM refs
+  // ============================================================
 
-const container = document.getElementById('timeline');
-const axisEl = document.getElementById('tlAxis');
-const lanesEl = document.getElementById('tlLanes');
-const playheadEl = document.getElementById('tlPlayhead');
-const snapBtn = document.getElementById('snapLive');
-const activityBody = document.getElementById('activityBody');
+  const clockEl = $("#clock"), nowBadge = $("#nowBadge");
+  const trackListEl = $("#trackList"), actBody = $("#actBody"), actSub = $("#actSub");
+  const trackLegendEls = new Map();
 
-// ============================================================
-// Lane DOM Management
-// ============================================================
+  // ============================================================
+  // Selection state
+  // ============================================================
 
-const laneElements = new Map();   // lane_id -> { row, eventsArea }
-const eventElements = new Map();  // event_id -> DOM element
-const upcomingElements = [];      // DOM elements for upcoming tracks
+  let selectedId = null;
 
-function rebuildLanes() {
-    // Remove old lane rows that no longer exist
-    for (const [id, els] of laneElements) {
-        if (!state.laneOrder.includes(id)) {
-            els.row.remove();
-            laneElements.delete(id);
-        }
+  function setSelected(id, { source = "ui", centerNow = true } = {}) {
+    selectedId = id;
+    actBody.querySelectorAll("tr").forEach(tr =>
+      tr.classList.toggle("isSelected", tr.dataset.eid === id));
+    trackLegendEls.forEach(el => el.classList.remove("isSelected"));
+    if (id) {
+      const ev = sseState.events.get(id);
+      if (ev) {
+        const el = trackLegendEls.get(ev.lane);
+        if (el) el.classList.add("isSelected");
+      }
     }
-    // Add/reorder lanes
-    for (let i = 0; i < state.laneOrder.length; i++) {
-        const laneId = state.laneOrder[i];
-        let els = laneElements.get(laneId);
-        if (!els) {
-            els = createLaneRow(laneId);
-            laneElements.set(laneId, els);
-        }
-        // Ensure correct DOM order
-        if (lanesEl.children[i] !== els.row) {
-            lanesEl.insertBefore(els.row, lanesEl.children[i] || null);
-        }
+    applySelGlow();
+    if (id && source === "timeline") {
+      const row = actBody.querySelector(`tr[data-eid="${id}"]`);
+      if (row) row.scrollIntoView({ block: "center", behavior: s.reducedMotion ? "auto" : "smooth" });
     }
-    // Rebuild all event elements from state
-    eventElements.clear();
-    for (const els of laneElements.values()) {
-        els.eventsArea.innerHTML = '';
-    }
-    // Sort events by start time so stagger is chronologically consistent
-    const sortedEvents = Array.from(state.events.values())
-        .sort((a, b) => a.started_at - b.started_at);
-    for (const ev of sortedEvents) {
-        addEventElement(ev);
-    }
-    // Rebuild upcoming track elements
-    rebuildUpcoming();
-}
+  }
 
-function createLaneRow(laneId) {
-    const row = document.createElement('div');
-    row.className = 'tl-lane';
-    row.style.height = LANE_HEIGHT + 'px';
+  // ============================================================
+  // Activity table
+  // ============================================================
 
-    const label = document.createElement('div');
-    label.className = 'tl-lane-label';
-    label.textContent = laneId;
-    label.style.width = LANE_LABEL_WIDTH + 'px';
-    label.style.color = state.getLaneColor(laneId);
+  function renderActivity() {
+    const sorted = Array.from(sseState.events.values())
+      .sort((a, b) => b.started_at - a.started_at)
+      .slice(0, 50);
 
-    const eventsArea = document.createElement('div');
-    eventsArea.className = 'tl-lane-events';
+    actBody.innerHTML = "";
+    sorted.forEach(ev => {
+      const tr = document.createElement("tr");
+      tr.dataset.eid = ev.id;
+      const dur = ev.ended_at ? ev.ended_at - ev.started_at :
+        (ev.status === "active" ? serverNow() - ev.started_at : 0);
+      const sc = ev.status === "active" ? "" :
+        ev.status === "failed" ? "failed" :
+          ev.status === "scheduled" ? "pending" : "";
+      tr.innerHTML = `
+        <td class="mono" style="font-size:11px;color:rgba(235,240,255,.7)">${hhmmss(ev.started_at)}</td>
+        <td class="mono" style="font-size:11px;color:rgba(235,240,255,.6)">${ev.ended_at ? hhmmss(ev.ended_at) : "\u2026"}</td>
+        <td class="mono" style="font-size:11px">${escHtml(ev.lane)}</td>
+        <td style="font-size:12px">${escHtml(ev.title)}</td>
+        <td><span class="status ${sc}"><span class="s"></span>${escHtml(ev.status)}</span></td>
+        <td class="mono" style="font-size:11px">${fmtDur(dur)}</td>`;
+      tr.addEventListener("click", () => enterFocus(ev.id));
+      actBody.appendChild(tr);
+    });
+    actSub.textContent = `linked 1:1 \u00b7 ${sorted.length}`;
+    if (selectedId) setSelected(selectedId, { source: "ui", centerNow: false });
+  }
 
-    row.appendChild(label);
-    row.appendChild(eventsArea);
-    return { row, eventsArea };
-}
+  // ============================================================
+  // Track legend
+  // ============================================================
 
-// ============================================================
-// Event Element Management
-// ============================================================
+  function buildLegend() {
+    trackListEl.innerHTML = "";
+    trackLegendEls.clear();
+    tracks.forEach(tr => {
+      const el = document.createElement("div");
+      el.className = "track";
+      el.dataset.trackId = tr.id;
+      const hex = "#" + tr.color.toString(16).padStart(6, "0");
+      el.innerHTML = `
+        <div style="display:flex;align-items:center;gap:8px;min-width:0">
+          <span style="width:8px;height:8px;border-radius:99px;background:${hex};box-shadow:0 0 10px ${hex}80;flex:0 0 auto"></span>
+          <div class="name">${escHtml(tr.name)}</div>
+        </div>
+        <div class="badge mono">${escHtml(tr.id)}</div>`;
+      trackLegendEls.set(tr.id, el);
+      trackListEl.appendChild(el);
+    });
+  }
 
-function getMusicEventCount() {
-    // Count real music events (not upcoming) for deterministic stagger
-    let count = 0;
-    for (const ev of state.events.values()) {
-        if (ev.lane === 'music') count++;
-    }
-    return count;
-}
+  // ============================================================
+  // Three.js scene setup
+  // ============================================================
 
-function getLaneStaggerIndex(ev) {
-    // Chronological rank within lane: how many same-lane events started before this one?
-    // Stable regardless of insertion order or rebuild vs live-add.
-    let idx = 0;
-    for (const other of state.events.values()) {
-        if (other.lane === ev.lane && other.started_at < ev.started_at) idx++;
-    }
-    return idx;
-}
+  const viewport = $("#viewport"), glCanvas = $("#gl");
+  const rulerCanvas = $("#ruler"), rulerCtx = rulerCanvas.getContext("2d");
 
-// Keep backward-compatible alias used by music lane
-function getMusicStaggerIndex(ev) {
-    return getLaneStaggerIndex(ev);
-}
+  const renderer = new THREE.WebGLRenderer({ canvas: glCanvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
 
-function addEventElement(ev) {
-    const els = laneElements.get(ev.lane);
-    if (!els) return;
+  // Minimap
+  const miniGLCanvas = $("#miniGL");
+  const miniOverlay = $("#miniOverlay");
+  const miniCtx = miniOverlay.getContext("2d");
+  const miniRenderer = new THREE.WebGLRenderer({ canvas: miniGLCanvas, antialias: true, alpha: true });
+  miniRenderer.setPixelRatio(Math.min(devicePixelRatio || 1, 2));
+  miniRenderer.setClearColor(0x080a12, 0.9);
+  let miniCamera = null;
+  const MINI_ZOOM_FACTOR = 0.12;
 
-    const el = document.createElement('div');
-    el.className = 'tl-event';
-    el.dataset.eventId = ev.id;
-    el.title = ev.title + (ev.details?.text ? '\n' + ev.details.text : '');
+  const scene = new THREE.Scene();
+  scene.fog = new THREE.Fog(0x080a12, 900, 3000);
 
-    const color = state.getLaneColor(ev.lane);
-    el.style.background = color;
+  scene.add(new THREE.AmbientLight(0xffffff, 0.80));
+  const keyLight = new THREE.DirectionalLight(0xc4d4ff, 0.70);
+  keyLight.position.set(400, 500, 900);
+  scene.add(keyLight);
+  const rimLight = new THREE.DirectionalLight(0x9b8aff, 0.45);
+  rimLight.position.set(-600, 120, 650);
+  scene.add(rimLight);
+  const fillLight = new THREE.DirectionalLight(0x56d4f5, 0.20);
+  fillLight.position.set(0, -200, 400);
+  scene.add(fillLight);
 
-    // Music & API lanes: half-height with brick-wall stagger
-    if (ev.lane === 'music' || ev.lane === 'api') {
-        // Chronological rank — stable across rebuild and live-add
-        const idx = getLaneStaggerIndex(ev);
-        el.style.height = '16px';
-        el.style.top = (idx % 2 === 0 ? 2 : 22) + 'px';
-    } else {
-        el.style.height = (LANE_HEIGHT - 8) + 'px';
-        el.style.top = '4px';
-    }
+  const root = new THREE.Group();
+  scene.add(root);
+  const lanesGroup = new THREE.Group();
+  const clipsGroup = new THREE.Group();
+  const gridGroup = new THREE.Group();
+  const nowPlaneGroup = new THREE.Group();
+  root.add(gridGroup, lanesGroup, clipsGroup, nowPlaneGroup);
 
-    applyEventStatus(el, ev.status);
+  let camera = null;
 
-    // Inner label
-    const inner = document.createElement('span');
-    inner.className = 'tl-event-label';
-    inner.textContent = ev.title;
-    el.appendChild(inner);
+  // ============================================================
+  // Focus / Inspect state
+  // ============================================================
 
-    els.eventsArea.appendChild(el);
-    eventElements.set(ev.id, el);
-}
+  const focus = {
+    active: false,
+    eventId: null,
+    swoopT: 0,
+    drawerT: 0,
+    drawerGroup: null,
+    drawerMesh: null,
+    connMesh: null,
+    drawerH: 0,
+    savedZoom: 0.70,
+    savedPanY: -70,
+    savedPanX: 0,
+    savedTilt: 2,
+    savedYaw: -78,
+    savedOrbit: 260,
+  };
 
-function updateEventElement(ev) {
-    const el = eventElements.get(ev.id);
-    if (!el) return;
-    if (ev.status) applyEventStatus(el, ev.status);
-    if (ev.title) {
-        const label = el.querySelector('.tl-event-label');
-        if (label) label.textContent = ev.title;
-        el.title = ev.title;
-    }
-}
+  // ============================================================
+  // Render state + damping targets
+  // ============================================================
 
-function applyEventStatus(el, status) {
-    el.classList.remove('active', 'scheduled', 'completed', 'failed', 'cancelled');
-    if (status) {
-        el.classList.add(status);
-        el.style.opacity = STATUS_OPACITY[status] ?? 1.0;
-    }
-}
+  const s = {
+    timeScale: 1, zoom: 1.1, laneH: 44, boxDepth: 20,
+    tilt: 14, yaw: -6, orbit: 260,
+    grid: 0.30, glow: 0.10, musicZ: 200,
+    reducedMotion: false,
+    panY: -70,
+    panX: 0,
+    nowPlaneOpacity: 1.0,
+  };
+  const target = { ...s };
 
-// ============================================================
-// Upcoming Tracks (projected on music lane)
-// ============================================================
+  // Inspect mode settings (separate from main view)
+  const focusSettings = {
+    zoom: 4.0, tilt: 16, yaw: -5, orbit: 350,
+    drawerW: 120, drawerScale: 0,
+  };
 
-function rebuildUpcoming() {
-    // Remove old upcoming elements
-    for (const el of upcomingElements) {
-        el.remove();
-    }
-    upcomingElements.length = 0;
+  // ============================================================
+  // Scene objects
+  // ============================================================
 
-    const musicLane = laneElements.get('music');
-    if (!musicLane) return;
+  let totalH = 0, gridLines = null;
+  const eventMeshes = new Map();
+  const pickMeshes = [];
+  const unitBox = new THREE.BoxGeometry(1, 1, 1);
+  let needsFullRebuild = false;
 
-    const color = state.getLaneColor('music');
+  function makeClipMat(color) {
+    const base = new THREE.Color(color);
+    return new THREE.MeshStandardMaterial({
+      color: base, roughness: 0.28, metalness: 0.20,
+      emissive: base.clone(), emissiveIntensity: 0.32,
+    });
+  }
 
-    for (let i = 0; i < state.upcomingTracks.length; i++) {
-        const track = state.upcomingTracks[i];
-        const el = document.createElement('div');
-        el.className = 'tl-event upcoming-track';
-        el.style.background = color;
+  function makeShellMat() {
+    return new THREE.MeshBasicMaterial({
+      color: 0xffffff,
+      transparent: true, opacity: 0.05, depthWrite: false,
+    });
+  }
 
-        // Continue brick-wall stagger from real music events
-        const idx = getMusicEventCount() + i;
-        el.style.height = '16px';
-        el.style.top = (idx % 2 === 0 ? 2 : 22) + 'px';
+  function rebuildLanesAndGrid() {
+    while (lanesGroup.children.length) lanesGroup.remove(lanesGroup.children[0]);
+    while (gridGroup.children.length) gridGroup.remove(gridGroup.children[0]);
+    totalH = tracks.length * s.laneH;
 
-        const label = track.artist
-            ? `${track.artist} \u2014 ${track.title}`
-            : track.title || 'Unknown';
-        el.title = label + ` (${formatDuration(track.duration_seconds)})`;
+    const planeGeo = new THREE.PlaneGeometry(1, 1);
+    tracks.forEach((tr, i) => {
+      const yCenter = -(i * s.laneH) - s.laneH / 2;
+      const lane = new THREE.Mesh(planeGeo, new THREE.MeshBasicMaterial({
+        color: 0x1a2848, transparent: true, opacity: 0.12, depthWrite: false,
+      }));
+      lane.scale.set(200000, s.laneH - 4, 1);
+      lane.position.set(0, yCenter, -5);
+      lanesGroup.add(lane);
 
-        const inner = document.createElement('span');
-        inner.className = 'tl-event-label';
-        inner.textContent = label;
-        el.appendChild(inner);
+      const sep = new THREE.Mesh(new THREE.PlaneGeometry(200000, 1.5), new THREE.MeshBasicMaterial({
+        color: tr.color, transparent: true, opacity: 0.06, depthWrite: false,
+      }));
+      sep.position.set(0, -(i * s.laneH), -4);
+      lanesGroup.add(sep);
+    });
 
-        musicLane.eventsArea.appendChild(el);
-        upcomingElements.push(el);
-    }
-}
+    // Grid
+    const pts = [];
+    const addV = (x, y0, y1) => pts.push(x, y0, -6, x, y1, -6);
+    const addH = y => pts.push(-100000, y, -6, 100000, y, -6);
+    for (let i = 0; i <= tracks.length; i++) addH(-(i * s.laneH));
 
-// ============================================================
-// Auto-scroll + Drag
-// ============================================================
+    const effScale = s.timeScale * s.zoom;
+    const major = effScale > 350 ? 2 : effScale > 200 ? 5 : effScale > 120 ? 10 : effScale > 70 ? 30 : 60;
+    const minor = major / 5;
+    for (let sec = -600; sec <= 600; sec += minor) addV(sec * s.timeScale, 0, -totalH);
 
-let isLive = true;
-let manualOffset = 0;  // seconds offset from live (when dragging)
-let isDragging = false;
-let dragStartX = 0;
-let dragStartOffset = 0;
+    const geo = new THREE.BufferGeometry();
+    geo.setAttribute("position", new THREE.Float32BufferAttribute(pts, 3));
+    gridLines = new THREE.LineSegments(geo, new THREE.LineBasicMaterial({
+      color: 0x3a4a78, transparent: true, opacity: s.grid,
+    }));
+    gridGroup.add(gridLines);
+    buildNowPlane();
+  }
 
-container.addEventListener('mousedown', (e) => {
-    if (e.target.closest('.tl-lane-label') || e.target.closest('.tl-snap-live')) return;
-    isDragging = true;
-    dragStartX = e.clientX;
-    dragStartOffset = manualOffset;
-    container.style.cursor = 'grabbing';
-});
+  // ── Now Plane ──
+  function buildNowPlane() {
+    while (nowPlaneGroup.children.length) nowPlaneGroup.remove(nowPlaneGroup.children[0]);
+    const pH = totalH + 80;
+    const pD = 220;
 
-window.addEventListener('mousemove', (e) => {
-    if (!isDragging) return;
-    const dx = e.clientX - dragStartX;
-    manualOffset = dragStartOffset + dx / PX_PER_SECOND;
-    isLive = false;
-    snapBtn.classList.remove('hidden');
-});
+    const slab = new THREE.Mesh(
+      new THREE.BoxGeometry(2.5, pH, pD),
+      new THREE.MeshBasicMaterial({ color: 0x56d4f5, transparent: true, opacity: 0.032, depthWrite: false, side: THREE.DoubleSide }),
+    );
+    slab.position.set(0, -pH / 2 + 40, pD / 2 - 25);
+    nowPlaneGroup.add(slab);
 
-window.addEventListener('mouseup', () => {
-    if (isDragging) {
-        isDragging = false;
-        container.style.cursor = '';
-    }
-});
+    const edge = new THREE.Mesh(
+      new THREE.BoxGeometry(1.8, pH, 1.2),
+      new THREE.MeshBasicMaterial({ color: 0x56d4f5, transparent: true, opacity: 0.22, depthWrite: false }),
+    );
+    edge.position.set(0, -pH / 2 + 40, -3);
+    nowPlaneGroup.add(edge);
 
-snapBtn.addEventListener('click', () => {
-    isLive = true;
-    manualOffset = 0;
-    snapBtn.classList.add('hidden');
-});
+    const glow = new THREE.Mesh(
+      new THREE.BoxGeometry(14, pH, pD),
+      new THREE.MeshBasicMaterial({ color: 0x56d4f5, transparent: true, opacity: 0.010, depthWrite: false, side: THREE.DoubleSide }),
+    );
+    glow.position.copy(slab.position);
+    nowPlaneGroup.add(glow);
+  }
 
-// ============================================================
-// Render Loop
-// ============================================================
+  // ============================================================
+  // Event meshes (boxes)
+  // ============================================================
 
-function render() {
+  function addOrUpdateMesh(ev, forceCreate = false) {
+    const lane = ev.lane;
+    const idx = trackIdx.get(lane);
+    if (idx === undefined) return;
+    const tr = tracks[idx];
+
     const now = serverNow();
-    const viewCenter = isLive ? now : now + manualOffset;
-    const viewStart = viewCenter - HISTORY_SECONDS;
-    const viewEnd = viewCenter + FUTURE_SECONDS;
-    const totalSeconds = HISTORY_SECONDS + FUTURE_SECONDS;
-    const totalWidth = totalSeconds * PX_PER_SECOND;
+    const evStart = ev.started_at;
+    const evDuration = ev.details?.duration_seconds;
+    const evEnd = ev.ended_at ||
+      (evDuration ? evStart + evDuration : (ev.status === "active" ? now : evStart + 2));
 
-    // Container width
-    const containerWidth = container.clientWidth - LANE_LABEL_WIDTH;
+    const startRel = evStart - now;
+    const endRel = evEnd - now;
+    const durSec = Math.max(0.03, endRel - startRel);
+    const w = durSec * s.timeScale;
 
-    // Position all audible event elements
-    for (const ev of state.events.values()) {
-        const el = eventElements.get(ev.id);
-        if (!el) continue;
+    const isMusic = lane === "music";
+    const h = s.laneH * (isMusic ? 0.55 : 0.38);
+    const d = s.boxDepth + (isMusic ? 10 : 0);
 
-        const evStart = ev.started_at;
-        const evDuration = ev.details?.duration_seconds;
-        const evEnd = ev.ended_at
-            || (evDuration ? evStart + evDuration : (ev.status === 'active' ? now : evStart + 2));
+    const xCenter = ((startRel + endRel) / 2) * s.timeScale;
+    const baseY = -(idx * s.laneH) - s.laneH / 2;
 
-        // Skip if completely outside the view
-        if (evEnd < viewStart || evStart > viewEnd) {
-            el.style.display = 'none';
-            continue;
+    // Music Z-stagger: read from DB-stored detail, fall back to id parity for old events
+    let zPos = d / 2;
+    if (isMusic) {
+      const zStagger = ev.details?.z_stagger ?? 0;
+      if (zStagger === 1) zPos += s.musicZ;
+    }
+
+    let pair = eventMeshes.get(ev.id);
+    if (!pair || forceCreate) {
+      if (pair) {
+        // Remove old meshes
+        clipsGroup.remove(pair.mesh);
+        clipsGroup.remove(pair.shell);
+        const pIdx = pickMeshes.indexOf(pair.mesh);
+        if (pIdx !== -1) pickMeshes.splice(pIdx, 1);
+      }
+      const mesh = new THREE.Mesh(unitBox, makeClipMat(tr.color));
+      mesh.userData.eventId = ev.id;
+      mesh.userData.baseEmissive = mesh.material.emissiveIntensity;
+      const shell = new THREE.Mesh(unitBox, makeShellMat());
+      clipsGroup.add(shell);
+      clipsGroup.add(mesh);
+      pair = { mesh, shell };
+      eventMeshes.set(ev.id, pair);
+      pickMeshes.push(mesh);
+    }
+
+    pair.mesh.scale.set(w, h, d);
+    pair.mesh.position.set(xCenter, baseY, zPos);
+    pair.shell.scale.set(w + 5, h + 4, d + 5);
+    pair.shell.position.copy(pair.mesh.position);
+
+    // Style by event status
+    const status = ev.status || "active";
+    const mat = pair.mesh.material;
+    if (status === "scheduled") {
+      mat.transparent = true;
+      mat.opacity = 0.35;
+      mat.emissiveIntensity = 0.15;
+      mat.userData = { ...mat.userData };
+      pair.mesh.userData.baseEmissive = 0.15;
+    } else if (status === "skipped" || status === "cancelled") {
+      mat.transparent = true;
+      mat.opacity = 0.15;
+      mat.emissiveIntensity = 0.08;
+      pair.mesh.userData.baseEmissive = 0.08;
+    } else {
+      // active / completed — full opacity
+      mat.transparent = false;
+      mat.opacity = 1;
+      mat.emissiveIntensity = 0.32;
+      pair.mesh.userData.baseEmissive = 0.32;
+    }
+  }
+
+  function updateAllMeshes() {
+    for (const ev of sseState.events.values()) addOrUpdateMesh(ev);
+  }
+
+  // ============================================================
+  // Selection glow
+  // ============================================================
+
+  function applySelGlow() {
+    for (const [id, pair] of eventMeshes) {
+      const m = pair.mesh;
+      const base = m.userData.baseEmissive ?? 0.32;
+      const ev = sseState.events.get(id);
+      const status = ev?.status || "active";
+      const isGhost = status === "scheduled" || status === "skipped" || status === "cancelled";
+
+      if (!selectedId) {
+        m.material.emissiveIntensity = base + s.glow * 0.5;
+        if (!isGhost) { m.material.opacity = 1; m.material.transparent = false; }
+      } else if (id === selectedId) {
+        m.material.emissiveIntensity = Math.min(2.5, base + 0.65 + s.glow);
+        if (!isGhost) { m.material.opacity = 1; m.material.transparent = false; }
+      } else {
+        m.material.emissiveIntensity = Math.max(0.05, (base + s.glow * 0.2) * 0.25);
+        if (!isGhost) { m.material.transparent = true; m.material.opacity = 0.72; }
+      }
+    }
+  }
+
+  // ============================================================
+  // Picking (hover + click)
+  // ============================================================
+
+  const raycaster = new THREE.Raycaster();
+  const mouse = new THREE.Vector2();
+  const tip = $("#tip"), tipTitle = $("#tipTitle"), tipMeta = $("#tipMeta");
+  const tipTime = $("#tipTime"), tipDur = $("#tipDur");
+
+  function setHover(mesh, cx, cy) {
+    if (!mesh) { tip.style.opacity = "0"; return; }
+    const ev = sseState.events.get(mesh.userData.eventId);
+    if (!ev) { tip.style.opacity = "0"; return; }
+    const dur = ev.ended_at ? ev.ended_at - ev.started_at :
+      (ev.status === "active" ? serverNow() - ev.started_at : 0);
+    tipTitle.textContent = ev.title;
+    tipMeta.textContent = `#${ev.id} \u00b7 ${ev.lane} \u00b7 ${ev.status}`;
+    tipTime.textContent = `${hhmmss(ev.started_at)} \u2192 ${ev.ended_at ? hhmmss(ev.ended_at) : "\u2026"}`;
+    tipDur.textContent = `dur ${fmtDur(dur)}`;
+    tip.style.opacity = "1"; tip.style.left = cx + "px"; tip.style.top = cy + "px";
+  }
+
+  const clickCapture = $("#clickCapture");
+
+  clickCapture.addEventListener("pointermove", e => {
+    if (focus.active) { clickCapture.style.cursor = "default"; return; }
+    const rect = glCanvas.getBoundingClientRect();
+    mouse.x = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    mouse.y = -((e.clientY - rect.top) / rect.height) * 2 - 1;
+    raycaster.setFromCamera(mouse, camera);
+    const hits = raycaster.intersectObjects(pickMeshes, false);
+    const hit = hits.length ? hits[0].object : null;
+    setHover(hit, e.clientX, e.clientY);
+    clickCapture.style.cursor = hit ? "pointer" : "default";
+  });
+
+  // Click via pointerdown/pointerup
+  let _pDownTime = 0, _pDownX = 0, _pDownY = 0;
+
+  clickCapture.addEventListener("pointerdown", e => {
+    _pDownTime = performance.now();
+    _pDownX = e.clientX;
+    _pDownY = e.clientY;
+  });
+
+  clickCapture.addEventListener("pointerup", e => {
+    const dt = performance.now() - _pDownTime;
+    const dx = Math.abs(e.clientX - _pDownX);
+    const dy = Math.abs(e.clientY - _pDownY);
+    if (dt > 500 || dx > 10 || dy > 10) return;
+
+    const rect = glCanvas.getBoundingClientRect();
+    const mx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    const my = -((e.clientY - rect.top) / rect.height) * 2 - 1;
+    raycaster.setFromCamera(new THREE.Vector2(mx, my), camera);
+    const hits = raycaster.intersectObjects(pickMeshes, false);
+    const hitId = hits.length ? hits[0].object.userData.eventId : null;
+
+    if (focus.active) {
+      if (hitId === focus.eventId) return;
+      if (hitId) { enterFocus(hitId); return; }
+      exitFocus();
+      return;
+    }
+
+    if (hitId) enterFocus(hitId);
+  });
+
+  window.addEventListener("keydown", eKey => {
+    if (eKey.key === "Escape" && focus.active) exitFocus();
+  });
+
+  // ============================================================
+  // Drawer (inspect mode JSON panel)
+  // ============================================================
+
+  function buildEventJson(ev) {
+    // Real event data instead of mock
+    return JSON.stringify({
+      id: ev.id,
+      lane: ev.lane,
+      event_type: ev.event_type || ev.lane,
+      title: ev.title,
+      status: ev.status,
+      started_at: hhmmss(ev.started_at),
+      ended_at: ev.ended_at ? hhmmss(ev.ended_at) : null,
+      duration: ev.ended_at ? fmtDur(ev.ended_at - ev.started_at) :
+        (ev.status === "active" ? "active" : null),
+      details: ev.details || {},
+    }, null, 2);
+  }
+
+  function createDrawerTexture(jsonStr, w, h) {
+    const cvs = document.createElement("canvas");
+    const dpr = 2;
+    cvs.width = w * dpr; cvs.height = h * dpr;
+    const ctx = cvs.getContext("2d");
+    ctx.scale(dpr, dpr);
+
+    const grad = ctx.createLinearGradient(0, 0, 0, h);
+    grad.addColorStop(0, "rgba(8,12,24,0.97)");
+    grad.addColorStop(1, "rgba(4,6,14,0.99)");
+    ctx.fillStyle = grad;
+    roundRect(ctx, 0, 0, w, h, 10); ctx.fill();
+
+    ctx.strokeStyle = "rgba(86,212,245,0.22)"; ctx.lineWidth = 1;
+    roundRect(ctx, 0.5, 0.5, w - 1, h - 1, 10); ctx.stroke();
+
+    ctx.strokeStyle = "rgba(86,212,245,0.40)"; ctx.lineWidth = 2;
+    ctx.beginPath(); ctx.moveTo(12, 2); ctx.lineTo(w - 12, 2); ctx.stroke();
+
+    ctx.fillStyle = "rgba(86,212,245,0.82)";
+    ctx.font = "bold 12px 'IBM Plex Mono', monospace";
+    ctx.fillText("EVENT DATA", 14, 24);
+    ctx.fillStyle = "rgba(155,138,255,0.50)";
+    ctx.font = "10px 'IBM Plex Mono', monospace";
+    ctx.fillText("// raw payload", 120, 24);
+
+    ctx.strokeStyle = "rgba(255,255,255,0.06)";
+    ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.moveTo(14, 32); ctx.lineTo(w - 14, 32); ctx.stroke();
+
+    ctx.font = "10px 'IBM Plex Mono', monospace";
+    const lines = jsonStr.split("\n");
+    let y = 48;
+    const lineH = 14;
+    for (let i = 0; i < lines.length && y < h - 10; i++) {
+      const line = lines[i];
+      if (line.includes(":")) {
+        const ci = line.indexOf(":");
+        const key = line.slice(0, ci + 1);
+        const val = line.slice(ci + 1);
+        ctx.fillStyle = "rgba(155,138,255,0.78)";
+        ctx.fillText(key, 14, y);
+        const kw = ctx.measureText(key).width;
+        if (val.trim().startsWith('"')) ctx.fillStyle = "rgba(74,234,188,0.72)";
+        else if (val.trim().match(/^[0-9]/) || val.trim() === "null") ctx.fillStyle = "rgba(240,168,64,0.78)";
+        else ctx.fillStyle = "rgba(235,240,255,0.45)";
+        ctx.fillText(val, 14 + kw, y);
+      } else {
+        ctx.fillStyle = "rgba(235,240,255,0.35)";
+        ctx.fillText(line, 14, y);
+      }
+      y += lineH;
+    }
+
+    const tex = new THREE.CanvasTexture(cvs);
+    tex.minFilter = THREE.LinearFilter;
+    tex.magFilter = THREE.LinearFilter;
+    return tex;
+  }
+
+  function roundRect(ctx, x, y, w, h, r) {
+    ctx.beginPath();
+    ctx.moveTo(x + r, y);
+    ctx.lineTo(x + w - r, y);
+    ctx.quadraticCurveTo(x + w, y, x + w, y + r);
+    ctx.lineTo(x + w, y + h - r);
+    ctx.quadraticCurveTo(x + w, y + h, x + w - r, y + h);
+    ctx.lineTo(x + r, y + h);
+    ctx.quadraticCurveTo(x, y + h, x, y + h - r);
+    ctx.lineTo(x, y + r);
+    ctx.quadraticCurveTo(x, y, x + r, y);
+    ctx.closePath();
+  }
+
+  // ============================================================
+  // Enter / Exit focus (inspect mode)
+  // ============================================================
+
+  function enterFocus(eventId) {
+    const ev = sseState.events.get(eventId);
+    if (!ev) return;
+    const pair = eventMeshes.get(eventId);
+    if (!pair) return;
+
+    const wasActive = focus.active;
+
+    if (!wasActive) {
+      focus.savedZoom = target.zoom;
+      focus.savedPanY = target.panY;
+      focus.savedPanX = target.panX;
+      focus.savedTilt = target.tilt;
+      focus.savedYaw = target.yaw;
+      focus.savedOrbit = target.orbit;
+    }
+
+    focus.active = true;
+    focus.eventId = eventId;
+
+    if (wasActive) {
+      focus.swoopT = 1;
+      focus.drawerT = 0;
+    } else {
+      focus.swoopT = 0;
+      focus.drawerT = 0;
+    }
+
+    setSelected(eventId, { source: "timeline", centerNow: false });
+    tip.style.opacity = "0";
+
+    destroyDrawer();
+    const json = buildEventJson(ev);
+    const tex = createDrawerTexture(json, 340, 480);
+
+    const bx = pair.mesh.scale;
+    // Blend between fixed width and event-proportional based on drawerScale setting
+    const fixedW = focusSettings.drawerW;
+    const scaledW = Math.max(bx.x * 0.85, 80);
+    const drawerW = THREE.MathUtils.lerp(fixedW, scaledW, focusSettings.drawerScale);
+    const drawerH = drawerW * (480 / 340);
+
+    const dMat = new THREE.MeshBasicMaterial({
+      map: tex, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false,
+    });
+    const dMesh = new THREE.Mesh(new THREE.PlaneGeometry(drawerW, drawerH), dMat);
+
+    const cMat = new THREE.MeshBasicMaterial({
+      color: 0x56d4f5, transparent: true, opacity: 0, depthWrite: false,
+    });
+    const cMesh = new THREE.Mesh(new THREE.PlaneGeometry(1, 1), cMat);
+
+    const grp = new THREE.Group();
+    grp.add(dMesh); grp.add(cMesh);
+    clipsGroup.add(grp);
+
+    focus.drawerGroup = grp;
+    focus.drawerMesh = dMesh;
+    focus.connMesh = cMesh;
+    focus.drawerH = drawerH;
+
+    $("#focusOverlay").classList.add("active");
+    $("#focusBadge").classList.add("active");
+    $(".centerLine").style.opacity = "0";
+    nowBadge.style.opacity = "0.3";
+  }
+
+  function exitFocus() {
+    if (!focus.active) return;
+
+    target.zoom = focus.savedZoom;
+    target.panY = focus.savedPanY;
+    target.panX = 0;
+    target.tilt = focus.savedTilt;
+    target.yaw = focus.savedYaw;
+    target.orbit = focus.savedOrbit;
+    target.nowPlaneOpacity = 1.0;
+
+    focus.active = false;
+
+    const grp = focus.drawerGroup;
+    const dm = focus.drawerMesh;
+    const cm = focus.connMesh;
+    const startOp = dm ? dm.material.opacity : 0;
+    const t0 = performance.now();
+    function animClose(now) {
+      const p = Math.min(1, (now - t0) / 350);
+      const e = 1 - Math.pow(1 - p, 3);
+      if (dm) { dm.material.opacity = startOp * (1 - e); dm.position.y += 0.15; }
+      if (cm) cm.material.opacity *= (1 - e * 0.05);
+      if (p < 1) requestAnimationFrame(animClose);
+      else if (grp && grp.parent) grp.parent.remove(grp);
+    }
+    requestAnimationFrame(animClose);
+
+    focus.drawerGroup = null;
+    focus.drawerMesh = null;
+    focus.connMesh = null;
+    focus.eventId = null;
+    focus.swoopT = 0;
+    focus.drawerT = 0;
+
+    setSelected(null, { source: "ui", centerNow: false });
+    $("#focusOverlay").classList.remove("active");
+    $("#focusBadge").classList.remove("active");
+    $(".centerLine").style.opacity = "1";
+    nowBadge.style.opacity = "1";
+  }
+
+  function destroyDrawer() {
+    if (focus.drawerGroup && focus.drawerGroup.parent) focus.drawerGroup.parent.remove(focus.drawerGroup);
+    focus.drawerGroup = null;
+    focus.drawerMesh = null;
+    focus.connMesh = null;
+  }
+
+  // ============================================================
+  // Ruler
+  // ============================================================
+
+  const rangeReadout = $("#rangeReadout");
+  function ndcToWorld(nx, ny) {
+    const v = new THREE.Vector3(nx, ny, 0).unproject(camera);
+    const dir = new THREE.Vector3(); camera.getWorldDirection(dir);
+    return v.addScaledVector(dir, -v.z / dir.z);
+  }
+
+  function drawRuler() {
+    const dpr = devicePixelRatio || 1;
+    const W = rulerCanvas.width, H = rulerCanvas.height;
+    rulerCtx.clearRect(0, 0, W, H);
+
+    const g = rulerCtx.createLinearGradient(0, 0, 0, H);
+    g.addColorStop(0, "rgba(255,255,255,0.04)"); g.addColorStop(1, "rgba(255,255,255,0.00)");
+    rulerCtx.fillStyle = g; rulerCtx.fillRect(0, 0, W, H);
+
+    const leftW = ndcToWorld(-1, 0), rightW = ndcToWorld(1, 0);
+    const now = serverNow();
+    const sL = leftW.x / s.timeScale, sR = rightW.x / s.timeScale;
+    rangeReadout.textContent = `${hhmm(now + sL)} \u2192 ${hhmm(now + sR)}`;
+
+    const pxPS = (W / dpr) / Math.max(1e-6, sR - sL);
+    const major = pxPS > 320 ? 2 : pxPS > 200 ? 5 : pxPS > 120 ? 10 : pxPS > 70 ? 30 : 60;
+    const minor = major / 5;
+    const start = Math.floor(sL / minor) * minor;
+    const end = Math.ceil(sR / minor) * minor;
+
+    rulerCtx.save(); rulerCtx.scale(dpr, dpr);
+    const wC = W / dpr, hC = H / dpr;
+    rulerCtx.strokeStyle = "rgba(255,255,255,0.10)";
+    rulerCtx.beginPath(); rulerCtx.moveTo(0, hC - 0.5); rulerCtx.lineTo(wC, hC - 0.5); rulerCtx.stroke();
+
+    for (let t = start; t <= end; t += minor) {
+      const x = ((t - sL) / (sR - sL)) * wC;
+      const isM = Math.abs(t / major - Math.round(t / major)) < 1e-6;
+      rulerCtx.strokeStyle = isM ? "rgba(255,255,255,0.20)" : "rgba(255,255,255,0.08)";
+      rulerCtx.beginPath(); rulerCtx.moveTo(x, isM ? 8 : 16); rulerCtx.lineTo(x, hC); rulerCtx.stroke();
+      if (isM) {
+        rulerCtx.fillStyle = "rgba(235,240,255,0.72)";
+        rulerCtx.font = "11px 'IBM Plex Mono', monospace";
+        rulerCtx.fillText(hhmm(now + t), x + 5, 16);
+      }
+    }
+
+    rulerCtx.fillStyle = "rgba(86,212,245,0.70)";
+    rulerCtx.font = "11px 'IBM Plex Mono', monospace";
+    rulerCtx.fillText(hhmm(now), wC / 2 + 8, 32);
+
+    rulerCtx.restore();
+  }
+
+  // ============================================================
+  // Camera
+  // ============================================================
+
+  function resize() {
+    const rect = viewport.getBoundingClientRect();
+    const w = Math.max(1, Math.floor(rect.width));
+    const h = Math.max(1, Math.floor(rect.height - 42));
+    renderer.setSize(w, h, false);
+    rulerCanvas.width = Math.floor(rect.width * (devicePixelRatio || 1));
+    rulerCanvas.height = Math.floor(42 * (devicePixelRatio || 1));
+    rulerCanvas.style.width = rect.width + "px";
+    rulerCanvas.style.height = "42px";
+    camera = new THREE.OrthographicCamera(-w / 2, w / 2, h / 2, -h / 2, -5000, 5000);
+    camera.zoom = s.zoom;
+    camera.updateProjectionMatrix();
+
+    const miniEl = $("#minimap");
+    const mw = miniEl.offsetWidth, mh = miniEl.offsetHeight;
+    const mdpr = Math.min(devicePixelRatio || 1, 2);
+    miniRenderer.setSize(Math.floor(mw * mdpr), Math.floor(mh * mdpr), false);
+    miniGLCanvas.style.width = mw + "px";
+    miniGLCanvas.style.height = mh + "px";
+    miniOverlay.width = Math.floor(mw * mdpr);
+    miniOverlay.height = Math.floor(mh * mdpr);
+    miniOverlay.style.width = mw + "px";
+    miniOverlay.style.height = mh + "px";
+    miniCamera = new THREE.OrthographicCamera(-mw / 2, mw / 2, mh / 2, -mh / 2, -5000, 5000);
+    miniCamera.zoom = MINI_ZOOM_FACTOR;
+    miniCamera.updateProjectionMatrix();
+  }
+  window.addEventListener("resize", resize);
+
+  function updateCamera() {
+    const rect = viewport.getBoundingClientRect();
+    const w = Math.max(1, rect.width), h = Math.max(1, rect.height - 42);
+    camera.left = -w / 2; camera.right = w / 2; camera.top = h / 2; camera.bottom = -h / 2;
+    camera.zoom = s.zoom;
+    camera.updateProjectionMatrix();
+
+    const cx = s.panX;
+    const cy = s.panY;
+    const yawR = THREE.MathUtils.degToRad(s.yaw);
+    const tiltR = THREE.MathUtils.degToRad(s.tilt);
+    const R = s.orbit;
+    camera.position.set(
+      cx + Math.sin(yawR) * R * Math.cos(tiltR),
+      cy + Math.sin(tiltR) * R,
+      Math.cos(yawR) * R * Math.cos(tiltR),
+    );
+    camera.lookAt(cx, cy, 0);
+  }
+
+  function applyLook() {
+    if (gridLines) { gridLines.material.opacity = s.grid; gridLines.material.needsUpdate = true; }
+    glCanvas.style.filter = `drop-shadow(0 16px 40px rgba(0,0,0,.5)) drop-shadow(0 0 ${16 + s.glow * 22}px rgba(86,212,245,${0.08 + s.glow * 0.08}))`;
+  }
+
+  // ============================================================
+  // Minimap
+  // ============================================================
+
+  function updateMiniCamera() {
+    if (!miniCamera) return;
+    const miniEl = $("#minimap");
+    const mw = miniEl.offsetWidth, mh = miniEl.offsetHeight;
+    miniCamera.left = -mw / 2;
+    miniCamera.right = mw / 2;
+    miniCamera.top = mh / 2;
+    miniCamera.bottom = -mh / 2;
+    miniCamera.zoom = MINI_ZOOM_FACTOR;
+    miniCamera.updateProjectionMatrix();
+
+    const cx = s.panX;
+    const cy = s.panY;
+    const yawR = THREE.MathUtils.degToRad(s.yaw);
+    const tiltR = THREE.MathUtils.degToRad(s.tilt);
+    const R = s.orbit;
+    miniCamera.position.set(
+      cx + Math.sin(yawR) * R * Math.cos(tiltR),
+      cy + Math.sin(tiltR) * R,
+      Math.cos(yawR) * R * Math.cos(tiltR),
+    );
+    miniCamera.lookAt(cx, cy, 0);
+  }
+
+  function drawMiniOverlay() {
+    if (!miniCamera || !camera) return;
+    const miniEl = $("#minimap");
+    const mw = miniEl.offsetWidth, mh = miniEl.offsetHeight;
+    const dpr = Math.min(devicePixelRatio || 1, 2);
+    const W = miniOverlay.width, H = miniOverlay.height;
+    miniCtx.clearRect(0, 0, W, H);
+
+    function mainNdcToWorld(nx, ny) {
+      const v = new THREE.Vector3(nx, ny, 0).unproject(camera);
+      const dir = new THREE.Vector3(); camera.getWorldDirection(dir);
+      if (Math.abs(dir.z) < 1e-6) return v;
+      return v.addScaledVector(dir, -v.z / dir.z);
+    }
+    function worldToMiniScreen(wp) {
+      const v = wp.clone().project(miniCamera);
+      return {
+        x: (v.x * 0.5 + 0.5) * mw * dpr,
+        y: (-v.y * 0.5 + 0.5) * mh * dpr,
+      };
+    }
+
+    const corners = [
+      mainNdcToWorld(-1, -1),
+      mainNdcToWorld(1, -1),
+      mainNdcToWorld(1, 1),
+      mainNdcToWorld(-1, 1),
+    ];
+
+    const screenCorners = corners.map(c => worldToMiniScreen(c));
+
+    miniCtx.save();
+    miniCtx.strokeStyle = "rgba(86,212,245,0.65)";
+    miniCtx.lineWidth = 1.5 * dpr;
+    miniCtx.setLineDash([4 * dpr, 3 * dpr]);
+    miniCtx.beginPath();
+    miniCtx.moveTo(screenCorners[0].x, screenCorners[0].y);
+    for (let i = 1; i < 4; i++) miniCtx.lineTo(screenCorners[i].x, screenCorners[i].y);
+    miniCtx.closePath();
+    miniCtx.stroke();
+
+    miniCtx.fillStyle = "rgba(86,212,245,0.04)";
+    miniCtx.fill();
+
+    miniCtx.fillStyle = "rgba(86,212,245,0.80)";
+    screenCorners.forEach(c => {
+      miniCtx.beginPath();
+      miniCtx.arc(c.x, c.y, 2.5 * dpr, 0, Math.PI * 2);
+      miniCtx.fill();
+    });
+
+    miniCtx.restore();
+  }
+
+  // Minimap click-to-navigate
+  $("#minimap").addEventListener("click", e => {
+    if (!miniCamera) return;
+    const miniEl = $("#minimap");
+    const rect = miniEl.getBoundingClientRect();
+    const nx = ((e.clientX - rect.left) / rect.width) * 2 - 1;
+    const ny = -((e.clientY - rect.top) / rect.height) * 2 - 1;
+
+    const v = new THREE.Vector3(nx, ny, 0).unproject(miniCamera);
+    const dir = new THREE.Vector3();
+    miniCamera.getWorldDirection(dir);
+    if (Math.abs(dir.z) > 1e-6) {
+      v.addScaledVector(dir, -v.z / dir.z);
+    }
+    target.panY = clamp(v.y, -totalH - 180, 140);
+  });
+
+  // ============================================================
+  // Controls (wheel, keyboard, sliders)
+  // ============================================================
+
+  clickCapture.addEventListener("wheel", e => {
+    e.preventDefault();
+    if (focus.active) return;
+    const d = e.deltaY;
+    if (e.ctrlKey) {
+      target.zoom = clamp(target.zoom * (d > 0 ? 0.94 : 1.06), 0.25, 5);
+    } else if (e.shiftKey) {
+      target.panY = clamp(target.panY + (d * 0.9) / target.zoom * (s.reducedMotion ? 1 : 0.75), -totalH - 180, 140);
+    }
+  }, { passive: false });
+
+  window.addEventListener("keydown", e => {
+    if (focus.active) return;
+    const step = 80 / target.zoom;
+    if (e.key === "ArrowUp") target.panY = clamp(target.panY + step * 0.7, -totalH - 180, 140);
+    if (e.key === "ArrowDown") target.panY = clamp(target.panY - step * 0.7, -totalH - 180, 140);
+  });
+
+  function bindRange(id, key, fmt = v => v) {
+    const el = $("#" + id), out = $("#" + id + "Out");
+    if (!el || !out) return;
+    const set = () => out.textContent = fmt(parseFloat(el.value));
+    set();
+    el.addEventListener("input", () => {
+      target[key] = parseFloat(el.value);
+      set();
+      if (["laneH", "timeScale", "boxDepth", "musicZ"].includes(key)) {
+        s[key] = target[key];
+        rebuildLanesAndGrid();
+      }
+    });
+  }
+
+  bindRange("timeScale", "timeScale", v => Math.round(v) + "");
+  bindRange("zoom", "zoom", v => v.toFixed(2));
+  bindRange("laneH", "laneH", v => Math.round(v) + "");
+  bindRange("boxDepth", "boxDepth", v => Math.round(v) + "");
+  bindRange("tilt", "tilt", v => Math.round(v) + "\u00b0");
+  bindRange("yaw", "yaw", v => Math.round(v) + "\u00b0");
+  bindRange("orbit", "orbit", v => Math.round(v) + "");
+  bindRange("grid", "grid", v => v.toFixed(2));
+  bindRange("glow", "glow", v => v.toFixed(2));
+  bindRange("musicZ", "musicZ", v => Math.round(v) + "px");
+
+  // Inspect settings sliders (write to focusSettings, not target)
+  function bindFocusRange(id, key, fmt = v => v) {
+    const el = $("#" + id), out = $("#" + id + "Out");
+    if (!el || !out) return;
+    const set = () => out.textContent = fmt(parseFloat(el.value));
+    set();
+    el.addEventListener("input", () => {
+      focusSettings[key] = parseFloat(el.value);
+      set();
+    });
+  }
+
+  bindFocusRange("focusZoom", "zoom", v => v.toFixed(1));
+  bindFocusRange("focusTilt", "tilt", v => Math.round(v) + "\u00b0");
+  bindFocusRange("focusYaw", "yaw", v => Math.round(v) + "\u00b0");
+  bindFocusRange("focusOrbit", "orbit", v => Math.round(v) + "");
+  bindFocusRange("drawerW", "drawerW", v => Math.round(v) + "px");
+  bindFocusRange("drawerScale", "drawerScale", v => (v * 100).toFixed(0) + "%");
+
+  const reducedEl = $("#reduced");
+  if (reducedEl) reducedEl.addEventListener("change", e => target.reducedMotion = e.target.checked);
+
+  $("#btnLive").addEventListener("click", () => {
+    if (focus.active) exitFocus();
+    target.panY = -(tracks.length * s.laneH) / 2 + 10;
+    target.zoom = 0.70;
+    target.panX = 0;
+    target.nowPlaneOpacity = 1.0;
+  });
+
+  $("#btnClear").addEventListener("click", () => {
+    if (focus.active) exitFocus();
+    setSelected(null, { source: "ui", centerNow: false });
+  });
+
+  // ============================================================
+  // Main loop
+  // ============================================================
+
+  let lastT = performance.now();
+
+  function tick(now) {
+    const dt = Math.min(0.05, (now - lastT) / 1000);
+    lastT = now;
+
+    // Clock
+    const realNow = serverNow();
+    clockEl.textContent = hhmmss(realNow);
+    nowBadge.textContent = "NOW " + hhmmss(realNow);
+
+    // Full rebuild if needed (new snapshot / new lanes)
+    if (needsFullRebuild) {
+      needsFullRebuild = false;
+      buildLegend();
+      rebuildLanesAndGrid();
+      updateAllMeshes();
+      renderActivity();
+      target.panY = -(tracks.length * s.laneH) / 2 + 10;
+    }
+
+    const damp = s.reducedMotion ? 0.35 : 0.13;
+    s.reducedMotion = target.reducedMotion;
+
+    // ── Focus swooping ──
+    if (focus.active && focus.eventId) {
+      focus.swoopT = Math.min(1, focus.swoopT + dt * 2.0);
+      const e3 = 1 - Math.pow(1 - focus.swoopT, 3);
+
+      const pair = eventMeshes.get(focus.eventId);
+      if (pair) {
+        const mp = pair.mesh.position;
+
+        target.zoom = THREE.MathUtils.lerp(focus.savedZoom, focusSettings.zoom, e3);
+        target.panY = THREE.MathUtils.lerp(focus.savedPanY, mp.y, e3);
+        target.panX = THREE.MathUtils.lerp(focus.savedPanX, mp.x, e3);
+        target.tilt = THREE.MathUtils.lerp(focus.savedTilt, focusSettings.tilt, e3);
+        target.yaw = THREE.MathUtils.lerp(focus.savedYaw, focusSettings.yaw, e3);
+        target.orbit = THREE.MathUtils.lerp(focus.savedOrbit, focusSettings.orbit, e3);
+        target.nowPlaneOpacity = THREE.MathUtils.lerp(1.0, 0.0, e3);
+
+        if (focus.swoopT > 0.35 && focus.drawerMesh) {
+          focus.drawerT = Math.min(1, focus.drawerT + dt * 2.8);
+          const de = 1 - Math.pow(1 - focus.drawerT, 3);
+
+          const bx = pair.mesh.scale;
+          const dH = focus.drawerH || bx.y * 3;
+
+          focus.drawerMesh.material.opacity = de * 0.92;
+          focus.drawerMesh.position.set(
+            mp.x,
+            mp.y - bx.y * 0.5 - dH * 0.5 * de - 2 * de,
+            mp.z + bx.z * 0.5 + 3,
+          );
+
+          if (focus.connMesh) {
+            const connH = Math.max(0.1, (dH * 0.5 * de + 2 * de));
+            focus.connMesh.material.opacity = de * 0.30;
+            focus.connMesh.scale.set(2, connH, 1);
+            focus.connMesh.position.set(
+              mp.x,
+              mp.y - bx.y * 0.5 - connH * 0.5,
+              mp.z + bx.z * 0.5 + 2,
+            );
+          }
         }
-
-        el.style.display = '';
-
-        // Calculate pixel positions relative to the events area
-        const leftPx = (evStart - viewStart) * PX_PER_SECOND;
-        const widthPx = Math.max((evEnd - evStart) * PX_PER_SECOND, 3);  // min 3px visibility
-
-        el.style.left = leftPx + 'px';
-        el.style.width = widthPx + 'px';
+      }
     }
 
-    // Position upcoming track elements — use absolute anchor to prevent drift
-    const cf = state.crossfadeDuration;
-    let nextStart = state.currentTrackEndAt - cf;
-    for (let i = 0; i < upcomingElements.length; i++) {
-        const el = upcomingElements[i];
-        const track = state.upcomingTracks[i];
-        if (!track) { el.style.display = 'none'; continue; }
+    // Standard damping
+    s.panY += (target.panY - s.panY) * damp;
+    s.panX += (target.panX - s.panX) * damp;
+    s.zoom += (target.zoom - s.zoom) * (s.reducedMotion ? 0.26 : 0.15);
+    s.tilt += (target.tilt - s.tilt) * 0.09;
+    s.yaw += (target.yaw - s.yaw) * 0.09;
+    s.orbit += (target.orbit - s.orbit) * 0.09;
+    s.grid += (target.grid - s.grid) * 0.11;
+    s.glow += (target.glow - s.glow) * 0.11;
+    s.musicZ += (target.musicZ - s.musicZ) * 0.11;
+    s.nowPlaneOpacity += (target.nowPlaneOpacity - s.nowPlaneOpacity) * 0.12;
 
-        const dur = track.duration_seconds || 180;  // fallback 3 min if unknown
-        const evStart = nextStart;
-        const evEnd = evStart + dur;
-
-        // Advance start for the next track (accounting for crossfade overlap)
-        nextStart = evEnd - cf;
-
-        if (evEnd < viewStart || evStart > viewEnd) {
-            el.style.display = 'none';
-            continue;
-        }
-
-        el.style.display = '';
-        const leftPx = (evStart - viewStart) * PX_PER_SECOND;
-        const widthPx = Math.max((evEnd - evStart) * PX_PER_SECOND, 3);
-        el.style.left = leftPx + 'px';
-        el.style.width = widthPx + 'px';
+    // Now Plane pulse
+    if (nowPlaneGroup.children.length >= 3) {
+      const t2 = now * 0.001;
+      const npo = s.nowPlaneOpacity;
+      nowPlaneGroup.children[0].material.opacity = (0.032 + Math.sin(t2 * 1.8) * 0.012) * npo;
+      nowPlaneGroup.children[1].material.opacity = (0.22 + Math.sin(t2 * 2.4) * 0.07) * npo;
+      nowPlaneGroup.children[2].material.opacity = (0.010 + Math.sin(t2 * 1.2) * 0.004) * npo;
     }
 
-    // Set events area width
-    for (const els of laneElements.values()) {
-        els.eventsArea.style.width = totalWidth + 'px';
-    }
+    updateCamera();
+    updateAllMeshes();
+    applyLook();
+    applySelGlow();
+    drawRuler();
 
-    // Playhead: positioned at the "now" line
-    const playheadPx = LANE_LABEL_WIDTH + (now - viewStart) * PX_PER_SECOND;
-    playheadEl.style.left = playheadPx + 'px';
-    playheadEl.style.display = (playheadPx >= LANE_LABEL_WIDTH && playheadPx <= container.clientWidth) ? '' : 'none';
+    renderer.render(scene, camera);
 
-    // Time axis ticks
-    renderAxis(viewStart, viewEnd, containerWidth);
+    // Minimap
+    updateMiniCamera();
+    miniRenderer.render(scene, miniCamera);
+    drawMiniOverlay();
 
-    requestAnimationFrame(render);
-}
+    requestAnimationFrame(tick);
+  }
 
-// ============================================================
-// Time Axis
-// ============================================================
+  // ============================================================
+  // Boot
+  // ============================================================
 
-function renderAxis(viewStart, viewEnd, containerWidth) {
-    // Determine tick interval based on zoom
-    const totalSeconds = viewEnd - viewStart;
-    let tickInterval;
-    if (totalSeconds < 120) tickInterval = 10;
-    else if (totalSeconds < 300) tickInterval = 30;
-    else if (totalSeconds < 900) tickInterval = 60;
-    else tickInterval = 300;
+  function boot() {
+    resize();
+    // Start with empty scene — SSE will populate
+    rebuildLanesAndGrid();
+    connectSSE();
+    requestAnimationFrame(tick);
+  }
 
-    // Reuse or create tick elements
-    const firstTick = Math.ceil(viewStart / tickInterval) * tickInterval;
-    const ticks = [];
-    for (let t = firstTick; t <= viewEnd; t += tickInterval) {
-        ticks.push(t);
-    }
-
-    // Clear and rebuild (simple approach — axis ticks are lightweight)
-    axisEl.innerHTML = '';
-    axisEl.style.paddingLeft = LANE_LABEL_WIDTH + 'px';
-
-    for (const t of ticks) {
-        const tick = document.createElement('div');
-        tick.className = 'tl-tick';
-        const leftPx = (t - viewStart) * PX_PER_SECOND;
-        tick.style.left = (LANE_LABEL_WIDTH + leftPx) + 'px';
-
-        const isMajor = t % 60 === 0;
-        tick.textContent = isMajor ? formatTimeShort(t) : ':' + new Date(t * 1000).getSeconds().toString().padStart(2, '0');
-        if (isMajor) tick.classList.add('major');
-
-        axisEl.appendChild(tick);
-    }
-}
-
-// ============================================================
-// Activity Table (system events)
-// ============================================================
-
-function renderActivityTable() {
-    if (!activityBody) return;
-
-    // Collect system events, sorted newest-first
-    const events = Array.from(state.systemEvents.values())
-        .sort((a, b) => b.started_at - a.started_at)
-        .slice(0, MAX_ACTIVITY_ROWS);
-
-    activityBody.innerHTML = '';
-
-    for (const ev of events) {
-        const tr = document.createElement('tr');
-
-        // Time
-        const tdTime = document.createElement('td');
-        tdTime.className = 'mono';
-        tdTime.textContent = formatTime(ev.started_at);
-        tr.appendChild(tdTime);
-
-        // Type
-        const tdType = document.createElement('td');
-        tdType.textContent = ev.event_type || '\u2014';
-        tr.appendChild(tdType);
-
-        // Title
-        const tdTitle = document.createElement('td');
-        tdTitle.textContent = ev.title || '\u2014';
-        tr.appendChild(tdTitle);
-
-        // Status badge
-        const tdStatus = document.createElement('td');
-        const badge = document.createElement('span');
-        badge.className = `activity-badge ${ev.status || ''}`;
-        badge.textContent = ev.status || 'unknown';
-        tdStatus.appendChild(badge);
-        tr.appendChild(tdStatus);
-
-        // Duration
-        const tdDuration = document.createElement('td');
-        tdDuration.className = 'mono';
-        if (ev.ended_at && ev.started_at) {
-            tdDuration.textContent = formatDuration(ev.ended_at - ev.started_at);
-        } else if (ev.status === 'active') {
-            tdDuration.textContent = '\u2026';
-        } else {
-            tdDuration.textContent = '\u2014';
-        }
-        tr.appendChild(tdDuration);
-
-        activityBody.appendChild(tr);
-    }
-
-    if (events.length === 0) {
-        const tr = document.createElement('tr');
-        const td = document.createElement('td');
-        td.colSpan = 5;
-        td.className = 'muted';
-        td.style.textAlign = 'center';
-        td.textContent = 'No system activity yet';
-        tr.appendChild(td);
-        activityBody.appendChild(tr);
-    }
-}
-
-// ============================================================
-// Bootstrap
-// ============================================================
-
-connectSSE();
-requestAnimationFrame(render);
+  boot();
+})();
