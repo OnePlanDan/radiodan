@@ -38,6 +38,7 @@ class WebServer:
         event_store: "EventStore | None" = None,
         ctx_kwargs: dict | None = None,
         station_name: str = "Radio Dan",
+        stream_url: str = "",
         host: str = "0.0.0.0",
         port: int = 49995,
     ):
@@ -67,6 +68,7 @@ class WebServer:
             autoescape=jinja2.select_autoescape(["html"]),
         )
         env.globals["station_name"] = station_name
+        env.globals["stream_url"] = stream_url
 
         # Set up routes
         self._setup_routes()
@@ -78,6 +80,7 @@ class WebServer:
         from bridge.web.routes.audio import routes as audio_routes
         from bridge.web.routes.config import routes as config_routes
         from bridge.web.routes.timeline import routes as timeline_routes
+        from bridge.web.routes.architecture import routes as architecture_routes
         from bridge.web.routes.system import routes as system_routes
         from bridge.web.routes.queue import routes as queue_routes
 
@@ -86,6 +89,7 @@ class WebServer:
         self.app.router.add_routes(audio_routes)
         self.app.router.add_routes(config_routes)
         self.app.router.add_routes(timeline_routes)
+        self.app.router.add_routes(architecture_routes)
         self.app.router.add_routes(system_routes)
         self.app.router.add_routes(queue_routes)
 

@@ -63,6 +63,7 @@ class Event(Enum):
 
     # Track events
     TRACK_CHANGE = "🎵 TRACK"
+    TRACK_STAR = "⭐ STAR"
 
     # Plugin events
     PLUGIN_START = "🔌 PLUGIN"
@@ -278,6 +279,10 @@ class BoothLog:
     def track_change(self, artist: str, title: str) -> None:
         """Log a track change."""
         self._log(Event.TRACK_CHANGE, f"{artist} — {title}")
+
+    def track_star(self, artist: str, title: str) -> None:
+        """Log a track star/like event."""
+        self._log(Event.TRACK_STAR, f"{artist} — {title}")
 
     # === Plugin events ===
 

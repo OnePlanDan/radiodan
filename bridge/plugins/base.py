@@ -170,6 +170,8 @@ class DJPlugin:
             pre_generated_audio=kwargs.get("pre_generated_audio"),
             audio_duration=kwargs.get("audio_duration", 0.0),
             bridge_mix=kwargs.get("bridge_mix", "duck"),
+            speaker=kwargs.get("speaker"),
+            instruct=kwargs.get("instruct"),
         )
         await self.ctx.voice_scheduler.submit(segment)
 

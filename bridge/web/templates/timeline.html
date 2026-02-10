@@ -1,133 +1,15 @@
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8"/>
-  <meta name="viewport" content="width=device-width,initial-scale=1"/>
-  <title>{{ station_name }} — Timeline</title>
+{% extends "base.html" %}
+{% block title %}{{ station_name }} — Timeline{% endblock %}
+
+{% block page_content %}
+<div id="page-content">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+    /* Timeline needs overflow:hidden on body for the fullscreen canvas */
+    html, body { overflow: hidden; }
+    /* Timeline fills the remaining space below the topbar */
+    .app { height: 100vh; overflow: hidden; }
 
-    :root {
-      --bg0: #080a12;
-      --bg1: #0c0f1a;
-      --panel: rgba(14,18,32,0.82);
-      --panelSolid: #0e1220;
-      --glass: rgba(16,22,42,0.65);
-      --line: rgba(255,255,255,0.07);
-      --line2: rgba(255,255,255,0.12);
-      --text: rgba(235,240,255,0.92);
-      --muted: rgba(200,210,240,0.55);
-      --dim: rgba(200,210,240,0.35);
-
-      --lavender: #9b8aff;
-      --coral: #ff6b6b;
-      --cyan: #56d4f5;
-      --mint: #4aeabc;
-      --amber: #f0a840;
-      --rose: #f472b6;
-      --sky: #38bdf8;
-
-      --shadow: 0 24px 80px rgba(0,0,0,0.6);
-      --radius: 14px;
-      --radius2: 20px;
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body {
-      height: 100%;
-      color: var(--text);
-      background: var(--bg0);
-      font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
-      overflow: hidden;
-    }
-
-    /* ── Animated aurora background ── */
-    body::before {
-      content: "";
-      position: fixed; inset: 0;
-      pointer-events: none;
-      background:
-        radial-gradient(ellipse 1400px 700px at 15% -10%, rgba(155,138,255,0.22), transparent 60%),
-        radial-gradient(ellipse 1000px 600px at 85% 5%, rgba(86,212,245,0.16), transparent 55%),
-        radial-gradient(ellipse 1200px 800px at 50% 110%, rgba(240,168,64,0.12), transparent 55%),
-        radial-gradient(ellipse 800px 500px at 105% 60%, rgba(244,114,182,0.10), transparent 50%);
-      animation: auroraShift 20s ease-in-out infinite alternate;
-      z-index: 0;
-    }
-    @keyframes auroraShift {
-      0%   { filter: hue-rotate(0deg); opacity: 1; }
-      50%  { filter: hue-rotate(12deg); opacity: 0.85; }
-      100% { filter: hue-rotate(-8deg); opacity: 1; }
-    }
-
-    /* Subtle scanlines */
-    body::after {
-      content: "";
-      position: fixed; inset: 0;
-      pointer-events: none;
-      background: repeating-linear-gradient(0deg,
-        transparent 0px, transparent 3px,
-        rgba(255,255,255,0.015) 3px, rgba(255,255,255,0.015) 4px
-      );
-      z-index: 99999;
-    }
-
-    /* ── Layout: single column ── */
-    .app {
-      position: relative;
-      z-index: 1;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      gap: 14px;
-      padding: 16px;
-      overflow-y: auto;
-      overflow-x: hidden;
-    }
-
-    /* ── Card base ── */
-    .card {
-      background: var(--glass);
-      backdrop-filter: blur(24px) saturate(1.4);
-      -webkit-backdrop-filter: blur(24px) saturate(1.4);
-      border: 1px solid rgba(255,255,255,0.08);
-      border-radius: var(--radius2);
-      box-shadow: var(--shadow);
-      position: relative;
-      overflow: hidden;
-    }
-    .card::before {
-      content: "";
-      position: absolute; inset: 0;
-      pointer-events: none;
-      border-radius: inherit;
-      background:
-        radial-gradient(ellipse 700px 200px at 15% 0%, rgba(155,138,255,0.12), transparent 60%),
-        radial-gradient(ellipse 500px 200px at 85% 0%, rgba(86,212,245,0.08), transparent 55%);
-      z-index: 0;
-    }
-    .card > * { position: relative; z-index: 1; }
-
-    /* ── Top bar ── */
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 12px;
-      flex-shrink: 0;
-    }
     .title { display: flex; align-items: center; gap: 12px; min-width: 0; }
-    .title h1 {
-      font-size: 17px;
-      font-weight: 800;
-      letter-spacing: 0.3px;
-      user-select: none;
-      background: linear-gradient(135deg, var(--lavender), var(--cyan));
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
     .title a {
       color: var(--muted);
       text-decoration: none;
@@ -172,7 +54,7 @@
       animation: none;
     }
 
-    .actions { display: flex; align-items: center; gap: 8px; }
+    .tl-actions { display: flex; align-items: center; gap: 8px; }
 
     button {
       appearance: none;
@@ -653,166 +535,162 @@
       accent-color: var(--lavender);
       transform: translateY(1px);
     }
-    .toggle {
+    .tl-toggle {
       display: flex;
       justify-content: space-between;
       align-items: center;
       padding: 8px 0 0;
     }
   </style>
-</head>
-<body>
-  <div class="app">
-    <!-- Top bar -->
-    <div class="topbar">
-      <div class="title">
-        <h1>{{ station_name }} // Timeline</h1>
-        <a href="/">&#8592; Dashboard</a>
-        <div class="pill"><span class="dot" id="sseDot"></span><span id="sseStatus">Connecting</span></div>
-        <div class="pill mono" id="clock">--:--:--</div>
-        <div class="pill mono" id="nowBadge">NOW --:--:--</div>
-      </div>
-      <div class="actions">
-        <button id="btnClear">Clear sel.</button>
-        <button class="btn-now" id="btnLive">&#10227; Recenter</button>
-      </div>
+
+  <!-- Timeline sub-header -->
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;flex-shrink:0;">
+    <div class="title">
+      <span style="font-size:14px;font-weight:800;letter-spacing:0.2px;">Timeline</span>
+      <div class="pill"><span class="dot" id="sseDot"></span><span id="sseStatus">Connecting</span></div>
+      <div class="pill mono" id="clock">--:--:--</div>
+      <div class="pill mono" id="nowBadge">NOW --:--:--</div>
     </div>
-
-    <!-- 3D Timeline card -->
-    <div class="card timeline">
-      <div class="labels">
-        <div class="hdr">
-          <span>Tracks</span>
-          <span class="badge mono" id="rangeReadout">&mdash;</span>
-        </div>
-        <div class="tracklist" id="trackList"></div>
-        <div class="hint">
-          <b>Click</b> a 3D box or table row to inspect.<br/>
-          <span class="kbd">Ctrl</span>+scroll to zoom.
-        </div>
-      </div>
-
-      <div class="viewport" id="viewport">
-        <div class="ruler"><canvas id="ruler"></canvas></div>
-        <div class="centerLine" aria-hidden="true"></div>
-        <canvas id="gl"></canvas>
-        <div id="clickCapture" style="position:absolute;inset:42px 0 0 0;z-index:2;cursor:default"></div>
-
-        <div class="focus-overlay" id="focusOverlay"><div class="vignette"></div></div>
-        <div class="focus-badge" id="focusBadge">INSPECT <span class="esc-hint">CLICK OUTSIDE &middot; ESC</span></div>
-
-        <div class="tip" id="tip">
-          <strong id="tipTitle">&mdash;</strong>
-          <span class="meta" id="tipMeta">&mdash;</span>
-          <div class="row">
-            <span class="mono" id="tipTime">&mdash;</span>
-            <span class="mono" id="tipDur">&mdash;</span>
-          </div>
-        </div>
-
-        <div class="minimap" id="minimap">
-          <div class="minimap-label">MINIMAP</div>
-          <canvas id="miniGL"></canvas>
-          <canvas id="miniOverlay"></canvas>
-          <div class="minimap-now"></div>
-        </div>
-
-        <div class="hintbar">
-          <span class="kbd">Click</span> box to inspect
-          <span class="kbd">Ctrl</span>+scroll zoom
-          <span class="kbd">Shift</span>+scroll pan
-        </div>
-      </div>
+    <div class="tl-actions">
+      <button id="btnClear">Clear sel.</button>
+      <button class="btn-now" id="btnLive">&#10227; Recenter</button>
     </div>
-
-    <!-- Activity table -->
-    <div class="card activity">
-      <h2><span>Activity</span><span class="sub" id="actSub">linked 1:1</span></h2>
-      <div class="tableWrap">
-        <table>
-          <thead><tr>
-            <th style="width:78px">Start</th>
-            <th style="width:78px">Stop</th>
-            <th style="width:80px">Track</th>
-            <th>Title</th>
-            <th style="width:90px">Status</th>
-            <th style="width:62px">Dur</th>
-          </tr></thead>
-          <tbody id="actBody"></tbody>
-        </table>
-      </div>
-    </div>
-
-    <!-- View Settings (collapsed by default) -->
-    <details class="settings-panel card">
-      <summary>View Settings</summary>
-      <div class="settings-grid">
-        <div class="group">
-          <div class="gtitle"><span>Timeline</span><span class="mono">Now-locked</span></div>
-          <div class="row2"><label for="timeScale">Time scale px/s</label><output id="timeScaleOut"></output></div>
-          <input id="timeScale" type="range" min="1" max="700" step="1" value="20"/>
-          <div class="row2"><label for="zoom">Ortho zoom</label><output id="zoomOut"></output></div>
-          <input id="zoom" type="range" min="0.25" max="5.00" step="0.01" value="0.70"/>
-          <div class="row2"><label for="laneH">Lane height</label><output id="laneHOut"></output></div>
-          <input id="laneH" type="range" min="28" max="120" step="1" value="42"/>
-          <div class="row2"><label for="boxDepth">Box depth</label><output id="boxDepthOut"></output></div>
-          <input id="boxDepth" type="range" min="2" max="100" step="1" value="20"/>
-        </div>
-
-        <div class="group">
-          <div class="gtitle"><span>3D Camera</span><span class="mono">Orbit</span></div>
-          <div class="row2"><label for="tilt">Tilt</label><output id="tiltOut"></output></div>
-          <input id="tilt" type="range" min="0" max="85" step="1" value="2"/>
-          <div class="row2"><label for="yaw">Yaw</label><output id="yawOut"></output></div>
-          <input id="yaw" type="range" min="-80" max="80" step="1" value="-78"/>
-          <div class="row2"><label for="orbit">Distance</label><output id="orbitOut"></output></div>
-          <input id="orbit" type="range" min="260" max="2200" step="5" value="260"/>
-        </div>
-
-        <div class="group">
-          <div class="gtitle"><span>Look</span><span class="mono">FX</span></div>
-          <div class="row2"><label for="grid">Grid opacity</label><output id="gridOut"></output></div>
-          <input id="grid" type="range" min="0" max="1" step="0.01" value="0.30"/>
-          <div class="row2"><label for="glow">Glow</label><output id="glowOut"></output></div>
-          <input id="glow" type="range" min="0" max="2.5" step="0.01" value="0.10"/>
-          <div class="row2"><label for="musicZ">Music Z-offset</label><output id="musicZOut"></output></div>
-          <input id="musicZ" type="range" min="0" max="300" step="5" value="200"/>
-          <div class="toggle">
-            <label for="reduced">Reduced motion</label>
-            <input id="reduced" type="checkbox"/>
-          </div>
-        </div>
-      </div>
-    </details>
-
-    <!-- Inspect Settings (collapsed by default) -->
-    <details class="settings-panel card">
-      <summary>Inspect Settings</summary>
-      <div class="settings-grid">
-        <div class="group">
-          <div class="gtitle"><span>Focus Camera</span><span class="mono">Click-to-inspect</span></div>
-          <div class="row2"><label for="focusZoom">Zoom</label><output id="focusZoomOut"></output></div>
-          <input id="focusZoom" type="range" min="0.5" max="12" step="0.1" value="4.0"/>
-          <div class="row2"><label for="focusTilt">Tilt</label><output id="focusTiltOut"></output></div>
-          <input id="focusTilt" type="range" min="0" max="85" step="1" value="16"/>
-          <div class="row2"><label for="focusYaw">Yaw</label><output id="focusYawOut"></output></div>
-          <input id="focusYaw" type="range" min="-80" max="80" step="1" value="-5"/>
-          <div class="row2"><label for="focusOrbit">Distance</label><output id="focusOrbitOut"></output></div>
-          <input id="focusOrbit" type="range" min="100" max="2200" step="5" value="350"/>
-        </div>
-
-        <div class="group">
-          <div class="gtitle"><span>JSON Drawer</span><span class="mono">Card</span></div>
-          <div class="row2"><label for="drawerW">Drawer width</label><output id="drawerWOut"></output></div>
-          <input id="drawerW" type="range" min="40" max="400" step="5" value="120"/>
-          <div class="row2"><label for="drawerScale">Auto-scale to event</label><output id="drawerScaleOut"></output></div>
-          <input id="drawerScale" type="range" min="0" max="1" step="0.01" value="0"/>
-        </div>
-      </div>
-    </details>
   </div>
+
+  <!-- 3D Timeline card -->
+  <div class="card timeline">
+    <div class="labels">
+      <div class="hdr">
+        <span>Tracks</span>
+        <span class="badge mono" id="rangeReadout">&mdash;</span>
+      </div>
+      <div class="tracklist" id="trackList"></div>
+      <div class="hint">
+        <b>Click</b> a 3D box or table row to inspect.<br/>
+        <span class="kbd">Ctrl</span>+scroll to zoom.
+      </div>
+    </div>
+
+    <div class="viewport" id="viewport">
+      <div class="ruler"><canvas id="ruler"></canvas></div>
+      <div class="centerLine" aria-hidden="true"></div>
+      <canvas id="gl"></canvas>
+      <div id="clickCapture" style="position:absolute;inset:42px 0 0 0;z-index:2;cursor:default"></div>
+
+      <div class="focus-overlay" id="focusOverlay"><div class="vignette"></div></div>
+      <div class="focus-badge" id="focusBadge">INSPECT <span class="esc-hint">CLICK OUTSIDE &middot; ESC</span></div>
+
+      <div class="tip" id="tip">
+        <strong id="tipTitle">&mdash;</strong>
+        <span class="meta" id="tipMeta">&mdash;</span>
+        <div class="row">
+          <span class="mono" id="tipTime">&mdash;</span>
+          <span class="mono" id="tipDur">&mdash;</span>
+        </div>
+      </div>
+
+      <div class="minimap" id="minimap">
+        <div class="minimap-label">MINIMAP</div>
+        <canvas id="miniGL"></canvas>
+        <canvas id="miniOverlay"></canvas>
+        <div class="minimap-now"></div>
+      </div>
+
+      <div class="hintbar">
+        <span class="kbd">Click</span> box to inspect
+        <span class="kbd">Ctrl</span>+scroll zoom
+        <span class="kbd">Shift</span>+scroll pan
+      </div>
+    </div>
+  </div>
+
+  <!-- Activity table -->
+  <div class="card activity">
+    <h2><span>Activity</span><span class="sub" id="actSub">linked 1:1</span></h2>
+    <div class="tableWrap">
+      <table>
+        <thead><tr>
+          <th style="width:78px">Start</th>
+          <th style="width:78px">Stop</th>
+          <th style="width:80px">Track</th>
+          <th>Title</th>
+          <th style="width:90px">Status</th>
+          <th style="width:62px">Dur</th>
+        </tr></thead>
+        <tbody id="actBody"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- View Settings (collapsed by default) -->
+  <details class="settings-panel card">
+    <summary>View Settings</summary>
+    <div class="settings-grid">
+      <div class="group">
+        <div class="gtitle"><span>Timeline</span><span class="mono">Now-locked</span></div>
+        <div class="row2"><label for="timeScale">Time scale px/s</label><output id="timeScaleOut"></output></div>
+        <input id="timeScale" type="range" min="1" max="700" step="1" value="20"/>
+        <div class="row2"><label for="zoom">Ortho zoom</label><output id="zoomOut"></output></div>
+        <input id="zoom" type="range" min="0.25" max="5.00" step="0.01" value="0.70"/>
+        <div class="row2"><label for="laneH">Lane height</label><output id="laneHOut"></output></div>
+        <input id="laneH" type="range" min="28" max="120" step="1" value="42"/>
+        <div class="row2"><label for="boxDepth">Box depth</label><output id="boxDepthOut"></output></div>
+        <input id="boxDepth" type="range" min="2" max="100" step="1" value="20"/>
+      </div>
+
+      <div class="group">
+        <div class="gtitle"><span>3D Camera</span><span class="mono">Orbit</span></div>
+        <div class="row2"><label for="tilt">Tilt</label><output id="tiltOut"></output></div>
+        <input id="tilt" type="range" min="0" max="85" step="1" value="2"/>
+        <div class="row2"><label for="yaw">Yaw</label><output id="yawOut"></output></div>
+        <input id="yaw" type="range" min="-80" max="80" step="1" value="-78"/>
+        <div class="row2"><label for="orbit">Distance</label><output id="orbitOut"></output></div>
+        <input id="orbit" type="range" min="260" max="2200" step="5" value="260"/>
+      </div>
+
+      <div class="group">
+        <div class="gtitle"><span>Look</span><span class="mono">FX</span></div>
+        <div class="row2"><label for="grid">Grid opacity</label><output id="gridOut"></output></div>
+        <input id="grid" type="range" min="0" max="1" step="0.01" value="0.30"/>
+        <div class="row2"><label for="glow">Glow</label><output id="glowOut"></output></div>
+        <input id="glow" type="range" min="0" max="2.5" step="0.01" value="0.10"/>
+        <div class="row2"><label for="musicZ">Music Z-offset</label><output id="musicZOut"></output></div>
+        <input id="musicZ" type="range" min="0" max="300" step="5" value="200"/>
+        <div class="tl-toggle">
+          <label for="reduced">Reduced motion</label>
+          <input id="reduced" type="checkbox"/>
+        </div>
+      </div>
+    </div>
+  </details>
+
+  <!-- Inspect Settings (collapsed by default) -->
+  <details class="settings-panel card">
+    <summary>Inspect Settings</summary>
+    <div class="settings-grid">
+      <div class="group">
+        <div class="gtitle"><span>Focus Camera</span><span class="mono">Click-to-inspect</span></div>
+        <div class="row2"><label for="focusZoom">Zoom</label><output id="focusZoomOut"></output></div>
+        <input id="focusZoom" type="range" min="0.5" max="12" step="0.1" value="4.0"/>
+        <div class="row2"><label for="focusTilt">Tilt</label><output id="focusTiltOut"></output></div>
+        <input id="focusTilt" type="range" min="0" max="85" step="1" value="16"/>
+        <div class="row2"><label for="focusYaw">Yaw</label><output id="focusYawOut"></output></div>
+        <input id="focusYaw" type="range" min="-80" max="80" step="1" value="-5"/>
+        <div class="row2"><label for="focusOrbit">Distance</label><output id="focusOrbitOut"></output></div>
+        <input id="focusOrbit" type="range" min="100" max="2200" step="5" value="350"/>
+      </div>
+
+      <div class="group">
+        <div class="gtitle"><span>JSON Drawer</span><span class="mono">Card</span></div>
+        <div class="row2"><label for="drawerW">Drawer width</label><output id="drawerWOut"></output></div>
+        <input id="drawerW" type="range" min="40" max="400" step="5" value="120"/>
+        <div class="row2"><label for="drawerScale">Auto-scale to event</label><output id="drawerScaleOut"></output></div>
+        <input id="drawerScale" type="range" min="0" max="1" step="0.01" value="0"/>
+      </div>
+    </div>
+  </details>
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="/static/timeline.js"></script>
-</body>
-</html>
+</div>
+{% endblock %}

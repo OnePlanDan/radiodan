@@ -211,6 +211,7 @@ async def main() -> None:
         event_store=event_store,
         ctx_kwargs=ctx_kwargs,
         station_name=station_name,
+        stream_url=stream_url,
     )
 
     # Set up graceful shutdown

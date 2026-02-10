@@ -1,32 +1,430 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{{ station_name }}{% endblock %}</title>
-    <script src="https://unpkg.com/htmx.org@2.0.4"></script>
-    <link rel="stylesheet" href="/static/style.css">
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>{% block title %}{{ station_name }}{% endblock %}</title>
+  <script src="https://unpkg.com/htmx.org@2.0.4"></script>
+  <link rel="stylesheet" href="/static/style.css">
+  {% block extra_head %}{% endblock %}
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,500;0,9..40,700;0,9..40,800;1,9..40,400&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
+
+    :root {
+      --bg0: #080a12;
+      --bg1: #0c0f1a;
+      --panel: rgba(14,18,32,0.82);
+      --panelSolid: #0e1220;
+      --glass: rgba(16,22,42,0.65);
+      --line: rgba(255,255,255,0.07);
+      --line2: rgba(255,255,255,0.12);
+      --text: rgba(235,240,255,0.92);
+      --muted: rgba(200,210,240,0.55);
+      --dim: rgba(200,210,240,0.35);
+
+      --lavender: #9b8aff;
+      --coral: #ff6b6b;
+      --cyan: #56d4f5;
+      --mint: #4aeabc;
+      --amber: #f0a840;
+      --rose: #f472b6;
+      --sky: #38bdf8;
+
+      --shadow: 0 24px 80px rgba(0,0,0,0.6);
+      --radius: 14px;
+      --radius2: 20px;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      height: 100%;
+      color: var(--text);
+      background: var(--bg0);
+      font-family: 'DM Sans', system-ui, -apple-system, sans-serif;
+    }
+
+    /* ── Animated aurora background ── */
+    body::before {
+      content: "";
+      position: fixed; inset: 0;
+      pointer-events: none;
+      background:
+        radial-gradient(ellipse 1400px 700px at 15% -10%, rgba(155,138,255,0.22), transparent 60%),
+        radial-gradient(ellipse 1000px 600px at 85% 5%, rgba(86,212,245,0.16), transparent 55%),
+        radial-gradient(ellipse 1200px 800px at 50% 110%, rgba(240,168,64,0.12), transparent 55%),
+        radial-gradient(ellipse 800px 500px at 105% 60%, rgba(244,114,182,0.10), transparent 50%);
+      animation: auroraShift 20s ease-in-out infinite alternate;
+      z-index: 0;
+    }
+    @keyframes auroraShift {
+      0%   { filter: hue-rotate(0deg); opacity: 1; }
+      50%  { filter: hue-rotate(12deg); opacity: 0.85; }
+      100% { filter: hue-rotate(-8deg); opacity: 1; }
+    }
+
+    /* Subtle scanlines */
+    body::after {
+      content: "";
+      position: fixed; inset: 0;
+      pointer-events: none;
+      background: repeating-linear-gradient(0deg,
+        transparent 0px, transparent 3px,
+        rgba(255,255,255,0.015) 3px, rgba(255,255,255,0.015) 4px
+      );
+      z-index: 99999;
+    }
+
+    /* ── Layout ── */
+    .app {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+      padding: 20px;
+      max-width: 900px;
+      margin: 0 auto;
+    }
+
+    /* ── Card base ── */
+    .card {
+      background: var(--glass);
+      backdrop-filter: blur(24px) saturate(1.4);
+      -webkit-backdrop-filter: blur(24px) saturate(1.4);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: var(--radius2);
+      box-shadow: var(--shadow);
+      position: relative;
+      overflow: hidden;
+    }
+    .card::before {
+      content: "";
+      position: absolute; inset: 0;
+      pointer-events: none;
+      border-radius: inherit;
+      background:
+        radial-gradient(ellipse 700px 200px at 15% 0%, rgba(155,138,255,0.12), transparent 60%),
+        radial-gradient(ellipse 500px 200px at 85% 0%, rgba(86,212,245,0.08), transparent 55%);
+      z-index: 0;
+    }
+    .card > * { position: relative; z-index: 1; }
+
+    /* ── Top bar ── */
+    .topbar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+    .topbar h1 {
+      font-size: 17px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      user-select: none;
+      background: linear-gradient(135deg, var(--lavender), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    /* ── Inline player (topbar) ── */
+    .player-inline {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .player-inline-btn {
+      appearance: none;
+      width: 32px; height: 32px;
+      border-radius: 50%;
+      border: 2px solid var(--lavender);
+      background: rgba(155,138,255,0.12);
+      color: var(--lavender);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+      flex-shrink: 0;
+      padding: 0;
+    }
+    .player-inline-btn:hover {
+      background: rgba(155,138,255,0.22);
+      transform: scale(1.06);
+    }
+    .player-inline-btn.playing {
+      border-color: var(--mint);
+      background: rgba(74,234,188,0.15);
+      color: var(--mint);
+    }
+    .player-inline-btn.playing:hover {
+      background: rgba(74,234,188,0.25);
+    }
+    .player-inline-btn svg {
+      width: 14px; height: 14px;
+      fill: currentColor;
+    }
+    .player-inline-vol {
+      width: 80px;
+      -webkit-appearance: none;
+      appearance: none;
+      height: 4px;
+      background: var(--line2);
+      border-radius: 2px;
+      outline: none;
+      cursor: pointer;
+    }
+    .player-inline-vol::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--lavender);
+      border: none;
+      cursor: pointer;
+    }
+    .player-inline-vol::-moz-range-thumb {
+      width: 12px; height: 12px;
+      border-radius: 50%;
+      background: var(--lavender);
+      border: none;
+      cursor: pointer;
+    }
+    .player-inline-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: var(--muted);
+      flex-shrink: 0;
+    }
+    .player-inline-dot.live {
+      background: var(--mint);
+      animation: statusPulse 2s ease-in-out infinite;
+    }
+    .player-inline-dot.error {
+      background: var(--coral);
+    }
+    @keyframes statusPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.4; }
+    }
+
+    /* ── Pill navigation ── */
+    .pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+    .pill-btn {
+      appearance: none;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 13px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-size: 11.5px;
+      font-weight: 500;
+      white-space: nowrap;
+      user-select: none;
+      cursor: pointer;
+      text-decoration: none;
+      transition: all 0.15s ease;
+    }
+    .pill-btn:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.07);
+      color: var(--text);
+    }
+    .pill-btn:active { transform: translateY(0); }
+    .pill-btn.active {
+      background: linear-gradient(135deg, rgba(86,212,245,0.18), rgba(155,138,255,0.14));
+      border-color: rgba(86,212,245,0.35);
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    /* ── Buttons ── */
+    .btn {
+      appearance: none;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      border: 1px solid;
+      white-space: nowrap;
+    }
+
+    /* ── Flash messages ── */
+    .flash {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 14px;
+      border-radius: 999px;
+      font-size: 11.5px;
+      font-weight: 500;
+      animation: flashIn 0.3s ease;
+    }
+    .flash.success {
+      background: rgba(74,234,188,0.12);
+      border: 1px solid rgba(74,234,188,0.25);
+      color: var(--mint);
+    }
+    .flash.error {
+      background: rgba(255,107,107,0.12);
+      border: 1px solid rgba(255,107,107,0.25);
+      color: var(--coral);
+    }
+    @keyframes flashIn {
+      from { opacity: 0; transform: translateY(-4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* Override sidebar-based content margin */
+    .content { margin-left: 0; max-width: 900px; margin: 0 auto; padding: 0; }
+  </style>
 </head>
 <body>
-    <div class="layout">
-        <nav class="sidebar">
-            <div class="sidebar-header">
-                <h1>🎧 {{ station_name }}</h1>
-            </div>
-            <ul class="nav-links">
-                <li><a href="/" class="{% if page == 'dashboard' %}active{% endif %}">📊 Dashboard</a></li>
-                <li><a href="/plugins" class="{% if page == 'plugins' %}active{% endif %}">🔌 Plugins</a></li>
-                <li><a href="/audio" class="{% if page == 'audio' %}active{% endif %}">🎚️ Audio</a></li>
-                <li><a href="/config" class="{% if page == 'config' %}active{% endif %}">⚙️ Settings</a></li>
-                <li><a href="/timeline" class="{% if page == 'timeline' %}active{% endif %}">📐 Timeline</a></li>
-            </ul>
-            <div class="sidebar-footer">
-                <span class="version">v0.2.0</span>
-            </div>
-        </nav>
-        <main class="{% block content_class %}content{% endblock %}">
-            {% block content %}{% endblock %}
-        </main>
+  <!-- Persistent audio element — lives OUTSIDE #page-content so HTMX never swaps it -->
+  <audio id="radio-audio" preload="none"></audio>
+
+  <div class="app">
+    <!-- Persistent topbar: station name + inline player + nav pills -->
+    <div class="topbar">
+      <h1>{{ station_name }}</h1>
+      <div class="player-inline">
+        <button class="player-inline-btn" id="player-play-btn" aria-label="Play" title="Play / Pause">
+          <svg id="player-icon-play" viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+          <svg id="player-icon-pause" viewBox="0 0 24 24" style="display:none"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>
+        </button>
+        <input type="range" class="player-inline-vol" id="player-volume" min="0" max="100" value="80" title="Volume">
+        <span class="player-inline-dot" id="player-status-dot" title="Paused"></span>
+      </div>
+      <nav class="pills"
+           hx-boost="true"
+           hx-target="#page-content"
+           hx-select="#page-content"
+           hx-swap="outerHTML">
+        <a class="pill-btn{% if page == 'dashboard' or not page %} active{% endif %}" href="/">Dashboard</a>
+        <a class="pill-btn{% if page == 'plugins' %} active{% endif %}" href="/plugins">Plugins</a>
+        <a class="pill-btn{% if page == 'audio' %} active{% endif %}" href="/audio">Audio</a>
+        <a class="pill-btn{% if page == 'config' %} active{% endif %}" href="/config">Settings</a>
+        <a class="pill-btn{% if page == 'system' %} active{% endif %}" href="/system">System</a>
+        <a class="pill-btn{% if page == 'timeline' %} active{% endif %}" href="/timeline">Timeline</a>
+        <a class="pill-btn{% if page == 'architecture' %} active{% endif %}" href="/architecture">Architecture</a>
+      </nav>
     </div>
+
+    <div id="page-content">
+      {% block page_content %}
+        <main class="content">
+          {% block content %}{% endblock %}
+        </main>
+      {% endblock %}
+    </div>
+  </div>
+
+  <script>
+  (function() {
+    var audio = document.getElementById('radio-audio');
+    var playBtn = document.getElementById('player-play-btn');
+    var iconPlay = document.getElementById('player-icon-play');
+    var iconPause = document.getElementById('player-icon-pause');
+    var volumeSlider = document.getElementById('player-volume');
+    var statusDot = document.getElementById('player-status-dot');
+    var streamUrl = '{{ stream_url }}';
+
+    var isPlaying = false;
+    var retryTimer = null;
+
+    // Restore volume from localStorage
+    var savedVol = localStorage.getItem('radiodan-volume');
+    if (savedVol !== null) {
+      volumeSlider.value = savedVol;
+      audio.volume = parseInt(savedVol, 10) / 100;
+    } else {
+      audio.volume = 0.8;
+    }
+
+    function setStatus(state) {
+      statusDot.className = 'player-inline-dot';
+      if (state === 'live') {
+        statusDot.classList.add('live');
+        statusDot.title = 'Live';
+      } else if (state === 'reconnecting') {
+        statusDot.classList.add('error');
+        statusDot.title = 'Reconnecting\u2026';
+      } else {
+        statusDot.title = 'Paused';
+      }
+    }
+
+    function doPlay() {
+      audio.src = streamUrl;
+      audio.load();
+      audio.play().catch(function() {});
+      isPlaying = true;
+      iconPlay.style.display = 'none';
+      iconPause.style.display = '';
+      playBtn.classList.add('playing');
+      setStatus('live');
+    }
+
+    function doPause() {
+      isPlaying = false;
+      audio.pause();
+      audio.removeAttribute('src');
+      audio.load();
+      iconPlay.style.display = '';
+      iconPause.style.display = 'none';
+      playBtn.classList.remove('playing');
+      setStatus('paused');
+      if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
+    }
+
+    playBtn.addEventListener('click', function() {
+      if (isPlaying) { doPause(); } else { doPlay(); }
+    });
+
+    volumeSlider.addEventListener('input', function() {
+      var v = parseInt(this.value, 10);
+      audio.volume = v / 100;
+      localStorage.setItem('radiodan-volume', v);
+    });
+
+    // Error recovery: retry after 3s if stream drops while playing
+    audio.addEventListener('error', function() {
+      if (!isPlaying) return;
+      setStatus('reconnecting');
+      if (retryTimer) clearTimeout(retryTimer);
+      retryTimer = setTimeout(function() {
+        if (isPlaying) doPlay();
+      }, 3000);
+    });
+
+    // Update active pill after HTMX navigation
+    document.body.addEventListener('htmx:pushedIntoHistory', function() {
+      var path = window.location.pathname;
+      document.querySelectorAll('.pills .pill-btn').forEach(function(a) {
+        var href = a.getAttribute('href');
+        a.classList.toggle('active', href === path || (path === '/' && href === '/'));
+      });
+    });
+  })();
+  </script>
+  {% block extra_scripts %}{% endblock %}
 </body>
 </html>

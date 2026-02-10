@@ -71,6 +71,12 @@ CREATE TABLE IF NOT EXISTS playlist_queue (
     tts_status TEXT DEFAULT 'pending',
     tts_path TEXT
 );
+
+CREATE TABLE IF NOT EXISTS track_stars (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    file_path TEXT NOT NULL UNIQUE,
+    starred_at TEXT NOT NULL
+);
 """
 
 
@@ -639,6 +645,53 @@ class PlaylistPlanner:
         # Update in-memory history
         self._history.insert(0, {"file_path": file_path, "played_at": now})
         self._history = self._history[:50]  # Keep bounded
+
+    # =====================================================================
+    # FILE PATH RESOLUTION
+    # =====================================================================
+
+    def resolve_file_path(self, filename: str) -> str:
+        """Resolve a Liquidsoap container filename to a full library file_path."""
+        for track in self._library:
+            if Path(track["file_path"]).name == Path(filename).name:
+                return track["file_path"]
+        return filename
+
+    # =====================================================================
+    # TRACK STARS
+    # =====================================================================
+
+    async def star_track(self, file_path: str) -> None:
+        """Star/like a track."""
+        if not self._db:
+            return
+        now = datetime.now(timezone.utc).isoformat()
+        await self._db.execute(
+            "INSERT OR IGNORE INTO track_stars (file_path, starred_at) VALUES (?, ?)",
+            (file_path, now),
+        )
+        await self._db.commit()
+
+    async def unstar_track(self, file_path: str) -> None:
+        """Remove star/like from a track."""
+        if not self._db:
+            return
+        await self._db.execute(
+            "DELETE FROM track_stars WHERE file_path = ?",
+            (file_path,),
+        )
+        await self._db.commit()
+
+    async def is_starred(self, file_path: str) -> bool:
+        """Check if a track is starred."""
+        if not self._db:
+            return False
+        async with self._db.execute(
+            "SELECT 1 FROM track_stars WHERE file_path = ? LIMIT 1",
+            (file_path,),
+        ) as cursor:
+            row = await cursor.fetchone()
+            return row is not None
 
     # =====================================================================
     # TIMELINE EVENT HELPERS

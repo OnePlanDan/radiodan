@@ -1,0 +1,81 @@
+{% extends "base.html" %}
+{% block title %}System — {{ station_name }}{% endblock %}
+
+{% block content %}
+<div class="page-header">
+    <h2>System</h2>
+</div>
+
+<div class="card-grid">
+    <!-- System Status -->
+    <div class="card">
+        <h3>System Status</h3>
+        <table class="system-table">
+            <thead>
+                <tr>
+                    <th>Component</th>
+                    <th>Status</th>
+                    <th>PID</th>
+                    <th>Uptime</th>
+                    <th>Memory</th>
+                </tr>
+            </thead>
+            <tbody id="system-status"
+                   hx-get="/api/system/status"
+                   hx-trigger="every 10s"
+                   hx-swap="innerHTML">
+                {% for key in ['python', 'liquidsoap', 'icecast'] %}
+                {% set p = processes[key] %}
+                <tr>
+                    <td>{{ p.name }}</td>
+                    <td>
+                        <span class="badge {{ 'badge-ok' if p.status == 'running' else 'badge-err' }}">
+                            {{ p.status|capitalize }}
+                        </span>
+                    </td>
+                    <td class="mono">{{ p.pid or '—' }}</td>
+                    <td class="mono">{{ p.uptime or '—' }}</td>
+                    <td class="mono">
+                        {% if p.memory is number %}
+                            {{ p.memory }} MB
+                        {% elif p.memory %}
+                            {{ p.memory }}
+                        {% else %}
+                            —
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- System Controls -->
+    <div class="card">
+        <h3>System Controls</h3>
+        <div class="restart-group">
+            <button class="btn btn-secondary"
+                    hx-post="/system/restart-docker"
+                    hx-target="#restart-status"
+                    hx-swap="innerHTML">
+                Restart Docker
+            </button>
+            <button class="btn btn-warning"
+                    hx-post="/system/restart-python"
+                    hx-target="#restart-status"
+                    hx-swap="innerHTML"
+                    hx-confirm="Restart the Python bridge? The page will reconnect automatically.">
+                Restart Python
+            </button>
+            <button class="btn btn-danger"
+                    hx-post="/system/restart"
+                    hx-target="#restart-status"
+                    hx-swap="innerHTML"
+                    hx-confirm="Restart ALL services? This will briefly interrupt the stream.">
+                Restart All
+            </button>
+        </div>
+        <div id="restart-status" style="margin-top: 0.6rem;"></div>
+    </div>
+</div>
+{% endblock %}

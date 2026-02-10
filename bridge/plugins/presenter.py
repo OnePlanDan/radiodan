@@ -78,6 +78,31 @@ class PresenterPlugin(DJPlugin):
                 "help": "The DJ's on-air name",
             },
             {
+                "key": "voice_speaker",
+                "type": "select",
+                "label": "Voice",
+                "default": "",
+                "options": [
+                    {"value": "", "label": "Default (global setting)"},
+                    {"value": "Aiden", "label": "Aiden"},
+                    {"value": "Sohee", "label": "Sohee"},
+                    {"value": "Adrian", "label": "Adrian"},
+                    {"value": "Ryan", "label": "Ryan"},
+                    {"value": "Serena", "label": "Serena"},
+                    {"value": "Vivian", "label": "Vivian"},
+                    {"value": "Eric", "label": "Eric"},
+                    {"value": "Dylan", "label": "Dylan"},
+                ],
+                "help": "TTS voice for this DJ. Empty = use global TTS setting.",
+            },
+            {
+                "key": "voice_instruct",
+                "type": "textarea",
+                "label": "Voice Instruction",
+                "default": "",
+                "help": "How the voice should sound (e.g. 'Speak warmly and slowly with a slight smile'). Empty = use global TTS setting.",
+            },
+            {
                 "key": "styles",
                 "type": "style_picker",
                 "label": "DJ Styles",
@@ -161,6 +186,8 @@ class PresenterPlugin(DJPlugin):
 
         # Persona
         self._persona_name = cfg.get("persona_name", DEFAULT_PERSONA_NAME)
+        self._voice_speaker = cfg.get("voice_speaker", "") or None
+        self._voice_instruct = cfg.get("voice_instruct", "") or None
         raw_prompt = cfg.get("system_prompt", DEFAULT_SYSTEM_PROMPT)
         self._system_prompt = raw_prompt.replace("{persona_name}", self._persona_name)
 
@@ -324,6 +351,8 @@ class PresenterPlugin(DJPlugin):
             priority=50,
             leading_silence=0.5,
             trailing_silence=0.3,
+            speaker=self._voice_speaker,
+            instruct=self._voice_instruct,
         )
 
     def _schedule_outro(self, track_info: dict) -> None:
@@ -340,6 +369,8 @@ class PresenterPlugin(DJPlugin):
                 priority=40,
                 leading_silence=0.2,
                 trailing_silence=0.2,
+                speaker=self._voice_speaker,
+                instruct=self._voice_instruct,
             )
 
         self.create_task(_generate_outro())
@@ -360,6 +391,8 @@ class PresenterPlugin(DJPlugin):
                 priority=70,
                 leading_silence=0.3,
                 trailing_silence=0.2,
+                speaker=self._voice_speaker,
+                instruct=self._voice_instruct,
             )
 
         self.create_task(_generate_mid_song())
@@ -394,6 +427,8 @@ class PresenterPlugin(DJPlugin):
                 trigger="between_songs",
                 priority=90,
                 leading_silence=0.5,
+                speaker=self._voice_speaker,
+                instruct=self._voice_instruct,
             )
         except Exception:
             self.logger.exception("Failed to generate periodic announcement")

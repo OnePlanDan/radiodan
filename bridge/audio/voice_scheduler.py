@@ -55,6 +55,10 @@ class VoiceSegment:
     # Bridge mix mode: how to mix voice over music during bridges
     bridge_mix: str = "duck"  # "duck" | "gentle_duck" | "overlay"
 
+    # Per-segment voice overrides (None = use TTS service defaults)
+    speaker: str | None = None
+    instruct: str | None = None
+
     # Event store tracking ID (set by VoiceScheduler instrumentation)
     _event_id: int | None = None
 
@@ -258,7 +262,11 @@ class VoiceScheduler:
                 audio_path = segment.pre_generated_audio
                 logger.info(f"Using pre-generated audio: {audio_path.name}")
             else:
-                audio_path = await self.tts_service.speak(segment.text)
+                audio_path = await self.tts_service.speak(
+                    segment.text,
+                    speaker=segment.speaker,
+                    instruct=segment.instruct,
+                )
 
             if segment.leading_silence > 0:
                 await asyncio.sleep(segment.leading_silence)

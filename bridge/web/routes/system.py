@@ -12,6 +12,7 @@ import logging
 import os
 import time
 
+import aiohttp_jinja2
 from aiohttp import web
 
 logger = logging.getLogger(__name__)
@@ -115,6 +116,14 @@ async def get_process_info(app: web.Application) -> dict:
         "icecast": icecast_info,
         "liquidsoap": liquidsoap_info,
     }
+
+
+@routes.get("/system")
+@aiohttp_jinja2.template("system.html")
+async def system_page(request: web.Request) -> dict:
+    """Render the system status page."""
+    processes = await get_process_info(request.app)
+    return {"page": "system", "processes": processes}
 
 
 @routes.get("/api/system/status")

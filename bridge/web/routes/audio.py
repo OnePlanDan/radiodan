@@ -210,3 +210,60 @@ async def skip_track(request: web.Request) -> web.Response:
     stream_context = request.app["stream_context"]
     await stream_context.notify_skip()
     return web.Response(text='<span class="flash success">Skipped!</span>', content_type="text/html")
+
+
+@routes.post("/audio/star")
+async def star_track(request: web.Request) -> web.Response:
+    """Star/like the current track via HTMX."""
+    from bridge.booth import booth
+
+    stream_context = request.app["stream_context"]
+    planner = request.app["ctx_kwargs"]["playlist_planner"]
+
+    track = stream_context.current_track or {}
+    filename = track.get("filename", "")
+    if not filename:
+        return web.Response(
+            text='<span class="flash error">No track playing</span>',
+            content_type="text/html",
+        )
+
+    file_path = planner.resolve_file_path(filename)
+    await planner.star_track(file_path)
+    booth.track_star(track.get("artist", "Unknown"), track.get("title", "Unknown"))
+
+    html = (
+        '<button class="star-btn starred"'
+        ' hx-post="/audio/unstar"'
+        ' hx-target="#star-btn"'
+        ' hx-swap="innerHTML">'
+        '\u2605 Starred</button>'
+    )
+    return web.Response(text=html, content_type="text/html")
+
+
+@routes.post("/audio/unstar")
+async def unstar_track(request: web.Request) -> web.Response:
+    """Remove star/like from the current track via HTMX."""
+    stream_context = request.app["stream_context"]
+    planner = request.app["ctx_kwargs"]["playlist_planner"]
+
+    track = stream_context.current_track or {}
+    filename = track.get("filename", "")
+    if not filename:
+        return web.Response(
+            text='<span class="flash error">No track playing</span>',
+            content_type="text/html",
+        )
+
+    file_path = planner.resolve_file_path(filename)
+    await planner.unstar_track(file_path)
+
+    html = (
+        '<button class="star-btn"'
+        ' hx-post="/audio/star"'
+        ' hx-target="#star-btn"'
+        ' hx-swap="innerHTML">'
+        '\u2606 Star</button>'
+    )
+    return web.Response(text=html, content_type="text/html")

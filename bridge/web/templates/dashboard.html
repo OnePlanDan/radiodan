@@ -1,139 +1,474 @@
 {% extends "base.html" %}
-{% block title %}Dashboard — {{ station_name }}{% endblock %}
+{% block title %}{{ station_name }} — Dashboard{% endblock %}
 
-{% block content %}
-<div class="page-header">
-    <h2>Dashboard</h2>
-</div>
+{% block page_content %}
+<div id="page-content">
+  <style>
+    /* ── Hero card (now playing) ── */
+    .hero-card {
+      padding: 32px 36px;
+    }
+    .hero-artist {
+      font-size: 28px;
+      font-weight: 800;
+      letter-spacing: -0.3px;
+      line-height: 1.2;
+      background: linear-gradient(135deg, var(--lavender), var(--cyan), var(--mint));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .hero-title {
+      font-size: 18px;
+      font-weight: 500;
+      color: var(--text);
+      margin-top: 4px;
+    }
+    .hero-meta {
+      font-size: 13px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+    .hero-timing {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 13px;
+      color: var(--dim);
+      margin-top: 10px;
+      letter-spacing: 0.5px;
+    }
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-top: 16px;
+      flex-wrap: wrap;
+    }
+    .hero-empty {
+      color: var(--muted);
+      font-size: 14px;
+      padding: 20px 0;
+    }
 
-<div class="card-grid">
-    <!-- Now Playing -->
-    <div class="card">
-        <h3>Now Playing</h3>
-        {% if track and track.get('artist') %}
-        <div class="now-playing">
-            <div class="track-artist">{{ track.get('artist', 'Unknown') }}</div>
-            <div class="track-title">{{ track.get('title', 'Unknown') }}</div>
-            {% if track.get('album') %}
-            <div class="track-meta">{{ track.get('album') }}</div>
-            {% endif %}
-            {% if track.get('genre') or track.get('year') %}
-            <div class="track-meta">
-                {{ track.get('genre', '') }}
-                {% if track.get('genre') and track.get('year') %} · {% endif %}
-                {{ track.get('year', '') }}
-            </div>
-            {% endif %}
-            <div class="track-timing">
-                {% set elapsed_min = (elapsed // 60)|int %}
-                {% set elapsed_sec = (elapsed % 60)|int %}
-                {% set remaining_min = (remaining // 60)|int %}
-                {% set remaining_sec = (remaining % 60)|int %}
-                {{ '%d:%02d'|format(elapsed_min, elapsed_sec) }} /
-                -{{ '%d:%02d'|format(remaining_min, remaining_sec) }}
-            </div>
-            <div style="margin-top: 0.6rem;">
-                <button class="btn btn-sm btn-primary"
-                        hx-post="/audio/skip"
-                        hx-target="#skip-status"
-                        hx-swap="innerHTML">
-                    Skip
-                </button>
-                <span id="skip-status"></span>
-            </div>
-        </div>
-        {% else %}
-        <p class="muted">No track information available</p>
-        {% endif %}
+    /* ── Shimmer placeholder (now-playing lazy load) ── */
+    .shimmer-wrap {
+      position: relative;
+      min-height: 140px;
+      overflow: hidden;
+    }
+    .shimmer-bar {
+      border-radius: 8px;
+      background: linear-gradient(
+        90deg,
+        rgba(155,138,255,0.06) 0%,
+        rgba(86,212,245,0.12) 40%,
+        rgba(155,138,255,0.06) 80%
+      );
+      background-size: 400% 100%;
+      animation: shimmerSlide 2s ease-in-out infinite;
+    }
+    .shimmer-bar.lg  { height: 30px; width: 55%; margin-bottom: 10px; }
+    .shimmer-bar.md  { height: 20px; width: 40%; margin-bottom: 8px; }
+    .shimmer-bar.sm  { height: 14px; width: 28%; margin-bottom: 8px; }
+    .shimmer-bar.xs  { height: 14px; width: 18%; margin-bottom: 14px; }
+    .shimmer-bar.btn { height: 34px; width: 80px; display: inline-block; margin-right: 8px; border-radius: 999px; }
+    @keyframes shimmerSlide {
+      0%   { background-position: 200% 0; }
+      100% { background-position: -200% 0; }
+    }
+
+    /* Floating orbs / magic particles */
+    .shimmer-particles {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    .shimmer-orb {
+      position: absolute;
+      border-radius: 50%;
+      filter: blur(20px);
+      opacity: 0;
+      animation: orbFloat 3s ease-in-out infinite;
+    }
+    .shimmer-orb:nth-child(1) {
+      width: 80px; height: 80px;
+      background: rgba(155,138,255,0.25);
+      left: 8%; top: 15%;
+      animation-delay: 0s;
+      animation-duration: 3.2s;
+    }
+    .shimmer-orb:nth-child(2) {
+      width: 60px; height: 60px;
+      background: rgba(86,212,245,0.22);
+      left: 55%; top: 5%;
+      animation-delay: 0.7s;
+      animation-duration: 2.8s;
+    }
+    .shimmer-orb:nth-child(3) {
+      width: 50px; height: 50px;
+      background: rgba(74,234,188,0.18);
+      left: 30%; top: 60%;
+      animation-delay: 1.3s;
+      animation-duration: 3.5s;
+    }
+    .shimmer-orb:nth-child(4) {
+      width: 40px; height: 40px;
+      background: rgba(240,168,64,0.20);
+      left: 75%; top: 50%;
+      animation-delay: 0.4s;
+      animation-duration: 2.6s;
+    }
+    .shimmer-orb:nth-child(5) {
+      width: 55px; height: 55px;
+      background: rgba(244,114,182,0.18);
+      left: 15%; top: 70%;
+      animation-delay: 1.8s;
+      animation-duration: 3s;
+    }
+    .shimmer-orb:nth-child(6) {
+      width: 45px; height: 45px;
+      background: rgba(155,138,255,0.20);
+      left: 65%; top: 75%;
+      animation-delay: 2.2s;
+      animation-duration: 3.4s;
+    }
+    @keyframes orbFloat {
+      0%   { opacity: 0; transform: translate(0, 8px) scale(0.7); }
+      30%  { opacity: 1; }
+      50%  { transform: translate(12px, -10px) scale(1.1); }
+      70%  { opacity: 1; }
+      100% { opacity: 0; transform: translate(-8px, 6px) scale(0.7); }
+    }
+
+    /* Fade-in for loaded content */
+    .hero-card .hero-artist { animation: contentReveal 0.4s ease-out; }
+    .hero-card .hero-title  { animation: contentReveal 0.4s ease-out 0.05s both; }
+    .hero-card .hero-meta   { animation: contentReveal 0.4s ease-out 0.10s both; }
+    .hero-card .hero-timing { animation: contentReveal 0.4s ease-out 0.15s both; }
+    .hero-card .hero-actions{ animation: contentReveal 0.4s ease-out 0.20s both; }
+    @keyframes contentReveal {
+      from { opacity: 0; transform: translateY(8px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* ── Buttons ── */
+    .btn-skip {
+      background: rgba(86,212,245,0.12);
+      border-color: rgba(86,212,245,0.30);
+      color: var(--cyan);
+    }
+    .btn-skip:hover {
+      background: rgba(86,212,245,0.22);
+      border-color: rgba(86,212,245,0.50);
+      transform: translateY(-1px);
+    }
+
+    /* ── Star button ── */
+    .star-btn {
+      appearance: none;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 18px;
+      border-radius: 999px;
+      font-size: 12.5px;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s ease;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.12);
+      color: var(--muted);
+    }
+    .star-btn:hover {
+      background: rgba(240,168,64,0.10);
+      border-color: rgba(240,168,64,0.30);
+      color: var(--amber);
+      transform: translateY(-1px);
+    }
+    .star-btn.starred {
+      background: rgba(240,168,64,0.15);
+      border-color: rgba(240,168,64,0.40);
+      color: var(--amber);
+    }
+    .star-btn.starred:hover {
+      background: rgba(240,168,64,0.25);
+      border-color: rgba(240,168,64,0.55);
+    }
+
+    /* ── Plugins card ── */
+    .plugins-card {
+      padding: 24px 28px;
+    }
+    .plugins-heading {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 14px;
+      background: linear-gradient(135deg, var(--lavender), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .plugin-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--line);
+    }
+    .plugin-row:last-of-type {
+      border-bottom: none;
+    }
+    .plugin-name {
+      font-size: 13.5px;
+      font-weight: 500;
+      color: var(--text);
+    }
+    .plugin-badge {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10.5px;
+      padding: 3px 10px;
+      border-radius: 999px;
+      background: rgba(155,138,255,0.10);
+      border: 1px solid rgba(155,138,255,0.20);
+      color: var(--lavender);
+      font-weight: 500;
+    }
+    .plugins-empty {
+      color: var(--muted);
+      font-size: 13px;
+    }
+    .plugins-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--muted);
+      text-decoration: none;
+      transition: color 0.15s ease;
+    }
+    .plugins-link:hover {
+      color: var(--text);
+    }
+
+    /* ── Playlist card ── */
+    .playlist-card {
+      animation: contentReveal 0.4s ease-out 0.15s both;
+    }
+    .playlist-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 16px 28px;
+      cursor: pointer;
+      user-select: none;
+      transition: background 0.15s;
+    }
+    .playlist-header:hover {
+      background: rgba(255,255,255,0.02);
+    }
+    .playlist-heading {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      background: linear-gradient(135deg, var(--lavender), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .playlist-chevron {
+      width: 16px; height: 16px;
+      color: var(--muted);
+      transition: transform 0.3s ease;
+      flex-shrink: 0;
+    }
+    .playlist-chevron.open {
+      transform: rotate(180deg);
+    }
+    .playlist-body {
+      max-height: 0;
+      overflow: hidden;
+      transition: max-height 0.35s ease;
+      padding: 0 28px;
+    }
+    .playlist-body.open {
+      max-height: 800px;
+      padding-bottom: 20px;
+    }
+
+    /* Playlist rows */
+    .pl-section-label {
+      font-size: 10px;
+      font-weight: 700;
+      letter-spacing: 0.4px;
+      text-transform: uppercase;
+      color: var(--dim);
+      padding: 10px 0 4px;
+    }
+    .pl-row {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      padding: 7px 0;
+      border-bottom: 1px solid var(--line);
+      animation: contentReveal 0.3s ease-out both;
+    }
+    .pl-row:last-child { border-bottom: none; }
+    .pl-time {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--dim);
+      min-width: 62px;
+      flex-shrink: 0;
+    }
+    .pl-row-current .pl-time {
+      color: var(--text);
+    }
+    .pl-pos {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--dim);
+      min-width: 24px;
+      text-align: center;
+      flex-shrink: 0;
+    }
+    .pl-info {
+      display: flex;
+      flex-direction: column;
+      gap: 1px;
+      flex: 1;
+      min-width: 0;
+    }
+    .pl-title {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--text);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .pl-artist {
+      font-size: 11.5px;
+      color: var(--muted);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+    .pl-dur {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--dim);
+      flex-shrink: 0;
+    }
+    .pl-row-current {
+      background: linear-gradient(90deg,
+        rgba(155,138,255,0.12) 0%,
+        rgba(86,212,245,0.08) 50%,
+        rgba(74,234,188,0.06) 100%);
+      border-radius: 8px;
+      padding: 8px 10px;
+      margin: 4px -10px;
+      border-bottom: none;
+    }
+    .pl-now-badge {
+      font-size: 9px;
+      font-weight: 700;
+      background: linear-gradient(135deg, var(--lavender), var(--cyan));
+      color: var(--bg0);
+      -webkit-text-fill-color: var(--bg0);
+      padding: 2px 7px;
+      border-radius: 999px;
+      letter-spacing: 0.3px;
+    }
+    .pl-row-history {
+      opacity: 0.55;
+    }
+    .pl-empty {
+      color: var(--muted);
+      font-size: 13px;
+      padding: 12px 0;
+    }
+  </style>
+
+  <!-- Now Playing (lazy-loaded via HTMX) -->
+  <div class="card hero-card"
+       hx-get="/api/dashboard/now-playing"
+       hx-trigger="load"
+       hx-swap="innerHTML">
+    <!-- Shimmer placeholder — replaced once data arrives -->
+    <div class="shimmer-wrap">
+      <div class="shimmer-particles">
+        <div class="shimmer-orb"></div>
+        <div class="shimmer-orb"></div>
+        <div class="shimmer-orb"></div>
+        <div class="shimmer-orb"></div>
+        <div class="shimmer-orb"></div>
+        <div class="shimmer-orb"></div>
+      </div>
+      <div class="shimmer-bar lg"></div>
+      <div class="shimmer-bar md"></div>
+      <div class="shimmer-bar sm"></div>
+      <div class="shimmer-bar xs"></div>
+      <div>
+        <div class="shimmer-bar btn"></div>
+        <div class="shimmer-bar btn"></div>
+      </div>
     </div>
+  </div>
 
-    <!-- System Status -->
-    <div class="card">
-        <h3>System Status</h3>
-        <table class="system-table">
-            <thead>
-                <tr>
-                    <th>Component</th>
-                    <th>Status</th>
-                    <th>PID</th>
-                    <th>Uptime</th>
-                    <th>Memory</th>
-                </tr>
-            </thead>
-            <tbody id="system-status"
-                   hx-get="/api/system/status"
-                   hx-trigger="every 10s"
-                   hx-swap="innerHTML">
-                {% for key in ['python', 'liquidsoap', 'icecast'] %}
-                {% set p = processes[key] %}
-                <tr>
-                    <td>{{ p.name }}</td>
-                    <td>
-                        <span class="badge {{ 'badge-ok' if p.status == 'running' else 'badge-err' }}">
-                            {{ p.status|capitalize }}
-                        </span>
-                    </td>
-                    <td class="mono">{{ p.pid or '—' }}</td>
-                    <td class="mono">{{ p.uptime or '—' }}</td>
-                    <td class="mono">
-                        {% if p.memory is number %}
-                            {{ p.memory }} MB
-                        {% elif p.memory %}
-                            {{ p.memory }}
-                        {% else %}
-                            —
-                        {% endif %}
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+  <!-- Playlist (collapsible) -->
+  <div class="card playlist-card">
+    <div class="playlist-header" id="playlist-toggle">
+      <span class="playlist-heading">Playlist</span>
+      <svg class="playlist-chevron open" id="playlist-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
     </div>
+    <div class="playlist-body open" id="playlist-body"
+         hx-get="/api/dashboard/playlist"
+         hx-trigger="load, revealed"
+         hx-swap="innerHTML">
+    </div>
+  </div>
 
-    <!-- System Controls -->
-    <div class="card">
-        <h3>System Controls</h3>
-        <div class="restart-group">
-            <button class="btn btn-secondary"
-                    hx-post="/system/restart-docker"
-                    hx-target="#restart-status"
-                    hx-swap="innerHTML">
-                Restart Docker
-            </button>
-            <button class="btn btn-warning"
-                    hx-post="/system/restart-python"
-                    hx-target="#restart-status"
-                    hx-swap="innerHTML"
-                    hx-confirm="Restart the Python bridge? The page will reconnect automatically.">
-                Restart Python
-            </button>
-            <button class="btn btn-danger"
-                    hx-post="/system/restart"
-                    hx-target="#restart-status"
-                    hx-swap="innerHTML"
-                    hx-confirm="Restart ALL services? This will briefly interrupt the stream.">
-                Restart All
-            </button>
-        </div>
-        <div id="restart-status" style="margin-top: 0.6rem;"></div>
-    </div>
+  <!-- Active Plugins -->
+  <div class="card plugins-card">
+    <div class="plugins-heading">Active Plugins</div>
+    {% if plugins %}
+      {% for p in plugins %}
+      <div class="plugin-row">
+        <span class="plugin-name">{{ p.display_name }}</span>
+        <span class="plugin-badge">{{ p.name }} v{{ p.version }}</span>
+      </div>
+      {% endfor %}
+    {% else %}
+      <div class="plugins-empty">No plugins loaded</div>
+    {% endif %}
+    <a href="/plugins" class="plugins-link">Manage plugins &rarr;</a>
+  </div>
 
-    <!-- Active Plugins -->
-    <div class="card">
-        <h3>Active Plugins</h3>
-        {% if plugins %}
-        <div class="status-list">
-            {% for p in plugins %}
-            <div class="status-row">
-                <span>{{ p.display_name }}</span>
-                <span class="badge badge-info">{{ p.name }} v{{ p.version }}</span>
-            </div>
-            {% endfor %}
-        </div>
-        {% else %}
-        <p class="muted">No plugins loaded</p>
-        {% endif %}
-        <a href="/plugins" class="link-subtle">Manage plugins →</a>
-    </div>
+  <script>
+  (function() {
+    // Playlist toggle
+    var plToggle = document.getElementById('playlist-toggle');
+    var plBody = document.getElementById('playlist-body');
+    var plChevron = document.getElementById('playlist-chevron');
+
+    if (plToggle) {
+      plToggle.addEventListener('click', function() {
+        var opening = !plBody.classList.contains('open');
+        plBody.classList.toggle('open');
+        plChevron.classList.toggle('open');
+        if (opening) {
+          if (typeof htmx !== 'undefined') {
+            htmx.trigger(plBody, 'revealed');
+          }
+        }
+      });
+    }
+  })();
+  </script>
 </div>
 {% endblock %}

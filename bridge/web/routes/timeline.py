@@ -15,18 +15,13 @@ routes = web.RouteTableDef()
 
 @routes.get("/timeline")
 async def timeline_page(request: web.Request) -> web.Response:
-    """Render the standalone timeline page.
-
-    This is a standalone template (not extending base.html) because the
-    3D visualization has its own full-page layout that conflicts with
-    the standard sidebar layout.
-    """
+    """Render the timeline page (extends base.html)."""
     import aiohttp_jinja2
 
     env = aiohttp_jinja2.get_env(request.app)
     template = env.get_template("timeline.html")
     station_name = env.globals.get("station_name", "Radio Dan")
-    html = template.render(station_name=station_name)
+    html = template.render(station_name=station_name, page="timeline")
     return web.Response(text=html, content_type="text/html")
 
 

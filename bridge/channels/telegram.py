@@ -842,7 +842,14 @@ class TelegramChannel:
         """Stop the Telegram bot."""
         if self.app:
             logger.info("Stopping Telegram bot...")
-            await self.app.updater.stop()
+            try:
+                # updater.stop() can block for up to the long-poll timeout (~10s),
+                # so cap it at 3s to leave time for the rest of the cleanup chain.
+                await asyncio.wait_for(self.app.updater.stop(), timeout=3.0)
+            except asyncio.TimeoutError:
+                logger.warning("Telegram updater.stop() timed out after 3s, continuing shutdown")
+            # app.stop() and app.shutdown() must always run to release httpx
+            # threads/connections, otherwise the process hangs until SIGKILL.
             await self.app.stop()
             await self.app.shutdown()
             logger.info("Telegram bot stopped")

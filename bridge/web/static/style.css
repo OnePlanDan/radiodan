@@ -952,6 +952,9 @@ code {
     color: var(--warning);
 }
 
+/* Shell layout override — sidebar removed in favor of pill nav */
+.content { margin-left: 0; }
+
 /* Responsive */
 @media (max-width: 768px) {
     .sidebar {
@@ -965,7 +968,7 @@ code {
     }
 
     .content {
-        margin-left: 60px;
+        margin-left: 0;
         padding: 1rem;
     }
 

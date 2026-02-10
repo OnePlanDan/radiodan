@@ -1,0 +1,1005 @@
+{% extends "base.html" %}
+{% block title %}{{ station_name }} — Architecture{% endblock %}
+
+{% block page_content %}
+<div id="page-content">
+  <style>
+    /* ── Diagram card ── */
+    .diagram-card {
+      padding: 24px;
+      display: none;
+      overflow: visible;
+    }
+    .diagram-card::before {
+      overflow: hidden;
+    }
+    .diagram-card.active {
+      display: block;
+    }
+    .diagram-card h2 {
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.2px;
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .diagram-card h2 .tag {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 10px;
+      padding: 3px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.05);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--dim);
+      font-weight: 500;
+    }
+    .diagram-card .mermaid {
+      display: flex;
+      justify-content: center;
+      overflow-x: auto;
+      min-height: 200px;
+    }
+    .diagram-card .mermaid svg {
+      height: auto;
+    }
+
+    /* ── Description block ── */
+    .desc {
+      background: rgba(8,10,18,0.55);
+      border: 1px solid rgba(255,255,255,0.06);
+      border-radius: var(--radius);
+      padding: 18px 20px;
+      margin-bottom: 20px;
+    }
+    .desc > p {
+      color: var(--muted);
+      font-size: 13px;
+      line-height: 1.65;
+      max-width: 72ch;
+      margin-bottom: 14px;
+    }
+    .desc-details {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 16px;
+    }
+    .desc-col h4 {
+      font-size: 10.5px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      margin-bottom: 6px;
+      background: linear-gradient(135deg, var(--lavender), var(--cyan));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .desc-col ul {
+      list-style: none;
+      padding: 0;
+    }
+    .desc-col ul li {
+      font-size: 12px;
+      color: var(--dim);
+      padding: 2px 0;
+      padding-left: 12px;
+      position: relative;
+    }
+    .desc-col ul li::before {
+      content: "\2022";
+      position: absolute;
+      left: 0;
+      color: rgba(200,210,240,0.2);
+    }
+    .desc-col code {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: rgba(200,210,240,0.45);
+    }
+    .mono-sm {
+      font-family: 'IBM Plex Mono', monospace;
+      font-size: 11px;
+      color: var(--dim);
+      line-height: 1.55;
+    }
+
+    /* Architecture-local pill buttons (for diagram tabs, not nav) */
+    .arch-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      align-items: center;
+    }
+    .arch-pill {
+      appearance: none;
+      font-family: 'DM Sans', system-ui, sans-serif;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 6px 13px;
+      border-radius: 999px;
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      color: var(--muted);
+      font-size: 11.5px;
+      font-weight: 500;
+      white-space: nowrap;
+      user-select: none;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+    .arch-pill:hover {
+      transform: translateY(-1px);
+      border-color: rgba(255,255,255,0.18);
+      background: rgba(255,255,255,0.07);
+      color: var(--text);
+    }
+    .arch-pill:active { transform: translateY(0); }
+    .arch-pill.active {
+      background: linear-gradient(135deg, rgba(86,212,245,0.18), rgba(155,138,255,0.14));
+      border-color: rgba(86,212,245,0.35);
+      color: var(--text);
+      font-weight: 600;
+    }
+  </style>
+
+  <!-- Architecture sub-header with diagram tabs -->
+  <div style="display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap;flex-shrink:0;">
+    <span style="font-size:14px;font-weight:800;letter-spacing:0.2px;">Architecture</span>
+    <div class="arch-pills">
+      <button class="arch-pill active" data-diagram="overview">Overview</button>
+      <button class="arch-pill" data-diagram="audio">Audio Pipeline</button>
+      <button class="arch-pill" data-diagram="plugins">Plugin System</button>
+      <button class="arch-pill" data-diagram="telegram">Telegram</button>
+      <button class="arch-pill" data-diagram="ai">AI Services</button>
+      <button class="arch-pill" data-diagram="events">Events &amp; Config</button>
+      <button class="arch-pill" data-diagram="playback">Playback Lifecycle</button>
+      <button class="arch-pill" data-diagram="voice">Voice Scheduling</button>
+    </div>
+  </div>
+
+  <!-- 1. System Overview -->
+  <div class="card diagram-card active" data-diagram="overview">
+    <h2>System Overview <span class="tag">flowchart TD</span></h2>
+    <div class="desc">
+      <p>Bird's-eye view of RadioDan's architecture. The Python bridge orchestrates all services — it connects to external Docker containers (Liquidsoap, Icecast, AI APIs) via network protocols, manages plugins through a discovery/registry system, and exposes two user channels: a Telegram bot and a web admin GUI.</p>
+      <div class="desc-details">
+        <div class="desc-col">
+          <h4>Key Components</h4>
+          <ul>
+            <li><code>main.py</code> orchestrator</li>
+            <li>ConfigStore (SQLite KV)</li>
+            <li>EventStore (timeline + SSE)</li>
+            <li>Booth activity logger</li>
+          </ul>
+        </div>
+        <div class="desc-col">
+          <h4>Key Files</h4>
+          <ul>
+            <li><code>bridge/main.py</code></li>
+            <li><code>bridge/config_store.py</code></li>
+            <li><code>bridge/event_store.py</code></li>
+            <li><code>bridge/booth.py</code></li>
+          </ul>
+        </div>
+        <div class="desc-col">
+          <h4>Example Flow</h4>
+          <p class="mono-sm">Startup: main.py reads YAML &rarr; creates ConfigStore &rarr; starts Mixer, StreamContext, Planner, VoiceScheduler &rarr; loads plugins &rarr; launches Telegram + Web</p>
+        </div>
+      </div>
+    </div>
+    <div class="mermaid">
+flowchart TD
+  subgraph Config["⚙️ Configuration"]
+    CS[("ConfigStore\n(SQLite KV)")]
+    YAML["YAML Config\n(stations)"]
+  end
+
+  subgraph External["🐳 External Services (Docker)"]
+    LS["Liquidsoap\n(audio mixer)"]
+    IC["Icecast\n(stream server)"]
+    QWEN["Qwen3-TTS\n(text-to-speech)"]
+    WHISPER["Whisper API\n(speech-to-text)"]
+    OLLAMA["LLM API\n(OpenAI-compat)"]
+  end
+
+  subgraph Core["🎛️ Core Bridge"]
+    MAIN["main.py\n(orchestrator)"]
+    SC["StreamContext\n(track detector)"]
+    PP["PlaylistPlanner\n(lookahead queue)"]
+    VS["VoiceScheduler\n(voice timing)"]
+    MX["LiquidsoapMixer\n(telnet RPC)"]
+    BOOTH["Booth\n(event logger)"]
+  end
+
+  subgraph AI["🤖 AI Services"]
+    TTS["TTSService"]
+    STT["STTService"]
+    LLM["LLMService"]
+  end
+
+  subgraph Plugins["🔌 Plugin System"]
+    REG["@register_plugin\n(discovery)"]
+    PRES["Presenter\n(DJ announcer)"]
+    FEED["SimplePlaylistFeeder\n(track selector)"]
+    CFEED["ContextFeeder\n(data providers)"]
+  end
+
+  subgraph Channels["📡 User Channels"]
+    TG["TelegramChannel\n(bot commands)"]
+    WEB["WebServer\n(admin GUI)"]
+    ES[("EventStore\n(SQLite + SSE)")]
+  end
+
+  YAML --> MAIN
+  MAIN --> CS
+  MAIN --> SC
+  MAIN --> PP
+  MAIN --> VS
+  MAIN --> MX
+  MAIN --> BOOTH
+  MAIN --> TG
+  MAIN --> WEB
+
+  CS --> MX
+  CS --> REG
+
+  MX -->|telnet| LS
+  LS -->|audio stream| IC
+  IC -->|HTTP stream| TG
+
+  SC -->|poll every 2s| MX
+  SC -->|track_changed| PP
+  SC -->|track_changed\ntrack_ending| VS
+
+  PP -->|queue_music| MX
+  PP -->|tts_needed| PRES
+  FEED -->|set_feeder| PP
+
+  VS -->|queue_tts\nqueue_earcon| MX
+  VS -->|speak| TTS
+  TTS -->|HTTP POST| QWEN
+  STT -->|HTTP POST| WHISPER
+  LLM -->|HTTP POST| OLLAMA
+  PRES -->|submit segment| VS
+  PRES -->|chat| LLM
+
+  CFEED -->|enrich| SC
+
+  TG -->|volumes, skip| MX
+  TG -->|/say| TTS
+
+  ES -->|SSE stream| WEB
+  SC -->|start/end event| ES
+  PP -->|start/end event| ES
+  VS -->|start/end event| ES
+  TTS -->|start/end event| ES
+  LLM -->|start/end event| ES
+    </div>
+  </div>
+
+  <!-- 2. Audio Pipeline -->
+  <div class="card diagram-card" data-diagram="audio">
+    <h2>Audio Pipeline <span class="tag">flowchart LR</span></h2>
+    <div class="desc">
+      <p>The audio signal chain from music library to listener headphones. The PlaylistPlanner maintains a lookahead queue of 5 tracks, pushing them to Liquidsoap via telnet RPC. Liquidsoap handles crossfading, ducking (lowering music during speech), and mixing three queues: music, TTS voice, and earcon overlays. The output feeds Icecast, which serves HTTP streams to listeners.</p>
+      <div class="desc-details">
+        <div class="desc-col">
+          <h4>Key Components</h4>
+          <ul>
+            <li>MusicLibraryScanner (ID3 tags)</li>
+            <li>SelectionStrategy protocol</li>
+            <li>LiquidsoapMixer (telnet)</li>
+            <li>StreamContext (2s poll)</li>
+          </ul>
+        </div>
+        <div class="desc-col">
+          <h4>Key Files</h4>
+          <ul>
+            <li><code>bridge/audio/playlist_planner.py</code></li>
+            <li><code>bridge/audio/mixer.py</code></li>
+            <li><code>bridge/audio/stream_context.py</code></li>
+          </ul>
+        </div>
+        <div class="desc-col">
+          <h4>Example Flow</h4>
+          <p class="mono-sm">Track ends &rarr; StreamContext detects filename change &rarr; fires track_changed &rarr; PlaylistPlanner.advance() shifts queue, selects new track, pushes to Liquidsoap</p>
+        </div>
+      </div>
+    </div>
+    <div class="mermaid">
+flowchart LR
+  subgraph Library["📚 Music Library"]
+    SCAN["MusicLibraryScanner\n(ID3 tags + fallback)"]
+    DB[("SQLite\nmusic_library\nplaylist_history\nplaylist_queue")]
+  end
+
+  subgraph Planner["📋 PlaylistPlanner"]
+    SEL["SelectionStrategy\n(pluggable feeder)"]
+    Q["Lookahead Queue\n(5 tracks)"]
+    FILL["_fill_queue_unlocked()"]
+    ADV["advance()\n(on track_changed)"]
+  end
+
+  subgraph Mixer["🎚️ LiquidsoapMixer"]
+    MQ["music_q.push\n(music queue)"]
+    TQ["tts.push\n(voice queue)"]
+    EQ["earcons.push\n(overlay queue)"]
+    VOL["Volume Controls\nmusic / tts / earcon / duck"]
+    META["get_track_info()\nget_remaining()\nget_elapsed()"]
+  end
+
+  subgraph Liquidsoap["🔊 Liquidsoap"]
+    CROSS["Crossfade Engine"]
+    DUCK["Ducking Logic\n(smart_cross)"]
+    OUT["Output Stream"]
+  end
+
+  subgraph Stream["📡 Streaming"]
+    ICECAST["Icecast Server"]
+    LISTEN["🎧 Listeners\n(HTTP/Telegram)"]
+  end
+
+  subgraph Monitor["👁️ StreamContext"]
+    POLL["Poll Loop\n(every 2s)"]
+    DETECT["Track Change\nDetection"]
+    ENDING["Track Ending\nDetection"]
+  end
+
+  SCAN --> DB
+  DB --> SEL
+  SEL -->|select_next| FILL
+  FILL --> Q
+  Q -->|queue_music| MQ
+  ADV -->|shift queue\nfill new| FILL
+
+  MQ --> CROSS
+  TQ --> DUCK
+  EQ --> CROSS
+  VOL -->|telnet commands| DUCK
+  CROSS --> OUT
+  DUCK --> OUT
+  OUT --> ICECAST
+  ICECAST --> LISTEN
+
+  POLL -->|telnet| META
+  META --> DETECT
+  META --> ENDING
+  DETECT -->|track_changed| ADV
+    </div>
+  </div>
+
+  <!-- 3. Plugin System -->
+  <div class="card diagram-card" data-diagram="plugins">
+    <h2>Plugin System <span class="tag">flowchart TD</span></h2>
+    <div class="desc">
+      <p>Plugins are discovered at startup via the @register_plugin decorator, which scans bridge.plugins using pkgutil. Each plugin type can have multiple instances with independent configs stored in SQLite. Instances receive a PluginContext giving access to all bridge services. Plugins can speak (via VoiceScheduler), enrich stream metadata, define Telegram commands/buttons, and expose config fields for the web UI.</p>
+      <div class="desc-details">
+        <div class="desc-col">
+          <h4>Key Components</h4>
+          <ul>
+            <li>@register_plugin decorator</li>
+            <li>load_plugin_instances()</li>
+            <li>PluginContext service bag</li>
+            <li>DJPlugin base class</li>
+            <li>ContextFeeder, SelectionStrategy</li>
+          </ul>
+        </div>
+        <div class="desc-col">
+          <h4>Key Files</h4>
+          <ul>
+            <li><code>bridge/plugins/__init__.py</code></li>
+            <li><code>bridge/plugins/base.py</code></li>
+            <li><code>bridge/plugins/presenter.py</code></li>
+            <li><code>bridge/plugins/simple_playlist_feeder.py</code></li>
+          </ul>
+        </div>
+        <div class="desc-col">
+          <h4>Example Flow</h4>
+          <p class="mono-sm">Presenter plugin: on_start() subscribes to track_changed &rarr; LLM generates announcement &rarr; plugin.say(text, trigger='bridge') &rarr; VoiceSegment submitted</p>
+        </div>
+      </div>
+    </div>
+    <div class="mermaid">
+flowchart TD
+  subgraph Discovery["🔍 Discovery"]
+    PKG["pkgutil.walk_packages()\n(bridge.plugins)"]
+    DEC["@register_plugin\ndecorator"]
+    REG[("_plugin_registry\n{name → class}")]
+  end
+
+  subgraph Loading["📦 Instance Loading"]
+    DISC["discover_plugins()"]
+    SQL[("ConfigStore\nplugin_instances table")]
+    LOAD["load_plugin_instances()"]
+    MIGRATE["Auto-migrate from\nYAML → SQLite"]
+  end
+
+  subgraph Instance["🔌 Plugin Instance"]
+    CTX["PluginContext"]
+    BASE["DJPlugin"]
+    START["on_start()"]
+    STOP["on_stop()"]
+    TASKS["_tasks\n(background tasks)"]
+  end
+
+  subgraph Context["PluginContext Services"]
+    C_TTS["tts_service"]
+    C_MIX["mixer"]
+    C_LLM["llm_service"]
+    C_SC["stream_context"]
+    C_VS["voice_scheduler"]
+    C_PP["playlist_planner"]
+    C_CONF["config (dict)"]
+    C_BOOTH["booth"]
+  end
+
+  subgraph Outputs["📤 Plugin Capabilities"]
+    SAY["say(text, trigger, ...)\n→ VoiceSegment → VoiceScheduler"]
+    ENRICH["enrich(key, value)\n→ StreamContext.enrichments"]
+    TG_CMD["telegram_commands()\n→ TelegramCommand list"]
+    TG_BTN["telegram_menu_buttons()\n→ TelegramMenuButton list"]
+    TG_CB["handle_telegram_callback(action)"]
+    CFG["config_fields()\n→ web UI form"]
+  end
+
+  subgraph Types["Plugin Types"]
+    PRES["Presenter\n(DJ announcer)"]
+    FEEDER["SimplePlaylistFeeder\n(track selector)"]
+    CFEED["ContextFeeder\n(data providers)"]
+  end
+
+  PKG --> DEC
+  DEC --> REG
+  REG --> DISC
+  DISC --> LOAD
+  SQL --> LOAD
+  MIGRATE --> SQL
+  LOAD -->|instantiate enabled| Instance
+
+  CTX --> BASE
+  C_TTS --> CTX
+  C_MIX --> CTX
+  C_LLM --> CTX
+  C_SC --> CTX
+  C_VS --> CTX
+  C_PP --> CTX
+  C_CONF --> CTX
+  C_BOOTH --> CTX
+
+  BASE --> START
+  BASE --> STOP
+  BASE --> TASKS
+  BASE --> SAY
+  BASE --> ENRICH
+  BASE --> TG_CMD
+  BASE --> TG_BTN
+  BASE --> TG_CB
+  BASE --> CFG
+
+  PRES -->|extends| BASE
+  FEEDER -->|extends| BASE
+  CFEED -->|extends| BASE
+  FEEDER -->|set_feeder()| C_PP
+    </div>
+  </div>
+
+  <!-- 4. Telegram Channel -->
+  <div class="card diagram-card" data-diagram="telegram">
+    <h2>Telegram Channel <span class="tag">sequenceDiagram</span></h2>
+    <div class="desc">
+      <p>The Telegram bot provides remote control of the radio station. Users interact through slash commands (/start, /say, /status) and inline keyboard buttons for volume control, skipping, and plugin actions. Access control checks user IDs against an allowlist. Plugin buttons are dynamically built from each plugin's telegram_menu_buttons() method.</p>
+      <div class="desc-details">
+        <div class="desc-col">
+          <h4>Key Components</h4>
+          <ul>
+            <li>Command handlers</li>
+            <li>Callback dispatcher</li>
+            <li>Inline keyboard builder</li>
+            <li>allowed_users access control</li>
+          </ul>
+        </div>
+        <div class="desc-col">
+          <h4>Key Files</h4>
+          <ul>
+            <li><code>bridge/channels/telegram.py</code></li>
+          </ul>
+        </div>
+        <div class="desc-col">
+          <h4>Example Flow</h4>
+          <p class="mono-sm">/say 'Hello listeners' &rarr; TTS generates WAV &rarr; mixer.queue_tts() &rarr; Liquidsoap ducks music and plays voice</p>
+        </div>
+      </div>
+    </div>
+    <div class="mermaid">
+sequenceDiagram
+  actor User
+  participant TG as TelegramChannel
+  participant MX as LiquidsoapMixer
+  participant TTS as TTSService
+  participant LLM as LLMService
+  participant Plugins as DJPlugins
+
+  Note over TG: Command Dispatch
+
+  User->>TG: /start
+  TG->>TG: _is_allowed(user_id)
+  TG->>TG: _build_main_menu_keyboard()
+  TG->>Plugins: telegram_menu_buttons()
+  TG-->>User: Welcome + inline menu
+
+  User->>TG: /status
+  TG->>MX: health_check()
+  TG->>TTS: health_check()
+  TG->>LLM: health_check()
+  TG-->>User: System health report
+
+  User->>TG: /say "hello world"
+  TG->>TTS: speak("hello world")
+  TTS-->>TG: audio_path
+  TG->>MX: queue_tts(audio_path)
+  TG-->>User: ✅ Queued
+
+  Note over TG: Audio Controls (Callbacks)
+
+  User->>TG: 🔊 Music Vol +10%
+  TG->>TG: handle_callback("m:up")
+  TG->>MX: set_music_volume(+0.1)
+  TG->>TG: _build_audio_keyboard()
+  TG-->>User: Updated audio controls
+
+  User->>TG: ⏭ Skip
+  TG->>TG: handle_callback("next")
+  TG->>MX: next_track()
+  TG-->>User: ⏭ Skipped
+
+  Note over TG: Plugin Callbacks
+
+  User->>TG: [Plugin Button]
+  TG->>TG: handle_callback("plugin:id:action")
+  TG->>Plugins: handle_telegram_callback(action)
+  Plugins-->>TG: response
+  TG-->>User: Plugin response
+    </div>
+  </div>
+
+  <!-- 5. AI Services -->
+  <div class="card diagram-card" data-diagram="ai">
+    <h2>AI Services <span class="tag">flowchart LR</span></h2>
+    <div class="desc">
+      <p>Three AI service wrappers connect to external APIs running in Docker containers. TTSService calls Qwen3-TTS to generate WAV audio files. STTService calls a Whisper-compatible API for speech transcription. LLMService calls any OpenAI-compatible chat API (Ollama, vLLM, etc.) for generating DJ announcements. All services instrument their calls as EventStore events for the timeline.</p>
+      <div class="desc-details">
+        <div class="desc-col">
+          <h4>Key Components</h4>
+          <ul>
+            <li>TTSService.speak()</li>
+            <li>STTService.transcribe()</li>
+            <li>LLMService.chat()</li>
+            <li>Health checks</li>
+          </ul>
+        </div>
+        <div class="desc-col">
+          <h4>Key Files</h4>
+          <ul>
+            <li><code>bridge/services/tts_service.py</code></li>
+            <li><code>bridge/services/stt_service.py</code></li>
+            <li><code>bridge/services/llm_service.py</code></li>
+          </ul>
+        </div>
+        <div class="desc-col">
+          <h4>Example Flow</h4>
+          <p class="mono-sm">Presenter &rarr; LLMService.chat('Introduce: Artist - Title') &rarr; POST /v1/chat/completions &rarr; 'Coming up next, a classic from...' &rarr; TTSService.speak(text) &rarr; WAV file</p>
+        </div>
+      </div>
+    </div>
+    <div class="mermaid">
+flowchart LR
+  subgraph Callers["📞 Who Calls"]
+    TG["TelegramChannel\n(/say command)"]
+    PRES["Presenter Plugin\n(DJ announcements)"]
+    VS["VoiceScheduler\n(segment playback)"]
+    STT_TG["TelegramChannel\n(voice messages)"]
+  end
+
+  subgraph Services["🤖 Service Layer"]
+    TTS["TTSService\n.speak(text)"]
+    STT["STTService\n.transcribe(audio)"]
+    LLM["LLMService\n.chat(message)"]
+  end
+
+  subgraph Endpoints["🌐 External APIs"]
+    QWEN["Qwen3-TTS\nPOST /tts/custom-voice\n{text, speaker, instruct}"]
+    WHISPER["Whisper API\nPOST /v1/audio/transcriptions\n(multipart: file + model)"]
+    OLLAMA["LLM API (OpenAI-compat)\nPOST /v1/chat/completions\n{model, messages}"]
+  end
+
+  subgraph Output["📁 Output"]
+    WAV["WAV file\n(cache_dir/timestamp.wav)"]
+    TEXT["Text transcription"]
+    RESP["Chat response\n(choices.0.message.content)"]
+  end
+
+  subgraph Instrumentation["📊 EventStore"]
+    ES[("EventStore")]
+    TTS_EV["tts_generate event\n(lane: system)"]
+    LLM_EV["llm_request event\n(lane: system)"]
+  end
+
+  TG -->|text| TTS
+  PRES -->|LLM prompt| LLM
+  VS -->|text| TTS
+  STT_TG -->|audio file| STT
+
+  TTS -->|HTTP POST\nJSON payload| QWEN
+  STT -->|HTTP POST\nmultipart form| WHISPER
+  LLM -->|HTTP POST\nJSON payload| OLLAMA
+
+  QWEN --> WAV
+  WHISPER --> TEXT
+  OLLAMA --> RESP
+
+  TTS -->|start/end event| TTS_EV
+  LLM -->|start/end event| LLM_EV
+  TTS_EV --> ES
+  LLM_EV --> ES
+    </div>
+  </div>
+
+  <!-- 6. Event & Config Infrastructure -->
+  <div class="card diagram-card" data-diagram="events">
+    <h2>Event &amp; Config Infrastructure <span class="tag">flowchart TD</span></h2>
+    <div class="desc">
+      <p>Two SQLite-backed stores provide persistence and real-time communication. EventStore records all system activity (music plays, TTS generations, voice segments, LLM requests) with start/end timestamps and status tracking. It pushes updates to SSE subscribers for the live Timeline visualization. ConfigStore persists settings as section/key &rarr; JSON pairs, plus a plugin_instances table for multi-instance plugin management. Booth provides human-readable activity logging with emoji-prefixed entries.</p>
+      <div class="desc-details">
+        <div class="desc-col">
+          <h4>Key Components</h4>
+          <ul>
+            <li>event_log + event_detail tables</li>
+            <li>asyncio.Queue pub/sub</li>
+            <li>config + plugin_instances tables</li>
+            <li>BoothFormatter</li>
+          </ul>
+        </div>
+        <div class="desc-col">
+          <h4>Key Files</h4>
+          <ul>
+            <li><code>bridge/event_store.py</code></li>
+            <li><code>bridge/config_store.py</code></li>
+            <li><code>bridge/booth.py</code></li>
+          </ul>
+        </div>
+        <div class="desc-col">
+          <h4>Example Flow</h4>
+          <p class="mono-sm">PlaylistPlanner starts event (scheduled) &rarr; StreamContext detects play &rarr; update to active &rarr; track ends &rarr; end_event(completed) &rarr; SSE pushes to Timeline</p>
+        </div>
+      </div>
+    </div>
+    <div class="mermaid">
+flowchart TD
+  subgraph EventStore["📊 EventStore (SQLite + Pub/Sub)"]
+    ELOG[("event_log table\nid, event_type, lane, title\nstarted_at, ended_at, status")]
+    EDET[("event_detail table\nevent_id, key, value")]
+    SUBS["Subscriber Queues\n(asyncio.Queue per client)"]
+    WINDOW["get_window(start, end)\n→ time-range query"]
+  end
+
+  subgraph Producers["📤 Event Producers"]
+    SC["StreamContext\n(music lane)"]
+    PP["PlaylistPlanner\n(music lane, scheduled)"]
+    VS["VoiceScheduler\n(voice_segment lane)"]
+    TTS["TTSService\n(tts_generate lane)"]
+    LLM["LLMService\n(llm_request lane)"]
+  end
+
+  subgraph Consumers["📥 Event Consumers"]
+    SSE["SSE Endpoint\n/api/timeline/events"]
+    TIMELINE["Timeline Page\n(3D visualization)"]
+  end
+
+  subgraph ConfigStore["⚙️ ConfigStore (SQLite KV)"]
+    CONF[("config table\nsection, key → JSON value")]
+    INST[("plugin_instances table\nid, type, display_name\nenabled, config, sort_order")]
+  end
+
+  subgraph ConfigUsers["Config Consumers"]
+    MX["LiquidsoapMixer\n(persist volumes)"]
+    PLUG["Plugin Instances\n(per-instance config)"]
+    WEBR["Web Routes\n(CRUD endpoints)"]
+  end
+
+  subgraph Booth["📝 Booth (Activity Logger)"]
+    FMT["BoothFormatter\n(timestamp + emoji)"]
+    CON["Console Output"]
+    FILE["Log File"]
+  end
+
+  SC -->|start_event\nend_event| ELOG
+  PP -->|start_event\nupdate_event| ELOG
+  VS -->|start_event\nend_event| ELOG
+  TTS -->|start_event\nend_event| ELOG
+  LLM -->|start_event\nend_event| ELOG
+  ELOG --> EDET
+
+  ELOG -->|publish| SUBS
+  SUBS --> SSE
+  SSE -->|event stream| TIMELINE
+  WINDOW --> SSE
+
+  CONF --> MX
+  INST --> PLUG
+  CONF --> WEBR
+  INST --> WEBR
+
+  FMT --> CON
+  FMT --> FILE
+    </div>
+  </div>
+
+  <!-- 7. Playback Lifecycle -->
+  <div class="card diagram-card" data-diagram="playback">
+    <h2>Playback Lifecycle <span class="tag">sequenceDiagram</span></h2>
+    <div class="desc">
+      <p>The complete cross-cutting flow showing how a track goes from selection to listener, touching every major subsystem. This is the core loop of RadioDan: the PlaylistPlanner selects tracks and feeds Liquidsoap, StreamContext detects playback changes, the Presenter generates voice announcements, and the VoiceScheduler times their delivery around crossfades.</p>
+      <div class="desc-details">
+        <div class="desc-col">
+          <h4>Key Components</h4>
+          <ul>
+            <li>SelectionStrategy</li>
+            <li>PlaylistPlanner.advance()</li>
+            <li>StreamContext poll loop</li>
+            <li>VoiceScheduler trigger dispatch</li>
+          </ul>
+        </div>
+        <div class="desc-col">
+          <h4>Key Files</h4>
+          <ul>
+            <li><code>bridge/audio/playlist_planner.py</code></li>
+            <li><code>bridge/audio/stream_context.py</code></li>
+            <li><code>bridge/audio/voice_scheduler.py</code></li>
+            <li><code>bridge/plugins/presenter.py</code></li>
+          </ul>
+        </div>
+        <div class="desc-col">
+          <h4>Example Flow</h4>
+          <p class="mono-sm">Feeder selects track &rarr; queue_music &rarr; Liquidsoap crossfades &rarr; StreamContext detects &rarr; advance() &rarr; tts_needed &rarr; Presenter pre-generates &rarr; before_end trigger fires &rarr; voice plays over crossfade</p>
+        </div>
+      </div>
+    </div>
+    <div class="mermaid">
+sequenceDiagram
+  participant Feeder as SimplePlaylistFeeder
+  participant PP as PlaylistPlanner
+  participant MX as LiquidsoapMixer
+  participant LS as Liquidsoap
+  participant SC as StreamContext
+  participant VS as VoiceScheduler
+  participant PRES as Presenter
+  participant TTS as TTSService
+  participant ES as EventStore
+
+  Note over PP: Startup: fill lookahead queue
+  PP->>Feeder: select_next(library, history, upcoming)
+  Feeder-->>PP: track dict
+  PP->>ES: start_event(music, scheduled)
+  PP->>MX: queue_music(track_path)
+  MX->>LS: music_q.push (telnet)
+
+  Note over LS: Liquidsoap plays track
+  LS->>LS: Crossfade with previous
+
+  Note over SC: Poll loop detects new track
+  SC->>MX: get_track_info() (every 2s)
+  MX-->>SC: {filename, artist, title}
+  SC->>SC: Filename changed → track_changed
+
+  SC->>PP: track_changed event
+  PP->>ES: end_event(prev, completed)
+  PP->>ES: update_event(current, active)
+  PP->>PP: Record in playlist_history
+  PP->>PP: Shift queue, fill new slot
+  PP->>Feeder: select_next(...)
+  Feeder-->>PP: next track
+  PP->>MX: queue_music(next_path)
+  PP->>ES: start_event(music, scheduled)
+
+  PP->>PRES: tts_needed(track, position)
+  PRES->>TTS: speak(announcement)
+  TTS-->>PRES: audio_path (pre-generated)
+
+  SC->>VS: track_changed event
+  VS->>VS: Flush between_songs queue
+
+  Note over SC: Track nearing end
+  SC->>MX: get_remaining()
+  MX-->>SC: remaining < 30s
+  SC->>VS: track_ending event
+
+  VS->>VS: Check before_end triggers
+  VS->>MX: queue_tts(audio_path)
+  MX->>LS: tts.push (telnet)
+  LS->>LS: Duck music, play voice
+  VS->>ES: start_event(voice_segment, active)
+
+  Note over LS: Crossfade into next track
+    </div>
+  </div>
+
+  <!-- 8. Voice Scheduling -->
+  <div class="card diagram-card" data-diagram="voice">
+    <h2>Voice Scheduling <span class="tag">flowchart TD</span></h2>
+    <div class="desc">
+      <p>The voice timing engine that makes RadioDan sound like a real radio station. Plugins submit VoiceSegments with one of 5 trigger modes that control WHEN the voice plays relative to the music. The 'bridge' mode is the signature feature — it calculates the exact moment to start speaking so the voice straddles the crossfade point between two songs. Three mix modes control HOW the voice interacts with music: standard ducking, gentle ducking (music stays audible), or overlay (no ducking at all).</p>
+      <div class="desc-details">
+        <div class="desc-col">
+          <h4>Key Components</h4>
+          <ul>
+            <li>VoiceSegment dataclass</li>
+            <li>5 trigger modes</li>
+            <li>3 mix modes</li>
+            <li>Priority system</li>
+            <li>_between_queue, _before_end_triggers, _after_start_triggers</li>
+          </ul>
+        </div>
+        <div class="desc-col">
+          <h4>Key Files</h4>
+          <ul>
+            <li><code>bridge/audio/voice_scheduler.py</code></li>
+          </ul>
+        </div>
+        <div class="desc-col">
+          <h4>Example Flow</h4>
+          <p class="mono-sm">say('Up next...', trigger='bridge', bridge_mix='gentle_duck') &rarr; calc trigger_at from voice_duration + crossfade_duration &rarr; fires before track ends &rarr; duck_amount=0.25 &rarr; voice plays across crossfade &rarr; restore duck</p>
+        </div>
+      </div>
+    </div>
+    <div class="mermaid">
+flowchart TD
+  subgraph Entry["📥 Segment Entry"]
+    SAY["plugin.say(text, trigger, priority, ...)\n→ VoiceSegment"]
+    SUBMIT["VoiceScheduler.submit(segment)"]
+  end
+
+  subgraph Triggers["⏱️ 5 Trigger Modes"]
+    ASAP["asap\n(immediate)"]
+    ASAP_INT["asap + priority &lt; 0\n(INTERRUPT)"]
+    BETWEEN["between_songs\n(next track change)"]
+    BEFORE["before_end:X\n(X sec before end)"]
+    AFTER["after_start:X\n(X sec after start)"]
+    BRIDGE["bridge\n(straddle crossfade)"]
+  end
+
+  subgraph Queues["📋 Pending Queues"]
+    BQ["_between_queue\n(sorted by priority)"]
+    BET["_before_end_triggers\n(threshold list)"]
+    AFT["_after_start_triggers\n(threshold list)"]
+  end
+
+  subgraph Events["🎵 StreamContext Events"]
+    TC["track_changed"]
+    TE["track_ending\n(remaining &lt; threshold)"]
+    MON["Monitor Loop\n(every 2s, check elapsed)"]
+  end
+
+  subgraph Play["▶️ _play(segment)"]
+    GEN["Generate TTS\nor use pre_generated_audio"]
+    ROUTE{"bridge_mix?"}
+  end
+
+  subgraph MixModes["🎚️ 3 Mix Modes"]
+    DUCK["duck\n(standard TTS queue)\nmixer.queue_tts()"]
+    GENTLE["gentle_duck\n(duck_amount=0.25)\nmixer.queue_tts()\nrestore after 10s"]
+    OVERLAY["overlay\n(earcon queue, no duck)\nmixer.queue_earcon()"]
+  end
+
+  subgraph Priority["⚡ Priority Handling"]
+    PRI_HIGH["priority &lt; 0\nINTERRUPT\nflush TTS + cancel lower"]
+    PRI_NORM["priority = 0\nNormal ordering"]
+    PRI_LOW["priority &gt; 0\nLow priority\n(deferred)"]
+  end
+
+  SAY --> SUBMIT
+  SUBMIT --> ASAP
+  SUBMIT --> ASAP_INT
+  SUBMIT --> BETWEEN
+  SUBMIT --> BEFORE
+  SUBMIT --> AFTER
+  SUBMIT --> BRIDGE
+
+  ASAP --> Play
+  ASAP_INT -->|flush + cancel| Play
+
+  BETWEEN --> BQ
+  BEFORE --> BET
+  AFTER --> AFT
+  BRIDGE -->|calc: trigger_at =\n voice_dur + cf_dur / 2| BET
+
+  TC -->|flush queue| BQ
+  BQ --> Play
+  TE -->|remaining ≤ X| BET
+  BET --> Play
+  MON -->|elapsed ≥ X| AFT
+  AFT --> Play
+
+  GEN --> ROUTE
+  ROUTE -->|duck| DUCK
+  ROUTE -->|gentle_duck| GENTLE
+  ROUTE -->|overlay| OVERLAY
+
+  SUBMIT --> PRI_HIGH
+  SUBMIT --> PRI_NORM
+  SUBMIT --> PRI_LOW
+    </div>
+  </div>
+
+  <script type="module">
+    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'dark',
+      themeVariables: {
+        background: '#080a12',
+        primaryColor: '#1a1f35',
+        primaryBorderColor: '#9b8aff',
+        primaryTextColor: '#ebf0ff',
+        secondaryColor: '#0f1628',
+        secondaryBorderColor: '#56d4f5',
+        tertiaryColor: '#111827',
+        lineColor: '#56d4f5',
+        textColor: '#ebf0ff',
+        mainBkg: '#1a1f35',
+        nodeBorder: '#9b8aff',
+        clusterBkg: 'rgba(155,138,255,0.06)',
+        clusterBorder: 'rgba(155,138,255,0.25)',
+        titleColor: '#ebf0ff',
+        actorBorder: '#9b8aff',
+        actorBkg: '#1a1f35',
+        actorTextColor: '#ebf0ff',
+        actorLineColor: '#56d4f5',
+        signalColor: '#56d4f5',
+        signalTextColor: '#ebf0ff',
+        labelBoxBkgColor: '#1a1f35',
+        labelBoxBorderColor: '#9b8aff',
+        labelTextColor: '#ebf0ff',
+        loopTextColor: '#ebf0ff',
+        noteBorderColor: '#f0a840',
+        noteBkgColor: 'rgba(240,168,64,0.12)',
+        noteTextColor: '#ebf0ff',
+        activationBorderColor: '#9b8aff',
+        activationBkgColor: 'rgba(155,138,255,0.15)',
+        sequenceNumberColor: '#080a12',
+      },
+      flowchart: { curve: 'basis', padding: 16 },
+      sequence: { mirrorActors: false, bottomMarginAdj: 2 },
+      fontFamily: "'DM Sans', system-ui, sans-serif",
+      fontSize: 13,
+    });
+
+    // Show ALL cards so Mermaid can render all SVGs
+    const cards = document.querySelectorAll('.diagram-card');
+    cards.forEach(c => c.style.display = 'block');
+
+    await mermaid.run({ querySelector: '.mermaid' });
+
+    // After rendering, hide all except overview
+    cards.forEach(c => {
+      if (c.dataset.diagram !== 'overview') {
+        c.style.display = '';
+        c.classList.remove('active');
+      }
+    });
+
+    // Diagram tab navigation (arch-pills, not nav pills)
+    const archPills = document.querySelectorAll('.arch-pill');
+    archPills.forEach(pill => {
+      pill.addEventListener('click', () => {
+        const target = pill.dataset.diagram;
+        archPills.forEach(p => p.classList.toggle('active', p === pill));
+        cards.forEach(c => c.classList.toggle('active', c.dataset.diagram === target));
+      });
+    });
+  </script>
+</div>
+{% endblock %}
