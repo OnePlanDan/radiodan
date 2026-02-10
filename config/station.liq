@@ -50,10 +50,12 @@ silence = sine(duration=1.0, 440.0)
 music_raw = fallback(track_sensitive=true, [music_queue, silence])
 
 # Apply crossfade between tracks
+# NOTE: b.source (incoming) must be listed FIRST in add() — Liquidsoap takes
+# metadata from the first source, so wrong order = ICY metadata one track behind
 music = cross(duration=crossfade_duration(), fun(a, b) -> begin
   add(normalize=false, [
-    fade.out(duration=crossfade_duration(), a.source),
-    fade.in(duration=crossfade_duration(), b.source)
+    fade.in(duration=crossfade_duration(), b.source),
+    fade.out(duration=crossfade_duration(), a.source)
   ])
 end, music_raw)
 
