@@ -213,6 +213,18 @@ async def playlist_partial(request: web.Request) -> web.Response:
     upcoming = planner.upcoming  # list[dict] with artist, title, duration_seconds
     raw_history = await planner.get_history(limit=5)
 
+    # Deduplicate: history records the now-playing track immediately on
+    # advance(), so the most-recent history entry often matches the current
+    # track.  Remove only the first (most recent) match so an earlier play
+    # of the same track still appears in the history.
+    current_filename = (stream_context.current_track or {}).get("filename", "")
+    if current_filename:
+        current_base = Path(current_filename).name
+        for i, h in enumerate(raw_history):
+            if Path(h.get("file_path", "")).name == current_base:
+                raw_history = raw_history[:i] + raw_history[i + 1:]
+                break
+
     # Join history (file_path + played_at) with library to get artist/title/duration
     library_map: dict[str, dict] = {}
     for t in planner.library:

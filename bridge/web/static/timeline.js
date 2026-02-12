@@ -551,6 +551,19 @@
   }
 
   function updateAllMeshes() {
+    // Remove meshes whose events no longer exist
+    for (const id of eventMeshes.keys()) {
+      if (!sseState.events.has(id)) {
+        const pair = eventMeshes.get(id);
+        clipsGroup.remove(pair.mesh);
+        clipsGroup.remove(pair.shell);
+        pair.mesh.material.dispose();
+        pair.shell.material.dispose();
+        eventMeshes.delete(id);
+        const pIdx = pickMeshes.indexOf(pair.mesh);
+        if (pIdx !== -1) pickMeshes.splice(pIdx, 1);
+      }
+    }
     for (const ev of sseState.events.values()) addOrUpdateMesh(ev);
   }
 

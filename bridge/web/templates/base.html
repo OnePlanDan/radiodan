@@ -314,17 +314,19 @@
         <span class="player-inline-dot" id="player-status-dot" title="Paused"></span>
       </div>
       <nav class="pills"
+           {% if page not in ('timeline', 'architecture') %}
            hx-boost="true"
            hx-target="#page-content"
            hx-select="#page-content"
-           hx-swap="outerHTML">
+           hx-swap="outerHTML"
+           {% endif %}>
         <a class="pill-btn{% if page == 'dashboard' or not page %} active{% endif %}" href="/">Dashboard</a>
         <a class="pill-btn{% if page == 'plugins' %} active{% endif %}" href="/plugins">Plugins</a>
         <a class="pill-btn{% if page == 'audio' %} active{% endif %}" href="/audio">Audio</a>
         <a class="pill-btn{% if page == 'config' %} active{% endif %}" href="/config">Settings</a>
         <a class="pill-btn{% if page == 'system' %} active{% endif %}" href="/system">System</a>
-        <a class="pill-btn{% if page == 'timeline' %} active{% endif %}" href="/timeline">Timeline</a>
-        <a class="pill-btn{% if page == 'architecture' %} active{% endif %}" href="/architecture">Architecture</a>
+        <a class="pill-btn{% if page == 'timeline' %} active{% endif %}" href="/timeline" hx-boost="false">Timeline</a>
+        <a class="pill-btn{% if page == 'architecture' %} active{% endif %}" href="/architecture" hx-boost="false">Architecture</a>
       </nav>
     </div>
 
