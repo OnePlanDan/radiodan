@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Audio — {{ station_name }}{% endblock %}
 
-{% block content %}
+{% block page_content %}
 <div class="page-header">
     <h2>🎚️ Audio Controls</h2>
 </div>
@@ -103,6 +103,10 @@
         </div>
     </div>
     <script src="/static/duck-envelope.js"></script>
+    <script>
+      // Re-init on HTMX navigation (HTMX may skip re-executing the src script)
+      if (typeof window.initDuckEnvelope === 'function') window.initDuckEnvelope();
+    </script>
 </div>
 
 <div class="card">
@@ -136,4 +140,4 @@
     </div>
 </div>
 
-{% endblock %}
+{% endblock page_content %}

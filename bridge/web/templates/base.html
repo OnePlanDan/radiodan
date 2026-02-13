@@ -119,6 +119,10 @@
       gap: 12px;
       flex-shrink: 0;
       flex-wrap: wrap;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      padding: 4px 0 12px;
     }
     .topbar h1 {
       font-size: 17px;
@@ -137,32 +141,33 @@
       align-items: center;
       gap: 10px;
     }
+    .player-btn-wrap {
+      position: relative;
+      width: 38px; height: 38px;
+      flex-shrink: 0;
+    }
     .player-inline-btn {
       appearance: none;
-      width: 32px; height: 32px;
+      position: absolute;
+      inset: 3px;
       border-radius: 50%;
-      border: 2px solid var(--lavender);
-      background: rgba(155,138,255,0.12);
-      color: var(--lavender);
+      border: none;
+      background: rgba(255,255,255,0.06);
+      color: var(--muted);
       cursor: pointer;
       display: flex;
       align-items: center;
       justify-content: center;
       transition: all 0.2s ease;
-      flex-shrink: 0;
       padding: 0;
+      z-index: 1;
     }
     .player-inline-btn:hover {
-      background: rgba(155,138,255,0.22);
+      background: rgba(255,255,255,0.12);
       transform: scale(1.06);
     }
     .player-inline-btn.playing {
-      border-color: var(--mint);
-      background: rgba(74,234,188,0.15);
-      color: var(--mint);
-    }
-    .player-inline-btn.playing:hover {
-      background: rgba(74,234,188,0.25);
+      color: var(--text);
     }
     .player-inline-btn svg {
       width: 14px; height: 14px;
@@ -193,22 +198,32 @@
       border: none;
       cursor: pointer;
     }
+    /* Status ring — sits behind the play button */
     .player-inline-dot {
-      width: 7px; height: 7px;
+      position: absolute;
+      inset: 0;
       border-radius: 50%;
-      background: var(--muted);
-      flex-shrink: 0;
+      border: 2px solid var(--line2);
+      background: transparent;
+      transition: border-color 0.3s ease, box-shadow 0.3s ease;
     }
     .player-inline-dot.live {
-      background: var(--mint);
-      animation: statusPulse 2s ease-in-out infinite;
+      border-color: var(--mint);
+      box-shadow: 0 0 8px rgba(74,234,188,0.35);
+      animation: ringPulse 2s ease-in-out infinite;
+    }
+    .player-inline-dot.connecting {
+      border-color: var(--amber);
+      box-shadow: 0 0 6px rgba(240,168,64,0.30);
+      animation: ringPulse 1s ease-in-out infinite;
     }
     .player-inline-dot.error {
-      background: var(--coral);
+      border-color: var(--coral);
+      box-shadow: 0 0 6px rgba(255,107,107,0.30);
     }
-    @keyframes statusPulse {
+    @keyframes ringPulse {
       0%, 100% { opacity: 1; }
-      50% { opacity: 0.4; }
+      50% { opacity: 0.45; }
     }
 
     /* ── Pill navigation ── */
@@ -295,6 +310,9 @@
 
     /* Override sidebar-based content margin */
     .content { margin-left: 0; max-width: 900px; margin: 0 auto; padding: 0; }
+
+    /* Consistent spacing between page elements */
+    #page-content { display: flex; flex-direction: column; gap: 16px; }
   </style>
 </head>
 <body>
@@ -306,27 +324,27 @@
     <div class="topbar">
       <h1>{{ station_name }}</h1>
       <div class="player-inline">
-        <button class="player-inline-btn" id="player-play-btn" aria-label="Play" title="Play / Pause">
-          <svg id="player-icon-play" viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
-          <svg id="player-icon-pause" viewBox="0 0 24 24" style="display:none"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>
-        </button>
+        <div class="player-btn-wrap">
+          <span class="player-inline-dot" id="player-status-dot" title="Paused"></span>
+          <button class="player-inline-btn" id="player-play-btn" aria-label="Play" title="Play / Pause">
+            <svg id="player-icon-play" viewBox="0 0 24 24"><polygon points="6,3 20,12 6,21"/></svg>
+            <svg id="player-icon-pause" viewBox="0 0 24 24" style="display:none"><rect x="5" y="3" width="4" height="18"/><rect x="15" y="3" width="4" height="18"/></svg>
+          </button>
+        </div>
         <input type="range" class="player-inline-vol" id="player-volume" min="0" max="100" value="80" title="Volume">
-        <span class="player-inline-dot" id="player-status-dot" title="Paused"></span>
       </div>
       <nav class="pills"
-           {% if page not in ('timeline', 'architecture') %}
            hx-boost="true"
            hx-target="#page-content"
            hx-select="#page-content"
-           hx-swap="outerHTML"
-           {% endif %}>
+           hx-swap="outerHTML show:window:top">
         <a class="pill-btn{% if page == 'dashboard' or not page %} active{% endif %}" href="/">Dashboard</a>
         <a class="pill-btn{% if page == 'plugins' %} active{% endif %}" href="/plugins">Plugins</a>
         <a class="pill-btn{% if page == 'audio' %} active{% endif %}" href="/audio">Audio</a>
         <a class="pill-btn{% if page == 'config' %} active{% endif %}" href="/config">Settings</a>
         <a class="pill-btn{% if page == 'system' %} active{% endif %}" href="/system">System</a>
-        <a class="pill-btn{% if page == 'timeline' %} active{% endif %}" href="/timeline" hx-boost="false">Timeline</a>
-        <a class="pill-btn{% if page == 'architecture' %} active{% endif %}" href="/architecture" hx-boost="false">Architecture</a>
+        <a class="pill-btn{% if page == 'timeline' %} active{% endif %}" href="/timeline">Timeline</a>
+        <a class="pill-btn{% if page == 'architecture' %} active{% endif %}" href="/architecture">Architecture</a>
       </nav>
     </div>
 
@@ -366,6 +384,9 @@
       if (state === 'live') {
         statusDot.classList.add('live');
         statusDot.title = 'Live';
+      } else if (state === 'connecting') {
+        statusDot.classList.add('connecting');
+        statusDot.title = 'Connecting\u2026';
       } else if (state === 'reconnecting') {
         statusDot.classList.add('error');
         statusDot.title = 'Reconnecting\u2026';
@@ -374,32 +395,55 @@
       }
     }
 
-    function doPlay() {
-      audio.src = streamUrl;
-      audio.load();
-      audio.play().catch(function() {});
-      isPlaying = true;
+    function setPlayingUI() {
       iconPlay.style.display = 'none';
       iconPause.style.display = '';
       playBtn.classList.add('playing');
-      setStatus('live');
     }
 
-    function doPause() {
-      isPlaying = false;
-      audio.pause();
-      audio.removeAttribute('src');
-      audio.load();
+    function setPausedUI() {
       iconPlay.style.display = '';
       iconPause.style.display = 'none';
       playBtn.classList.remove('playing');
       setStatus('paused');
+    }
+
+    function doPlay() {
+      audio.src = streamUrl;
+      audio.load();
+      isPlaying = true;
+      localStorage.setItem('radiodan-playing', '1');
+      setPlayingUI();
+      setStatus('connecting');
+      audio.play().catch(function() {
+        // Autoplay blocked or network error — revert to paused
+        doPause();
+      });
+    }
+
+    function doPause() {
+      isPlaying = false;
+      localStorage.removeItem('radiodan-playing');
+      audio.pause();
+      audio.removeAttribute('src');
+      audio.load();
+      setPausedUI();
       if (retryTimer) { clearTimeout(retryTimer); retryTimer = null; }
     }
+
+    // Only show "live" when audio is actually flowing
+    audio.addEventListener('playing', function() {
+      setStatus('live');
+    });
 
     playBtn.addEventListener('click', function() {
       if (isPlaying) { doPause(); } else { doPlay(); }
     });
+
+    // Restore playback state from localStorage (survives page reloads)
+    if (localStorage.getItem('radiodan-playing')) {
+      doPlay();
+    }
 
     volumeSlider.addEventListener('input', function() {
       var v = parseInt(this.value, 10);

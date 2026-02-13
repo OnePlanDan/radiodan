@@ -112,7 +112,7 @@ async def now_playing_partial(request: web.Request) -> web.Response:
 <div class="hero-artist">{artist}</div>
 <div class="hero-title">{title}</div>
 {"<div class='hero-meta'>" + meta_line + "</div>" if meta_line else ""}
-<div class="hero-timing">{e_min}:{e_sec:02d} / -{r_min}:{r_sec:02d}</div>
+<div class="hero-timing" data-elapsed="{int(elapsed)}" data-remaining="{int(remaining)}">{e_min}:{e_sec:02d} / -{r_min}:{r_sec:02d}</div>
 <div class="hero-actions">
   <button class="btn btn-skip"
           hx-post="/audio/skip"

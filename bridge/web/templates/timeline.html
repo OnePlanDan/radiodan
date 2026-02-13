@@ -691,4 +691,8 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
   <script src="/static/timeline.js"></script>
+  <script>
+    // Re-init on HTMX navigation (HTMX may skip re-executing the src script)
+    if (typeof window.initTimeline === 'function') window.initTimeline();
+  </script>
 {% endblock %}

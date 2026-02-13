@@ -7,8 +7,14 @@
  * Ported from prototype (doc/radio_timeline_viz prototype.html),
  * connected to real SSE data from /api/timeline/events.
  */
-(() => {
+window.initTimeline = function() {
   "use strict";
+
+  // Dispose any previous instance (safe to call multiple times)
+  if (window.__timelineCleanup) {
+    window.__timelineCleanup();
+    window.__timelineCleanup = null;
+  }
 
   const $ = (s, el = document) => el.querySelector(s);
 
@@ -660,9 +666,10 @@
     if (hitId) enterFocus(hitId);
   });
 
-  window.addEventListener("keydown", eKey => {
+  function onEscKey(eKey) {
     if (eKey.key === "Escape" && focus.active) exitFocus();
-  });
+  }
+  window.addEventListener("keydown", onEscKey);
 
   // ============================================================
   // Drawer (inspect mode JSON panel)
@@ -1105,12 +1112,13 @@
     }
   }, { passive: false });
 
-  window.addEventListener("keydown", e => {
+  function onArrowKey(e) {
     if (focus.active) return;
     const step = 80 / target.zoom;
     if (e.key === "ArrowUp") target.panY = clamp(target.panY + step * 0.7, -totalH - 180, 140);
     if (e.key === "ArrowDown") target.panY = clamp(target.panY - step * 0.7, -totalH - 180, 140);
-  });
+  }
+  window.addEventListener("keydown", onArrowKey);
 
   function bindRange(id, key, fmt = v => v) {
     const el = $("#" + id), out = $("#" + id + "Out");
@@ -1178,6 +1186,7 @@
   // ============================================================
 
   let lastT = performance.now();
+  let rafHandle = null;
 
   function tick(now) {
     const dt = Math.min(0.05, (now - lastT) / 1000);
@@ -1280,7 +1289,7 @@
     miniRenderer.render(scene, miniCamera);
     drawMiniOverlay();
 
-    requestAnimationFrame(tick);
+    rafHandle = requestAnimationFrame(tick);
   }
 
   // ============================================================
@@ -1292,8 +1301,32 @@
     // Start with empty scene — SSE will populate
     rebuildLanesAndGrid();
     connectSSE();
-    requestAnimationFrame(tick);
+    rafHandle = requestAnimationFrame(tick);
   }
 
+  // ============================================================
+  // Cleanup (for HTMX navigation away)
+  // ============================================================
+
+  window.__timelineCleanup = function() {
+    if (rafHandle) { cancelAnimationFrame(rafHandle); rafHandle = null; }
+    if (eventSource) { eventSource.close(); eventSource = null; }
+    renderer.dispose();
+    miniRenderer.dispose();
+    window.removeEventListener("resize", resize);
+    window.removeEventListener("keydown", onEscKey);
+    window.removeEventListener("keydown", onArrowKey);
+  };
+
+  // Auto-cleanup when HTMX swaps #page-content (navigating away)
+  document.body.addEventListener("htmx:beforeSwap", function _onSwap() {
+    if (window.__timelineCleanup) window.__timelineCleanup();
+    window.__timelineCleanup = null;
+    document.body.removeEventListener("htmx:beforeSwap", _onSwap);
+  });
+
   boot();
-})();
+};
+
+// Auto-init on first load (direct navigation / full page load)
+window.initTimeline();

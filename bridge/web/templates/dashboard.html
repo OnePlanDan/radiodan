@@ -139,12 +139,12 @@
       100% { opacity: 0; transform: translate(-8px, 6px) scale(0.7); }
     }
 
-    /* Fade-in for loaded content */
-    .hero-card .hero-artist { animation: contentReveal 0.4s ease-out; }
-    .hero-card .hero-title  { animation: contentReveal 0.4s ease-out 0.05s both; }
-    .hero-card .hero-meta   { animation: contentReveal 0.4s ease-out 0.10s both; }
-    .hero-card .hero-timing { animation: contentReveal 0.4s ease-out 0.15s both; }
-    .hero-card .hero-actions{ animation: contentReveal 0.4s ease-out 0.20s both; }
+    /* Fade-in for loaded content (first load only; .polled suppresses on poll refreshes) */
+    .hero-card:not(.polled) .hero-artist { animation: contentReveal 0.4s ease-out; }
+    .hero-card:not(.polled) .hero-title  { animation: contentReveal 0.4s ease-out 0.05s both; }
+    .hero-card:not(.polled) .hero-meta   { animation: contentReveal 0.4s ease-out 0.10s both; }
+    .hero-card:not(.polled) .hero-timing { animation: contentReveal 0.4s ease-out 0.15s both; }
+    .hero-card:not(.polled) .hero-actions{ animation: contentReveal 0.4s ease-out 0.20s both; }
     @keyframes contentReveal {
       from { opacity: 0; transform: translateY(8px); }
       to   { opacity: 1; transform: translateY(0); }
@@ -254,7 +254,7 @@
     }
 
     /* ── Playlist card ── */
-    .playlist-card {
+    .playlist-card:not(.polled) {
       animation: contentReveal 0.4s ease-out 0.15s both;
     }
     .playlist-header {
@@ -314,6 +314,8 @@
       gap: 12px;
       padding: 7px 0;
       border-bottom: 1px solid var(--line);
+    }
+    .playlist-card:not(.polled) .pl-row {
       animation: contentReveal 0.3s ease-out both;
     }
     .pl-row:last-child { border-bottom: none; }
@@ -396,7 +398,7 @@
   <!-- Now Playing (lazy-loaded via HTMX) -->
   <div class="card hero-card"
        hx-get="/api/dashboard/now-playing"
-       hx-trigger="load"
+       hx-trigger="load, every 10s"
        hx-swap="innerHTML">
     <!-- Shimmer placeholder — replaced once data arrives -->
     <div class="shimmer-wrap">
@@ -427,7 +429,7 @@
     </div>
     <div class="playlist-body open" id="playlist-body"
          hx-get="/api/dashboard/playlist"
-         hx-trigger="load, revealed"
+         hx-trigger="load, revealed, every 15s"
          hx-swap="innerHTML">
     </div>
   </div>
@@ -468,5 +470,38 @@
       });
     }
   })();
+
+  // Live countdown timer — ticks elapsed/remaining every second between HTMX polls
+  (function() {
+    var pad2 = function(n) { return (n < 10 ? '0' : '') + n; };
+    var fmt = function(sec) {
+      var m = Math.floor(Math.abs(sec) / 60);
+      var s = Math.abs(sec) % 60;
+      return m + ':' + pad2(s);
+    };
+
+    setInterval(function() {
+      var el = document.querySelector('.hero-timing');
+      if (!el) return;
+      var elapsed = parseInt(el.getAttribute('data-elapsed'), 10);
+      var remaining = parseInt(el.getAttribute('data-remaining'), 10);
+      if (isNaN(elapsed) || isNaN(remaining)) return;
+
+      elapsed += 1;
+      remaining = Math.max(0, remaining - 1);
+
+      el.setAttribute('data-elapsed', elapsed);
+      el.setAttribute('data-remaining', remaining);
+      el.textContent = fmt(elapsed) + '  /  -' + fmt(remaining);
+    }, 1000);
+  })();
+
+  // Suppress intro animations after first HTMX poll swap
+  document.body.addEventListener('htmx:afterSwap', function() {
+    var hero = document.querySelector('.hero-card');
+    if (hero && !hero.classList.contains('polled')) hero.classList.add('polled');
+    var playlist = document.querySelector('.playlist-card');
+    if (playlist && !playlist.classList.contains('polled')) playlist.classList.add('polled');
+  });
   </script>
 {% endblock %}

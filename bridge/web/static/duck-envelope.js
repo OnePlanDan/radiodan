@@ -9,7 +9,7 @@
  *   |--pre 60px--|--duck-in 130px--|--ducked 120px--|--duck-out 130px--|--post 60px--|
  *   Y: 20 (vol=1.0) to 180 (vol=0.0)
  */
-(function () {
+window.initDuckEnvelope = function () {
   const SVG_NS = "http://www.w3.org/2000/svg";
   const W = 500, H = 200;
   const Y_TOP = 20, Y_BOT = 180;
@@ -274,4 +274,7 @@
 
   // Initial render
   renderEnvelope();
-})();
+};
+
+// Auto-init on first load
+window.initDuckEnvelope();

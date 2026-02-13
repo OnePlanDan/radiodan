@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block title %}Edit {{ instance.display_name }} — {{ station_name }}{% endblock %}
 
-{% block content %}
+{% block page_content %}
 <div class="page-header">
     <h2>🔌 Edit Instance</h2>
     <a href="/plugins" class="btn btn-secondary">← Back to Plugins</a>
@@ -241,4 +241,4 @@
     }
 })();
 </script>
-{% endblock %}
+{% endblock page_content %}
