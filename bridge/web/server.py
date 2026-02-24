@@ -6,6 +6,7 @@ Runs on port 49995 alongside the Telegram bot.
 """
 
 import logging
+import time
 from pathlib import Path
 from typing import TYPE_CHECKING
 
@@ -69,6 +70,7 @@ class WebServer:
         )
         env.globals["station_name"] = station_name
         env.globals["stream_url"] = stream_url
+        env.globals["cache_v"] = str(int(time.time()))
 
         # Set up routes
         self._setup_routes()
