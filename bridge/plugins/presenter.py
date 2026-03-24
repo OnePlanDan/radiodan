@@ -218,7 +218,7 @@ class PresenterPlugin(DJPlugin):
         self._outro_before_end = cfg.get("outro_before_end", 30)
 
         # Subscribe to stream events
-        self.ctx.stream_context.on("track_changed", self._on_track_changed)
+        self.listen("track_changed", self._on_track_changed)
 
         # Start periodic announcements if configured
         if self._periodic_interval > 0:

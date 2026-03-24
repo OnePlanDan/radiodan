@@ -12,6 +12,7 @@ from aiohttp import web
 from bridge.plugins import get_registry, discover_plugins
 from bridge.plugins.base import PluginContext
 
+logger = logging.getLogger(__name__)
 routes = web.RouteTableDef()
 
 
@@ -194,7 +195,19 @@ async def create_instance(request: web.Request) -> web.Response:
         config=config,
     )
 
-    # Redirect back to plugin list (or return HTMX partial)
+    # Start the plugin live
+    ctx_kwargs = request.app.get("ctx_kwargs", {})
+    plugins = request.app["plugins"]
+    if ctx_kwargs:
+        try:
+            ctx = PluginContext(config=config, **ctx_kwargs)
+            plugin = registry[plugin_type](ctx, instance_id=instance_id, display_name=display_name)
+            await plugin.start()
+            plugins.append(plugin)
+            logger.info(f"Plugin {instance_id} created and started")
+        except Exception:
+            logger.exception(f"Failed to start new plugin {instance_id}")
+
     if request.headers.get("HX-Request"):
         raise web.HTTPSeeOther("/plugins")
     raise web.HTTPSeeOther("/plugins")
@@ -309,9 +322,18 @@ async def update_instance(request: web.Request) -> web.Response:
 
 @routes.delete("/plugins/instances/{id}")
 async def delete_instance(request: web.Request) -> web.Response:
-    """Delete a plugin instance."""
+    """Delete a plugin instance — stops it live if running."""
     config_store = request.app["config_store"]
+    plugins = request.app["plugins"]
     instance_id = request.match_info["id"]
+
+    # Stop the running plugin first
+    for i, p in enumerate(plugins):
+        if p.instance_id == instance_id:
+            await p.stop()
+            plugins.pop(i)
+            logger.info(f"Plugin {instance_id} stopped (deleted)")
+            break
 
     await config_store.delete_instance(instance_id)
 
@@ -322,8 +344,10 @@ async def delete_instance(request: web.Request) -> web.Response:
 
 @routes.post("/plugins/instances/{id}/toggle")
 async def toggle_instance(request: web.Request) -> web.Response:
-    """Toggle an instance's enabled state (HTMX partial)."""
+    """Toggle an instance's enabled state — starts/stops plugin live."""
     config_store = request.app["config_store"]
+    plugins = request.app["plugins"]
+    ctx_kwargs = request.app.get("ctx_kwargs", {})
     instance_id = request.match_info["id"]
 
     instance = await config_store.get_instance(instance_id)
@@ -332,9 +356,32 @@ async def toggle_instance(request: web.Request) -> web.Response:
 
     new_state = await config_store.toggle_instance(instance_id)
 
+    if not new_state:
+        # Disabling — stop the running plugin
+        for i, p in enumerate(plugins):
+            if p.instance_id == instance_id:
+                await p.stop()
+                plugins.pop(i)
+                logger.info(f"Plugin {instance_id} stopped (disabled)")
+                break
+    else:
+        # Enabling — instantiate and start
+        discover_plugins()
+        registry = get_registry()
+        plugin_cls = registry.get(instance["plugin_type"])
+        if plugin_cls and ctx_kwargs:
+            try:
+                ctx = PluginContext(config=instance["config"], **ctx_kwargs)
+                plugin = plugin_cls(ctx, instance_id=instance_id, display_name=instance["display_name"])
+                await plugin.start()
+                plugins.append(plugin)
+                logger.info(f"Plugin {instance_id} started (enabled)")
+            except Exception:
+                logger.exception(f"Failed to start plugin {instance_id}")
+
     # Return updated row partial
     instance["enabled"] = new_state
-    running_ids = {p.instance_id for p in request.app["plugins"]}
+    running_ids = {p.instance_id for p in plugins}
 
     response = aiohttp_jinja2.render_template(
         "plugins/_instance_row.html",

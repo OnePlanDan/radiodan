@@ -421,6 +421,19 @@
     </div>
   </div>
 
+  <!-- Health Status -->
+  <div class="card" style="padding: 14px 28px;">
+    <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+      <span class="plugins-heading" style="margin-bottom:0">Health</span>
+      <span id="health-badges"
+            hx-get="/api/dashboard/health"
+            hx-trigger="load, every 30s"
+            hx-swap="innerHTML">
+        Loading...
+      </span>
+    </div>
+  </div>
+
   <!-- Playlist (collapsible) -->
   <div class="card playlist-card">
     <div class="playlist-header" id="playlist-toggle">

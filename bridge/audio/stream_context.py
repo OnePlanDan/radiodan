@@ -71,6 +71,10 @@ class StreamContext:
         # Background poller task
         self._poll_task: asyncio.Task | None = None
 
+        # Watchdog: consecutive polls with nothing playing
+        self._idle_polls: int = 0
+        self._IDLE_RECOVERY_THRESHOLD: int = 5  # recover after ~10s of silence
+
     def set_planner(self, planner: "PlaylistPlanner") -> None:
         """Set the playlist planner reference for upcoming track info."""
         self._planner = planner
@@ -100,6 +104,14 @@ class StreamContext:
             callback: Async function to call when event fires
         """
         self._listeners.setdefault(event, []).append(callback)
+
+    def off(self, event: str, callback: EventCallback) -> None:
+        """Unsubscribe from a stream event."""
+        if event in self._listeners:
+            try:
+                self._listeners[event].remove(callback)
+            except ValueError:
+                pass
 
     async def _emit(self, event: str, *args: Any, **kwargs: Any) -> None:
         """Emit an event to all subscribers. Errors are caught and logged."""
@@ -200,6 +212,42 @@ class StreamContext:
             self._track_ending_fired = True
             logger.info(f"Track ending in {remaining:.1f}s")
             await self._emit("track_ending", remaining)
+
+        # Watchdog: recover from empty Liquidsoap queue
+        if not current_filename and remaining == 0:
+            self._idle_polls += 1
+            if (
+                self._idle_polls >= self._IDLE_RECOVERY_THRESHOLD
+                and self._idle_polls % self._IDLE_RECOVERY_THRESHOLD == 0
+                and self._planner
+            ):
+                await self._try_recover_queue()
+        else:
+            self._idle_polls = 0
+
+    async def _try_recover_queue(self) -> None:
+        """Re-push tracks when Liquidsoap's queue has drained.
+
+        Called by the watchdog after several consecutive idle polls.
+        Resets the last-filename tracker so the next track that plays
+        will properly fire a track_changed event.
+        """
+        ls_count = await self.mixer.get_music_queue_length()
+        if ls_count > 0:
+            return  # Liquidsoap has tracks, just waiting for playback
+
+        planner_count = len(self._planner.upcoming)
+        if planner_count == 0:
+            return  # Nothing to push
+
+        logger.warning(
+            f"Watchdog: Liquidsoap queue empty but planner has {planner_count} "
+            f"tracks — re-pushing"
+        )
+        booth.start(f"Queue recovery ({planner_count} tracks re-pushed)")
+        await self._planner._push_all_to_liquidsoap()
+        # Reset filename tracker so the next playing track triggers track_changed
+        self._last_filename = ""
 
     async def notify_skip(self) -> None:
         """Force an immediate poll after a skip, so events transition instantly."""

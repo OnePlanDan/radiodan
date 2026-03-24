@@ -54,6 +54,7 @@ class PluginContext:
     config: dict = field(default_factory=dict)
     booth: Any = None  # BoothLog instance
     playlist_planner: "PlaylistPlanner | None" = None
+    stt_service: Any = None
 
     @property
     def ollama_service(self) -> "LLMService":
@@ -84,6 +85,7 @@ class DJPlugin:
         self.display_name = display_name or self.name.replace("_", " ").title()
         self.logger = logging.getLogger(f"plugin.{self.name}.{self.instance_id}")
         self._tasks: list[asyncio.Task] = []
+        self._event_handlers: list[tuple[str, Any]] = []
         self._running = False
 
     # =========================================================================
@@ -116,9 +118,14 @@ class DJPlugin:
         await self.on_start()
 
     async def stop(self) -> None:
-        """Stop the plugin, cancelling all background tasks."""
+        """Stop the plugin, cancelling all background tasks and event handlers."""
         self._running = False
         await self.on_stop()
+        # Unregister event handlers from StreamContext
+        for event, cb in self._event_handlers:
+            self.ctx.stream_context.off(event, cb)
+        self._event_handlers.clear()
+        # Cancel background tasks
         for task in self._tasks:
             task.cancel()
         for task in self._tasks:
@@ -128,6 +135,11 @@ class DJPlugin:
                 pass
         self._tasks.clear()
         self.logger.info(f"Plugin {self.instance_id} stopped")
+
+    def listen(self, event: str, callback) -> None:
+        """Subscribe to a stream event with automatic cleanup on stop."""
+        self.ctx.stream_context.on(event, callback)
+        self._event_handlers.append((event, callback))
 
     async def on_start(self) -> None:
         """Override for custom startup logic."""

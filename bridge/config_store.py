@@ -27,6 +27,14 @@ CREATE TABLE IF NOT EXISTS config (
     PRIMARY KEY (section, key)
 );
 
+CREATE TABLE IF NOT EXISTS ollama_hosts (
+    ip        TEXT NOT NULL,
+    port      INTEGER DEFAULT 11434,
+    models    TEXT DEFAULT '[]',
+    last_seen TEXT DEFAULT (datetime('now')),
+    PRIMARY KEY (ip, port)
+);
+
 CREATE TABLE IF NOT EXISTS plugin_instances (
     id           TEXT PRIMARY KEY,
     plugin_type  TEXT NOT NULL,
@@ -230,6 +238,37 @@ class ConfigStore:
         await self._db.commit()
         logger.info(f"Toggled instance {instance_id}: {'enabled' if new_state else 'disabled'}")
         return new_state
+
+    # =========================================================================
+    # OLLAMA HOST DISCOVERY
+    # =========================================================================
+
+    async def list_ollama_hosts(self) -> list[dict]:
+        """List all discovered Ollama hosts."""
+        results = []
+        async with self._db.execute(
+            "SELECT ip, port, models, last_seen FROM ollama_hosts ORDER BY last_seen DESC",
+        ) as cursor:
+            async for row in cursor:
+                results.append({
+                    "ip": row["ip"],
+                    "port": row["port"],
+                    "models": json.loads(row["models"]) if row["models"] else [],
+                    "last_seen": row["last_seen"],
+                })
+        return results
+
+    async def upsert_ollama_host(self, ip: str, port: int, models: list[str]) -> None:
+        """Insert or update an Ollama host with its models."""
+        await self._db.execute(
+            """INSERT INTO ollama_hosts (ip, port, models, last_seen)
+               VALUES (?, ?, ?, datetime('now'))
+               ON CONFLICT(ip, port) DO UPDATE SET
+                   models = excluded.models,
+                   last_seen = excluded.last_seen""",
+            (ip, port, json.dumps(models)),
+        )
+        await self._db.commit()
 
     def _row_to_instance(self, row: aiosqlite.Row) -> dict:
         """Convert a database row to an instance dict."""

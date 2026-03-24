@@ -89,16 +89,18 @@ async def main() -> None:
     stream_url = get_stream_url(config, local_ip)
     logger.info(f"Stream URL: {stream_url}")
 
-    # Validate Telegram configuration
-    if not config.telegram.token:
-        logger.error("TELEGRAM_BOT_TOKEN not set in .env file!")
-        logger.error("Please copy .env.example to .env and configure your token.")
-        sys.exit(1)
-
-    if not config.telegram.allowed_users:
-        logger.warning("No TELEGRAM_USER_ID configured - bot will accept all users!")
+    # Check Telegram configuration
+    telegram_enabled = config.telegram.enabled and bool(config.telegram.token)
+    if not telegram_enabled:
+        if not config.telegram.enabled:
+            logger.info("Telegram channel disabled in station config")
+        else:
+            logger.info("Telegram channel disabled (no TELEGRAM_BOT_TOKEN set)")
     else:
-        logger.info(f"Allowed Telegram users: {config.telegram.allowed_users}")
+        if not config.telegram.allowed_users:
+            logger.warning("No TELEGRAM_USER_ID configured - bot will accept all users!")
+        else:
+            logger.info(f"Allowed Telegram users: {config.telegram.allowed_users}")
 
     # Initialize TTS service
     tts_cache_dir = Path(__file__).parent.parent / "tmp" / "tts_cache"
@@ -170,6 +172,7 @@ async def main() -> None:
     # Shared services for plugin contexts
     ctx_kwargs = {
         "tts_service": tts_service,
+        "stt_service": stt_service,
         "mixer": mixer,
         "llm_service": llm_service,
         "stream_context": stream_context,
@@ -186,21 +189,23 @@ async def main() -> None:
     )
     logger.info(f"Loaded {len(plugins)} plugin instance(s)")
 
-    # Create Telegram channel
-    icecast_url = f"http://localhost:{config.audio.icecast.external_port}"
-    telegram = TelegramChannel(
-        token=config.telegram.token,
-        allowed_users=config.telegram.allowed_users,
-        stream_url_getter=lambda: stream_url,
-        tts_service=tts_service,
-        mixer=mixer,
-        stt_service=stt_service,
-        llm_service=llm_service,
-        station_name=station_name,
-        stream_context=stream_context,
-        icecast_url=icecast_url,
-    )
-    telegram.register_plugins(plugins)
+    # Create Telegram channel (optional)
+    telegram = None
+    if telegram_enabled:
+        icecast_url = f"http://localhost:{config.audio.icecast.external_port}"
+        telegram = TelegramChannel(
+            token=config.telegram.token,
+            allowed_users=config.telegram.allowed_users,
+            stream_url_getter=lambda: stream_url,
+            tts_service=tts_service,
+            mixer=mixer,
+            stt_service=stt_service,
+            llm_service=llm_service,
+            station_name=station_name,
+            stream_context=stream_context,
+            icecast_url=icecast_url,
+        )
+        telegram.register_plugins(plugins)
 
     # Create web server
     web_server = WebServer(
@@ -250,7 +255,8 @@ async def main() -> None:
             except Exception:
                 logger.exception(f"Failed to start plugin: {plugin.instance_id}")
 
-        await telegram.start()
+        if telegram:
+            await telegram.start()
         await web_server.start()
 
         logger.info("")
@@ -258,7 +264,8 @@ async def main() -> None:
         logger.info(f"   Stream URL: {stream_url}")
         logger.info(f"   Web GUI:    http://{local_ip}:49995")
         logger.info(f"   Plugins:    {', '.join(p.instance_id for p in plugins) or 'none'}")
-        logger.info("   Send /start to your Telegram bot to begin")
+        if telegram:
+            logger.info("   Send /start to your Telegram bot to begin")
         logger.info("")
         logger.info("Press Ctrl+C to stop")
 
@@ -271,7 +278,8 @@ async def main() -> None:
         async def _cleanup() -> None:
             """Shut down all services in reverse order."""
             await web_server.stop()
-            await telegram.stop()
+            if telegram:
+                await telegram.stop()
             for plugin in reversed(plugins):
                 try:
                     await plugin.stop()

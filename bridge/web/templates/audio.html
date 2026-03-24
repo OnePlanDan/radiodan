@@ -7,6 +7,27 @@
 </div>
 
 <div class="card">
+    <h3>Say Something</h3>
+    <p class="muted">Type text to speak it on the stream via TTS</p>
+    <form hx-post="/audio/say"
+          hx-target="#say-status"
+          hx-swap="innerHTML"
+          hx-on::after-request="if(event.detail.successful) this.reset()">
+        <div class="slider-group">
+            <input type="text" name="text" class="input"
+                   placeholder="Hello, welcome to the stream!"
+                   autocomplete="off" required>
+            <button type="submit" class="btn btn-secondary">Speak</button>
+            <button type="button" class="btn btn-secondary"
+                    hx-post="/audio/time-announce"
+                    hx-target="#say-status"
+                    hx-swap="innerHTML">Time</button>
+        </div>
+    </form>
+    <div id="say-status" style="margin-top: 0.5rem;"></div>
+</div>
+
+<div class="card">
     <h3>🎵 Music Volume</h3>
     <div class="slider-group">
         <input type="range" min="0" max="100" value="{{ (music_vol * 100)|int }}"
@@ -138,6 +159,23 @@
                name="value">
         <span id="crossfade-label" class="slider-label">{{ "%.1f"|format(crossfade_duration) }}s</span>
     </div>
+</div>
+
+<div class="card">
+    <h3>LLM Chat</h3>
+    <p class="muted">Send a message to the AI — the response will be spoken on the stream</p>
+    <div id="chat-messages" style="max-height: 300px; overflow-y: auto; margin-bottom: 0.6rem;"></div>
+    <form hx-post="/audio/chat"
+          hx-target="#chat-messages"
+          hx-swap="beforeend"
+          hx-on::after-request="if(event.detail.successful) { this.reset(); this.closest('.card').querySelector('#chat-messages').scrollTop = 999999; }">
+        <div class="slider-group">
+            <input type="text" name="message" class="input"
+                   placeholder="Ask the AI something..."
+                   autocomplete="off" required>
+            <button type="submit" class="btn btn-secondary">Send</button>
+        </div>
+    </form>
 </div>
 
 {% endblock page_content %}

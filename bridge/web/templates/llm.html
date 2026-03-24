@@ -1,0 +1,120 @@
+{% extends "base.html" %}
+{% block title %}LLM Servers — {{ station_name }}{% endblock %}
+
+{% block page_content %}
+<style>
+  .row-active { background: rgba(155, 138, 255, 0.08); }
+  .table tr[style*="cursor"]:hover { background: rgba(255, 255, 255, 0.04); }
+  #model-section { margin-top: 1rem; }
+</style>
+
+<div class="page-header">
+  <h2>LLM Servers</h2>
+</div>
+
+<!-- Scan controls -->
+<div class="card">
+  <h3>Scan LAN</h3>
+  <form hx-post="/llm/scan"
+        hx-target="#llm-status"
+        hx-swap="innerHTML">
+    <div class="slider-group">
+      <input type="text" name="subnet" class="input"
+             value="{{ default_subnet }}"
+             placeholder="192.168.1.0/24"
+             style="max-width: 220px;">
+      <button type="submit" class="btn btn-secondary">Scan LAN</button>
+      <span id="scan-progress"
+            hx-get="/api/llm/scan-status"
+            hx-trigger="load, every 5s"
+            hx-swap="innerHTML"></span>
+    </div>
+  </form>
+  <div id="llm-status" style="margin-top: 0.5rem;"></div>
+</div>
+
+<!-- Active LLM indicator -->
+{% if active_endpoint %}
+<div class="card" style="padding: 14px 28px;">
+  <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+    <span style="font-weight:600; color: var(--text-muted); font-size: 0.85rem;">ACTIVE:</span>
+    <span class="badge badge-ok">{{ active_model }}</span>
+    <span class="muted">{{ active_endpoint }}</span>
+  </div>
+</div>
+{% endif %}
+
+<!-- Server table (always shown) -->
+<div class="card">
+  <h3>Servers</h3>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>IP</th>
+        <th>Port</th>
+        <th>Models</th>
+        <th>Status</th>
+        <th>Last Seen</th>
+      </tr>
+    </thead>
+    <tbody id="host-table-body"
+           hx-get="/api/llm/hosts"
+           hx-trigger="load, every 30s, scanComplete from:body"
+           hx-swap="innerHTML">
+      <tr><td colspan="5" class="muted" style="text-align:center;padding:1.5rem">Loading...</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Models table (populated when a server is clicked) -->
+<div class="card" id="model-section">
+  <h3>Models</h3>
+  <p class="muted">Click a server above to see its models</p>
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Model</th>
+        <th>Parameters</th>
+        <th>Size</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="model-table-body">
+    </tbody>
+  </table>
+</div>
+
+<!-- Web Chat System Prompt -->
+<div class="card">
+  <h3>Web Chat System Prompt</h3>
+  <p class="muted">System prompt used when chatting with the LLM from the Audio page. Presenters use their own prompts.</p>
+  <form hx-post="/llm/system-prompt"
+        hx-target="#prompt-status"
+        hx-swap="innerHTML">
+    <textarea name="system_prompt" class="input textarea-code" rows="3"
+              placeholder="{{ default_system_prompt }}">{{ system_prompt_override }}</textarea>
+    <div style="margin-top: 0.5rem; display:flex; gap:0.5rem; align-items:center;">
+      <button type="submit" class="btn btn-secondary">Save</button>
+      <span id="prompt-status"></span>
+    </div>
+  </form>
+</div>
+
+<!-- Refresh host table after scan completes -->
+<script>
+  // Poll scan status; when scan finishes, trigger host table refresh
+  document.body.addEventListener('htmx:afterRequest', function(e) {
+    if (e.detail.pathInfo && e.detail.pathInfo.requestPath === '/api/llm/scan-status') {
+      var txt = (e.detail.xhr && e.detail.xhr.responseText) || '';
+      if (txt === '' && document.body.dataset.wasScanning) {
+        // Scan just finished — refresh host table
+        htmx.trigger('#host-table-body', 'scanComplete');
+        delete document.body.dataset.wasScanning;
+      } else if (txt.indexOf('Scanning') !== -1) {
+        document.body.dataset.wasScanning = '1';
+      }
+    }
+  });
+</script>
+
+{% endblock page_content %}

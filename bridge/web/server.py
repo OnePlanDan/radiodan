@@ -50,7 +50,7 @@ class WebServer:
         self.station_name = station_name
         self.host = host
         self.port = port
-        self.app = web.Application()
+        self.app = web.Application(client_max_size=200 * 1024 * 1024)  # 200MB for uploads
         self._runner: web.AppRunner | None = None
 
         # Store references in app for route handlers
@@ -85,6 +85,8 @@ class WebServer:
         from bridge.web.routes.architecture import routes as architecture_routes
         from bridge.web.routes.system import routes as system_routes
         from bridge.web.routes.queue import routes as queue_routes
+        from bridge.web.routes.llm import routes as llm_routes
+        from bridge.web.routes.library import routes as library_routes
 
         self.app.router.add_routes(dashboard_routes)
         self.app.router.add_routes(plugin_routes)
@@ -94,6 +96,8 @@ class WebServer:
         self.app.router.add_routes(architecture_routes)
         self.app.router.add_routes(system_routes)
         self.app.router.add_routes(queue_routes)
+        self.app.router.add_routes(llm_routes)
+        self.app.router.add_routes(library_routes)
 
         # Static files
         self.app.router.add_static("/static", STATIC_DIR, name="static")

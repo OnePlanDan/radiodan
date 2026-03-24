@@ -1,9 +1,15 @@
 """
-Audio controls routes — volume, mute, duck, skip.
+Audio controls routes — volume, mute, duck, skip, say, chat.
 """
+
+import logging
+from datetime import datetime
+from html import escape
 
 import aiohttp_jinja2
 from aiohttp import web
+
+logger = logging.getLogger(__name__)
 
 routes = web.RouteTableDef()
 
@@ -267,3 +273,100 @@ async def unstar_track(request: web.Request) -> web.Response:
         '\u2606 Star</button>'
     )
     return web.Response(text=html, content_type="text/html")
+
+
+# ═══════════════════════════════════════════════════════════════════════════════
+# Say / Time / LLM Chat
+# ═══════════════════════════════════════════════════════════════════════════════
+
+
+@routes.post("/audio/say")
+async def say_text(request: web.Request) -> web.Response:
+    """Speak text on the stream via TTS."""
+    from bridge.booth import booth
+
+    tts_service = request.app["ctx_kwargs"]["tts_service"]
+    mixer = request.app["mixer"]
+    data = await request.post()
+    text = (data.get("text") or "").strip()
+    if not text:
+        return web.Response(
+            text='<span class="flash error">No text provided</span>',
+            content_type="text/html",
+        )
+    try:
+        audio_path = await tts_service.speak(text)
+        success = await mixer.queue_tts(audio_path)
+        if success:
+            booth.tts_request(text[:80], "web")
+            return web.Response(
+                text=f'<span class="flash success">Speaking: {escape(text[:80])}</span>',
+                content_type="text/html",
+            )
+        return web.Response(
+            text='<span class="flash error">Failed to queue audio</span>',
+            content_type="text/html",
+        )
+    except Exception as e:
+        logger.exception("TTS error in /audio/say")
+        return web.Response(
+            text=f'<span class="flash error">TTS error: {escape(str(e)[:100])}</span>',
+            content_type="text/html",
+        )
+
+
+@routes.post("/audio/time-announce")
+async def time_announce(request: web.Request) -> web.Response:
+    """Announce the current time on the stream via TTS."""
+    tts_service = request.app["ctx_kwargs"]["tts_service"]
+    mixer = request.app["mixer"]
+    now = datetime.now()
+    time_text = f"The time is {now.strftime('%H:%M')}"
+    try:
+        audio_path = await tts_service.speak(time_text)
+        await mixer.queue_tts(audio_path)
+        return web.Response(
+            text=f'<span class="flash success">Announced: {now.strftime("%H:%M:%S")}</span>',
+            content_type="text/html",
+        )
+    except Exception as e:
+        logger.exception("TTS error in /audio/time-announce")
+        return web.Response(
+            text=f'<span class="flash error">TTS error: {escape(str(e)[:100])}</span>',
+            content_type="text/html",
+        )
+
+
+@routes.post("/audio/chat")
+async def llm_chat(request: web.Request) -> web.Response:
+    """Send text to LLM, speak the response on the stream."""
+    from bridge.booth import booth
+
+    tts_service = request.app["ctx_kwargs"]["tts_service"]
+    llm_service = request.app["ctx_kwargs"]["llm_service"]
+    mixer = request.app["mixer"]
+    data = await request.post()
+    message = (data.get("message") or "").strip()
+    if not message:
+        return web.Response(
+            text='<div class="chat-msg error">No message provided</div>',
+            content_type="text/html",
+        )
+    try:
+        response_text = await llm_service.chat(message)
+        audio_path = await tts_service.speak(response_text)
+        await mixer.queue_tts(audio_path)
+        booth.tts_request(f"LLM chat: {message[:50]}", "web")
+        html = (
+            f'<div class="chat-msg user">{escape(message)}</div>'
+            f'<div class="chat-msg assistant">{escape(response_text)}</div>'
+            f'<div class="flash success" style="margin-top:0.4rem;font-size:0.8rem">Speaking on stream</div>'
+        )
+        return web.Response(text=html, content_type="text/html")
+    except Exception as e:
+        logger.exception("Error in /audio/chat")
+        return web.Response(
+            text=f'<div class="chat-msg user">{escape(message)}</div>'
+                 f'<div class="chat-msg error">Error: {escape(str(e)[:100])}</div>',
+            content_type="text/html",
+        )

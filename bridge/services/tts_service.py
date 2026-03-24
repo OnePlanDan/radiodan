@@ -5,6 +5,7 @@ Async wrapper around the Qwen3-TTS API.
 Generates WAV audio files from text for streaming through Liquidsoap.
 """
 
+import asyncio
 import logging
 import time
 from pathlib import Path
@@ -124,6 +125,9 @@ class TTSService:
                 audio_data = await response.read()
                 output_path.write_bytes(audio_data)
 
+                # Normalize loudness (EBU R128) so all voices play at equal volume
+                await self._normalize_audio(output_path)
+
                 booth.tts_generated(str(output_path))
                 logger.info(f"TTS generated: {output_path} ({len(audio_data)} bytes)")
 
@@ -138,6 +142,23 @@ class TTSService:
             if self._event_store and eid is not None:
                 await self._event_store.end_event(eid, status="failed")
             raise RuntimeError(f"TTS API connection error: {e}") from e
+
+    async def _normalize_audio(self, path: Path) -> None:
+        """Normalize audio loudness using ffmpeg EBU R128 (loudnorm)."""
+        normalized = path.with_suffix(".norm.wav")
+        proc = await asyncio.create_subprocess_exec(
+            "ffmpeg", "-y", "-i", str(path),
+            "-af", "loudnorm=I=-16:TP=-1.5:LRA=11",
+            str(normalized),
+            stdout=asyncio.subprocess.DEVNULL,
+            stderr=asyncio.subprocess.PIPE,
+        )
+        _, stderr = await proc.communicate()
+        if proc.returncode == 0 and normalized.exists():
+            normalized.replace(path)
+        else:
+            logger.warning(f"Audio normalization failed (rc={proc.returncode}), using original")
+            normalized.unlink(missing_ok=True)
 
     async def health_check(self) -> bool:
         """Check if the TTS API is available."""

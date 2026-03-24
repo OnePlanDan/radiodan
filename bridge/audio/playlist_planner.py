@@ -475,8 +475,8 @@ class PlaylistPlanner:
                 t.pop("event_id", None)
             await self._create_events_for_queue()
 
-        # Load recent history
-        self._history = await self.get_history(limit=50)
+        # Load recent history (enough to cover no_repeat_count)
+        self._history = await self.get_history(limit=250)
 
         # Initial scan (updates DB)
         await self._scan_library()

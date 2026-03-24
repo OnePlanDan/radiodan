@@ -1,9 +1,9 @@
 {% extends "base.html" %}
-{% block title %}Settings — {{ station_name }}{% endblock %}
+{% block title %}Config — {{ station_name }}{% endblock %}
 
 {% block page_content %}
 <div class="page-header">
-    <h2>⚙️ Settings</h2>
+    <h2>Config</h2>
 </div>
 
 <form hx-put="/config" hx-target="#status-message" hx-swap="outerHTML" class="form">
@@ -39,8 +39,8 @@
     </div>
 
     <p class="muted" style="margin-top: 1rem;">
-        Settings saved here override the YAML config. Leave blank to use YAML defaults.
-        Some changes require a restart to take effect.
+        Overrides the station YAML config. Leave blank to use defaults (shown as placeholder text).
+        Changes apply immediately.
     </p>
 </form>
 {% endblock page_content %}

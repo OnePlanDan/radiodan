@@ -7,12 +7,16 @@ Extends base.html — player persists in topbar across navigation.
 Track info is lazy-loaded via HTMX to keep the initial page instant.
 """
 
+import asyncio
+import logging
 import time as _time
 from datetime import datetime, timezone
 from pathlib import Path
 
 import aiohttp_jinja2
 from aiohttp import web
+
+logger = logging.getLogger(__name__)
 
 routes = web.RouteTableDef()
 
@@ -279,3 +283,42 @@ async def playlist_partial(request: web.Request) -> web.Response:
         current_started_at, upcoming_start_times,
     )
     return web.Response(text=html, content_type="text/html")
+
+
+@routes.get("/api/dashboard/health")
+async def health_partial(request: web.Request) -> web.Response:
+    """Return compact health badges as an HTMX partial."""
+    from bridge.web.routes.system import get_process_info
+
+    procs = await get_process_info(request.app)
+
+    ctx = request.app.get("ctx_kwargs", {})
+    tts = ctx.get("tts_service")
+    llm = ctx.get("llm_service")
+
+    # Run service health checks in parallel
+    async def _safe_check(service):
+        if not service:
+            return False
+        try:
+            return await service.health_check()
+        except Exception:
+            return False
+
+    tts_ok, llm_ok = await asyncio.gather(
+        _safe_check(tts),
+        _safe_check(llm),
+    )
+
+    def badge(label, ok):
+        cls = "badge-ok" if ok else "badge-err"
+        return f'<span class="badge {cls}">{label}</span>'
+
+    badges = [
+        badge("Bridge", procs["python"]["status"] == "running"),
+        badge("Liquidsoap", procs["liquidsoap"]["status"] == "running"),
+        badge("Icecast", procs["icecast"]["status"] == "running"),
+        badge("TTS", tts_ok),
+        badge("LLM", llm_ok),
+    ]
+    return web.Response(text=" ".join(badges), content_type="text/html")

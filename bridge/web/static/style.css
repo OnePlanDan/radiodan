@@ -952,6 +952,35 @@ code {
     color: var(--warning);
 }
 
+/* Chat messages */
+.chat-msg {
+    padding: 0.5rem 0.75rem;
+    border-radius: 0.6rem;
+    margin-bottom: 0.4rem;
+    font-size: 0.85rem;
+    line-height: 1.4;
+}
+.chat-msg.user {
+    background: rgba(155, 138, 255, 0.12);
+    text-align: right;
+    color: var(--accent);
+}
+.chat-msg.assistant {
+    background: rgba(86, 212, 245, 0.10);
+    color: var(--text);
+}
+.chat-msg.error {
+    background: rgba(231, 76, 60, 0.12);
+    color: var(--danger);
+}
+
+/* Inline input within slider-group (for say/chat forms) */
+.slider-group .input {
+    width: auto;
+    flex: 1;
+    min-width: 0;
+}
+
 /* Shell layout override — sidebar removed in favor of pill nav */
 .content { margin-left: 0; }
 

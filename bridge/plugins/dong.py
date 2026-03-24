@@ -134,7 +134,7 @@ class DongPlugin(DJPlugin):
                 self.logger.warning(f"Dong '{self.instance_id}': oneshot mode but no datetime configured")
 
         elif self._mode == "between_songs":
-            self.ctx.stream_context.on("track_changed", self._on_track_changed)
+            self.listen("track_changed", self._on_track_changed)
             self.logger.info(f"Dong '{self.instance_id}' started: between every song")
 
     # =========================================================================

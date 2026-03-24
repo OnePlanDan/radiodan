@@ -46,13 +46,13 @@ sources:
 
 channels:
   telegram:
-    enabled: true
+    enabled: false
     # Token and user IDs loaded from environment variables
 
 plugins:
   simple_playlist_feeder:
     enabled: true
-    no_repeat_count: 10     # Avoid repeating last N tracks
+    no_repeat_count: 200    # Avoid repeating last N tracks (~full library rotation)
 
   presenter:
     enabled: true
