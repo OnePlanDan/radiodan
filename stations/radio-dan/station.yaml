@@ -10,13 +10,13 @@ server:
 audio:
   icecast:
     host: icecast
-    port: 8000
+    port: 8001
     mount: /stream
-    external_port: 49994  # Port exposed to outside world
+    external_port: 49996  # Port exposed to outside world
 
   liquidsoap:
     telnet_host: localhost  # Bot runs on host, connects via exposed port
-    telnet_port: 1234
+    telnet_port: 1235
     crossfade_duration: 5.0
 
   playlist:

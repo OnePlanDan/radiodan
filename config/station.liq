@@ -8,7 +8,7 @@
 settings.log.level := 3
 settings.server.telnet := true
 settings.server.telnet.bind_addr := "0.0.0.0"
-settings.server.telnet.port := 1234
+settings.server.telnet.port := 1235
 
 # Get config from environment
 icecast_password = environment.get("ICECAST_SOURCE_PASSWORD") ?? "hackme"
@@ -137,7 +137,7 @@ radio = fallback(track_sensitive=false, [radio, blank()])
 output.icecast(
   %mp3(bitrate=128),
   host="icecast",
-  port=8000,
+  port=8001,
   password=icecast_password,
   mount="/stream",
   name=station_name,
@@ -152,42 +152,42 @@ output.icecast(
 #
 # === Audio Injection ===
 # Inject TTS audio:
-#   echo 'tts.push /path/to/audio.wav' | nc localhost 1234
+#   echo 'tts.push /path/to/audio.wav' | nc localhost 1235
 #
 # Inject earcon:
-#   echo 'earcons.push /sounds/8bit/coin.wav' | nc localhost 1234
+#   echo 'earcons.push /sounds/8bit/coin.wav' | nc localhost 1235
 #
 # Queue music track (PlaylistPlanner):
-#   echo 'music_q.push /music/artist/track.mp3' | nc localhost 1234
+#   echo 'music_q.push /music/artist/track.mp3' | nc localhost 1235
 #
 # === Playback Control ===
 # Skip current TTS:
-#   echo 'tts.skip' | nc localhost 1234
+#   echo 'tts.skip' | nc localhost 1235
 #
 # Flush TTS queue (skip all):
-#   echo 'tts.flush_and_skip' | nc localhost 1234
+#   echo 'tts.flush_and_skip' | nc localhost 1235
 #
 # Skip to next music track:
-#   echo 'music.skip' | nc localhost 1234
+#   echo 'music.skip' | nc localhost 1235
 #
 # === Volume Control ===
 # Set music volume (0.0 - 1.0, 0 = muted):
-#   echo 'var.set music_vol = 0.5' | nc localhost 1234
+#   echo 'var.set music_vol = 0.5' | nc localhost 1235
 #
 # Set TTS volume (0.0 - 1.0):
-#   echo 'var.set tts_vol = 1.0' | nc localhost 1234
+#   echo 'var.set tts_vol = 1.0' | nc localhost 1235
 #
 # Set duck amount (how much music plays during TTS, 0.0 - 1.0):
-#   echo 'var.set duck_amount = 0.3' | nc localhost 1234
+#   echo 'var.set duck_amount = 0.3' | nc localhost 1235
 #
 # Get current volume:
-#   echo 'var.get music_vol' | nc localhost 1234
+#   echo 'var.get music_vol' | nc localhost 1235
 #
 # Get crossfade duration:
-#   echo 'var.get crossfade_duration' | nc localhost 1234
+#   echo 'var.get crossfade_duration' | nc localhost 1235
 #
 # List available commands:
-#   echo 'help' | nc localhost 1234
+#   echo 'help' | nc localhost 1235
 #
 # =============================================================================
 
@@ -239,5 +239,5 @@ server.register(
 )
 
 print("#{station_name} station started!")
-print("Telnet control available on port 1234")
-print("Stream: http://icecast:8000/stream")
+print("Telnet control available on port 1235")
+print("Stream: http://icecast:8001/stream")

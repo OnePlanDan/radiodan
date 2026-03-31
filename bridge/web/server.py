@@ -2,7 +2,7 @@
 RadioDan Web Server
 
 aiohttp-based web admin GUI with HTMX for interactivity.
-Runs on port 49995 alongside the Telegram bot.
+Runs on port 49997 alongside the Telegram bot.
 """
 
 import logging
@@ -41,7 +41,7 @@ class WebServer:
         station_name: str = "Radio Dan",
         stream_url: str = "",
         host: str = "0.0.0.0",
-        port: int = 49995,
+        port: int = 49997,
     ):
         self.config_store = config_store
         self.mixer = mixer

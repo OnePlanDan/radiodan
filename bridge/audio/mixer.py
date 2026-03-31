@@ -26,7 +26,7 @@ class LiquidsoapMixer:
     def __init__(
         self,
         host: str = "localhost",
-        port: int = 1234,
+        port: int = 1235,
         path_mappings: dict[Path, str] | None = None,
         config_store: ConfigStore | None = None,
     ):

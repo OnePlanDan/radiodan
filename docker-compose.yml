@@ -5,7 +5,7 @@ services:
   icecast:
     image: infiniteproject/icecast
     ports:
-      - "49994:8000"
+      - "49996:8001"
     volumes:
       - ./config/icecast.xml:/tmp/icecast-template.xml:ro
     environment:
@@ -19,7 +19,7 @@ services:
         exec icecast -c /etc/icecast.xml
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1:8000/status.xsl || exit 1"]
+      test: ["CMD-SHELL", "wget -q --spider http://127.0.0.1:8001/status.xsl || exit 1"]
       interval: 5s
       timeout: 5s
       retries: 3
@@ -41,5 +41,5 @@ services:
       - STATION_NAME=${STATION_NAME:-Radio Dan}
     # Expose telnet port for mixer control
     ports:
-      - "127.0.0.1:1234:1234"
+      - "127.0.0.1:1235:1235"
     command: ["liquidsoap", "/etc/liquidsoap/station.liq"]

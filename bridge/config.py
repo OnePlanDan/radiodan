@@ -18,15 +18,15 @@ from dotenv import load_dotenv
 @dataclass
 class IcecastConfig:
     host: str = "icecast"
-    port: int = 8000
+    port: int = 8001
     mount: str = "/stream"
-    external_port: int = 49994
+    external_port: int = 49996
 
 
 @dataclass
 class LiquidsoapConfig:
     telnet_host: str = "liquidsoap"
-    telnet_port: int = 1234
+    telnet_port: int = 1235
     crossfade_duration: float = 5.0
 
 
@@ -127,14 +127,14 @@ class Config:
 
         icecast = IcecastConfig(
             host=icecast_cfg.get("host", "icecast"),
-            port=icecast_cfg.get("port", 8000),
+            port=icecast_cfg.get("port", 8001),
             mount=icecast_cfg.get("mount", "/stream"),
-            external_port=icecast_cfg.get("external_port", 49994),
+            external_port=icecast_cfg.get("external_port", 49996),
         )
 
         liquidsoap = LiquidsoapConfig(
             telnet_host=liquidsoap_cfg.get("telnet_host", "liquidsoap"),
-            telnet_port=liquidsoap_cfg.get("telnet_port", 1234),
+            telnet_port=liquidsoap_cfg.get("telnet_port", 1235),
             crossfade_duration=liquidsoap_cfg.get("crossfade_duration", 5.0),
         )
 

@@ -262,7 +262,7 @@ async def main() -> None:
         logger.info("")
         logger.info(f"🎧 {station_name} is running!")
         logger.info(f"   Stream URL: {stream_url}")
-        logger.info(f"   Web GUI:    http://{local_ip}:49995")
+        logger.info(f"   Web GUI:    http://{local_ip}:49997")
         logger.info(f"   Plugins:    {', '.join(p.instance_id for p in plugins) or 'none'}")
         if telegram:
             logger.info("   Send /start to your Telegram bot to begin")

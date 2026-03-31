@@ -163,7 +163,7 @@ check_bot() {
 }
 
 check_stream() {
-    curl -s --max-time 2 -o /dev/null -w "%{http_code}" "http://localhost:49994/stream" 2>/dev/null | grep -q "200"
+    curl -s --max-time 2 -o /dev/null -w "%{http_code}" "http://localhost:49996/stream" 2>/dev/null | grep -q "200"
 }
 
 check_env() {
@@ -195,7 +195,7 @@ cmd_status() {
     fi
 
     if check_icecast; then
-        echo -e "    $OK Icecast        ${DIM}streaming on :49994${NC}"
+        echo -e "    $OK Icecast        ${DIM}streaming on :49996${NC}"
     else
         echo -e "    $OFF Icecast        ${DIM}stopped${NC}"
     fi
@@ -239,7 +239,7 @@ cmd_status() {
 
     echo
     echo -e "  ${BOLD}Stream URL${NC}"
-    echo -e "    ${CYAN}http://${ip}:49994/stream${NC}"
+    echo -e "    ${CYAN}http://${ip}:49996/stream${NC}"
     gold "Open in VLC, browser, or any audio player"
 
     echo
@@ -431,7 +431,7 @@ cmd_audio() {
 
     echo
     gold "Audio containers started"
-    gold "Stream will be at http://$(get_local_ip):49994/stream"
+    gold "Stream will be at http://$(get_local_ip):49996/stream"
     echo
 }
 
@@ -439,7 +439,7 @@ cmd_url() {
     local ip=$(get_local_ip)
     echo
     echo -e "  ${BOLD}🎵 Stream URL:${NC}"
-    echo -e "     ${CYAN}http://${ip}:49994/stream${NC}"
+    echo -e "     ${CYAN}http://${ip}:49996/stream${NC}"
     echo
     gold "Works in VLC, browser, or mobile audio apps"
     echo
