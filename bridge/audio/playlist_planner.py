@@ -54,7 +54,11 @@ CREATE TABLE IF NOT EXISTS music_library (
     year TEXT,
     duration_seconds REAL,
     file_hash TEXT,
-    last_scanned TEXT
+    last_scanned TEXT,
+    play_count INTEGER NOT NULL DEFAULT 0,
+    skip_count INTEGER NOT NULL DEFAULT 0,
+    last_played_at TEXT,
+    play_bias INTEGER NOT NULL DEFAULT 0
 );
 
 CREATE TABLE IF NOT EXISTS playlist_history (
@@ -74,9 +78,16 @@ CREATE TABLE IF NOT EXISTS playlist_queue (
 
 CREATE TABLE IF NOT EXISTS track_stars (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    file_path TEXT NOT NULL UNIQUE,
+    file_path TEXT NOT NULL,
     starred_at TEXT NOT NULL
 );
+
+CREATE INDEX IF NOT EXISTS idx_music_library_genre_lower
+    ON music_library (LOWER(TRIM(COALESCE(genre, ''))));
+CREATE INDEX IF NOT EXISTS idx_music_library_artist_lower
+    ON music_library (LOWER(TRIM(COALESCE(artist, ''))));
+CREATE INDEX IF NOT EXISTS idx_playlist_history_file_path
+    ON playlist_history (file_path);
 """
 
 
@@ -329,6 +340,7 @@ class PlaylistPlanner:
         # Active event tracking for unified timeline
         self._current_active_event_id: int | None = None
         self._skip_pending: bool = False
+        self._last_played_file_path: str | None = None
 
     def set_event_store(self, event_store: "EventStore") -> None:
         """Set the event store for timeline instrumentation."""
@@ -452,6 +464,51 @@ class PlaylistPlanner:
         await self._db.executescript(PLAYLIST_SCHEMA_SQL)
         await self._db.commit()
 
+        # Migrate track_stars: remove UNIQUE constraint if present (counter, not toggle)
+        async with self._db.execute(
+            "SELECT sql FROM sqlite_master WHERE type='table' AND name='track_stars'"
+        ) as cursor:
+            row = await cursor.fetchone()
+            if row and "UNIQUE" in (row[0] or ""):
+                await self._db.executescript("""
+                    CREATE TABLE IF NOT EXISTS track_stars_new (
+                        id INTEGER PRIMARY KEY AUTOINCREMENT,
+                        file_path TEXT NOT NULL,
+                        starred_at TEXT NOT NULL
+                    );
+                    INSERT INTO track_stars_new SELECT * FROM track_stars;
+                    DROP TABLE track_stars;
+                    ALTER TABLE track_stars_new RENAME TO track_stars;
+                """)
+                await self._db.commit()
+                logger.info("Migrated track_stars: removed UNIQUE constraint")
+
+        # Migrate music_library: add play-stats columns if missing, backfill from history
+        async with self._db.execute("PRAGMA table_info(music_library)") as cursor:
+            existing_cols = {row[1] async for row in cursor}
+        stats_ddl = [
+            ("play_count",     "INTEGER NOT NULL DEFAULT 0"),
+            ("skip_count",     "INTEGER NOT NULL DEFAULT 0"),
+            ("last_played_at", "TEXT"),
+            ("play_bias",      "INTEGER NOT NULL DEFAULT 0"),
+        ]
+        added_stats = False
+        for col, ddl in stats_ddl:
+            if col not in existing_cols:
+                await self._db.execute(f"ALTER TABLE music_library ADD COLUMN {col} {ddl}")
+                added_stats = True
+        if added_stats:
+            await self._db.execute("""
+                UPDATE music_library SET
+                  play_count = COALESCE(
+                      (SELECT COUNT(*) FROM playlist_history h WHERE h.file_path = music_library.file_path),
+                      0),
+                  last_played_at =
+                      (SELECT MAX(played_at) FROM playlist_history h WHERE h.file_path = music_library.file_path)
+            """)
+            await self._db.commit()
+            logger.info("Migrated music_library: added play-stats columns and backfilled from history")
+
         # Load library from DB cache first (fast startup)
         self._library = await self._load_library_from_db()
 
@@ -537,10 +594,21 @@ class PlaylistPlanner:
                 end_status = "skipped" if self._skip_pending else "completed"
                 await self._event_store.end_event(self._current_active_event_id, status=end_status)
                 self._current_active_event_id = None
+
+            # Bump skip_count on the previously-played track if the skip flag is set
+            if self._skip_pending and self._last_played_file_path and self._db:
+                await self._db.execute(
+                    "UPDATE music_library SET skip_count = skip_count + 1 WHERE file_path = ?",
+                    (self._last_played_file_path,),
+                )
+                await self._db.commit()
             self._skip_pending = False
 
             # Record in history
             await self._record_history(current_filename)
+
+            # Remember what's now on-air so a subsequent skip can be attributed to it
+            self._last_played_file_path = self.resolve_file_path(current_filename)
 
             # Shift queue: remove the track that just started playing
             popped_track = None
@@ -640,6 +708,10 @@ class PlaylistPlanner:
             "INSERT INTO playlist_history (file_path, played_at) VALUES (?, ?)",
             (file_path, now),
         )
+        await self._db.execute(
+            "UPDATE music_library SET play_count = play_count + 1, last_played_at = ? WHERE file_path = ?",
+            (now, file_path),
+        )
         await self._db.commit()
 
         # Update in-memory history
@@ -661,19 +733,20 @@ class PlaylistPlanner:
     # TRACK STARS
     # =====================================================================
 
-    async def star_track(self, file_path: str) -> None:
-        """Star/like a track."""
+    async def star_track(self, file_path: str) -> int:
+        """Add a star to a track. Multiple calls increment the count. Returns new count."""
         if not self._db:
-            return
+            return 0
         now = datetime.now(timezone.utc).isoformat()
         await self._db.execute(
-            "INSERT OR IGNORE INTO track_stars (file_path, starred_at) VALUES (?, ?)",
+            "INSERT INTO track_stars (file_path, starred_at) VALUES (?, ?)",
             (file_path, now),
         )
         await self._db.commit()
+        return await self.star_count(file_path)
 
     async def unstar_track(self, file_path: str) -> None:
-        """Remove star/like from a track."""
+        """Remove all stars from a track."""
         if not self._db:
             return
         await self._db.execute(
@@ -682,8 +755,19 @@ class PlaylistPlanner:
         )
         await self._db.commit()
 
+    async def star_count(self, file_path: str) -> int:
+        """Get the star count for a track."""
+        if not self._db:
+            return 0
+        async with self._db.execute(
+            "SELECT COUNT(*) FROM track_stars WHERE file_path = ?",
+            (file_path,),
+        ) as cursor:
+            row = await cursor.fetchone()
+            return row[0] if row else 0
+
     async def is_starred(self, file_path: str) -> bool:
-        """Check if a track is starred."""
+        """Check if a track has any stars."""
         if not self._db:
             return False
         async with self._db.execute(
@@ -692,6 +776,20 @@ class PlaylistPlanner:
         ) as cursor:
             row = await cursor.fetchone()
             return row is not None
+
+    async def get_starred_tracks(self, min_stars: int = 1) -> list[dict]:
+        """Get library tracks that have been starred at least min_stars times."""
+        if not self._db:
+            return []
+        starred_paths: set[str] = set()
+        async with self._db.execute(
+            "SELECT file_path, COUNT(*) as cnt FROM track_stars "
+            "GROUP BY file_path HAVING cnt >= ?",
+            (min_stars,),
+        ) as cursor:
+            async for row in cursor:
+                starred_paths.add(row["file_path"])
+        return [t for t in self._library if t["file_path"] in starred_paths]
 
     # =====================================================================
     # TIMELINE EVENT HELPERS
@@ -1034,10 +1132,19 @@ class PlaylistPlanner:
         if self._db:
             for track in scanned:
                 await self._db.execute(
-                    """INSERT OR REPLACE INTO music_library
+                    """INSERT INTO music_library
                     (file_path, artist, title, album, genre, year,
                      duration_seconds, file_hash, last_scanned)
-                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)""",
+                    VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+                    ON CONFLICT(file_path) DO UPDATE SET
+                      artist=excluded.artist,
+                      title=excluded.title,
+                      album=excluded.album,
+                      genre=excluded.genre,
+                      year=excluded.year,
+                      duration_seconds=excluded.duration_seconds,
+                      file_hash=excluded.file_hash,
+                      last_scanned=excluded.last_scanned""",
                     (
                         track["file_path"],
                         track["artist"],
@@ -1052,7 +1159,9 @@ class PlaylistPlanner:
                 )
             await self._db.commit()
 
-        self._library = scanned
+        # Reload from DB so in-memory rows include play stats (play_count,
+        # skip_count, last_played_at, play_bias) that the scanner doesn't produce
+        self._library = await self._load_library_from_db()
         await self._emit("library_scanned", len(scanned))
 
     async def _load_library_from_db(self) -> list[dict]:
@@ -1062,7 +1171,9 @@ class PlaylistPlanner:
         tracks = []
         async with self._db.execute(
             "SELECT file_path, artist, title, album, genre, year, "
-            "duration_seconds, file_hash, last_scanned FROM music_library"
+            "duration_seconds, file_hash, last_scanned, "
+            "play_count, skip_count, last_played_at, play_bias "
+            "FROM music_library"
         ) as cursor:
             async for row in cursor:
                 tracks.append({
@@ -1075,6 +1186,10 @@ class PlaylistPlanner:
                     "duration_seconds": row["duration_seconds"],
                     "file_hash": row["file_hash"],
                     "last_scanned": row["last_scanned"],
+                    "play_count": row["play_count"],
+                    "skip_count": row["skip_count"],
+                    "last_played_at": row["last_played_at"],
+                    "play_bias": row["play_bias"],
                 })
         return tracks
 
