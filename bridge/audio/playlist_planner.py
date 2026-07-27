@@ -154,11 +154,21 @@ class MusicLibraryScanner:
         logger.info(f"Library scan complete: {len(tracks)} tracks found in {self.music_dir}")
         return tracks
 
+    # Top-level subdirectories of the music root that should not be indexed for play.
+    # Files in these folders are visible on disk (for triage / Samba browsing) but
+    # excluded from the library so the planner never queues them. `_damaged/` holds
+    # symlinks to MP3s flagged by scan_mp3_health.sh.
+    EXCLUDED_TOP_DIRS: tuple[str, ...] = ("_damaged",)
+
     def _find_audio_files(self) -> list[Path]:
-        """Find all audio files recursively."""
+        """Find all audio files recursively, skipping EXCLUDED_TOP_DIRS."""
         files = []
         for ext in AUDIO_EXTENSIONS:
-            files.extend(self.music_dir.rglob(f"*{ext}"))
+            for f in self.music_dir.rglob(f"*{ext}"):
+                rel_parts = f.relative_to(self.music_dir).parts
+                if rel_parts and rel_parts[0] in self.EXCLUDED_TOP_DIRS:
+                    continue
+                files.append(f)
         return sorted(files)
 
     def _read_track(self, file_path: Path) -> dict | None:
@@ -1061,12 +1071,28 @@ class PlaylistPlanner:
         return added
 
     async def _push_all_to_liquidsoap(self) -> None:
-        """Push all queued tracks to Liquidsoap's music_q."""
-        for track in self._upcoming:
-            await self._push_track_to_liquidsoap(track)
+        """Push all queued tracks to Liquidsoap's music_q.
 
-    async def _push_track_to_liquidsoap(self, track: dict) -> None:
-        """Push a single track to Liquidsoap's music_q."""
+        Layer 3: if a track fails to push (mixer-side validation rejected it,
+        usually a broken or unreachable path), drop it from `_upcoming` so we
+        don't retry it forever on the next watchdog cycle. The producer will
+        pick a replacement track on the next select_next call.
+        """
+        failed: list[dict] = []
+        for track in list(self._upcoming):  # snapshot — we may mutate _upcoming
+            ok = await self._push_track_to_liquidsoap(track)
+            if not ok:
+                failed.append(track)
+        if failed:
+            failed_paths = {t["file_path"] for t in failed}
+            self._upcoming = [t for t in self._upcoming if t["file_path"] not in failed_paths]
+            logger.warning(
+                f"Dropped {len(failed)} unpushable track(s) from upcoming queue"
+            )
+            await self._save_queue_to_db()
+
+    async def _push_track_to_liquidsoap(self, track: dict) -> bool:
+        """Push a single track to Liquidsoap's music_q. Returns success."""
         file_path = Path(track["file_path"])
         try:
             success = await self.mixer.queue_music(file_path)
@@ -1076,8 +1102,10 @@ class PlaylistPlanner:
                 logger.debug(f"Pushed to Liquidsoap: {artist} - {title}")
             else:
                 logger.warning(f"Failed to push track: {track['file_path']}")
+            return success
         except Exception:
             logger.exception(f"Error pushing track to Liquidsoap: {track['file_path']}")
+            return False
 
     # =====================================================================
     # DB PERSISTENCE

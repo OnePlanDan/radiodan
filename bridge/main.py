@@ -56,13 +56,18 @@ async def main() -> None:
     logger.info("RadioDan Bridge Service starting...")
     logger.info("=" * 50)
 
-    # Determine station directory
+    # Determine station directory (required — no silent fallback)
     station_dir_env = os.environ.get("RADIODAN_STATION_DIR")
-    if station_dir_env:
-        station_dir = Path(station_dir_env)
-    else:
-        # Legacy fallback: use config/ directory
-        station_dir = Path(__file__).parent.parent / "config"
+    if not station_dir_env:
+        logger.critical(
+            "RADIODAN_STATION_DIR not set. "
+            "Run via ./run_radiodan.sh or export RADIODAN_STATION_DIR=<path>"
+        )
+        raise SystemExit(1)
+    station_dir = Path(station_dir_env)
+    if not station_dir.is_dir():
+        logger.critical(f"Station directory does not exist: {station_dir}")
+        raise SystemExit(1)
 
     # Configure booth log (DJ event log)
     booth_log_file = Path(__file__).parent.parent / "logs" / "booth.log"
@@ -112,6 +117,7 @@ async def main() -> None:
         speaker=config.audio.tts.speaker,
         language=config.audio.tts.language,
         instruct=config.audio.tts.instruct,
+        voice_map=config.audio.tts.voice_map,
     )
     logger.info(f"TTS service configured (endpoint: {config.audio.tts.endpoint})")
 
@@ -152,10 +158,34 @@ async def main() -> None:
     )
     logger.info(f"Playlist planner configured (music_dir: {music_dir}, lookahead: {config.audio.playlist.lookahead})")
 
+    # Resolve watchdog fallback track path (absolute or relative to music_dir)
+    fallback_path: Path | None = None
+    raw_fallback = config.audio.watchdog.fallback_track_path
+    if raw_fallback:
+        candidate = Path(raw_fallback)
+        if not candidate.is_absolute():
+            candidate = music_dir / candidate
+        if candidate.exists():
+            fallback_path = candidate
+            logger.info(f"Watchdog fallback track: {fallback_path}")
+        else:
+            logger.warning(
+                f"Watchdog fallback track configured but missing on disk: {candidate}"
+            )
+
     # Create stream context (real-time "what's playing" monitor)
-    stream_context = StreamContext(mixer)
+    stream_context = StreamContext(
+        mixer,
+        grace_seconds=config.audio.watchdog.grace_seconds,
+        min_track_duration=config.audio.watchdog.min_track_duration,
+        liquidsoap_container_name=config.audio.watchdog.liquidsoap_container_name,
+        fallback_track_path=fallback_path,
+    )
     stream_context.set_planner(playlist_planner)
-    logger.info("Stream context configured")
+    logger.info(
+        f"Stream context configured (watchdog grace={config.audio.watchdog.grace_seconds}s, "
+        f"container={config.audio.watchdog.liquidsoap_container_name})"
+    )
 
     # Create voice scheduler (central voice timing engine)
     voice_scheduler = VoiceScheduler(tts_service, mixer, stream_context)
@@ -179,6 +209,7 @@ async def main() -> None:
         "voice_scheduler": voice_scheduler,
         "booth": booth,
         "playlist_planner": playlist_planner,
+        "known_good_fallback_path": fallback_path,
     }
 
     # Load plugin instances (SQLite + YAML fallback)
@@ -207,7 +238,7 @@ async def main() -> None:
         )
         telegram.register_plugins(plugins)
 
-    # Create web server
+    # Create API server
     web_server = WebServer(
         config_store=config_store,
         mixer=mixer,
@@ -217,14 +248,11 @@ async def main() -> None:
         ctx_kwargs=ctx_kwargs,
         station_name=station_name,
         stream_url=stream_url,
+        project_root=project_root,
     )
 
     # Set up graceful shutdown
     shutdown_event = asyncio.Event()
-
-    # Store startup metadata and control events for system routes
-    web_server.app["start_time"] = time.time()
-    web_server.app["project_root"] = project_root
 
     def handle_shutdown(sig: signal.Signals) -> None:
         logger.info(f"Received {sig.name}, initiating shutdown...")
@@ -248,12 +276,21 @@ async def main() -> None:
         # Wire feedback loop: track changes drive playlist advancement
         stream_context.on("track_changed", playlist_planner.advance)
 
-        # Start plugins
-        for plugin in plugins:
+        # Start plugins (producer last — it replaces the playlist feeder)
+        non_producers = [p for p in plugins if p.name != "producer"]
+        producers = [p for p in plugins if p.name == "producer"]
+        for plugin in non_producers + producers:
             try:
                 await plugin.start()
             except Exception:
                 logger.exception(f"Failed to start plugin: {plugin.instance_id}")
+
+        # Producer owns talk — silence presenters to prevent double-talking
+        if any(p.name == "producer" and p._running for p in plugins):
+            for p in plugins:
+                if p.name == "presenter" and hasattr(p, "_active"):
+                    p._active = False
+                    logger.info(f"Silenced presenter (producer active): {p.instance_id}")
 
         if telegram:
             await telegram.start()
@@ -262,12 +299,23 @@ async def main() -> None:
         logger.info("")
         logger.info(f"🎧 {station_name} is running!")
         logger.info(f"   Stream URL: {stream_url}")
-        logger.info(f"   Web GUI:    http://{local_ip}:49997")
+        logger.info(f"   API:        http://{local_ip}:49997")
         logger.info(f"   Plugins:    {', '.join(p.instance_id for p in plugins) or 'none'}")
         if telegram:
             logger.info("   Send /start to your Telegram bot to begin")
         logger.info("")
         logger.info("Press Ctrl+C to stop")
+
+        # Periodic housekeeping (TTS cache only — event history is kept)
+        async def _periodic_cleanup():
+            while True:
+                await asyncio.sleep(3600)  # Every hour
+                try:
+                    await tts_service.cleanup_cache(max_age_hours=24)
+                except Exception:
+                    logger.exception("TTS cache cleanup failed")
+
+        cleanup_task = asyncio.create_task(_periodic_cleanup())
 
         # Wait for shutdown signal
         await shutdown_event.wait()
@@ -275,6 +323,8 @@ async def main() -> None:
     except Exception as e:
         logger.exception(f"Error running {station_name}: {e}")
     finally:
+        cleanup_task.cancel()
+
         async def _cleanup() -> None:
             """Shut down all services in reverse order."""
             await web_server.stop()

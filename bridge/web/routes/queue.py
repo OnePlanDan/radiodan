@@ -1,7 +1,7 @@
 """
 Queue management routes — GET/POST/DELETE /api/queue
 
-Allows multiple actors (web UI, Telegram, plugins, agents) to view
+Allows multiple actors (API clients, Telegram, plugins, agents) to view
 and manipulate the upcoming music queue.
 """
 
@@ -10,24 +10,17 @@ import logging
 
 from aiohttp import web
 
+from bridge.web.helpers import get_planner
+
 logger = logging.getLogger(__name__)
 
 routes = web.RouteTableDef()
 
 
-def _get_planner(request: web.Request):
-    """Retrieve the PlaylistPlanner from the stream context."""
-    ctx = request.app["stream_context"]
-    planner = ctx._planner
-    if planner is None:
-        raise web.HTTPServiceUnavailable(text="Playlist planner not available")
-    return planner
-
-
 @routes.get("/api/queue")
 async def get_queue(request: web.Request) -> web.Response:
     """Return the current upcoming queue as JSON."""
-    planner = _get_planner(request)
+    planner = get_planner(request)
     upcoming = [
         {
             "position": i,
@@ -64,7 +57,7 @@ async def insert_track(request: web.Request) -> web.Response:
         except (TypeError, ValueError):
             raise web.HTTPBadRequest(text="position must be an integer")
 
-    planner = _get_planner(request)
+    planner = get_planner(request)
     success = await planner.insert_track(file_path, position)
 
     if not success:
@@ -81,7 +74,7 @@ async def remove_track(request: web.Request) -> web.Response:
     except (ValueError, KeyError):
         raise web.HTTPBadRequest(text="Invalid position")
 
-    planner = _get_planner(request)
+    planner = get_planner(request)
     removed = await planner.remove_track(position)
 
     if removed is None:
@@ -115,7 +108,7 @@ async def reorder_track(request: web.Request) -> web.Response:
     except (KeyError, TypeError, ValueError):
         raise web.HTTPBadRequest(text="'from' and 'to' integer fields are required")
 
-    planner = _get_planner(request)
+    planner = get_planner(request)
     success = await planner.move_track(from_pos, to_pos)
 
     if not success:

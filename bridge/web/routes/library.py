@@ -1,16 +1,15 @@
 """
-Library routes — stats, folder upload, rescan.
+Library routes — browse, search, stats, rescan, upload.
 """
 
 import asyncio
 import logging
-import os
 import stat
-from html import escape
 from pathlib import Path
 
-import aiohttp_jinja2
 from aiohttp import web
+
+from bridge.web.helpers import get_service
 
 logger = logging.getLogger(__name__)
 
@@ -19,26 +18,49 @@ routes = web.RouteTableDef()
 AUDIO_EXTENSIONS = {".mp3", ".flac", ".ogg", ".wav", ".m4a", ".aac", ".opus", ".wma"}
 
 
-@routes.get("/library")
-@aiohttp_jinja2.template("library.html")
-async def library_page(request: web.Request) -> dict:
-    """Render the library page."""
-    return {"page": "library"}
+@routes.get("/api/library")
+async def list_library(request: web.Request) -> web.Response:
+    """List/search the music library. Query params: ?q=, ?artist=, ?genre="""
+    planner = get_service(request, "playlist_planner")
+    lib = planner.library
+
+    q = (request.query.get("q") or "").lower()
+    artist_filter = (request.query.get("artist") or "").lower()
+    genre_filter = (request.query.get("genre") or "").lower()
+
+    results = []
+    for t in lib:
+        if q and q not in (t.get("artist", "") + t.get("title", "") + t.get("album", "")).lower():
+            continue
+        if artist_filter and artist_filter not in (t.get("artist") or "").lower():
+            continue
+        if genre_filter and genre_filter not in (t.get("genre") or "").lower():
+            continue
+        results.append({
+            "file_path": t.get("file_path", ""),
+            "artist": t.get("artist", ""),
+            "title": t.get("title", ""),
+            "album": t.get("album", ""),
+            "genre": t.get("genre", ""),
+            "year": t.get("year", ""),
+            "duration_seconds": t.get("duration_seconds", 0),
+        })
+
+    return web.json_response({"tracks": results, "count": len(results)})
 
 
 @routes.get("/api/library/stats")
-async def stats_partial(request: web.Request) -> web.Response:
-    """Return library stats as HTMX partial."""
-    planner = request.app["ctx_kwargs"]["playlist_planner"]
+async def library_stats(request: web.Request) -> web.Response:
+    """Aggregate stats: track count, artists, albums, hours, disk size, top genres."""
+    planner = get_service(request, "playlist_planner")
     lib = planner.library
 
     artists = set(t.get("artist", "") for t in lib if t.get("artist"))
     albums = set(t.get("album", "") for t in lib if t.get("album"))
+    genres = set(t.get("genre", "") for t in lib if t.get("genre"))
     total_duration = sum(t.get("duration_seconds", 0) for t in lib)
-    hours = total_duration / 3600
 
-    # Get total size via du (async, fast)
-    size_label = "..."
+    size_label = "unknown"
     try:
         proc = await asyncio.create_subprocess_exec(
             "du", "-sh", str(planner.music_dir),
@@ -51,32 +73,74 @@ async def stats_partial(request: web.Request) -> web.Response:
     except Exception:
         pass
 
-    html = (
-        f'<span class="badge badge-info">{len(lib)} tracks</span> '
-        f'<span class="badge badge-info">{len(artists)} artists</span> '
-        f'<span class="badge badge-info">{len(albums)} albums</span> '
-        f'<span class="badge badge-info">{size_label}</span> '
-        f'<span class="badge badge-info">{hours:.1f} hours</span>'
-    )
-    return web.Response(text=html, content_type="text/html")
+    # Top 10 genres for quick inspection
+    counts = _genre_counts(lib)
+    top_genres = counts[:10]
+    untagged = sum(1 for t in lib if not (t.get("genre") or "").strip())
+
+    return web.json_response({
+        "tracks": len(lib),
+        "artists": len(artists),
+        "albums": len(albums),
+        "genres": len(genres),
+        "untagged_tracks": untagged,
+        "total_hours": round(total_duration / 3600, 1),
+        "disk_size": size_label,
+        "top_genres": [{"genre": g, "count": n} for g, n in top_genres],
+    })
 
 
-@routes.post("/library/rescan")
+@routes.get("/api/library/genres")
+async def library_genres(request: web.Request) -> web.Response:
+    """Return every distinct genre in the library with track count, sorted desc.
+
+    Query params:
+        ?q=<substring>   — filter genres whose name contains the substring
+        ?limit=<N>       — cap to top N (default: no cap)
+    """
+    planner = get_service(request, "playlist_planner")
+    counts = _genre_counts(planner.library)
+
+    q = (request.query.get("q") or "").lower().strip()
+    if q:
+        counts = [(g, n) for g, n in counts if q in g.lower()]
+
+    limit_str = request.query.get("limit")
+    if limit_str:
+        try:
+            counts = counts[: max(0, int(limit_str))]
+        except ValueError:
+            pass
+
+    return web.json_response({
+        "genres": [{"genre": g, "count": n} for g, n in counts],
+        "total_distinct": len(counts),
+    })
+
+
+def _genre_counts(lib: list[dict]) -> list[tuple[str, int]]:
+    """Count tracks per normalised genre string, sorted desc."""
+    counts: dict[str, int] = {}
+    for t in lib:
+        g = (t.get("genre") or "").strip().lower()
+        if not g:
+            continue
+        counts[g] = counts.get(g, 0) + 1
+    return sorted(counts.items(), key=lambda kv: -kv[1])
+
+
+@routes.post("/api/library/rescan")
 async def rescan(request: web.Request) -> web.Response:
     """Trigger an immediate library rescan."""
-    planner = request.app["ctx_kwargs"]["playlist_planner"]
+    planner = get_service(request, "playlist_planner")
     await planner._scan_library()
-    count = len(planner.library)
-    return web.Response(
-        text=f'<span class="flash success">Rescan complete: {count} tracks</span>',
-        content_type="text/html",
-    )
+    return web.json_response({"ok": True, "tracks": len(planner.library)})
 
 
-@routes.post("/library/upload")
+@routes.post("/api/library/upload")
 async def upload_files(request: web.Request) -> web.Response:
     """Handle multipart folder upload. Preserves directory structure."""
-    planner = request.app["ctx_kwargs"]["playlist_planner"]
+    planner = get_service(request, "playlist_planner")
     music_dir = planner.music_dir
 
     reader = await request.multipart()
@@ -88,62 +152,44 @@ async def upload_files(request: web.Request) -> web.Response:
         field = await reader.next()
         if field is None:
             break
-
         if field.name != "files":
-            await field.read()  # drain
+            await field.read()
             continue
 
         filename = field.filename
         if not filename:
             continue
 
-        # Check extension
         ext = Path(filename).suffix.lower()
         if ext not in AUDIO_EXTENSIONS:
             skipped += 1
-            await field.read()  # drain
+            await field.read()
             continue
 
-        # Preserve relative path (sent as filename with slashes)
-        # Browser sends: "Artist/Album/track.mp3"
         rel_path = Path(filename)
         target = music_dir / rel_path
 
         try:
-            # Create directories
             target.parent.mkdir(parents=True, exist_ok=True)
-
-            # Write file
             content = await field.read()
             target.write_bytes(content)
-
-            # Make world-readable for Liquidsoap (uid=100)
-            target.chmod(stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)  # 644
-            # Ensure all parent dirs are traversable
+            target.chmod(stat.S_IRUSR | stat.S_IWUSR | stat.S_IRGRP | stat.S_IROTH)
             for parent in rel_path.parents:
                 d = music_dir / parent
                 if d.exists() and d != music_dir:
-                    d.chmod(stat.S_IRWXU | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)  # 755
-
+                    d.chmod(stat.S_IRWXU | stat.S_IRGRP | stat.S_IXGRP | stat.S_IROTH | stat.S_IXOTH)
             saved += 1
-            logger.info(f"Uploaded: {rel_path}")
         except Exception:
             errors += 1
             logger.exception(f"Failed to save: {rel_path}")
 
-    # Rescan library to pick up new files
     if saved > 0:
         await planner._scan_library()
 
-    parts = [f"Uploaded {saved} files."]
-    if skipped:
-        parts.append(f"{skipped} skipped (not audio).")
-    if errors:
-        parts.append(f"{errors} failed.")
-    if saved:
-        parts.append(f"Library: {len(planner.library)} tracks.")
-
-    return web.Response(
-        text=f'<span class="flash success">{" ".join(parts)}</span>',
-        content_type="text/html",
-    )
+    return web.json_response({
+        "ok": True,
+        "saved": saved,
+        "skipped": skipped,
+        "errors": errors,
+        "library_tracks": len(planner.library),
+    })

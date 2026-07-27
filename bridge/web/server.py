@@ -1,17 +1,15 @@
 """
-RadioDan Web Server
+RadioDan API Server
 
-aiohttp-based web admin GUI with HTMX for interactivity.
-Runs on port 49997 alongside the Telegram bot.
+JSON REST API on port 49997 for programmatic control.
 """
 
+import json
 import logging
 import time
 from pathlib import Path
 from typing import TYPE_CHECKING
 
-import aiohttp_jinja2
-import jinja2
 from aiohttp import web
 
 if TYPE_CHECKING:
@@ -23,12 +21,40 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
-TEMPLATES_DIR = Path(__file__).parent / "templates"
-STATIC_DIR = Path(__file__).parent / "static"
+
+@web.middleware
+async def json_error_middleware(request: web.Request, handler):
+    """Catch exceptions and return JSON error responses."""
+    try:
+        return await handler(request)
+    except web.HTTPException as ex:
+        return web.json_response(
+            {"error": ex.reason, "status": ex.status},
+            status=ex.status,
+        )
+    except Exception:
+        logger.exception("Unhandled error in request handler")
+        return web.json_response(
+            {"error": "Internal server error", "status": 500},
+            status=500,
+        )
+
+
+@web.middleware
+async def cors_middleware(request: web.Request, handler):
+    """Allow cross-origin requests from any origin."""
+    if request.method == "OPTIONS":
+        response = web.Response(status=204)
+    else:
+        response = await handler(request)
+    response.headers["Access-Control-Allow-Origin"] = "*"
+    response.headers["Access-Control-Allow-Methods"] = "GET, POST, PUT, DELETE, OPTIONS"
+    response.headers["Access-Control-Allow-Headers"] = "Content-Type"
+    return response
 
 
 class WebServer:
-    """HTMX-based web admin GUI for RadioDan."""
+    """JSON REST API server for RadioDan."""
 
     def __init__(
         self,
@@ -40,84 +66,67 @@ class WebServer:
         ctx_kwargs: dict | None = None,
         station_name: str = "Radio Dan",
         stream_url: str = "",
+        project_root: Path | None = None,
         host: str = "0.0.0.0",
         port: int = 49997,
     ):
-        self.config_store = config_store
-        self.mixer = mixer
-        self.stream_context = stream_context
-        self.plugins = plugins
-        self.station_name = station_name
         self.host = host
         self.port = port
-        self.app = web.Application(client_max_size=200 * 1024 * 1024)  # 200MB for uploads
+        self.app = web.Application(
+            middlewares=[json_error_middleware, cors_middleware],
+            client_max_size=200 * 1024 * 1024,  # 200MB for uploads
+        )
         self._runner: web.AppRunner | None = None
 
-        # Store references in app for route handlers
+        # Store references for route handlers
         self.app["config_store"] = config_store
         self.app["mixer"] = mixer
         self.app["stream_context"] = stream_context
         self.app["plugins"] = plugins
         self.app["ctx_kwargs"] = ctx_kwargs or {}
+        self.app["station_name"] = station_name
+        self.app["stream_url"] = stream_url
+        self.app["start_time"] = time.time()
         if event_store is not None:
             self.app["event_store"] = event_store
+        if project_root is not None:
+            self.app["project_root"] = project_root
 
-        # Set up Jinja2 templates with station_name in global context
-        env = aiohttp_jinja2.setup(
-            self.app,
-            loader=jinja2.FileSystemLoader(str(TEMPLATES_DIR)),
-            autoescape=jinja2.select_autoescape(["html"]),
-        )
-        env.globals["station_name"] = station_name
-        env.globals["stream_url"] = stream_url
-        env.globals["cache_v"] = str(int(time.time()))
-
-        # Set up routes
         self._setup_routes()
 
     def _setup_routes(self) -> None:
-        """Register all route handlers."""
-        from bridge.web.routes.dashboard import routes as dashboard_routes
-        from bridge.web.routes.plugins import routes as plugin_routes
-        from bridge.web.routes.audio import routes as audio_routes
-        from bridge.web.routes.config import routes as config_routes
-        from bridge.web.routes.timeline import routes as timeline_routes
-        from bridge.web.routes.architecture import routes as architecture_routes
-        from bridge.web.routes.system import routes as system_routes
+        """Register all API route handlers."""
+        from bridge.web.routes.status import routes as status_routes
+        from bridge.web.routes.playback import routes as playback_routes
         from bridge.web.routes.queue import routes as queue_routes
-        from bridge.web.routes.llm import routes as llm_routes
         from bridge.web.routes.library import routes as library_routes
+        from bridge.web.routes.config import routes as config_routes
+        from bridge.web.routes.plugins import routes as plugin_routes
+        from bridge.web.routes.events import routes as event_routes
+        from bridge.web.routes.llm import routes as llm_routes
+        from bridge.web.routes.producer import routes as producer_routes
 
-        self.app.router.add_routes(dashboard_routes)
-        self.app.router.add_routes(plugin_routes)
-        self.app.router.add_routes(audio_routes)
-        self.app.router.add_routes(config_routes)
-        self.app.router.add_routes(timeline_routes)
-        self.app.router.add_routes(architecture_routes)
-        self.app.router.add_routes(system_routes)
+        self.app.router.add_routes(status_routes)
+        self.app.router.add_routes(playback_routes)
         self.app.router.add_routes(queue_routes)
-        self.app.router.add_routes(llm_routes)
         self.app.router.add_routes(library_routes)
-
-        # Static files
-        self.app.router.add_static("/static", STATIC_DIR, name="static")
-
-    def update_plugins(self, plugins: list["DJPlugin"]) -> None:
-        """Update the plugin list (called after hot-reload)."""
-        self.plugins = plugins
-        self.app["plugins"] = plugins
+        self.app.router.add_routes(config_routes)
+        self.app.router.add_routes(plugin_routes)
+        self.app.router.add_routes(event_routes)
+        self.app.router.add_routes(llm_routes)
+        self.app.router.add_routes(producer_routes)
 
     async def start(self) -> None:
-        """Start the web server."""
+        """Start the API server."""
         self._runner = web.AppRunner(self.app)
         await self._runner.setup()
         site = web.TCPSite(self._runner, self.host, self.port)
         await site.start()
-        logger.info(f"Web GUI started at http://{self.host}:{self.port}")
+        logger.info(f"API server started at http://{self.host}:{self.port}")
 
     async def stop(self) -> None:
-        """Stop the web server."""
+        """Stop the API server."""
         if self._runner:
             await self._runner.cleanup()
             self._runner = None
-            logger.info("Web GUI stopped")
+            logger.info("API server stopped")

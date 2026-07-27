@@ -55,6 +55,9 @@ class PluginContext:
     booth: Any = None  # BoothLog instance
     playlist_planner: "PlaylistPlanner | None" = None
     stt_service: Any = None
+    # Layer 2: known-good fallback track (Path or None). Producer plays this once
+    # per degraded session when its plan-build keeps failing.
+    known_good_fallback_path: Any = None
 
     @property
     def ollama_service(self) -> "LLMService":

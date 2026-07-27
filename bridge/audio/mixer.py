@@ -67,6 +67,117 @@ class LiquidsoapMixer:
                 continue
         return str(host_path)
 
+    def _validate_for_container(self, host_path: Path) -> tuple[bool, str]:
+        """Verify a path will resolve to a real file inside the Liquidsoap container.
+
+        Catches the silent-rid-drop class of failure: a `music_q.push` succeeds
+        at the protocol level (LS returns a request id), but the request is
+        immediately discarded because LS can't actually read the file.
+
+        Three failure modes guarded:
+        1. Missing/broken file or unreachable mount (resolve fails outright).
+        2. Resolved target escapes every host mount root.
+        3. Path traverses a symlink whose **literal absolute target string**
+           is not reachable from inside the container — e.g. a `_damaged/`
+           symlink that points at `/home/dln/...`. The host can resolve it
+           because that's where the music actually lives, but the container
+           only has `/music`, so following the link from inside the container
+           fails. Filesystem `realpath` on the host hides this.
+
+        Returns (True, "") on success or (False, reason) on failure.
+        """
+        try:
+            resolved = host_path.resolve(strict=True)
+        except FileNotFoundError:
+            return (False, "file does not exist or symlink target is missing")
+        except (RuntimeError, OSError) as exc:
+            return (False, f"cannot resolve path: {exc}")
+
+        if not self.path_mappings:
+            return (True, "")  # No mounts known — trust caller.
+
+        in_mounts = any(
+            self._is_under(resolved, host_base) for host_base in self.path_mappings.keys()
+        )
+        if not in_mounts:
+            return (False, f"resolved target escapes mounted roots: {resolved}")
+
+        # Walk the symlink chain from host_path → resolved. Any absolute symlink
+        # whose target is not a path the container can see (i.e. doesn't start
+        # with one of our host mount roots) will be unreachable inside Liquidsoap.
+        chain_ok, reason = self._symlink_chain_reachable(host_path)
+        if not chain_ok:
+            return (False, reason)
+
+        return (True, "")
+
+    @staticmethod
+    def _is_under(path: Path, base: Path) -> bool:
+        try:
+            path.relative_to(base)
+            return True
+        except ValueError:
+            return False
+
+    def _symlink_chain_reachable(self, path: Path) -> tuple[bool, str]:
+        """Walk a symlink chain; reject if any absolute target is unreachable
+        from inside the container.
+
+        The container only sees the **container-side** paths (the values in
+        `path_mappings`, e.g. `/music`, `/tmp`). An absolute symlink target
+        like `/home/dln/.../music/X.mp3` resolves correctly on the host but
+        does not exist in the container's mount namespace, so Liquidsoap
+        silently drops the request.
+
+        Bounded to 40 hops to defend against pathological link cycles.
+        """
+        import os
+        # Build the set of valid container path prefixes for absolute targets.
+        container_prefixes = [Path(v) for v in self.path_mappings.values()]
+
+        current = path
+        for _ in range(40):
+            if not current.is_symlink():
+                return (True, "")
+            target_str = os.readlink(current)
+            target = Path(target_str)
+            if target.is_absolute():
+                # The container can only reach paths under one of its mounted
+                # prefixes (e.g. /music, /tmp). Host-absolute targets like
+                # /home/dln/... are unreachable even if they exist on the host.
+                if not any(
+                    self._is_under(target, prefix) or target == prefix
+                    for prefix in container_prefixes
+                ):
+                    return (
+                        False,
+                        f"symlink target {target_str!r} is unreachable from container",
+                    )
+                # Map container path back to host path so we can keep walking.
+                current = self._container_to_host(target)
+                if current is None:
+                    return (
+                        False,
+                        f"cannot map container path {target_str!r} back to host",
+                    )
+            else:
+                # Relative target — interpret against the symlink's directory.
+                # Relative links are reachable in the container too, since the
+                # mounted directory tree is the same.
+                current = (current.parent / target).resolve(strict=False)
+        return (False, "symlink chain too deep")
+
+    def _container_to_host(self, container_path: Path) -> Path | None:
+        """Inverse of `_to_container_path`: map a container path back to the host."""
+        for host_base, container_str in self.path_mappings.items():
+            container_base = Path(container_str)
+            try:
+                rel = container_path.relative_to(container_base)
+                return host_base / rel
+            except ValueError:
+                continue
+        return None
+
     async def _test_connection(self) -> bool:
         """Test if Liquidsoap is reachable."""
         try:
@@ -200,6 +311,41 @@ class LiquidsoapMixer:
         except Exception:
             return False
 
+    async def restart_liquidsoap_container(self, container_name: str) -> bool:
+        """Restart the Liquidsoap Docker container — last-resort recovery.
+
+        Used by the stuck-stream watchdog when softer recovery actions
+        (skip, flush+repush) have failed. Requires the bridge user to be
+        in the `docker` group.
+        """
+        try:
+            proc = await asyncio.create_subprocess_exec(
+                "docker", "restart", container_name,
+                stdout=asyncio.subprocess.PIPE,
+                stderr=asyncio.subprocess.PIPE,
+            )
+            try:
+                stdout, stderr = await asyncio.wait_for(proc.communicate(), timeout=20.0)
+            except asyncio.TimeoutError:
+                proc.kill()
+                await proc.wait()
+                logger.error(f"docker restart {container_name} timed out after 20s")
+                return False
+            if proc.returncode == 0:
+                logger.warning(f"Restarted Liquidsoap container: {container_name}")
+                return True
+            logger.error(
+                f"docker restart failed (rc={proc.returncode}): "
+                f"{stderr.decode(errors='replace').strip()}"
+            )
+            return False
+        except FileNotFoundError:
+            logger.error("docker binary not found — can't restart container")
+            return False
+        except Exception:
+            logger.exception("Failed to restart Liquidsoap container")
+            return False
+
     # =========================================================================
     # MUSIC QUEUE (PlaylistPlanner integration)
     # =========================================================================
@@ -207,12 +353,22 @@ class LiquidsoapMixer:
     async def queue_music(self, audio_path: Path) -> bool:
         """Push a music track to the music_q request queue.
 
+        Validates that the path resolves to a real file inside the Liquidsoap
+        container's mounts before pushing — fails fast on broken symlinks
+        rather than letting Liquidsoap silently drop the request.
+
         Args:
             audio_path: Path to the audio file on the host
 
         Returns:
             True if queued successfully
         """
+        ok, reason = self._validate_for_container(audio_path)
+        if not ok:
+            booth.mixer_error(f"Music queue skipped: {reason}")
+            logger.warning(f"queue_music skipped — {reason}: {audio_path}")
+            return False
+
         async with self._lock:
             try:
                 container_path = self._to_container_path(audio_path)
@@ -491,35 +647,35 @@ class LiquidsoapMixer:
     # =========================================================================
 
     async def flush_music_queue(self) -> bool:
-        """Flush all pending tracks from Liquidsoap's music_q.
-
-        Uses music_q.queue to list request IDs, then removes each one.
-        Falls back to skip-based clearing if individual removal isn't supported.
+        """Flush all pending tracks from Liquidsoap's music_q and skip current.
 
         Returns:
-            True if flush succeeded (or queue was already empty)
+            True if flush succeeded
         """
         async with self._lock:
             try:
-                # Get the secondary queue contents (pending requests)
-                response = await self._send_command("music_q.secondary_queue")
-                lines = [l.strip() for l in response.strip().split("\n") if l.strip()]
-
-                if not lines or lines == [""]:
-                    logger.debug("Music queue already empty")
-                    return True
-
-                # Each line is a request ID — remove them all
-                for rid in lines:
-                    try:
-                        await self._send_command(f"music_q.remove {rid}")
-                    except RuntimeError:
-                        logger.warning(f"Could not remove request {rid}")
-
-                logger.info(f"Flushed {len(lines)} tracks from music_q")
+                await self._send_command("music_q.flush_and_skip")
+                logger.info("Flushed music_q (flush_and_skip)")
                 return True
             except RuntimeError as e:
                 logger.error(f"Failed to flush music queue: {e}")
+                return False
+
+    async def flush_queued_music(self) -> bool:
+        """Flush pending tracks from Liquidsoap's music_q WITHOUT skipping the
+        currently-playing track. Used on a seed change: current song finishes
+        naturally, the new first song becomes the next to play.
+
+        Returns:
+            True if flush succeeded
+        """
+        async with self._lock:
+            try:
+                response = await self._send_command("music_q.flush_queued")
+                logger.info(f"Flushed music_q pending: {response.strip()}")
+                return True
+            except RuntimeError as e:
+                logger.error(f"Failed to flush queued music: {e}")
                 return False
 
     # =========================================================================

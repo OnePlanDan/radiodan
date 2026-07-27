@@ -1,5 +1,7 @@
-# RadioDan - Docker Compose
+# RadioDan Agent (v2) - Docker Compose
 # Audio streaming infrastructure: Icecast + Liquidsoap
+
+name: radiodan-agent
 
 services:
   icecast:

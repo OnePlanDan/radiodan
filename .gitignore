@@ -26,8 +26,10 @@ stations/*/.env
 # Runtime
 *.log
 *.db
+*.db.*
 *.db-shm
 *.db-wal
 *.db-journal
 *.sqlite
 tmp/
+stations/*/uploads/

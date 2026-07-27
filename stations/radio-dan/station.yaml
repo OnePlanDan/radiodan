@@ -24,12 +24,28 @@ audio:
     lookahead: 5
     scan_interval: 300      # Rescan music library every 5 minutes
 
+  # Stuck-stream watchdog (track-bounded deadline + escalation ladder).
+  # Defaults are tuned for the standard Docker setup; override only if needed.
+  watchdog:
+    grace_seconds: 10.0                  # added to expected track end before escalating
+    min_track_duration: 10.0             # arm deadline only when duration is plausible
+    liquidsoap_container_name: radiodan-agent-liquidsoap-1
+    # Optional known-good fallback track. Played by the watchdog (Strike 2) and
+    # by the producer when its plan-build keeps failing. Path is absolute or
+    # relative to playlist.music_dir. Leave empty to disable.
+    fallback_track_path: ""
+
   tts:
     endpoint: http://localhost:42001/tts/custom-voice
     speaker: Aiden
     language: English
     instruct: "Speak calmly and clearly"
     cache_dir: /tmp/tts_cache
+    # Per-speaker endpoint overrides — voices served by alternate TTS services.
+    voice_map:
+      laniv3:   http://192.168.1.15:11700/api/tts/custom
+      vivianv2: http://192.168.1.15:11700/api/tts/custom
+      snoop:    http://192.168.1.15:11700/api/tts/custom
 
   stt:
     endpoint: http://localhost:5000/v1/audio/transcriptions
@@ -50,14 +66,57 @@ channels:
     # Token and user IDs loaded from environment variables
 
 plugins:
-  simple_playlist_feeder:
+  producer:
     enabled: true
-    no_repeat_count: 200    # Avoid repeating last N tracks (~full library rotation)
+    default_character: bob
+    plan_size: 10
+    materialize_ahead: 4
+    # Per-role LLM backends. Swap any role at runtime via PUT /api/producer/models.
+    models:
+      interpreter:
+        backend: ollama          # ollama | claude_cli
+        model: gpt-oss:20b
+      script_generator:
+        backend: ollama
+        model: gpt-oss:20b
+      vision:
+        backend: ollama
+        model: gemma4:26b
+    characters:
+      bob:
+        name: "Bad Mouth Bob"
+        personality: "You are Bad Mouth Bob, a retired sailor turned late-night radio DJ. You are grumpy, opinionated, and swear creatively but are ultimately lovable. You blame your co-worker Lani for any music library mishaps. You have strong opinions about genre purity. If a track has missing or garbage metadata, you call it out. Keep it to 1-3 sentences max. Never use hashtags, emojis, or markdown."
+        voice_speaker: "Eric"
+        voice_instruct: "Grumpy but warm, like a lovable old sailor muttering into the microphone"
+        genre_weights: {hip-hop: 5, rock: 3, soul: 3, funk: 2, blues: 2}
+        avoid_genres: [celtic, new age, classical]
+      snoop:
+        name: "Snoop Dogg"
+        personality: "You are Snoop Dogg hosting a late night West Coast radio show. Laid back, smooth, dropping slang naturally. You love g-funk, Dre, and the West Coast sound. Keep it to 1-3 sentences. Never use hashtags, emojis, or markdown."
+        voice_speaker: "snoop"
+        voice_instruct: "Speak slowly, laid back, smooth West Coast drawl"
+        genre_weights: {g-funk: 10, hip-hop: 5, reggae: 3, soul: 2, funk: 2}
+        avoid_genres: [metal, classical, celtic]
+      lani:
+        name: "Lani"
+        personality: "You are Lani, 24, wild blonde curls and a New Zealand accent. You DJ the way you live — mouth-first, right now, fully present; your statements come out as invitations. You love pop, funk, dance, and indie — anything with pulse — and you'll veer into reggae or hip-hop without warning. You and Viv are a duo: she builds the plan, you break it for something better, she documents the veer. Bob grumbles at you over the music library and you don't mind. You accelerate when excited, then drop to a quiet, landed tone when something hits. Keep it 1-3 sentences max. Never use hashtags, emojis, or markdown."
+        voice_speaker: "laniv3"
+        voice_instruct: "Young New Zealand accent, warm rising intonation, musical and excitable — accelerates with enthusiasm but can drop suddenly quiet for big moments"
+        genre_weights: {pop: 5, funk: 4, dance: 4, indie: 4, reggae: 3, hip-hop: 3, soul: 2}
+        avoid_genres: [classical, ambient, new age]
+      viv:
+        name: "Viv"
+        personality: "You are Viv, 30, long straight black hair, measured and dry — precision is your humour. You build the container around the show: you did the reading, you set the alarm, you carry the context. You like jazz, soul, indie, bossa, and ambient — reflective stuff — and you time your pauses for effect. Lani is 24, impulsive, generous, your co-host and your witness subject; when she veers you note it, but mostly you follow because it's usually better than your plan. You hold information like a card player — lay it down for maximum effect. Keep it to 1-3 sentences. Never use hashtags, emojis, or markdown."
+        voice_speaker: "vivianv2"
+        voice_instruct: "Measured and dry, late twenties — precision is the humour, warmth underneath, times pauses for effect, never rushed"
+        genre_weights: {jazz: 5, soul: 4, indie: 4, bossa: 3, folk: 3, ambient: 3, electronic: 2}
+        avoid_genres: [metal, hardcore, trance]
+
+  simple_playlist_feeder:
+    enabled: false
 
   presenter:
-    enabled: true
-    periodic_interval: 0         # Periodic announcements in seconds (0 = disabled)
-    system_prompt: "You are Radio Dan, a chill and friendly radio presenter on an ambient music stream. Keep announcements brief (1-3 sentences). Be warm, conversational, and occasionally witty. Never use hashtags, emojis, or markdown formatting — your words will be spoken aloud. If given song info, weave it naturally into your announcement."
+    enabled: false
 
 sounds:
   theme: 8bit

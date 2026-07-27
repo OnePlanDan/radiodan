@@ -31,22 +31,26 @@ class TTSService:
         speaker: str = "Aiden",
         language: str = "English",
         instruct: str = "Speak calmly and clearly",
+        voice_map: dict[str, str] | None = None,
     ):
         """
         Initialize TTS service.
 
         Args:
-            endpoint: TTS API endpoint (e.g., http://localhost:42001/tts/custom-voice)
+            endpoint: Default TTS API endpoint
             cache_dir: Directory to save generated audio files
-            speaker: Voice to use (Aiden, Ryan, etc.)
+            speaker: Default voice
             language: Language for TTS
-            instruct: Voice style instruction
+            instruct: Default voice style instruction
+            voice_map: Optional per-speaker endpoint override — routes specific
+                voices to alternate TTS services. e.g. {"laniv3": "http://..."}
         """
         self.endpoint = endpoint
         self.cache_dir = Path(cache_dir)
         self.speaker = speaker
         self.language = language
         self.instruct = instruct
+        self.voice_map: dict[str, str] = dict(voice_map or {})
         self._session: aiohttp.ClientSession | None = None
         self._event_store: "EventStore | None" = None
 
@@ -94,15 +98,21 @@ class TTSService:
         timestamp = int(time.time() * 1000)
         output_path = self.cache_dir / f"msg_{timestamp}.wav"
 
+        effective_speaker = speaker or self.speaker
+        target_endpoint = self.voice_map.get(effective_speaker, self.endpoint)
+
         # Prepare JSON payload for the API
         payload = {
             "text": text,
-            "speaker": speaker or self.speaker,
+            "speaker": effective_speaker,
             "instruct": instruct or self.instruct,
         }
 
-        booth.tts_request(text, speaker or self.speaker)
-        logger.info(f"Generating TTS: '{text[:50]}...' with speaker={speaker or self.speaker}")
+        booth.tts_request(text, effective_speaker)
+        logger.info(
+            f"Generating TTS: '{text[:50]}...' "
+            f"speaker={effective_speaker} endpoint={target_endpoint}"
+        )
 
         eid = None
         if self._event_store:
@@ -113,7 +123,10 @@ class TTSService:
             )
 
         try:
-            async with self._session.post(self.endpoint, json=payload) as response:
+            async with self._session.post(
+                target_endpoint, json=payload,
+                timeout=aiohttp.ClientTimeout(total=60),
+            ) as response:
                 if response.status != 200:
                     error_text = await response.text()
                     booth.tts_error(f"API error ({response.status})")
@@ -153,12 +166,33 @@ class TTSService:
             stdout=asyncio.subprocess.DEVNULL,
             stderr=asyncio.subprocess.PIPE,
         )
-        _, stderr = await proc.communicate()
+        try:
+            _, stderr = await asyncio.wait_for(proc.communicate(), timeout=30)
+        except asyncio.TimeoutError:
+            proc.kill()
+            logger.warning("Audio normalization timed out after 30s, using original")
+            normalized.unlink(missing_ok=True)
+            return
         if proc.returncode == 0 and normalized.exists():
             normalized.replace(path)
         else:
             logger.warning(f"Audio normalization failed (rc={proc.returncode}), using original")
             normalized.unlink(missing_ok=True)
+
+    async def cleanup_cache(self, max_age_hours: float = 24) -> int:
+        """Delete TTS cache files older than max_age_hours. Returns count deleted."""
+        cutoff = time.time() - (max_age_hours * 3600)
+        deleted = 0
+        for f in self.cache_dir.glob("msg_*.wav"):
+            try:
+                if f.stat().st_mtime < cutoff:
+                    f.unlink()
+                    deleted += 1
+            except OSError:
+                pass
+        if deleted:
+            logger.info(f"TTS cache cleanup: deleted {deleted} files older than {max_age_hours}h")
+        return deleted
 
     async def health_check(self) -> bool:
         """Check if the TTS API is available."""

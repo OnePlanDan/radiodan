@@ -82,7 +82,7 @@ async def interpret_seed(
     # 3. Explicit genre
     if raw.get("genre"):
         genre = str(raw["genre"]).lower().strip()
-        return _genre_seed(genre, raw, characters, explicit_strict)
+        return await _genre_seed(genre, raw, characters, library, interpreter, explicit_strict, hard)
 
     # 4. Image (upload or URL) → vision → text
     image_path = raw.get("_uploaded_image_path")  # set by route handler after save
@@ -102,7 +102,7 @@ async def interpret_seed(
     # 5. Free-form text
     text = raw.get("text")
     if text:
-        return await _text_seed(str(text), raw, characters, interpreter, library, explicit_strict)
+        return await _text_seed(str(text), raw, characters, interpreter, library, explicit_strict, hard)
 
     # Nothing given — default to first character, vibe pipeline
     first_char = next(iter(characters))
@@ -153,14 +153,34 @@ async def _song_seed(
     )
 
 
-def _genre_seed(
+async def _genre_seed(
     genre: str,
     raw: dict,
     characters: dict[str, CharacterConfig],
+    library: list[dict],
+    interpreter: "ChatBackend",
     explicit_strict: bool | None,
+    hard: bool,
 ) -> SeedState:
-    """Pick the host whose weights favour the genre most; no LLM."""
+    """Pick host + genre_focus for a genre seed.
+
+    Fast path: substring match against library genres (with synonyms).
+    LLM fallback: if no library genre matches, ask the interpreter to map
+    the user's term to 1-3 closest library genres (e.g. "fluffy cloud" → harps).
+    """
     focus = _expand_genre_synonyms(genre)
+    library_genres = _unique_library_genres(library)
+    note = f"Genre '{genre}'"
+
+    fast_match = any(
+        (f in lg or lg in f) for f in focus for lg in library_genres
+    )
+    if not fast_match and library_genres:
+        llm_focus = await _llm_pick_library_genres(genre, library_genres, interpreter)
+        if llm_focus:
+            focus = llm_focus
+            note = f"Genre '{genre}' → fuzzy [{', '.join(llm_focus)}]"
+
     best_id = None
     best_score = -1.0
     for cid, char in characters.items():
@@ -179,7 +199,7 @@ def _genre_seed(
         pipeline="genre",
         cast=[best_id],
         genre_focus=focus,
-        interpretation_notes=f"Genre '{genre}' → {characters[best_id].name}",
+        interpretation_notes=f"{note} → {characters[best_id].name}",
         strict=explicit_strict if explicit_strict is not None else True,
         hard=hard,
     )
@@ -192,6 +212,7 @@ async def _text_seed(
     interpreter: "ChatBackend",
     library: list[dict],
     explicit_strict: bool | None,
+    hard: bool,
 ) -> SeedState:
     """Classify free-form text into pipeline + params via LLM."""
     roster = _roster_summary(characters)
@@ -254,6 +275,7 @@ async def _text_seed(
         mood_text=str(mood_text),
         interpretation_notes=f"{pipeline} → {', '.join(characters[c].name for c in cast)}: {why}",
         strict=explicit_strict if explicit_strict is not None else False,
+        hard=hard,
     )
 
 
@@ -447,6 +469,40 @@ def _top_library_genres(library: list[dict], limit: int = 25) -> list[str]:
             continue
         counts[g] = counts.get(g, 0) + 1
     return [g for g, _ in sorted(counts.items(), key=lambda kv: -kv[1])[:limit]]
+
+
+def _unique_library_genres(library: list[dict]) -> list[str]:
+    seen: set[str] = set()
+    out: list[str] = []
+    for t in library:
+        g = (t.get("genre") or "").lower().strip()
+        if g and g not in seen:
+            seen.add(g)
+            out.append(g)
+    return out
+
+
+async def _llm_pick_library_genres(
+    term: str,
+    library_genres: list[str],
+    interpreter: "ChatBackend",
+) -> list[str]:
+    """Fuzzy-match a user's genre term to 1-3 library genres via LLM."""
+    prompt = (
+        f'User asked for: "{term}"\n\n'
+        f'Library genres: {", ".join(library_genres)}\n\n'
+        "Pick 1-3 library genres that best fit the feel. Only pick from the list above. "
+        'Reply JSON: {"genres": ["genre1", "genre2"]}'
+    )
+    try:
+        reply = await interpreter.chat(prompt, system_prompt=_INTERPRETER_SYSTEM)
+        data = _extract_json(reply)
+        picked = [g.lower().strip() for g in (data.get("genres") or []) if isinstance(g, str)]
+        valid = [g for g in picked if g in library_genres]
+        return valid[:3]
+    except Exception:
+        logger.exception("Fuzzy genre LLM pick failed")
+        return []
 
 
 def _sanitise(raw: dict) -> dict:

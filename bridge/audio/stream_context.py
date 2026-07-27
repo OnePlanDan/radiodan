@@ -11,6 +11,7 @@ Events:
 
 import asyncio
 import logging
+import time
 from pathlib import Path
 from typing import TYPE_CHECKING, Any, Callable, Coroutine
 
@@ -41,6 +42,10 @@ class StreamContext:
         mixer: LiquidsoapMixer,
         poll_interval: float = 2.0,
         track_ending_threshold: float = 30.0,
+        grace_seconds: float = 10.0,
+        min_track_duration: float = 10.0,
+        liquidsoap_container_name: str = "radiodan-agent-liquidsoap-1",
+        fallback_track_path: Path | None = None,
     ):
         self.mixer = mixer
         self.poll_interval = poll_interval
@@ -71,9 +76,18 @@ class StreamContext:
         # Background poller task
         self._poll_task: asyncio.Task | None = None
 
-        # Watchdog: consecutive polls with nothing playing
+        # Idle-poll watchdog: consecutive polls with nothing playing (legacy, kept as belt-and-suspenders)
         self._idle_polls: int = 0
         self._IDLE_RECOVERY_THRESHOLD: int = 5  # recover after ~10s of silence
+
+        # Track-bounded watchdog: deadline = (track start) + (duration) + (grace).
+        # If the deadline passes without a track_changed event, escalate via _escalate_stuck.
+        self._grace_seconds = grace_seconds
+        self._min_track_duration = min_track_duration
+        self._container_name = liquidsoap_container_name
+        self._fallback_track_path = fallback_track_path
+        self._track_deadline_monotonic: float | None = None
+        self._stuck_strikes: int = 0
 
     def set_planner(self, planner: "PlaylistPlanner") -> None:
         """Set the playlist planner reference for upcoming track info."""
@@ -131,6 +145,18 @@ class StreamContext:
             except Exception:
                 logger.exception("Stream context poll error")
             await asyncio.sleep(self.poll_interval)
+
+    async def _push_metadata(self, track_info: dict) -> None:
+        """Push enriched metadata to Liquidsoap so Icecast updates ICY for stream clients."""
+        parts = []
+        for key in ("artist", "title", "album", "genre", "year"):
+            value = (track_info.get(key) or "").replace(",", " ")  # comma is separator
+            parts.append(f"{key}={value}")
+        cmd = ",".join(parts)
+        try:
+            await self.mixer._send_command(f"music.set_metadata {cmd}")
+        except Exception:
+            logger.debug("Failed to push metadata to Liquidsoap")
 
     def _enrich_from_planner(self, track_info: dict) -> dict:
         """Override Liquidsoap metadata with planner's ID3-sourced metadata.
@@ -196,12 +222,27 @@ class StreamContext:
             track_info = self._enrich_from_planner(track_info)
             self.current_track = track_info
 
+            # Push correct metadata to Liquidsoap → Icecast (fixes stale ICY metadata)
+            await self._push_metadata(track_info)
+
             artist = track_info.get("artist", "Unknown")
             title = track_info.get("title", "Unknown")
             booth.track_change(artist, title)
             logger.info(f"Track changed: {artist} - {title}")
 
             await self._emit("track_changed", track_info)
+
+            # Track-bounded watchdog: arm a deadline based on track duration + grace.
+            # If the next track_changed doesn't fire by then, the stream is stuck.
+            duration = float(track_info.get("duration_seconds") or 0)
+            if duration >= self._min_track_duration:
+                self._track_deadline_monotonic = (
+                    time.monotonic() + duration + self._grace_seconds
+                )
+            else:
+                # Suspiciously short or missing duration — don't enforce.
+                self._track_deadline_monotonic = None
+            self._stuck_strikes = 0
 
         # Detect track ending
         if (
@@ -213,7 +254,8 @@ class StreamContext:
             logger.info(f"Track ending in {remaining:.1f}s")
             await self._emit("track_ending", remaining)
 
-        # Watchdog: recover from empty Liquidsoap queue
+        # Idle-poll watchdog (legacy): recover from empty Liquidsoap queue.
+        # Kept as belt-and-suspenders next to the track-bounded watchdog below.
         if not current_filename and remaining == 0:
             self._idle_polls += 1
             if (
@@ -224,6 +266,69 @@ class StreamContext:
                 await self._try_recover_queue()
         else:
             self._idle_polls = 0
+
+        # Track-bounded watchdog: trip if we've passed the expected end + grace
+        # without seeing a track_changed event.
+        if (
+            self._track_deadline_monotonic is not None
+            and time.monotonic() > self._track_deadline_monotonic
+        ):
+            await self._escalate_stuck()
+
+    async def _escalate_stuck(self) -> None:
+        """Track-bounded watchdog escalation ladder.
+
+        Called when a track plays past `expected_end + grace` without the
+        next track_changed event firing. Each call advances one strike and
+        re-arms a short deadline so the next strike fires if this one didn't help.
+        Strikes reset on the next successful track_changed.
+
+            Strike 1: music_q.skip — nudge LS past a single bad request.
+            Strike 2: flush + push known-good fallback (if configured).
+            Strike 3: flush + re-push the planner's full upcoming batch.
+            Strike 4+: docker restart of the Liquidsoap container.
+        """
+        self._stuck_strikes += 1
+        strike = self._stuck_strikes
+
+        # Re-arm deadline so we'll escalate again if this strike didn't help.
+        # 30s gives Liquidsoap time to start the next track after the action.
+        self._track_deadline_monotonic = time.monotonic() + 30.0
+
+        logger.warning(f"Stuck-stream watchdog strike {strike} firing")
+        booth.start(f"Stuck-stream watchdog strike {strike}")
+
+        try:
+            if strike == 1:
+                await self.mixer.next_track()
+            elif strike == 2:
+                await self.mixer.flush_queued_music()
+                if self._fallback_track_path is not None:
+                    ok = await self.mixer.queue_music(self._fallback_track_path)
+                    if not ok:
+                        logger.error(
+                            f"Fallback track failed to queue: {self._fallback_track_path}"
+                        )
+                elif self._planner:
+                    # No fallback configured — fall through to a full re-push
+                    await self._planner._push_all_to_liquidsoap()
+            elif strike == 3:
+                await self.mixer.flush_queued_music()
+                if self._planner:
+                    await self._planner._push_all_to_liquidsoap()
+            else:
+                # Strike 4+ — restart the container, then reset state for a clean slate.
+                logger.error(
+                    f"Restarting Liquidsoap container '{self._container_name}' "
+                    f"(strike {strike}, last-resort recovery)"
+                )
+                booth.start(f"Restart LS container (strike {strike})")
+                await self.mixer.restart_liquidsoap_container(self._container_name)
+                self._stuck_strikes = 0
+                self._track_deadline_monotonic = None
+                self._last_filename = ""
+        except Exception:
+            logger.exception(f"Watchdog strike {strike} action raised")
 
     async def _try_recover_queue(self) -> None:
         """Re-push tracks when Liquidsoap's queue has drained.
@@ -251,6 +356,7 @@ class StreamContext:
 
     async def notify_skip(self) -> None:
         """Force an immediate poll after a skip, so events transition instantly."""
+        await self._emit("skip", self.current_track or {})
         if self._planner:
             self._planner.notify_skip()
         await self._poll_once()

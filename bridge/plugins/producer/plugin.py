@@ -42,6 +42,9 @@ class ProducerPlugin(DJPlugin):
         self._build_fail_count = 0
         self._max_build_failures = 3
         self._signal_queue: asyncio.Queue = asyncio.Queue()
+        # Layer 2: known-good fallback used once per degraded session.
+        # Reset to False whenever a fresh script lands (new build succeeded).
+        self._fallback_served_this_session: bool = False
 
         # Config
         cfg = ctx.config
@@ -146,14 +149,46 @@ class ProducerPlugin(DJPlugin):
         if not self._building:
             await self._signal_queue.put(("buffer_low", {}))
 
-        # Degraded fallback if LLM keeps failing
+        # Degraded fallback if LLM keeps failing.
+        # Layer 2: prefer the known-good fallback track once per degraded session,
+        # so listeners hear a familiar track instead of dead-air during recovery.
+        # After it's been served once, fall through to random selection.
         if self._build_fail_count >= self._max_build_failures and self._primary_char():
+            fallback_track = self._known_good_track(library, upcoming_paths)
+            if fallback_track is not None and not self._fallback_served_this_session:
+                self._fallback_served_this_session = True
+                self.logger.warning(
+                    f"Script building failing — serving known-good fallback: "
+                    f"{fallback_track.get('artist','?')} - {fallback_track.get('title','?')}"
+                )
+                return fallback_track
+
             history_paths = {t["file_path"] for t in history[:20]}
             songs = select_songs(library, self._primary_char(), 1, history_paths, upcoming_paths)
             if songs:
                 self.logger.warning("Script building failing — degraded to random selection")
                 return songs[0]
 
+        return None
+
+    def _known_good_track(
+        self, library: list[dict], upcoming_paths: set[str]
+    ) -> dict | None:
+        """Return a track dict for the configured known-good fallback, if any.
+
+        Looks up the fallback path in the library so we get full metadata.
+        Returns None if the fallback isn't configured, doesn't exist, is
+        already in the upcoming queue, or isn't indexed.
+        """
+        path = getattr(self.ctx, "known_good_fallback_path", None)
+        if path is None:
+            return None
+        path_str = str(path)
+        if path_str in upcoming_paths:
+            return None
+        for track in library:
+            if track.get("file_path") == path_str:
+                return track
         return None
 
     # =====================================================================
@@ -426,6 +461,7 @@ class ProducerPlugin(DJPlugin):
             await self._executor.materialize_ahead(self._script, self._materialize_count)
 
             self._build_fail_count = 0
+            self._fallback_served_this_session = False  # Layer 2: re-arm fallback for the next degraded session
 
             # Stamp full build time + log the handover forecast
             if self._seed is not None:

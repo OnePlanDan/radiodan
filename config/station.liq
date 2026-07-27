@@ -42,12 +42,23 @@ duck_out_curve = interactive.float("duck_out_curve", 0.3)        # Bezier contro
 # All track selection is handled by Python feeder plugins — no Liquidsoap fallback
 music_queue = request.queue(id="music_q")
 
-# Safe fallback: silence if Python queue is empty (should not happen in normal operation)
-silence = sine(duration=1.0, 440.0)
+# Safe fallback: infinite always-ready blank source if Python queue is empty.
+# Must be infinite — a finite source (e.g. sine(duration=1.0)) lets the cross+fallback
+# chain collapse into an unrecoverable state when the queue dies, leaving the bridge
+# watchdog with nowhere to recover to.
+silence = blank()
 
-# Music chain: Python queue is the only track source; silence is the safety net
-# track_sensitive=true: wait for current track to finish before switching sources
-music_raw = fallback(track_sensitive=true, [music_queue, silence])
+# Music chain: Python queue is the only track source; silence is the safety net.
+# track_sensitive=false: silence is infinite (no track boundaries), so fallback must
+# re-evaluate continuously. With track_sensitive=true, once silence took over it
+# would never yield back to music_queue. False is safe here because music_queue is
+# the higher-priority source — fallback only switches away from it when it goes
+# not-ready (queue empty), and switches back the instant a request becomes ready.
+music_raw = fallback(track_sensitive=false, [music_queue, silence])
+
+# Metadata injection point — bridge pushes correct metadata here on track change
+# This ensures Icecast always shows the right info, even for untagged files
+music_raw = insert_metadata(music_raw)
 
 # Apply crossfade between tracks
 # NOTE: b.source (incoming) must be listed FIRST in add() — Liquidsoap takes
@@ -235,6 +246,37 @@ server.register(
   fun(_) -> begin
     q = music_queue.queue()
     "#{list.length(q)}"
+  end
+)
+
+# music_q.flush_queued — clear ALL pending queue items WITHOUT skipping the
+# currently-playing track. Use on a seed change: the current song finishes
+# naturally, the new first track becomes the next to play.
+server.register(
+  "music_q.flush_queued",
+  fun(_) -> begin
+    pending = music_queue.queue()
+    music_queue.set_queue([])
+    "OK #{list.length(pending)} removed"
+  end
+)
+
+# music.set_metadata — bridge pushes enriched metadata on track change
+# Format: music.set_metadata artist=X,title=Y,album=Z,genre=G,year=Y
+server.register(
+  "music.set_metadata",
+  fun(s) -> begin
+    let pairs = string.split(separator=",", s)
+    let m = list.map(fun(p) -> begin
+      let kv = string.split(separator="=", p)
+      if list.length(kv) >= 2 then
+        (list.nth(kv, 0), string.concat(separator="=", list.tl(kv)))
+      else
+        (list.nth(kv, 0), "")
+      end
+    end, pairs)
+    music_raw.insert_metadata(m)
+    "OK"
   end
 )
 

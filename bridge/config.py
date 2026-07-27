@@ -38,12 +38,24 @@ class PlaylistConfig:
 
 
 @dataclass
+class WatchdogConfig:
+    """Track-bounded stuck-stream watchdog & escalation ladder."""
+    grace_seconds: float = 10.0                # added to expected track end before escalating
+    min_track_duration: float = 10.0           # arm deadline only when duration is plausible
+    liquidsoap_container_name: str = "radiodan-agent-liquidsoap-1"
+    fallback_track_path: str = ""              # absolute, or relative to playlist.music_dir
+
+
+@dataclass
 class TTSConfig:
     endpoint: str = "http://localhost:42001/tts/custom-voice"
     speaker: str = "Aiden"
     language: str = "English"
     instruct: str = "Speak calmly and clearly"
     cache_dir: str = "/tmp/tts_cache"
+    # Per-speaker endpoint overrides — route specific voice names to alternate TTS services.
+    # Shape: {"laniv3": "http://host:port/api/tts/custom", ...}
+    voice_map: dict = field(default_factory=dict)
 
 
 @dataclass
@@ -72,6 +84,7 @@ class AudioConfig:
     tts: TTSConfig = field(default_factory=TTSConfig)
     stt: STTConfig = field(default_factory=STTConfig)
     playlist: PlaylistConfig = field(default_factory=PlaylistConfig)
+    watchdog: WatchdogConfig = field(default_factory=WatchdogConfig)
 
 
 @dataclass
@@ -145,6 +158,16 @@ class Config:
             scan_interval=playlist_cfg.get("scan_interval", 300.0),
         )
 
+        watchdog_cfg = audio_cfg.get("watchdog", {})
+        watchdog = WatchdogConfig(
+            grace_seconds=watchdog_cfg.get("grace_seconds", 10.0),
+            min_track_duration=watchdog_cfg.get("min_track_duration", 10.0),
+            liquidsoap_container_name=watchdog_cfg.get(
+                "liquidsoap_container_name", "radiodan-agent-liquidsoap-1"
+            ),
+            fallback_track_path=watchdog_cfg.get("fallback_track_path", ""),
+        )
+
         # Env vars override yaml for deployment-specific endpoints
         tts = TTSConfig(
             endpoint=os.getenv("TTS_ENDPOINT", tts_cfg.get("endpoint", "http://localhost:42001/tts/custom-voice")),
@@ -152,6 +175,7 @@ class Config:
             language=tts_cfg.get("language", "English"),
             instruct=tts_cfg.get("instruct", "Speak calmly and clearly"),
             cache_dir=tts_cfg.get("cache_dir", "/tmp/tts_cache"),
+            voice_map=dict(tts_cfg.get("voice_map", {}) or {}),
         )
 
         stt_cfg = audio_cfg.get("stt", {})
@@ -189,7 +213,14 @@ class Config:
 
         return cls(
             station_name=station_name,
-            audio=AudioConfig(icecast=icecast, liquidsoap=liquidsoap, tts=tts, stt=stt, playlist=playlist),
+            audio=AudioConfig(
+                icecast=icecast,
+                liquidsoap=liquidsoap,
+                tts=tts,
+                stt=stt,
+                playlist=playlist,
+                watchdog=watchdog,
+            ),
             telegram=telegram,
             ai=AIConfig(ollama=ollama),
             plugins=plugins,
