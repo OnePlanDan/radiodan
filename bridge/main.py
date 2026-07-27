@@ -231,7 +231,6 @@ async def main() -> None:
         "booth": booth,
         "playlist_planner": playlist_planner,
         "known_good_fallback_path": fallback_path,
-        "voice_watchdog": voice_watchdog,
     }
 
     # Load plugin instances (SQLite + YAML fallback)
@@ -271,6 +270,7 @@ async def main() -> None:
         station_name=station_name,
         stream_url=stream_url,
         project_root=project_root,
+        voice_watchdog=voice_watchdog,
     )
 
     # Set up graceful shutdown

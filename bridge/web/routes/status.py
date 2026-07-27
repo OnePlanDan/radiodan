@@ -38,7 +38,7 @@ def _active_alerts(request: web.Request) -> list[dict]:
     because the health data existed but lived somewhere nobody looked.
     """
     alerts: list[dict] = []
-    watchdog = request.app.get("ctx_kwargs", {}).get("voice_watchdog")
+    watchdog = request.app.get("voice_watchdog")
     if watchdog is not None:
         try:
             state = watchdog.status()
@@ -206,7 +206,7 @@ async def health(request: web.Request) -> web.Response:
         except Exception:
             logger.exception("TTS health report failed")
 
-    watchdog = ctx.get("voice_watchdog")
+    watchdog = request.app.get("voice_watchdog")
     if watchdog is not None:
         try:
             tts_info["watchdog"] = watchdog.status()

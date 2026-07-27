@@ -67,6 +67,7 @@ class WebServer:
         station_name: str = "Radio Dan",
         stream_url: str = "",
         project_root: Path | None = None,
+        voice_watchdog: object | None = None,
         host: str = "0.0.0.0",
         port: int = 49997,
     ):
@@ -87,6 +88,10 @@ class WebServer:
         self.app["station_name"] = station_name
         self.app["stream_url"] = stream_url
         self.app["start_time"] = time.time()
+        # Kept out of ctx_kwargs on purpose: that dict is splatted into
+        # PluginContext, which is a fixed-field dataclass, and the watchdog is
+        # not a plugin concern.
+        self.app["voice_watchdog"] = voice_watchdog
         if event_store is not None:
             self.app["event_store"] = event_store
         if project_root is not None:

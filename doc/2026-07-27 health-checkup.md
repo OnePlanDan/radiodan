@@ -144,6 +144,15 @@ probably not intended to last three weeks either.
    `bridge.web.routes.timeline`, renamed to `events.py` in the May refactor, so
    the whole suite failed at collection. Import fixed here; 6 tests remain stale
    (SSE tests call `/api/timeline/events`, now `/api/events`) and are untouched.
+7. **~6 % of producer builds are silent, and nothing retries.** Found while
+   verifying the fix: `script_generator._parse_response` rejects the LLM's JSON
+   and logs `LLM returned invalid JSON, falling back to silent script`, which
+   yields `Voice cues merged onto 0 upcoming segment(s)`. Across the retained
+   journal that is **36 of ~631 builds** — roughly 1 in 17 rebuild cycles has no
+   DJ at all, even when TTS is perfectly healthy. There is no retry: one bad
+   parse costs the whole ~50-minute cycle. This is a second, independent channel
+   for losing voice, and it will keep costing segments now that TTS works. A
+   single re-ask on parse failure would recover most of it.
 
 ## What was fixed in this pass
 
@@ -196,19 +205,45 @@ Alerts surface as an `alerts[]` array on **`/api/status`**, not just on the
 health endpoint. Anything already polling status sees an outage without knowing
 to ask a second question.
 
+**One self-inflicted bug, caught in deployment.** The first restart put
+`voice_watchdog` into `ctx_kwargs`, which `main.py` splats into `PluginContext`
+— a fixed-field dataclass. Both plugins died with `TypeError: unexpected keyword
+argument 'voice_watchdog'` and the station carried on streaming music with no
+DJ, which is the very failure being fixed. The watchdog now reaches the API via
+`app["voice_watchdog"]` instead, and `tests/test_plugin_context_contract.py`
+statically compares the `ctx_kwargs` literal against `PluginContext`'s declared
+fields so the next person gets a test failure instead of a silent DJ. That guard
+was confirmed to fail when the bug is reintroduced.
+
 **Verification**
 
-- Live failover: Bob spoke through Chatterbox as `carlin` in 3.7 s with Qwen
-  still dead — 1 397 862 bytes of real audio.
-- Endpoint probes correctly report `:42001` DOWN, `192.168.1.15:11700` UP.
-- 28 new tests in `tests/test_tts_failover.py` and
-  `tests/test_voice_watchdog.py`: routing, speaker substitution, duplicate-route
-  collapse, malformed config, failover on connection-refused / HTTP 500 / empty
-  body, all-routes-dead, probe semantics, alert-once, reminder interval,
-  recovery, the never-succeeded case, and that a crashing watchdog can't take
-  the station down.
-- Full suite: **68 passed, 6 failed** — the same 6 that fail at `3272adc`
+- **Voice is back on air.** First voice segment in 41 days went out at
+  **2026-07-27 21:34:02** — "We got a little E-Type from the Topp 100…"
+- Six TTS generations, every one served by the fallback: `route_speaker=carlin`,
+  `fallback=true`, `endpoint=192.168.1.15:11700`. The failover is what is
+  carrying the station right now.
+- Boot probe logs `TTS ENDPOINT UNREACHABLE (default): localhost:42001` at ERROR
+  — the message whose absence cost 41 days.
+- `/api/status` → `alerts: []`; `/api/status/health` → per-endpoint
+  `{42001: DOWN, 11700: UP}`, watchdog `alerting=false, silent_for=0m,
+  fallback_uses=6`.
+- Both plugins load, producer live, stream never dropped through three restarts.
+- 31 new tests across `test_tts_failover.py`, `test_voice_watchdog.py`,
+  `test_plugin_context_contract.py`: routing, speaker substitution,
+  duplicate-route collapse, malformed config, failover on connection-refused /
+  HTTP 500 / empty body, all-routes-dead, probe semantics, alert-once, reminder
+  interval, recovery, the never-succeeded case, and that a crashing watchdog
+  can't take the station down.
+- Full suite: **71 passed, 6 failed** — the same 6 that fail at `3272adc`
   (verified by stashing). No regressions.
+
+**Side effect of the restart, worth knowing:** the July 4 strict hip-hop seed did
+not survive. The producer re-seeded to its default (`character: bob`, no genre
+filter, `strict:false`, `hard:false`), so the 23-day genre lock is gone and the
+full 7 702-track library is back in rotation — Ulf Lundell and E-Type have
+already aired. That also clears bug 1 for now, since the new seed has
+`hard:false`; the underlying flag-never-resets defect is still there and will
+return with the next `hard:true` seed.
 
 ## Still to do
 
@@ -216,14 +251,16 @@ to ask a second question.
    talks as `carlin` via Chatterbox, which is the failover working as designed,
    not a fix. Enabling it also means the next reboot brings TTS back on its own,
    which is the actual lesson of June 16.
-2. **Decide the music style.** Strict hip-hop for 23 days, ~70 % of the library
-   excluded. Intentional or a forgotten seed?
-3. **Fix `hard=true` persistence** — bug 1 above. One mid-song cut every ~50
-   minutes is the most listener-visible defect left.
+2. **Retry the script LLM on parse failure** — bug 7. Now the single largest
+   remaining source of missing DJ: ~1 in 17 cycles is silent and nothing re-asks.
+3. **Fix `hard=true` persistence** — bug 1. Dormant under the current seed,
+   returns with the next `hard:true` one.
 4. **`booth.log`**: rotation, and dates on the lines.
 5. **Stale SSE tests** — 6 failures pointing at the old `/api/timeline/events`.
 6. **Instrumentation drift** — bug 4; `play_count` feeds producer song
    selection, so it's worth knowing which counter to trust.
+7. **Pick Bob's fallback voice deliberately.** `carlin` is my guess and it is on
+   air right now.
 
 ## What is NOT broken
 
