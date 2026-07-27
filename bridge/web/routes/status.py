@@ -30,6 +30,34 @@ def _format_uptime(seconds: float) -> str:
     return f"{minutes}m {secs}s"
 
 
+def _active_alerts(request: web.Request) -> list[dict]:
+    """Problems worth acting on, surfaced on the main status payload.
+
+    Anything polling /api/status sees an outage without having to know to ask a
+    second endpoint — the June 2026 mute went unnoticed for 41 days partly
+    because the health data existed but lived somewhere nobody looked.
+    """
+    alerts: list[dict] = []
+    watchdog = request.app.get("ctx_kwargs", {}).get("voice_watchdog")
+    if watchdog is not None:
+        try:
+            state = watchdog.status()
+            if state.get("alerting"):
+                alerts.append({
+                    "kind": "voice_outage",
+                    "severity": "error",
+                    "message": (
+                        f"No voice segment has reached air for {state['silent_for']}. "
+                        "Music is playing but the DJ is silent."
+                    ),
+                    "silent_for_seconds": state["silent_for_seconds"],
+                    "last_error": state.get("last_error", ""),
+                })
+        except Exception:
+            logger.exception("Could not read voice watchdog status")
+    return alerts
+
+
 @routes.get("/api/status")
 async def status(request: web.Request) -> web.Response:
     """Current playback state, track info, and active plugins."""
@@ -54,6 +82,7 @@ async def status(request: web.Request) -> web.Response:
     return web.json_response({
         "station_name": request.app.get("station_name", "Radio Dan"),
         "stream_url": request.app.get("stream_url", ""),
+        "alerts": _active_alerts(request),
         "now_playing": {
             "artist": track.get("artist", ""),
             "title": track.get("title", ""),
@@ -166,12 +195,31 @@ async def health(request: web.Request) -> web.Response:
         _safe_check(ctx.get("llm_service")),
     )
 
+    # Per-endpoint TTS reachability — "tts unhealthy" is not actionable on its
+    # own when voices are spread across several hosts.
+    tts_info: dict = {"healthy": tts_ok}
+    tts_service = ctx.get("tts_service")
+    if tts_service is not None:
+        try:
+            tts_info["endpoints"] = await tts_service.health_report()
+            tts_info["voice"] = tts_service.stats()
+        except Exception:
+            logger.exception("TTS health report failed")
+
+    watchdog = ctx.get("voice_watchdog")
+    if watchdog is not None:
+        try:
+            tts_info["watchdog"] = watchdog.status()
+        except Exception:
+            logger.exception("Voice watchdog status failed")
+
     return web.json_response({
+        "alerts": _active_alerts(request),
         "services": {
             "python": python_info,
             "icecast": icecast_info,
             "liquidsoap": liquidsoap_info,
-            "tts": {"healthy": tts_ok},
+            "tts": tts_info,
             "llm": {"healthy": llm_ok},
         },
     })

@@ -8,7 +8,7 @@ import pytest
 from aiohttp import web
 
 from bridge.event_store import EventStore
-from bridge.web.routes.timeline import routes as timeline_routes
+from bridge.web.routes.events import routes as timeline_routes
 
 
 @pytest.fixture

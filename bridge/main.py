@@ -22,6 +22,7 @@ from bridge.channels.telegram import TelegramChannel
 from bridge.services.tts_service import TTSService
 from bridge.services.stt_service import STTService
 from bridge.services.llm_service import LLMService
+from bridge.services.voice_watchdog import VoiceWatchdog
 from bridge.audio.mixer import LiquidsoapMixer
 from bridge.audio.stream_context import StreamContext
 from bridge.audio.voice_scheduler import VoiceScheduler
@@ -118,8 +119,27 @@ async def main() -> None:
         language=config.audio.tts.language,
         instruct=config.audio.tts.instruct,
         voice_map=config.audio.tts.voice_map,
+        fallbacks=config.audio.tts.fallbacks,
     )
     logger.info(f"TTS service configured (endpoint: {config.audio.tts.endpoint})")
+    if config.audio.tts.fallbacks:
+        for voice, chain in config.audio.tts.fallbacks.items():
+            routes = " → ".join(
+                f"{e.get('speaker', voice)}@{e.get('endpoint', 'primary')}"
+                for e in chain if isinstance(e, dict)
+            )
+            logger.info(f"TTS fallback for {voice}: {routes}")
+    else:
+        logger.warning(
+            "No TTS fallbacks configured — a single dead TTS host will silence the DJ"
+        )
+
+    # Alerts when voice segments stop reaching air even though music keeps playing.
+    voice_watchdog = VoiceWatchdog(
+        tts_service=tts_service,
+        alert_after_seconds=config.audio.tts.silence_alert_hours * 3600,
+        check_interval=config.audio.tts.silence_check_interval,
+    )
 
     # Initialize STT (Speech-to-Text) service
     stt_service = STTService(endpoint=config.audio.stt.endpoint)
@@ -198,6 +218,7 @@ async def main() -> None:
     llm_service.set_event_store(event_store)
     playlist_planner.set_event_store(event_store)
     playlist_planner.set_stream_context(stream_context)
+    voice_watchdog.set_event_store(event_store)
 
     # Shared services for plugin contexts
     ctx_kwargs = {
@@ -210,6 +231,7 @@ async def main() -> None:
         "booth": booth,
         "playlist_planner": playlist_planner,
         "known_good_fallback_path": fallback_path,
+        "voice_watchdog": voice_watchdog,
     }
 
     # Load plugin instances (SQLite + YAML fallback)
@@ -266,12 +288,15 @@ async def main() -> None:
     # Start services
     try:
         await tts_service.start()
+        if config.audio.tts.health_check_on_start:
+            await tts_service.log_startup_health()
         await stt_service.start()
         await llm_service.start()
         await mixer.start()
         await playlist_planner.start()
         await stream_context.start()
         await voice_scheduler.start()
+        await voice_watchdog.start()
 
         # Wire feedback loop: track changes drive playlist advancement
         stream_context.on("track_changed", playlist_planner.advance)
@@ -335,6 +360,7 @@ async def main() -> None:
                     await plugin.stop()
                 except Exception:
                     logger.exception(f"Failed to stop plugin: {plugin.instance_id}")
+            await voice_watchdog.stop()
             await voice_scheduler.stop()
             await stream_context.stop()
             await playlist_planner.stop()

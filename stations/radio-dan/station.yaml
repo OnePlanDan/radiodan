@@ -47,6 +47,38 @@ audio:
       vivianv2: http://192.168.1.15:11700/api/tts/custom
       snoop:    http://192.168.1.15:11700/api/tts/custom
 
+    # Failover chains, tried in order when the primary route fails.
+    # Voice names don't carry between backends, so each entry names a substitute
+    # speaker on the other host. Chatterbox voices available: carlin,
+    # female_podcast, lani, laniv2, laniv3, nolwazi, snoop, testvoice, vivian,
+    # vivianv2.
+    #
+    # Eric (Bad Mouth Bob) lives only on the local Qwen box, which is what made
+    # the 2026-06-16 outage total — swap in a voice you actually like here.
+    fallbacks:
+      Eric:
+        - endpoint: http://192.168.1.15:11700/api/tts/custom
+          speaker: carlin
+      Aiden:
+        - endpoint: http://192.168.1.15:11700/api/tts/custom
+          speaker: carlin
+      # Chatterbox voices fail over to the local Qwen box's default voice.
+      laniv3:
+        - endpoint: http://localhost:42001/tts/custom-voice
+          speaker: Aiden
+      vivianv2:
+        - endpoint: http://localhost:42001/tts/custom-voice
+          speaker: Aiden
+      snoop:
+        - endpoint: http://localhost:42001/tts/custom-voice
+          speaker: Aiden
+
+    # Voice watchdog — alerts when no voice reaches air while music keeps playing.
+    # Must stay well above the producer's ~50 min rebuild cycle.
+    silence_alert_hours: 3.0
+    silence_check_interval: 300.0
+    health_check_on_start: true
+
   stt:
     endpoint: http://localhost:5000/v1/audio/transcriptions
 
