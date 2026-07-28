@@ -245,22 +245,61 @@ already aired. That also clears bug 1 for now, since the new seed has
 `hard:false`; the underlying flag-never-resets defect is still there and will
 return with the next `hard:true` seed.
 
+## Follow-up, 2026-07-28
+
+**`qwen-tts` enabled** (by Dan). `enabled` + `active`, `:42001` serving, `Eric`
+in its speaker list. Bob is back on his own voice: 11 generations since the
+restart, all `route_speaker=Eric, fallback=false`, zero failures. The Chatterbox
+failover is now what it should be — a spare, not the thing carrying the station.
+The boot probe reports both endpoints reachable.
+
+**Bug 7 fixed** — the script LLM is now re-asked instead of going silent.
+`generate_script` attempts up to `script_max_attempts` (default 3) and each retry
+tells the model what was wrong with the previous reply rather than repeating the
+request blind. Backend exceptions retry too; a transient ollama hiccup also used
+to end the cycle. `_parse_response` raises `ScriptParseError` instead of quietly
+substituting silence, so "unusable" is distinguishable from "the model chose not
+to talk" — a reply with no talk anywhere is retried, but accepted on the final
+attempt rather than discarding a valid song order. Malformed segment and voice
+entries are skipped individually instead of taking down the whole parse.
+
+Truncation is the likeliest underlying cause — the schema is a flat `segments`
+list and `llm_service` sets **no token limit at all** — so `_salvage_json` closes
+a cut-off reply after its last complete segment. Recovering nine segments beats
+discarding the cycle, and it spares a round-trip. It only runs after a strict
+parse has failed, and the scan is bounded. 25 tests; suite at 96 passed, same 6
+pre-existing failures.
+
+I could not reproduce the failure on demand — 14 consecutive live calls all
+parsed, consistent with the ~6 % rate — so the retry is defensive rather than
+targeted at a confirmed mode. The `response` detail in `event_detail` is stored
+as `assistant_message[:200]`, a truncated preview, so the historical failures
+cannot be diagnosed after the fact. Worth widening if this needs revisiting.
+
+**Hip-hop is back on.** `{"genre":"hip-hop"}` → `pipeline=genre, strict=true,
+hard=false`, focus `['hip-hop','hip hop','rap']`, 1 078 of 7 702 tracks matching.
+Note `hard=false` this time, so bug 1's mid-song cut every ~50 min stays dormant.
+
+**New finding — the seed API reports stale state.** `POST /api/producer/seed`
+returns 200 with the *previous* seed. The handler waits for `producer._seed` to
+be non-null, but it already is, so it returns immediately while the seed is still
+queued behind whatever the signal loop is doing. The hip-hop seed actually landed
+**42 seconds after** the 200 response, because the boot build's phase 2 was still
+running. Nothing is lost — but a caller cannot tell from the response whether
+their seed took, and this API's only consumer is an agent. Waiting on a changed
+`seed.timing.set_at` rather than on non-nullness would fix it. Not touched.
+
 ## Still to do
 
-1. **`sudo systemctl enable --now qwen-tts`** — needs a password. Until then Bob
-   talks as `carlin` via Chatterbox, which is the failover working as designed,
-   not a fix. Enabling it also means the next reboot brings TTS back on its own,
-   which is the actual lesson of June 16.
-2. **Retry the script LLM on parse failure** — bug 7. Now the single largest
-   remaining source of missing DJ: ~1 in 17 cycles is silent and nothing re-asks.
-3. **Fix `hard=true` persistence** — bug 1. Dormant under the current seed,
+1. **Fix `hard=true` persistence** — bug 1. Dormant under the current seed,
    returns with the next `hard:true` one.
-4. **`booth.log`**: rotation, and dates on the lines.
-5. **Stale SSE tests** — 6 failures pointing at the old `/api/timeline/events`.
-6. **Instrumentation drift** — bug 4; `play_count` feeds producer song
+2. **Seed API returns stale state** — see the follow-up above.
+3. **`booth.log`**: rotation, and dates on the lines.
+4. **Stale SSE tests** — 6 failures pointing at the old `/api/timeline/events`.
+5. **Instrumentation drift** — bug 4; `play_count` feeds producer song
    selection, so it's worth knowing which counter to trust.
-7. **Pick Bob's fallback voice deliberately.** `carlin` is my guess and it is on
-   air right now.
+6. **Widen the stored LLM response** past 200 chars, so the next intermittent
+   parse failure can actually be diagnosed.
 
 ## What is NOT broken
 
