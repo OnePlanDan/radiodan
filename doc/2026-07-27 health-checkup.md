@@ -340,13 +340,53 @@ into `assert 661 == 1`. A test also asserts that exactly one of the four call si
 passes the flag, so the invariant breaks loudly if a fifth appears. Suite at 127
 passed, same 6 pre-existing failures.
 
+**Bug 5 fixed — the booth log rotates and its files are dated.** Measured first:
+46.8 MB, 471 776 lines, unbroken since 2026-03-31 (119 days), written by a plain
+`logging.FileHandler` with no cap, and no `logrotate.d` entry either.
+
+Growth turned out not to be the problem. `🔊 QUEUE` was 299 031 of the 471 776
+lines, and **~261 000 of those came from the May 2–8 freeze alone** — the May
+checkup measured "261 000+ pushes since the freeze", so one incident wrote more
+than half the file. Sampling the live steady state gave **+139 bytes / 2 lines per
+120 s ≈ 0.10 MB/day, ~3 MB/month**. Reaching 1 GB would take about 30 years.
+
+The real defect was the missing date. `BoothFormatter` stamps `%H:%M:%S` only, so
+119 days sat in one file with no way to tell which day a line came from. That is
+why this checkup could not use booth.log at all and had to reconstruct the June
+outage from `event_log` and journald — the station's own human-readable log
+couldn't answer "when". Rotation alone would have made it worse: a pile of undated
+files.
+
+`TimedRotatingFileHandler(when="midnight", backupCount=30)` fixes both with one
+change. Rotated files are named `booth.log.YYYY-MM-DD`, so the date lives in the
+filename and the lines stay scannable `HH:MM:SS` — deliberately, since the log is
+meant to read like a DJ's running sheet. Local midnight, matching the formatter's
+local-time stamps, so a file's name and contents agree about the day.
+`encoding="utf-8"` is now explicit: every line carries emoji and box characters,
+and a systemd unit can inherit a locale where the platform default isn't UTF-8.
+No root and no `logrotate.d` — which would have been a poor fit anyway, since this
+is a *user* unit and the open fd would have required `copytruncate`.
+
+Retention semantics are worth knowing: `0` means **keep everything**, because
+stdlib skips pruning entirely when `backupCount` is 0. Negatives clamp there rather
+than to anything that discards history, and there's a test for it.
+
+The old 46.8 MB file was moved to `logs/booth-archive-2026-03-31_to_2026-07-28.log`
+before the restart. Left in place it would have been renamed `booth.log.2026-07-28`
+at midnight, labelling 119 days as one. The archive name doesn't match the
+handler's date pattern, so pruning will never touch it. Verified live: fresh
+`booth.log` writing correctly, next rollover 2026-07-29 00:00. 15 tests; suite at
+142 passed, same 6 pre-existing failures.
+
+`QUEUE` volume was left alone: at ~1 440 lines/day it isn't worth losing the
+detail, and the one time it exploded, that noise *was* the diagnostic signal.
+
 ## Still to do
 
-1. **`booth.log`**: rotation, and dates on the lines.
-3. **Stale SSE tests** — 6 failures pointing at the old `/api/timeline/events`.
-4. **Instrumentation drift** — bug 4; `play_count` feeds producer song
+1. **Stale SSE tests** — 6 failures pointing at the old `/api/timeline/events`.
+2. **Instrumentation drift** — bug 4; `play_count` feeds producer song
    selection, so it's worth knowing which counter to trust.
-5. **Widen the stored LLM response** past 200 chars, so the next intermittent
+3. **Widen the stored LLM response** past 200 chars, so the next intermittent
    parse failure can actually be diagnosed.
 
 ## What is NOT broken

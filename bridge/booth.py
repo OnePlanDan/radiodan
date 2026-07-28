@@ -14,10 +14,23 @@ Events:
 """
 
 import logging
+import logging.handlers
 import sys
 from datetime import datetime
 from enum import Enum
 from pathlib import Path
+
+# Lines carry HH:MM:SS only, on purpose — the booth log is meant to be read like
+# a DJ's running sheet, and a full date on every line doubles the timestamp width.
+# That only works if each file covers one day, so the date lives in the filename:
+# rotating at midnight gives booth.log.YYYY-MM-DD.
+#
+# Before this, a plain FileHandler appended forever: by 2026-07-28 booth.log held
+# 119 days and 471 776 lines of time-only stamps in a single file, with no way to
+# tell which day a line came from. The June 2026 voice outage had to be
+# reconstructed from the event log and journald instead, because the one
+# human-readable log the station keeps couldn't answer "when".
+_LOG_RETENTION_DAYS = 30
 
 
 class Event(Enum):
@@ -110,8 +123,25 @@ class BoothLog:
         self.logger.setLevel(logging.INFO)
         self._configured = False
 
-    def configure(self, log_file: Path | None = None, console: bool = True) -> None:
-        """Configure booth log outputs."""
+    def configure(
+        self,
+        log_file: Path | None = None,
+        console: bool = True,
+        retention_days: int = _LOG_RETENTION_DAYS,
+    ) -> None:
+        """Configure booth log outputs.
+
+        Args:
+            log_file: Today's log. Rotates at local midnight, keeping
+                `retention_days` dated files alongside it.
+            console: Also write to stdout, which systemd captures into journald.
+            retention_days: Dated files to keep. At the station's steady rate
+                (~0.1 MB/day) 30 days is ~3 MB; a stuck-stream loop, the one
+                thing that ever made this log grow fast, tops out near 4 MB/day.
+                0 keeps everything — stdlib skips pruning entirely when
+                backupCount is 0 — so negatives clamp there rather than to some
+                surprise that throws history away.
+        """
         if self._configured:
             return
 
@@ -124,7 +154,19 @@ class BoothLog:
 
         if log_file:
             log_file.parent.mkdir(parents=True, exist_ok=True)
-            file_handler = logging.FileHandler(log_file)
+            # Local midnight, matching the formatter's local-time stamps, so a
+            # file's name and its contents agree about what day it is.
+            # encoding is explicit because the log is full of emoji and box
+            # characters, and a systemd unit can inherit a minimal locale where
+            # the platform default would not be UTF-8.
+            file_handler = logging.handlers.TimedRotatingFileHandler(
+                log_file,
+                when="midnight",
+                interval=1,
+                backupCount=max(0, retention_days),
+                encoding="utf-8",
+                utc=False,
+            )
             file_handler.setFormatter(formatter)
             self.logger.addHandler(file_handler)
 
