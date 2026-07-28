@@ -317,11 +317,32 @@ during the boot build returned `applied: true, waited_seconds: 15.64` with the
 21 tests across both sides of the contract; suite at 117 passed, same 6
 pre-existing failures.
 
+**Bug 1 fixed — `hard` is a one-shot again.** The flag was re-read on every script
+build, and the producer rebuilds roughly every 50 minutes, so one `{"hard":true}`
+seed cut a track mid-song every cycle for as long as it stayed live.
+
+Fixed structurally rather than by resetting state. `_build_script` takes a
+keyword-only `apply_hard` that defaults to `False`, and the hard skip moved into
+`_maybe_hard_skip()`. Of the four `_build_script` call sites — seed applied,
+rolling `buffer_low`, listener-skip reaction, mood tweak — only the seed handler
+passes `apply_hard=True`, and it passes `not silent_default` so the boot seed can
+never cut a track. The rolling rebuild now *cannot* hard-skip, rather than relying
+on a flag having been cleared. `SeedState.hard_consumed` is the second guard and
+is surfaced in `/api/producer/status`: `hard` stays the value that was requested,
+`hard_consumed` says whether the one-shot has fired. Consumption is marked before
+the skip is attempted, so a half-failed skip can't lie in wait.
+
+Verified live: a `{"genre":"hip-hop","hard":true}` seed cut Ulf Lundell straight
+into Cypress Hill — one `hard=true → skipped` line — then three non-seed rebuilds
+forced via `/api/producer/mood` produced **zero** further skips. 10 tests,
+including a 660-cycle simulation of the 23-day case; reverting the fix turns that
+into `assert 661 == 1`. A test also asserts that exactly one of the four call sites
+passes the flag, so the invariant breaks loudly if a fifth appears. Suite at 127
+passed, same 6 pre-existing failures.
+
 ## Still to do
 
-1. **Fix `hard=true` persistence** — bug 1. Dormant under the current seed,
-   returns with the next `hard:true` one.
-2. **`booth.log`**: rotation, and dates on the lines.
+1. **`booth.log`**: rotation, and dates on the lines.
 3. **Stale SSE tests** — 6 failures pointing at the old `/api/timeline/events`.
 4. **Instrumentation drift** — bug 4; `play_count` feeds producer song
    selection, so it's worth knowing which counter to trust.

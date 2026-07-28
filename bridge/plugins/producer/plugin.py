@@ -283,7 +283,8 @@ class ProducerPlugin(DJPlugin):
             # music a fraction of a second later.
             resolve(True)
 
-            await self._build_script()
+            # The only build allowed to honour the seed's one-shot hard skip.
+            await self._build_script(apply_hard=not silent_default)
         finally:
             # Never leave a caller hanging on an unexpected failure path.
             resolve(False, "seed handling aborted")
@@ -375,9 +376,42 @@ class ProducerPlugin(DJPlugin):
     # SCRIPT BUILDING
     # =====================================================================
 
-    async def _build_script(self) -> None:
+    async def _maybe_hard_skip(self, apply_hard: bool) -> None:
+        """Consume the seed's one-shot `hard` flag: skip the track now playing.
+
+        Called once the new first song is in Liquidsoap's queue, so the crossfade
+        runs current → new first and the stream never drops to silence.
+
+        Two guards, because this is a one-shot instruction attached to applying a
+        seed rather than a standing property of the seed. `apply_hard` is only
+        true on the build that applied the seed — the rolling rebuild fires every
+        ~50 minutes and used to re-read this flag, cutting a track mid-song on
+        every cycle for as long as a `hard` seed stayed live (23 days, in the case
+        found on 2026-07-27). `hard_consumed` is belt-and-braces for any future
+        caller that passes the flag twice.
+        """
+        if not apply_hard or self._seed is None:
+            return
+        if not self._seed.hard or self._seed.hard_consumed:
+            return
+
+        # Marked before the attempt: a half-failed skip must not leave the flag
+        # armed to cut a track by surprise later.
+        self._seed.hard_consumed = True
+        try:
+            await self.ctx.mixer.next_track()
+            self.logger.info("[seed] hard=true → skipped current track (one-shot)")
+        except Exception:
+            self.logger.exception("hard=true skip failed")
+
+    async def _build_script(self, *, apply_hard: bool = False) -> None:
         """Build in two phases: songs first (fast, push to LS immediately),
         then LLM voice cues merged onto future segments while music plays.
+
+        Args:
+            apply_hard: Honour the seed's one-shot `hard` skip. Only the build
+                that applies a new seed may set this; rolling rebuilds, skip
+                reactions and mood tweaks must not.
 
         Phase 1 (songs):  gather_context + select_songs + queue to Liquidsoap
                           → music flows in < ~2 s
@@ -451,14 +485,7 @@ class ProducerPlugin(DJPlugin):
                     f"— {len(songs)} tracks queued"
                 )
 
-            # Hard flag: now that the new first song is in LS's queue, skip
-            # the currently-playing track. Crossfade goes current → new first.
-            if self._seed is not None and self._seed.hard:
-                try:
-                    await self.ctx.mixer.next_track()
-                    self.logger.info("[seed] hard=true → skipped current track")
-                except Exception:
-                    self.logger.exception("hard=true skip failed")
+            await self._maybe_hard_skip(apply_hard)
 
             # ============================================================
             # Phase 2: voice cues (LLM + TTS — music already playing)

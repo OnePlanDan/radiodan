@@ -33,11 +33,13 @@ def handler(monkeypatch):
     async def _soft_flush():
         p.calls.append("soft_flush")
 
-    async def _build_script():
+    async def _build_script(*, apply_hard=False):
         p.calls.append("build_script")
+        p.build_apply_hard = apply_hard
 
     p._soft_flush = _soft_flush
     p._build_script = _build_script
+    p.build_apply_hard = None
     return p
 
 
@@ -64,6 +66,7 @@ async def test_ack_resolves_applied_once_the_seed_is_live(handler, monkeypatch):
     assert ack.result() == {"applied": True, "error": ""}
     assert handler._seed is seed
     assert handler.calls == ["soft_flush", "build_script"]
+    assert handler.build_apply_hard is True, "a real seed build may honour hard"
 
 
 async def test_ack_resolves_before_the_slow_phase_two_build(handler, monkeypatch):
@@ -73,7 +76,7 @@ async def test_ack_resolves_before_the_slow_phase_two_build(handler, monkeypatch
 
     resolved_during_build = {}
 
-    async def _slow_build():
+    async def _slow_build(*, apply_hard=False):
         resolved_during_build["done"] = ack.done()
         handler.calls.append("build_script")
 
@@ -104,7 +107,7 @@ async def test_ack_resolves_even_when_the_build_explodes(handler, monkeypatch):
     seed = SeedState(pipeline="genre")
     monkeypatch.setattr(producer_plugin, "interpret_seed", _interpret_returns(seed))
 
-    async def _boom():
+    async def _boom(*, apply_hard=False):
         raise RuntimeError("build died")
 
     handler._build_script = _boom
@@ -143,6 +146,7 @@ async def test_no_ack_is_harmless(handler, monkeypatch):
     assert handler._seed is seed
     # silent_default skips the flush
     assert handler.calls == ["build_script"]
+    assert handler.build_apply_hard is False, "a silent bootstrap must never cut a track"
 
 
 async def test_ack_is_stripped_before_interpretation(handler, monkeypatch):

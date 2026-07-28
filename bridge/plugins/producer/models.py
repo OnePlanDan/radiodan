@@ -92,6 +92,7 @@ class SeedState:
     uploaded_image_path: str | None = None            # resolved path if image upload/url
     strict: bool = False                              # hard-filter songs to genre_focus matches
     hard: bool = False                                # skip current track once new first song is queued
+    hard_consumed: bool = False                       # that one-shot skip has already fired
     built_at: float | None = None                     # epoch when new script finished building
     songs_queued_at: float | None = None              # epoch when new tracks were pushed to LS (phase 1)
     live_at: float | None = None                      # epoch when first new-script track hit air
@@ -119,7 +120,11 @@ class SeedState:
             "interpretation_notes": self.interpretation_notes,
             "uploaded_image_path": self.uploaded_image_path,
             "strict": self.strict,
+            # `hard` stays the value that was requested; `hard_consumed` says
+            # whether the one-shot skip has already fired, so a live seed never
+            # looks like it still has a pending cut.
             "hard": self.hard,
+            "hard_consumed": self.hard_consumed,
             "timing": {
                 "set_at": self.set_at,
                 "songs_queued_at": self.songs_queued_at,
