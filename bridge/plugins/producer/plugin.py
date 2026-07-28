@@ -14,7 +14,7 @@ from bridge.plugins.producer.characters import load_characters
 from bridge.plugins.producer.context_providers import gather_context, select_songs
 from bridge.plugins.producer.models import CharacterConfig, Script, ScriptSegment, SeedState
 from bridge.plugins.producer.script_executor import ScriptExecutor
-from bridge.plugins.producer.script_generator import generate_script
+from bridge.plugins.producer.script_generator import DEFAULT_MAX_ATTEMPTS, generate_script
 from bridge.plugins.producer.seed_interpreter import interpret_seed
 from bridge.services.llm_backends import (
     ChatBackend,
@@ -50,6 +50,9 @@ class ProducerPlugin(DJPlugin):
         cfg = ctx.config
         self._plan_size = cfg.get("plan_size", 10)
         self._materialize_count = cfg.get("materialize_ahead", 4)
+        # Re-asks when the LLM returns an unusable script. A silent script costs
+        # the whole ~50 min cycle, so it's worth another round-trip.
+        self._script_max_attempts = cfg.get("script_max_attempts", DEFAULT_MAX_ATTEMPTS)
         self._upload_dir = _resolve_upload_dir(cfg)
 
         # LLM backends — one per role
@@ -452,6 +455,7 @@ class ProducerPlugin(DJPlugin):
                     context=context,
                     active_characters=active_chars,
                     seed=self._seed,
+                    max_attempts=self._script_max_attempts,
                 )
                 self._merge_voice_cues(llm_script)
             except Exception:

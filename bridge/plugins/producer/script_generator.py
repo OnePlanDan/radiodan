@@ -22,6 +22,19 @@ if TYPE_CHECKING:
 
 logger = logging.getLogger(__name__)
 
+# A bad response used to cost the whole rebuild cycle: one unparseable reply and
+# the producer fell straight back to a silent script, so ~50 minutes of radio
+# went out with no DJ. Across the journal that was 36 of ~631 builds (~6%).
+# Nothing re-asked. Now each failure is retried with a corrective nudge.
+DEFAULT_MAX_ATTEMPTS = 3
+
+# Bound the salvage scan so a pathological response can't burn real time.
+_MAX_SALVAGE_CUTS = 200
+
+
+class ScriptParseError(Exception):
+    """A response came back but could not be turned into a usable script."""
+
 SCRIPT_SYSTEM_PROMPT = f"""\
 You are a radio show producer. Given a cast, a song list, and context, \
 produce a JSON script for a radio segment. Each segment pairs a song with optional DJ talk.
@@ -67,18 +80,70 @@ async def generate_script(
     active_characters: list[CharacterConfig] | None = None,
     signal: str = "buffer_low",
     seed: SeedState | None = None,
+    max_attempts: int = DEFAULT_MAX_ATTEMPTS,
 ) -> Script:
-    """Generate a structured multi-host script via a single LLM call."""
+    """Generate a structured multi-host script, re-asking on an unusable reply.
+
+    Falling back to a silent script means ~50 minutes of radio with no DJ, so a
+    bad reply is worth another round-trip. Each retry tells the model what was
+    wrong with the previous attempt rather than blindly repeating the request.
+    Only when every attempt fails do we accept silence.
+    """
     active = active_characters or [character]
-    user_message = _build_user_prompt(character, active, songs, context, signal, seed)
+    base_prompt = _build_user_prompt(character, active, songs, context, signal, seed)
+    attempts = max(1, max_attempts)
+    last_reason = "unknown"
 
-    try:
-        response_text = await chat_backend.chat(user_message, system_prompt=SCRIPT_SYSTEM_PROMPT)
-    except Exception:
-        logger.exception(f"Script LLM call failed (backend={chat_backend.name}/{chat_backend.model})")
-        return _silent_fallback(songs, character, active)
+    for attempt in range(1, attempts + 1):
+        prompt = base_prompt if attempt == 1 else f"{base_prompt}\n\n{_retry_note(last_reason)}"
+        final_attempt = attempt == attempts
 
-    return _parse_response(response_text, songs, character, active)
+        try:
+            response_text = await chat_backend.chat(prompt, system_prompt=SCRIPT_SYSTEM_PROMPT)
+        except Exception as e:
+            # Transient backend trouble also used to end the cycle immediately.
+            last_reason = f"the request failed ({e})"
+            logger.warning(
+                f"Script LLM call failed on attempt {attempt}/{attempts} "
+                f"(backend={chat_backend.name}/{chat_backend.model}): {e}"
+            )
+            continue
+
+        try:
+            script = _parse_response(
+                response_text, songs, character, active,
+                # The last attempt keeps a talk-free but structurally valid
+                # script rather than throwing away a usable song order.
+                require_voice=not final_attempt,
+            )
+        except ScriptParseError as e:
+            last_reason = str(e)
+            logger.warning(
+                f"Script response unusable on attempt {attempt}/{attempts} "
+                f"({e}; {len(response_text)} chars)"
+            )
+            continue
+
+        if attempt > 1:
+            logger.info(f"Script recovered on attempt {attempt}/{attempts}")
+        return script
+
+    logger.error(
+        f"Script generation failed after {attempts} attempts ({last_reason}) — "
+        "this segment goes out with no DJ"
+    )
+    return _silent_fallback(songs, character, active)
+
+
+def _retry_note(reason: str) -> str:
+    """Corrective instruction appended to the prompt on a retry."""
+    return (
+        f"[Retry] Your previous reply could not be used: {reason}. "
+        "Respond with ONLY the JSON object described in the system prompt — no "
+        "preamble, no explanation, no markdown fences. Emit the complete object "
+        "including every closing bracket. Keep the talk text short so the whole "
+        "response fits."
+    )
 
 
 def _build_user_prompt(
@@ -148,27 +213,58 @@ def _parse_response(
     songs: list[dict],
     character: CharacterConfig,
     active_characters: list[CharacterConfig],
+    require_voice: bool = False,
 ) -> Script:
-    """Parse LLM JSON response into a Script."""
+    """Parse an LLM JSON response into a Script.
+
+    Args:
+        require_voice: Treat a script with no talk at all as a failure. The
+            system prompt asks for talk on 60-70% of songs, so a completely
+            silent reply is a defect worth re-asking about — but the caller
+            disables this on its final attempt so a usable song order isn't
+            thrown away over missing talk.
+
+    Raises:
+        ScriptParseError: The response could not be turned into a usable script.
+    """
     json_str = _extract_json(response_text)
 
     try:
         data = json.loads(json_str)
-    except (json.JSONDecodeError, TypeError):
-        logger.warning("LLM returned invalid JSON, falling back to silent script")
-        return _silent_fallback(songs, character, active_characters)
+    except (json.JSONDecodeError, TypeError) as e:
+        # Most likely a truncated reply. Recovering nine complete segments beats
+        # discarding the whole cycle, so try closing it off before giving up.
+        data = _salvage_json(json_str)
+        if data is None:
+            raise ScriptParseError(f"the JSON was invalid ({e})") from e
+        logger.info(f"Salvaged a truncated script response ({len(json_str)} chars)")
+
+    if not isinstance(data, dict):
+        raise ScriptParseError(f"the JSON was a {type(data).__name__}, not an object")
 
     known_ids = {c.id for c in active_characters}
     segments: list[ScriptSegment] = []
     raw_segments = data.get("segments", [])
 
+    if not isinstance(raw_segments, list):
+        raise ScriptParseError("the \"segments\" value was not a list")
+
     for i, seg_data in enumerate(raw_segments):
+        if not isinstance(seg_data, dict):
+            continue
         song_idx = seg_data.get("song_index", i)
+        if not isinstance(song_idx, int):
+            continue
         if song_idx < 0 or song_idx >= len(songs):
             continue
 
         voice_cues: list[VoiceCue] = []
-        for vc in seg_data.get("voice", [])[:MAX_EXCHANGES_PER_SEGMENT]:
+        raw_voice = seg_data.get("voice") or []
+        if not isinstance(raw_voice, list):
+            raw_voice = []
+        for vc in raw_voice[:MAX_EXCHANGES_PER_SEGMENT]:
+            if not isinstance(vc, dict):
+                continue
             text = (vc.get("text") or "").strip()
             if not text:
                 continue
@@ -189,7 +285,10 @@ def _parse_response(
         ))
 
     if not segments:
-        return _silent_fallback(songs, character, active_characters)
+        raise ScriptParseError("it contained no usable segments")
+
+    if require_voice and not any(s.voice_cues for s in segments):
+        raise ScriptParseError("every segment was silent — no talk at all")
 
     return Script(
         segments=segments,
@@ -208,6 +307,35 @@ def _extract_json(text: str) -> str:
     if match:
         return match.group(0)
     return text
+
+
+def _salvage_json(text: str) -> dict | None:
+    """Close off a truncated script response after its last complete segment.
+
+    The schema is a flat {"segments": [...]} list, so a reply cut mid-flight can
+    usually be rescued by trimming back to the last complete object and adding
+    the missing brackets. Returns None when nothing usable comes out — this only
+    ever runs after a strict parse has already failed.
+    """
+    start = text.find("{")
+    if start < 0:
+        return None
+    body = text[start:]
+
+    cut = len(body)
+    for _ in range(_MAX_SALVAGE_CUTS):
+        cut = body.rfind("}", 0, cut)
+        if cut < 0:
+            return None
+        head = body[: cut + 1]
+        for suffix in ("]}", "}]}", "", "}"):
+            try:
+                data = json.loads(head + suffix)
+            except (json.JSONDecodeError, TypeError):
+                continue
+            if isinstance(data, dict) and isinstance(data.get("segments"), list) and data["segments"]:
+                return data
+    return None
 
 
 def _silent_fallback(
