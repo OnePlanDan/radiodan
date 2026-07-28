@@ -239,38 +239,54 @@ class ProducerPlugin(DJPlugin):
         """
         library = self._library()
         silent_default = bool(payload.pop("_silent_default", False))
+        ack: asyncio.Future | None = payload.pop("_ack", None)
+
+        def resolve(applied: bool, error: str = "") -> None:
+            """Tell a waiting caller the outcome. Safe to call more than once."""
+            if ack is not None and not ack.done():
+                ack.set_result({"applied": applied, "error": error})
 
         old_seed = self._seed
         old_host = self._primary_char()
 
         try:
-            seed = await interpret_seed(
-                payload,
-                characters=self._characters,
-                library=library,
-                interpreter=self._interpreter_backend,
-                vision=self._vision_backend,
-                upload_dir=self._upload_dir,
-            )
-        except Exception:
-            self.logger.exception("Seed interpretation failed; keeping previous seed")
-            return
+            try:
+                seed = await interpret_seed(
+                    payload,
+                    characters=self._characters,
+                    library=library,
+                    interpreter=self._interpreter_backend,
+                    vision=self._vision_backend,
+                    upload_dir=self._upload_dir,
+                )
+            except Exception as e:
+                self.logger.exception("Seed interpretation failed; keeping previous seed")
+                resolve(False, f"seed interpretation failed: {e}")
+                return
 
-        # Fire an ack voice line from the outgoing host (in parallel with build).
-        # Only when there's a real handover — not on the initial default seed,
-        # and only if an old host was on-air.
-        if not silent_default and old_seed is not None and old_host is not None:
-            self.create_task(self._speak_seed_ack(old_host, seed))
+            # Fire an ack voice line from the outgoing host (in parallel with build).
+            # Only when there's a real handover — not on the initial default seed,
+            # and only if an old host was on-air.
+            if not silent_default and old_seed is not None and old_host is not None:
+                self.create_task(self._speak_seed_ack(old_host, seed))
 
-        self._seed = seed
-        if not silent_default:
-            self.logger.info(f"New seed: {seed.pipeline} → {seed.interpretation_notes}")
-            # Soft flush: keep a couple of bridge tracks so music continues.
-            await self._soft_flush()
-        else:
-            self.logger.info(f"Initial seed (default): {seed.interpretation_notes}")
+            self._seed = seed
+            if not silent_default:
+                self.logger.info(f"New seed: {seed.pipeline} → {seed.interpretation_notes}")
+                # Soft flush: keep a couple of bridge tracks so music continues.
+                await self._soft_flush()
+            else:
+                self.logger.info(f"Initial seed (default): {seed.interpretation_notes}")
 
-        await self._build_script()
+            # The seed is live from here. Resolve before building: phase 2 takes
+            # 30-90s and no caller should be held open for it. Phase 1 queues the
+            # music a fraction of a second later.
+            resolve(True)
+
+            await self._build_script()
+        finally:
+            # Never leave a caller hanging on an unexpected failure path.
+            resolve(False, "seed handling aborted")
 
     async def _handle_buffer_low(self, payload: dict) -> None:
         await self._build_script()
@@ -758,9 +774,21 @@ class ProducerPlugin(DJPlugin):
     # PUBLIC API (called by web routes)
     # =====================================================================
 
-    async def submit_seed(self, raw: dict) -> None:
-        """Queue a new seed for processing. Flushes + rebuilds."""
-        await self._signal_queue.put(("seed", dict(raw)))
+    async def submit_seed(self, raw: dict) -> asyncio.Future:
+        """Queue a new seed for processing. Flushes + rebuilds.
+
+        Returns a future that resolves to {"applied": bool, "error": str} once
+        the seed has gone live or been rejected. Seeds queue behind whatever the
+        signal loop is doing — a phase-2 build can hold one for a minute — so
+        callers that need to report whether the seed actually took (the HTTP API)
+        await this instead of guessing. Fire-and-forget callers can ignore it;
+        the future carries a result, never an exception, so dropping it is safe.
+        """
+        ack: asyncio.Future = asyncio.get_running_loop().create_future()
+        payload = dict(raw)
+        payload["_ack"] = ack
+        await self._signal_queue.put(("seed", payload))
+        return ack
 
     async def request_skip(self, track_info: dict | None = None) -> None:
         await self._signal_queue.put(("skip", {"track_info": track_info or {}}))

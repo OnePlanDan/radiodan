@@ -2,9 +2,11 @@
 
 from __future__ import annotations
 
+import asyncio
 import hashlib
 import logging
 import os
+import time
 from pathlib import Path
 
 from aiohttp import web
@@ -16,6 +18,24 @@ routes = web.RouteTableDef()
 
 _ALLOWED_IMAGE_TYPES = {"image/png", "image/jpeg", "image/jpg", "image/webp"}
 _MAX_IMAGE_BYTES = 10 * 1024 * 1024  # 10 MB
+
+# How long POST /seed waits for the seed to actually go live before answering
+# "still pending". Seeds queue behind the producer's signal loop, and a phase-2
+# build can hold one for a minute, so this is generous by default and callers
+# who don't want to block can pass ?wait=0.
+_SEED_WAIT_SECONDS = 20.0
+_SEED_WAIT_MAX = 120.0
+
+
+def _seed_wait_seconds(request: web.Request) -> float:
+    """Read ?wait=<seconds>, clamped. Invalid values fall back to the default."""
+    raw = request.query.get("wait")
+    if raw is None:
+        return _SEED_WAIT_SECONDS
+    try:
+        return max(0.0, min(_SEED_WAIT_MAX, float(raw)))
+    except ValueError:
+        return _SEED_WAIT_SECONDS
 
 
 def _get_producer(request: web.Request):
@@ -97,6 +117,16 @@ async def producer_seed(request: web.Request) -> web.Response:
         text, song, character, cast[], genre, image_url
     Multipart also accepts:
         image (file upload — saved by sha256)
+    Query:
+        wait — seconds to wait for the seed to go live (default 20, max 120,
+               0 to return immediately)
+
+    Response:
+        applied — the submitted seed is now the live seed
+        pending — accepted but still queued behind the producer's signal loop;
+                  poll /api/producer/status
+        error   — set when the seed was rejected (interpretation failed)
+        seed    — the seed actually in effect right now, never an unapplied one
     """
     producer = _get_producer(request)
     if not producer:
@@ -143,17 +173,43 @@ async def producer_seed(request: web.Request) -> web.Response:
             reason="Seed must include one of: text, song, character, cast, genre, image, image_url"
         )
 
-    await producer.submit_seed(body)
+    ack = await producer.submit_seed(body)
 
-    # Wait briefly for seed to be processed so response reflects state
-    import asyncio
-    for _ in range(20):
-        await asyncio.sleep(0.1)
-        if producer._seed:
-            break
+    # Wait for the seed to actually go live rather than for producer._seed to be
+    # non-null — it already is, which is why this used to return 200 alongside
+    # the *previous* seed while the new one was still queued.
+    started = time.monotonic()
+    outcome: dict | None = None
+    wait_seconds = _seed_wait_seconds(request)
+    if wait_seconds > 0:
+        try:
+            # shield() so a timeout here doesn't cancel the producer's ack.
+            outcome = await asyncio.wait_for(asyncio.shield(ack), timeout=wait_seconds)
+        except asyncio.TimeoutError:
+            outcome = None
+    waited = round(time.monotonic() - started, 2)
+
+    applied = bool(outcome and outcome["applied"])
+    error = (outcome or {}).get("error", "")
+    pending = outcome is None
+
+    if pending:
+        logger.info(
+            f"Seed still queued after {waited}s — answering pending "
+            "(producer busy; poll /api/producer/status)"
+        )
+    elif not applied:
+        logger.warning(f"Seed rejected: {error}")
 
     return web.json_response({
-        "ok": True,
+        # False only when the seed was actively rejected; a still-queued seed was
+        # accepted and will land.
+        "ok": applied or pending,
+        "applied": applied,
+        "pending": pending,
+        "error": error,
+        "waited_seconds": waited,
+        # Always the live seed, so this never claims a seed that isn't in effect.
         "seed": producer._seed.as_dict() if producer._seed else None,
         "script_building": producer._building,
     })
@@ -169,8 +225,25 @@ async def producer_switch(request: web.Request) -> web.Response:
     char_id = body.get("character", "")
     if not char_id or char_id not in producer._characters:
         raise web.HTTPNotFound(reason=f"Unknown character: {char_id!r}")
-    await producer.submit_seed({"character": char_id})
-    return web.json_response({"ok": True, "character": char_id})
+
+    ack = await producer.submit_seed({"character": char_id})
+    outcome: dict | None = None
+    wait_seconds = _seed_wait_seconds(request)
+    if wait_seconds > 0:
+        try:
+            outcome = await asyncio.wait_for(asyncio.shield(ack), timeout=wait_seconds)
+        except asyncio.TimeoutError:
+            outcome = None
+
+    applied = bool(outcome and outcome["applied"])
+    pending = outcome is None
+    return web.json_response({
+        "ok": applied or pending,
+        "applied": applied,
+        "pending": pending,
+        "error": (outcome or {}).get("error", ""),
+        "character": char_id,
+    })
 
 
 @routes.post("/api/producer/skip")

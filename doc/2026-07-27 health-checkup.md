@@ -280,25 +280,52 @@ cannot be diagnosed after the fact. Worth widening if this needs revisiting.
 hard=false`, focus `['hip-hop','hip hop','rap']`, 1 078 of 7 702 tracks matching.
 Note `hard=false` this time, so bug 1's mid-song cut every ~50 min stays dormant.
 
-**New finding — the seed API reports stale state.** `POST /api/producer/seed`
-returns 200 with the *previous* seed. The handler waits for `producer._seed` to
-be non-null, but it already is, so it returns immediately while the seed is still
-queued behind whatever the signal loop is doing. The hip-hop seed actually landed
-**42 seconds after** the 200 response, because the boot build's phase 2 was still
-running. Nothing is lost — but a caller cannot tell from the response whether
-their seed took, and this API's only consumer is an agent. Waiting on a changed
-`seed.timing.set_at` rather than on non-nullness would fix it. Not touched.
+**Seed API staleness — found and fixed.** `POST /api/producer/seed` was returning
+200 alongside the *previous* seed: the handler waited for `producer._seed` to be
+non-null, which it always already is, so it answered while the new seed was still
+queued behind the signal loop. The hip-hop seed landed **42 seconds after** its
+own 200 response. Nothing was lost, but a caller could not tell whether its seed
+took — and this API's only consumer is an agent.
+
+Rather than poll for a changed `set_at`, `submit_seed` now returns a future that
+`_handle_seed` resolves once the seed is genuinely live or has been rejected, so
+the answer is attributed to *that* request instead of inferred from a timestamp.
+It resolves after the soft flush and before `_build_script`, because phase 2 takes
+30-90 s and no caller should be held open for it; phase 1 queues the music a
+fraction of a second later. A `finally` guarantees the caller is never left
+hanging, and the future carries a result rather than an exception so a
+fire-and-forget caller can drop it safely.
+
+The response now says what actually happened:
+
+| field | meaning |
+|---|---|
+| `applied` | the submitted seed is the live seed |
+| `pending` | accepted but still queued — poll `/api/producer/status` |
+| `error` | set when interpretation rejected the seed |
+| `seed` | the seed **in effect right now**, never an unapplied one |
+| `waited_seconds` | how long the request blocked |
+
+`?wait=<seconds>` controls the block (default 20, max 120, `0` returns at once).
+`/api/producer/switch` got the same treatment — it was also claiming `ok: true`
+before the seed applied. Bad bodies still 400/404 without queueing anything.
+
+Verified against the live station in exactly the scenario that broke: seeding
+during the boot build returned `applied: true, waited_seconds: 15.64` with the
+*new* hip-hop seed and `script_building: true`. `?wait=0` returned
+`pending: true, waited_seconds: 0.0` with the seed still genuinely in effect.
+21 tests across both sides of the contract; suite at 117 passed, same 6
+pre-existing failures.
 
 ## Still to do
 
 1. **Fix `hard=true` persistence** — bug 1. Dormant under the current seed,
    returns with the next `hard:true` one.
-2. **Seed API returns stale state** — see the follow-up above.
-3. **`booth.log`**: rotation, and dates on the lines.
-4. **Stale SSE tests** — 6 failures pointing at the old `/api/timeline/events`.
-5. **Instrumentation drift** — bug 4; `play_count` feeds producer song
+2. **`booth.log`**: rotation, and dates on the lines.
+3. **Stale SSE tests** — 6 failures pointing at the old `/api/timeline/events`.
+4. **Instrumentation drift** — bug 4; `play_count` feeds producer song
    selection, so it's worth knowing which counter to trust.
-6. **Widen the stored LLM response** past 200 chars, so the next intermittent
+5. **Widen the stored LLM response** past 200 chars, so the next intermittent
    parse failure can actually be diagnosed.
 
 ## What is NOT broken
