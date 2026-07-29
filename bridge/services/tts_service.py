@@ -41,6 +41,10 @@ class TTSService:
         instruct: str = "Speak calmly and clearly",
         voice_map: dict[str, str] | None = None,
         fallbacks: dict | None = None,
+        loudness_target: float = -12.0,
+        true_peak: float = -1.5,
+        compress_threshold: str = "-18dB",
+        compress_ratio: float = 3.0,
     ):
         """
         Initialize TTS service.
@@ -70,6 +74,10 @@ class TTSService:
         self.fallbacks: dict[str, list[dict]] = {
             voice: list(chain or []) for voice, chain in (fallbacks or {}).items()
         }
+        self.loudness_target = loudness_target
+        self.true_peak = true_peak
+        self.compress_threshold = compress_threshold
+        self.compress_ratio = compress_ratio
         self._session: aiohttp.ClientSession | None = None
         self._event_store: "EventStore | None" = None
 
@@ -264,12 +272,36 @@ class TTSService:
             raise RuntimeError("empty response body")
         return audio_data
 
+    def _normalize_filter(self) -> str:
+        """ffmpeg filter chain that brings a voice clip to the station's level.
+
+        Measured 2026-07-29: plain `loudnorm=I=-16` produced voice at −16.9 LUFS
+        against music airing at −7.6, so the DJ was ~9 dB below the songs and
+        vanished at low listening volume.
+
+        Raising the loudnorm target alone does not fix it — single-pass *and*
+        two-pass both saturate near −13.4 LUFS because the true-peak ceiling
+        binds first (asking for I=−10 still yielded −13.5). Compressing ahead of
+        loudnorm lowers the crest factor so the requested gain actually fits:
+        acompressor + I=−12 measured −13.1 LUFS at LRA 2.7, which is the honest
+        ceiling for speech here without audible squashing.
+
+        The remaining gap is closed on the Liquidsoap side by `music_vol`, since
+        the real outlier is the music: −7.6 LUFS at +0.7 dBFS true peak, i.e.
+        brick-walled and clipping.
+        """
+        return (
+            f"acompressor=threshold={self.compress_threshold}:ratio={self.compress_ratio}"
+            ":attack=5:release=120,"
+            f"loudnorm=I={self.loudness_target}:TP={self.true_peak}:LRA=11"
+        )
+
     async def _normalize_audio(self, path: Path) -> None:
         """Normalize audio loudness using ffmpeg EBU R128 (loudnorm)."""
         normalized = path.with_suffix(".norm.wav")
         proc = await asyncio.create_subprocess_exec(
             "ffmpeg", "-y", "-i", str(path),
-            "-af", "loudnorm=I=-16:TP=-1.5:LRA=11",
+            "-af", self._normalize_filter(),
             str(normalized),
             stdout=asyncio.subprocess.DEVNULL,
             stderr=asyncio.subprocess.PIPE,

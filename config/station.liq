@@ -19,10 +19,18 @@ station_name = environment.get("STATION_NAME") ?? "Radio Dan"
 # =============================================================================
 
 # Volume controls (0.0 - 1.0)
-music_vol = interactive.float("music_vol", 1.0)       # Music volume (0 = muted)
+# music_vol 0.55 = -5.2 dB. Measured 2026-07-29: at 1.0 the music aired at
+# -7.6 LUFS with +0.7 dBFS true peak — brick-walled and over full scale — while
+# the DJ sat ~9 dB below it. The music is the outlier, not the voice, so it comes
+# down rather than the voice being pushed into a limiter. Lands both near
+# -13 LUFS, which is also close to normal streaming loudness.
+music_vol = interactive.float("music_vol", 0.55)      # Music volume (0 = muted)
 tts_vol = interactive.float("tts_vol", 1.0)           # TTS/voice volume
 earcon_vol = interactive.float("earcon_vol", 0.5)     # Earcon/notification volume
-duck_amount = interactive.float("duck_amount", 0.15)  # Music level during TTS (0.15 = -16.5 dB)
+# 0.25 = -12 dB. Was 0.15 (-16.5 dB), which dropped the bed so far that the gaps
+# between the DJ's phrases fell to -27 LUFS and the whole segment felt like a
+# hole in the show. -12 dB still leaves the voice ~12 dB clear of the bed.
+duck_amount = interactive.float("duck_amount", 0.25)  # Music level during TTS
 
 # Crossfade duration (seconds) — readable by Python bridge for bridge timing math
 crossfade_duration = interactive.float("crossfade_duration", 5.0)

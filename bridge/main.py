@@ -120,6 +120,10 @@ async def main() -> None:
         instruct=config.audio.tts.instruct,
         voice_map=config.audio.tts.voice_map,
         fallbacks=config.audio.tts.fallbacks,
+        loudness_target=config.audio.tts.loudness_target,
+        true_peak=config.audio.tts.true_peak,
+        compress_threshold=config.audio.tts.compress_threshold,
+        compress_ratio=config.audio.tts.compress_ratio,
     )
     logger.info(f"TTS service configured (endpoint: {config.audio.tts.endpoint})")
     if config.audio.tts.fallbacks:

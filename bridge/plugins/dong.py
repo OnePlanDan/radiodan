@@ -7,7 +7,13 @@ Fires announcements based on time/schedule. Three mutually exclusive modes:
   oneshot      — Fire once at a specific datetime
   between_songs — Fire on every track change
 
-Default: recurring hourly, saying "Dooong! The time is HH:MM"
+Default: recurring hourly, saying "Booong! The time is HH:MM"
+
+The chime word is "Booong" rather than "Dooong" — closer to an actual gong, and
+"dong" carries a second meaning that listeners will reach for every time. The
+plugin, its instance id and its Telegram command are still named `dong`; only
+the spoken word changed, since renaming the plugin would orphan the stored
+`default-dong` instance.
 """
 
 import asyncio
@@ -82,7 +88,7 @@ class DongPlugin(DJPlugin):
                 "key": "say_text",
                 "type": "text",
                 "label": "Say Text",
-                "default": "Dooong! The time is {time}",
+                "default": "Booong! The time is {time}",
                 "help": "Text to speak. Use {time} for current HH:MM. Leave empty to use LLM prompt instead.",
             },
             {
@@ -102,7 +108,7 @@ class DongPlugin(DJPlugin):
         cfg = self.ctx.config
         self._active = cfg.get("active_on_start", True)
         self._mode = cfg.get("mode", "recurring")
-        self._say_text = cfg.get("say_text", "Dooong! The time is {time}")
+        self._say_text = cfg.get("say_text", "Booong! The time is {time}")
         self._prompt = cfg.get("prompt", "")
 
         if not self._active:

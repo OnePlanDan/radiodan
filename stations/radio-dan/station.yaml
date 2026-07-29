@@ -75,6 +75,14 @@ audio:
 
     # Voice watchdog — alerts when no voice reaches air while music keeps playing.
     # Must stay well above the producer's ~50 min rebuild cycle.
+    # Voice loudness. Measured on air 2026-07-29: at the old -16 LUFS the DJ
+    # aired ~8.5 dB under the music and vanished at low volume. Compression runs
+    # ahead of loudnorm because true peak binds before the target does.
+    loudness_target: -12.0
+    true_peak: -1.5
+    compress_threshold: "-18dB"
+    compress_ratio: 3.0
+
     silence_alert_hours: 3.0
     silence_check_interval: 300.0
     health_check_on_start: true

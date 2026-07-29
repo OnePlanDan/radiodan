@@ -68,6 +68,13 @@ class TTSConfig:
     silence_check_interval: float = 300.0
     # Probe every endpoint at boot and log unreachable ones as errors.
     health_check_on_start: bool = True
+    # Voice loudness. Measured 2026-07-29: the old -16 LUFS target left the DJ
+    # ~9 dB under music airing at -7.6 LUFS. Compression ahead of loudnorm is
+    # what makes the target reachable — true peak binds before the algorithm does.
+    loudness_target: float = -12.0
+    true_peak: float = -1.5
+    compress_threshold: str = "-18dB"
+    compress_ratio: float = 3.0
 
 
 @dataclass
@@ -192,6 +199,10 @@ class Config:
             silence_alert_hours=float(tts_cfg.get("silence_alert_hours", 3.0)),
             silence_check_interval=float(tts_cfg.get("silence_check_interval", 300.0)),
             health_check_on_start=bool(tts_cfg.get("health_check_on_start", True)),
+            loudness_target=float(tts_cfg.get("loudness_target", -12.0)),
+            true_peak=float(tts_cfg.get("true_peak", -1.5)),
+            compress_threshold=str(tts_cfg.get("compress_threshold", "-18dB")),
+            compress_ratio=float(tts_cfg.get("compress_ratio", 3.0)),
         )
 
         stt_cfg = audio_cfg.get("stt", {})
