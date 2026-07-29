@@ -27,6 +27,7 @@ from bridge.audio.mixer import LiquidsoapMixer
 from bridge.audio.stream_context import StreamContext
 from bridge.audio.voice_scheduler import VoiceScheduler
 from bridge.audio.playlist_planner import PlaylistPlanner
+from bridge.audio.loudness import LoudnessScanner
 from bridge.plugins import load_plugin_instances
 from bridge.web.server import WebServer
 from bridge.booth import booth
@@ -179,7 +180,10 @@ async def main() -> None:
         lookahead=config.audio.playlist.lookahead,
         scan_interval=config.audio.playlist.scan_interval,
         crossfade_duration=config.audio.liquidsoap.crossfade_duration,
+        normalization=config.audio.normalization,
     )
+    # Created after the planner opens its DB (it needs that connection).
+    loudness_scanner: LoudnessScanner | None = None
     logger.info(f"Playlist planner configured (music_dir: {music_dir}, lookahead: {config.audio.playlist.lookahead})")
 
     # Resolve watchdog fallback track path (absolute or relative to music_dir)
@@ -298,6 +302,20 @@ async def main() -> None:
         await llm_service.start()
         await mixer.start()
         await playlist_planner.start()
+        if config.audio.normalization.enabled and playlist_planner._db is not None:
+            norm = config.audio.normalization
+            loudness_scanner = LoudnessScanner(
+                playlist_planner._db,
+                concurrency=norm.scan_concurrency,
+                batch_size=norm.scan_batch_size,
+                pause_between_batches=norm.scan_pause_seconds,
+            )
+            pending = await loudness_scanner.pending_count()
+            logger.info(
+                f"Music normalisation on (target {norm.target_lufs} LUFS); "
+                f"{pending} track(s) awaiting measurement"
+            )
+            await loudness_scanner.start()
         await stream_context.start()
         await voice_scheduler.start()
         await voice_watchdog.start()
@@ -365,6 +383,8 @@ async def main() -> None:
                 except Exception:
                     logger.exception(f"Failed to stop plugin: {plugin.instance_id}")
             await voice_watchdog.stop()
+            if loudness_scanner is not None:
+                await loudness_scanner.stop()
             await voice_scheduler.stop()
             await stream_context.stop()
             await playlist_planner.stop()

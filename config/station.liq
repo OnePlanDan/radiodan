@@ -19,12 +19,11 @@ station_name = environment.get("STATION_NAME") ?? "Radio Dan"
 # =============================================================================
 
 # Volume controls (0.0 - 1.0)
-# music_vol 0.55 = -5.2 dB. Measured 2026-07-29: at 1.0 the music aired at
-# -7.6 LUFS with +0.7 dBFS true peak — brick-walled and over full scale — while
-# the DJ sat ~9 dB below it. The music is the outlier, not the voice, so it comes
-# down rather than the voice being pushed into a limiter. Lands both near
-# -13 LUFS, which is also close to normal streaming loudness.
-music_vol = interactive.float("music_vol", 0.55)      # Music volume (0 = muted)
+# Back to 1.0 now that per-track normalisation sets each song's level (see
+# amplify(override="replay_gain") below). This was 0.55 as a blanket -5.2 dB trim,
+# which fixed the average level but not the ~5 dB spread between tracks. Gain now
+# belongs per track, so the master stays neutral.
+music_vol = interactive.float("music_vol", 1.0)       # Music volume (0 = muted)
 tts_vol = interactive.float("tts_vol", 1.0)           # TTS/voice volume
 earcon_vol = interactive.float("earcon_vol", 0.5)     # Earcon/notification volume
 # 0.25 = -12 dB. Was 0.15 (-16.5 dB), which dropped the bed so far that the gaps
@@ -50,6 +49,17 @@ duck_out_curve = interactive.float("duck_out_curve", 0.3)        # Bezier contro
 # All track selection is handled by Python feeder plugins — no Liquidsoap fallback
 music_queue = request.queue(id="music_q")
 
+# Per-track loudness normalisation. The bridge pushes each request as
+#   annotate:replay_gain="<dB>":/music/...
+# and this applies that gain, so the library's ~5 dB spread of master levels
+# stops making songs jump against each other and against the DJ. Static
+# per-track gain rather than a live normaliser, which would pump and react
+# within a track. Tracks pushed without the annotation are left at 1.0.
+# Separate name on purpose: `music_queue` must stay the request.queue itself,
+# since the queue-inspection helpers below call .queue()/.set_queue() on it,
+# which amplify() does not expose.
+music_normalised = amplify(1.0, override="replay_gain", music_queue)
+
 # Safe fallback: infinite always-ready blank source if Python queue is empty.
 # Must be infinite — a finite source (e.g. sine(duration=1.0)) lets the cross+fallback
 # chain collapse into an unrecoverable state when the queue dies, leaving the bridge
@@ -62,7 +72,7 @@ silence = blank()
 # would never yield back to music_queue. False is safe here because music_queue is
 # the higher-priority source — fallback only switches away from it when it goes
 # not-ready (queue empty), and switches back the instant a request becomes ready.
-music_raw = fallback(track_sensitive=false, [music_queue, silence])
+music_raw = fallback(track_sensitive=false, [music_normalised, silence])
 
 # Metadata injection point — bridge pushes correct metadata here on track change
 # This ensures Icecast always shows the right info, even for untagged files

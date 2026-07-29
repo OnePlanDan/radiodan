@@ -350,7 +350,7 @@ class LiquidsoapMixer:
     # MUSIC QUEUE (PlaylistPlanner integration)
     # =========================================================================
 
-    async def queue_music(self, audio_path: Path) -> bool:
+    async def queue_music(self, audio_path: Path, gain_db: float | None = None) -> bool:
         """Push a music track to the music_q request queue.
 
         Validates that the path resolves to a real file inside the Liquidsoap
@@ -359,6 +359,10 @@ class LiquidsoapMixer:
 
         Args:
             audio_path: Path to the audio file on the host
+            gain_db: Optional per-track normalisation gain, sent as a
+                `replay_gain` annotation. Liquidsoap's
+                `amplify(override="replay_gain")` applies it, so the file itself
+                is never re-encoded and no tags are written.
 
         Returns:
             True if queued successfully
@@ -372,9 +376,18 @@ class LiquidsoapMixer:
         async with self._lock:
             try:
                 container_path = self._to_container_path(audio_path)
-                response = await self._send_command(f"music_q.push {container_path}")
+                uri = container_path
+                if gain_db is not None:
+                    # The "dB" suffix is mandatory. Liquidsoap's amplify override
+                    # treats a bare float as a *linear* multiplicative factor, so
+                    # "-5.00" means 5x gain with inverted phase, not -5 dB. Shipping
+                    # it without the suffix put clipping, phase-inverted audio on
+                    # air until it was caught.
+                    uri = f'annotate:replay_gain="{gain_db:.2f} dB":{container_path}'
+                response = await self._send_command(f"music_q.push {uri}")
                 booth.mixer_queue("music_q", Path(container_path).name)
-                logger.info(f"Queued music: {container_path} -> {response}")
+                gain_note = f" (gain {gain_db:+.2f} dB)" if gain_db is not None else ""
+                logger.info(f"Queued music: {container_path}{gain_note} -> {response}")
                 return True
             except RuntimeError as e:
                 booth.mixer_error(f"Music queue failed: {e}")

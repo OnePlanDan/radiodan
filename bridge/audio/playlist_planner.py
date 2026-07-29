@@ -28,6 +28,7 @@ from typing import Any, Callable, Coroutine, Protocol, runtime_checkable
 
 import aiosqlite
 
+from bridge.audio.loudness import gain_for
 from bridge.booth import booth
 
 from typing import TYPE_CHECKING as _TC
@@ -314,6 +315,7 @@ class PlaylistPlanner:
         lookahead: int = 5,
         scan_interval: float = 300.0,
         crossfade_duration: float = 5.0,
+        normalization: "NormalizationConfig | None" = None,
     ):
         self.mixer = mixer
         self.db_path = db_path
@@ -321,6 +323,7 @@ class PlaylistPlanner:
         self.lookahead = lookahead
         self.scan_interval = scan_interval
         self.crossfade_duration = crossfade_duration
+        self.normalization = normalization
 
         self._strategy: SelectionStrategy | None = None
         self._no_feeder_warned = False
@@ -501,6 +504,11 @@ class PlaylistPlanner:
             ("skip_count",     "INTEGER NOT NULL DEFAULT 0"),
             ("last_played_at", "TEXT"),
             ("play_bias",      "INTEGER NOT NULL DEFAULT 0"),
+            # Per-track loudness for normalisation. NULL = not yet measured;
+            # LoudnessScanner backfills in the background.
+            ("loudness_lufs",        "REAL"),
+            ("true_peak_dbfs",       "REAL"),
+            ("loudness_measured_at", "TEXT"),
         ]
         added_stats = False
         for col, ddl in stats_ddl:
@@ -1091,11 +1099,33 @@ class PlaylistPlanner:
             )
             await self._save_queue_to_db()
 
+    def _normalisation_gain(self, track: dict) -> float | None:
+        """Per-track gain in dB, or None when normalisation is off.
+
+        The library spans ~5 dB of source loudness, so without this songs jump
+        against each other and against the DJ regardless of how the master
+        `music_vol` is trimmed.
+        """
+        cfg = self.normalization
+        if cfg is None or not cfg.enabled:
+            return None
+        return gain_for(
+            track.get("loudness_lufs"),
+            target_lufs=cfg.target_lufs,
+            assumed_lufs=cfg.assumed_lufs,
+            max_boost_db=cfg.max_boost_db,
+            max_cut_db=cfg.max_cut_db,
+            true_peak_dbfs=track.get("true_peak_dbfs"),
+            peak_ceiling_dbfs=cfg.peak_ceiling_dbfs,
+        )
+
     async def _push_track_to_liquidsoap(self, track: dict) -> bool:
         """Push a single track to Liquidsoap's music_q. Returns success."""
         file_path = Path(track["file_path"])
         try:
-            success = await self.mixer.queue_music(file_path)
+            success = await self.mixer.queue_music(
+                file_path, gain_db=self._normalisation_gain(track),
+            )
             if success:
                 artist = track.get("artist", "?")
                 title = track.get("title", "?")
@@ -1200,7 +1230,7 @@ class PlaylistPlanner:
         async with self._db.execute(
             "SELECT file_path, artist, title, album, genre, year, "
             "duration_seconds, file_hash, last_scanned, "
-            "play_count, skip_count, last_played_at, play_bias "
+            "play_count, skip_count, last_played_at, play_bias, loudness_lufs, true_peak_dbfs "
             "FROM music_library"
         ) as cursor:
             async for row in cursor:
@@ -1214,6 +1244,8 @@ class PlaylistPlanner:
                     "duration_seconds": row["duration_seconds"],
                     "file_hash": row["file_hash"],
                     "last_scanned": row["last_scanned"],
+                    "loudness_lufs": row["loudness_lufs"],
+                    "true_peak_dbfs": row["true_peak_dbfs"],
                     "play_count": row["play_count"],
                     "skip_count": row["skip_count"],
                     "last_played_at": row["last_played_at"],

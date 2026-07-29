@@ -35,6 +35,21 @@ audio:
     # relative to playlist.music_dir. Leave empty to disable.
     fallback_track_path: ""
 
+  # Per-track music loudness normalisation. Measured 2026-07-29 across the
+  # library: source loudness spans -34.7 to +10.0 LUFS (44.7 dB), so songs jumped
+  # badly against each other and against the DJ. A master volume trim moves the
+  # average and leaves the spread; only per-track gain fixes it.
+  normalization:
+    enabled: true
+    target_lufs: -16.0      # matches where the voice lands
+    assumed_lufs: -11.0     # stand-in until a track is measured
+    max_boost_db: 6.0       # only used when true peak is unknown
+    max_cut_db: 30.0        # cutting can't clip; one track needs -26 dB
+    peak_ceiling_dbfs: -1.0
+    scan_concurrency: 3
+    scan_batch_size: 200
+    scan_pause_seconds: 5.0
+
   tts:
     endpoint: http://localhost:42001/tts/custom-voice
     speaker: Aiden

@@ -38,6 +38,35 @@ class PlaylistConfig:
 
 
 @dataclass
+class NormalizationConfig:
+    """Per-track music loudness normalisation (ReplayGain-style static gain).
+
+    Measured 2026-07-29: library source loudness spanned -8.9 to -13.6 LUFS, so
+    songs jumped ~5 dB against each other. A master `music_vol` trim fixes the
+    average but not the spread.
+    """
+    enabled: bool = True
+    # Matches where the voice lands (~-15.5 LUFS), so neither sits under the other.
+    target_lufs: float = -16.0
+    # Stand-in for tracks the backfill hasn't reached yet — roughly the library
+    # median. Without it, unmeasured tracks would play raw and stick out.
+    assumed_lufs: float = -11.0
+    # Boost is normally bounded by the track's own true-peak headroom; this cap
+    # only applies to tracks measured before true peak was recorded.
+    max_boost_db: float = 6.0
+    # Generous on purpose: cutting cannot clip, and the library really does contain
+    # a track at +10.0 LUFS needing -26 dB. Measured spread is -34.7 to +10.0.
+    max_cut_db: float = 30.0
+    # Highest true peak normalisation is willing to produce.
+    peak_ceiling_dbfs: float = -1.0
+    # Backfill pacing — every measurement is a full decode, and the station has
+    # to keep broadcasting while ~7 700 files are processed.
+    scan_concurrency: int = 3
+    scan_batch_size: int = 200
+    scan_pause_seconds: float = 5.0
+
+
+@dataclass
 class WatchdogConfig:
     """Track-bounded stuck-stream watchdog & escalation ladder."""
     grace_seconds: float = 10.0                # added to expected track end before escalating
@@ -104,6 +133,7 @@ class AudioConfig:
     stt: STTConfig = field(default_factory=STTConfig)
     playlist: PlaylistConfig = field(default_factory=PlaylistConfig)
     watchdog: WatchdogConfig = field(default_factory=WatchdogConfig)
+    normalization: NormalizationConfig = field(default_factory=NormalizationConfig)
 
 
 @dataclass
@@ -177,6 +207,19 @@ class Config:
             scan_interval=playlist_cfg.get("scan_interval", 300.0),
         )
 
+        norm_cfg = audio_cfg.get("normalization", {}) or {}
+        normalization = NormalizationConfig(
+            enabled=bool(norm_cfg.get("enabled", True)),
+            target_lufs=float(norm_cfg.get("target_lufs", -16.0)),
+            assumed_lufs=float(norm_cfg.get("assumed_lufs", -11.0)),
+            max_boost_db=float(norm_cfg.get("max_boost_db", 6.0)),
+            max_cut_db=float(norm_cfg.get("max_cut_db", 30.0)),
+            peak_ceiling_dbfs=float(norm_cfg.get("peak_ceiling_dbfs", -1.0)),
+            scan_concurrency=int(norm_cfg.get("scan_concurrency", 3)),
+            scan_batch_size=int(norm_cfg.get("scan_batch_size", 200)),
+            scan_pause_seconds=float(norm_cfg.get("scan_pause_seconds", 5.0)),
+        )
+
         watchdog_cfg = audio_cfg.get("watchdog", {})
         watchdog = WatchdogConfig(
             grace_seconds=watchdog_cfg.get("grace_seconds", 10.0),
@@ -247,6 +290,7 @@ class Config:
                 stt=stt,
                 playlist=playlist,
                 watchdog=watchdog,
+                normalization=normalization,
             ),
             telegram=telegram,
             ai=AIConfig(ollama=ollama),
