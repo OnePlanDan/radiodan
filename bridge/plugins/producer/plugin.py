@@ -113,7 +113,14 @@ class ProducerPlugin(DJPlugin):
             f"script={self._script_backend.name}/{self._script_backend.model}, "
             f"vision={self._vision_backend.name}/{self._vision_backend.model}"
         )
-        await self._signal_queue.put(("seed", {"cast": initial_cast, "_silent_default": True}))
+        # The seed lives in memory, so before this every restart dropped the show
+        # back to the default host: a genre or cast set hours earlier vanished on
+        # any reboot or redeploy, silently.
+        stored = await self._load_seed()
+        if stored is not None:
+            await self._signal_queue.put(("seed", {"_restored": stored}))
+        else:
+            await self._signal_queue.put(("seed", {"cast": initial_cast, "_silent_default": True}))
 
     async def on_stop(self) -> None:
         if self.ctx.playlist_planner:
@@ -239,7 +246,11 @@ class ProducerPlugin(DJPlugin):
         """
         library = self._library()
         silent_default = bool(payload.pop("_silent_default", False))
+        restored = payload.pop("_restored", None)
         ack: asyncio.Future | None = payload.pop("_ack", None)
+        # A restored seed is as quiet as the boot default: no handover ack, no
+        # flush. It is not a change of show, it is the same show resuming.
+        quiet = silent_default or restored is not None
 
         def resolve(applied: bool, error: str = "") -> None:
             """Tell a waiting caller the outcome. Safe to call more than once."""
@@ -250,31 +261,49 @@ class ProducerPlugin(DJPlugin):
         old_host = self._primary_char()
 
         try:
-            try:
-                seed = await interpret_seed(
-                    payload,
-                    characters=self._characters,
-                    library=library,
-                    interpreter=self._interpreter_backend,
-                    vision=self._vision_backend,
-                    upload_dir=self._upload_dir,
-                )
-            except Exception as e:
-                self.logger.exception("Seed interpretation failed; keeping previous seed")
-                resolve(False, f"seed interpretation failed: {e}")
-                return
+            if restored is not None:
+                # Straight from storage — no interpreter call, so a restart cannot
+                # quietly resolve the same request into a different show.
+                try:
+                    seed = SeedState.from_storage(restored)
+                except Exception as e:
+                    self.logger.warning(f"Stored seed unusable, falling back to default: {e}")
+                    await self._signal_queue.put(
+                        ("seed", {"cast": self._default_cast(), "_silent_default": True})
+                    )
+                    resolve(False, f"stored seed unusable: {e}")
+                    return
+            else:
+                try:
+                    seed = await interpret_seed(
+                        payload,
+                        characters=self._characters,
+                        library=library,
+                        interpreter=self._interpreter_backend,
+                        vision=self._vision_backend,
+                        upload_dir=self._upload_dir,
+                    )
+                except Exception as e:
+                    self.logger.exception("Seed interpretation failed; keeping previous seed")
+                    resolve(False, f"seed interpretation failed: {e}")
+                    return
 
             # Fire an ack voice line from the outgoing host (in parallel with build).
             # Only when there's a real handover — not on the initial default seed,
             # and only if an old host was on-air.
-            if not silent_default and old_seed is not None and old_host is not None:
+            if not quiet and old_seed is not None and old_host is not None:
                 self.create_task(self._speak_seed_ack(old_host, seed))
 
             self._seed = seed
-            if not silent_default:
+            if restored is not None:
+                self.logger.info(
+                    f"Restored seed across restart: {seed.pipeline} → {seed.interpretation_notes}"
+                )
+            elif not silent_default:
                 self.logger.info(f"New seed: {seed.pipeline} → {seed.interpretation_notes}")
                 # Soft flush: keep a couple of bridge tracks so music continues.
                 await self._soft_flush()
+                await self._persist_seed(seed)
             else:
                 self.logger.info(f"Initial seed (default): {seed.interpretation_notes}")
 
@@ -284,7 +313,7 @@ class ProducerPlugin(DJPlugin):
             resolve(True)
 
             # The only build allowed to honour the seed's one-shot hard skip.
-            await self._build_script(apply_hard=not silent_default)
+            await self._build_script(apply_hard=not quiet)
         finally:
             # Never leave a caller hanging on an unexpected failure path.
             resolve(False, "seed handling aborted")
@@ -800,6 +829,38 @@ class ProducerPlugin(DJPlugin):
     # =====================================================================
     # PUBLIC API (called by web routes)
     # =====================================================================
+
+    # =====================================================================
+    # SEED PERSISTENCE
+    # =====================================================================
+
+    _SEED_SECTION = "producer"
+
+    def _default_cast(self) -> list[str]:
+        cfg_default = self.ctx.config.get("default_character", "bob")
+        return [cfg_default] if cfg_default in self._characters else list(self._characters)[:1]
+
+    async def _persist_seed(self, seed: "SeedState") -> None:
+        """Remember the live seed so a restart resumes the same show."""
+        store = getattr(self.ctx, "config_store", None)
+        if store is None:
+            return
+        try:
+            await store.set(self._SEED_SECTION, f"seed:{self.instance_id}", seed.to_storage())
+        except Exception:
+            # Losing the memo is not worth failing a seed change over.
+            self.logger.exception("Could not persist seed")
+
+    async def _load_seed(self) -> dict | None:
+        store = getattr(self.ctx, "config_store", None)
+        if store is None:
+            return None
+        try:
+            stored = await store.get(self._SEED_SECTION, f"seed:{self.instance_id}")
+        except Exception:
+            self.logger.exception("Could not read stored seed")
+            return None
+        return stored if isinstance(stored, dict) and stored else None
 
     async def submit_seed(self, raw: dict) -> asyncio.Future:
         """Queue a new seed for processing. Flushes + rebuilds.

@@ -159,4 +159,6 @@ def test_only_the_seed_handler_passes_apply_hard():
     with_hard = [c for c in calls if "apply_hard" in c]
     assert len(calls) == 4, f"call sites changed, re-check the invariant: {calls}"
     assert len(with_hard) == 1, f"exactly one build may hard-skip, got: {with_hard}"
-    assert "not silent_default" in with_hard[0]
+    # `quiet` covers both boots that must never cut a track: the initial default
+    # and a seed restored from storage after a restart.
+    assert "not quiet" in with_hard[0], with_hard[0]

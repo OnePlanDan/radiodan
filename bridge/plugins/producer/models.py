@@ -97,6 +97,64 @@ class SeedState:
     songs_queued_at: float | None = None              # epoch when new tracks were pushed to LS (phase 1)
     live_at: float | None = None                      # epoch when first new-script track hit air
 
+    # Fields worth surviving a restart. Deliberately excludes the timing stamps
+    # and `hard`: see from_storage.
+    _STORAGE_FIELDS = (
+        "pipeline", "cast", "first_song", "genre_focus", "mood_text",
+        "interpretation_notes", "uploaded_image_path", "strict", "raw",
+    )
+
+    def to_storage(self) -> dict:
+        """The resolved seed, for persisting across restarts.
+
+        Stores the *resolved* seed rather than the original request. Re-running
+        the interpreter at boot would add an LLM call to startup and could
+        legitimately resolve differently, so the show would quietly change every
+        time the service restarted.
+        """
+        data = {f: getattr(self, f) for f in self._STORAGE_FIELDS}
+        # An uploaded image blob has no business in a config row.
+        data["raw"] = {k: v for k, v in (self.raw or {}).items() if k != "image"}
+        return data
+
+    @classmethod
+    def from_storage(cls, data: dict) -> "SeedState":
+        """Rebuild a seed saved by to_storage.
+
+        `hard` is dropped on purpose. It is a one-shot instruction to cut the
+        track that happens to be playing when a seed is applied; restoring it
+        armed would mean every restart chopped a song mid-play. `set_at` is left
+        to default to now, so a restored seed reads as freshly applied instead of
+        reviving stale age arithmetic.
+        """
+        known = {k: v for k, v in data.items() if k in cls._STORAGE_FIELDS}
+
+        # Dataclasses do not type-check, so a corrupt row would construct happily
+        # and misbehave later — a `cast` stored as a string would have the script
+        # builder iterating its characters. Validate here so the caller can fall
+        # back to a working default instead.
+        for field_name in ("cast", "genre_focus"):
+            value = known.get(field_name)
+            if value is not None and not (
+                isinstance(value, list) and all(isinstance(v, str) for v in value)
+            ):
+                raise ValueError(f"{field_name} must be a list of strings, got {value!r}")
+        for field_name, expected in (
+            ("pipeline", str), ("interpretation_notes", str),
+            ("first_song", dict), ("raw", dict), ("mood_text", str),
+            ("uploaded_image_path", str), ("strict", bool),
+        ):
+            value = known.get(field_name)
+            if value is not None and not isinstance(value, expected):
+                raise ValueError(
+                    f"{field_name} must be {expected.__name__}, got {type(value).__name__}"
+                )
+
+        seed = cls(**known)
+        seed.hard = False
+        seed.hard_consumed = True
+        return seed
+
     def as_dict(self) -> dict:
         """JSON-friendly shape for API responses."""
         build_seconds = (

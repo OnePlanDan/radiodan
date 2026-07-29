@@ -6,6 +6,7 @@ told "pending" when the seed had in fact already been applied or rejected.
 
 import asyncio
 import logging
+from types import SimpleNamespace
 
 import pytest
 
@@ -40,6 +41,9 @@ def handler(monkeypatch):
     p._soft_flush = _soft_flush
     p._build_script = _build_script
     p.build_apply_hard = None
+    # _handle_seed persists the seed via ctx.config_store; None means "don't".
+    p.ctx = SimpleNamespace(config_store=None, config={})
+    p._signal_queue = asyncio.Queue()
     return p
 
 

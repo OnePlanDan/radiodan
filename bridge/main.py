@@ -239,6 +239,7 @@ async def main() -> None:
         "booth": booth,
         "playlist_planner": playlist_planner,
         "known_good_fallback_path": fallback_path,
+        "config_store": config_store,
     }
 
     # Load plugin instances (SQLite + YAML fallback)
