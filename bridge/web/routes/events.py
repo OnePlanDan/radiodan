@@ -1,7 +1,13 @@
 """
-Events SSE route — GET /api/events
+Event routes.
 
-Server-Sent Events stream for real-time updates.
+  GET /api/events          — Server-Sent Events stream for real-time updates
+  GET /api/events/history  — plain JSON window of what already aired
+
+The SSE stream pushes a fixed 30-minute snapshot on connect, which suits a live
+dashboard but not an agent asking a one-off question: it would have to hold a
+streaming connection open, parse SSE frames, and accept whatever window it was
+given. `/history` answers that in one request with a window the caller chooses.
 """
 
 import asyncio
@@ -11,6 +17,63 @@ import time
 from aiohttp import web
 
 routes = web.RouteTableDef()
+
+# Bounds on the history query. The event log holds months of rows (64 000+ by
+# mid-2026), so an unbounded call is a footgun for both sides.
+_DEFAULT_MINUTES = 60.0
+_MAX_MINUTES = 1440.0
+_DEFAULT_LIMIT = 200
+_MAX_LIMIT = 1000
+
+
+def _clamped(raw: str | None, default: float, low: float, high: float) -> float:
+    """Parse a query number, falling back to the default on anything unusable."""
+    if raw is None:
+        return default
+    try:
+        return max(low, min(high, float(raw)))
+    except (TypeError, ValueError):
+        return default
+
+
+@routes.get("/api/events/history")
+async def events_history(request: web.Request) -> web.Response:
+    """What aired recently, as plain JSON. Query: minutes, limit, lane."""
+    event_store = request.app["event_store"]
+
+    minutes = _clamped(request.query.get("minutes"), _DEFAULT_MINUTES, 1.0, _MAX_MINUTES)
+    limit = int(_clamped(request.query.get("limit"), _DEFAULT_LIMIT, 1, _MAX_LIMIT))
+    lanes = request.query.getall("lane", None) or None
+
+    now = time.time()
+    start = now - minutes * 60
+    # end slightly ahead of now so an in-flight event is included rather than
+    # dropped for not having started yet.
+    events = await event_store.get_window(start, now + 1.0, lanes=lanes)
+
+    # get_window uses overlap semantics: an event with no ended_at counts as still
+    # running and matches any window, however old. That is right for a live
+    # timeline and wrong here — the station has hundreds of rows that were never
+    # closed (voice segments stranded in `scheduled`), and they would surface in
+    # every history call forever. "What aired in the last hour" means what
+    # *started* in it.
+    events = [e for e in events if e.get("started_at", 0) >= start]
+
+    # Newest first, because "what just happened" is the usual question.
+    events.reverse()
+    truncated = len(events) > limit
+
+    return web.json_response({
+        "window": {
+            "minutes": minutes,
+            "from": start,
+            "to": now,
+            "lanes": lanes,
+        },
+        "count": min(len(events), limit),
+        "truncated": truncated,
+        "events": events[:limit],
+    })
 
 
 @routes.get("/api/events")

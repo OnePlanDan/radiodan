@@ -110,6 +110,7 @@ class WebServer:
         from bridge.web.routes.events import routes as event_routes
         from bridge.web.routes.llm import routes as llm_routes
         from bridge.web.routes.producer import routes as producer_routes
+        from bridge.web.routes.index import routes as index_routes
 
         self.app.router.add_routes(status_routes)
         self.app.router.add_routes(playback_routes)
@@ -120,6 +121,8 @@ class WebServer:
         self.app.router.add_routes(event_routes)
         self.app.router.add_routes(llm_routes)
         self.app.router.add_routes(producer_routes)
+        # Last: the index reads the finished route table to describe itself.
+        self.app.router.add_routes(index_routes)
 
     async def start(self) -> None:
         """Start the API server."""
