@@ -68,6 +68,7 @@ class WebServer:
         stream_url: str = "",
         project_root: Path | None = None,
         voice_watchdog: object | None = None,
+        listener_tracker: object | None = None,
         host: str = "0.0.0.0",
         port: int = 49997,
     ):
@@ -92,6 +93,7 @@ class WebServer:
         # PluginContext, which is a fixed-field dataclass, and the watchdog is
         # not a plugin concern.
         self.app["voice_watchdog"] = voice_watchdog
+        self.app["listener_tracker"] = listener_tracker
         if event_store is not None:
             self.app["event_store"] = event_store
         if project_root is not None:

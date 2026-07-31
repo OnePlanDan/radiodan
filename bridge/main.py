@@ -28,6 +28,7 @@ from bridge.audio.stream_context import StreamContext
 from bridge.audio.voice_scheduler import VoiceScheduler
 from bridge.audio.playlist_planner import PlaylistPlanner
 from bridge.audio.loudness import LoudnessScanner
+from bridge.audio.listener_tracker import ListenerTracker
 from bridge.plugins import load_plugin_instances
 from bridge.web.server import WebServer
 from bridge.booth import booth
@@ -184,6 +185,13 @@ async def main() -> None:
     )
     # Created after the planner opens its DB (it needs that connection).
     loudness_scanner: LoudnessScanner | None = None
+
+    # Presence history cannot be backfilled, so this samples from boot regardless
+    # of whether anything consumes it yet.
+    listener_tracker = ListenerTracker(
+        db_path=db_path,
+        status_url=f"http://localhost:{config.audio.icecast.external_port}/status-json.xsl",
+    )
     logger.info(f"Playlist planner configured (music_dir: {music_dir}, lookahead: {config.audio.playlist.lookahead})")
 
     # Resolve watchdog fallback track path (absolute or relative to music_dir)
@@ -280,6 +288,7 @@ async def main() -> None:
         stream_url=stream_url,
         project_root=project_root,
         voice_watchdog=voice_watchdog,
+        listener_tracker=listener_tracker,
     )
 
     # Set up graceful shutdown
@@ -320,6 +329,7 @@ async def main() -> None:
         await stream_context.start()
         await voice_scheduler.start()
         await voice_watchdog.start()
+        await listener_tracker.start()
 
         # Wire feedback loop: track changes drive playlist advancement
         stream_context.on("track_changed", playlist_planner.advance)
@@ -384,6 +394,7 @@ async def main() -> None:
                 except Exception:
                     logger.exception(f"Failed to stop plugin: {plugin.instance_id}")
             await voice_watchdog.stop()
+            await listener_tracker.stop()
             if loudness_scanner is not None:
                 await loudness_scanner.stop()
             await voice_scheduler.stop()

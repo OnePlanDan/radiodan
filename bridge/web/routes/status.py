@@ -108,6 +108,20 @@ async def status(request: web.Request) -> web.Response:
     })
 
 
+@routes.get("/api/listeners")
+async def listeners(request: web.Request) -> web.Response:
+    """Who is listening now, and which hours someone usually is."""
+    tracker = request.app.get("listener_tracker")
+    if tracker is None:
+        return web.json_response({"available": False,
+                                  "reason": "listener tracking not running"})
+    try:
+        return web.json_response({"available": True, **await tracker.presence()})
+    except Exception:
+        logger.exception("Listener presence query failed")
+        raise web.HTTPInternalServerError(reason="Listener presence unavailable")
+
+
 def _read_self_rss_mb() -> float | None:
     try:
         with open("/proc/self/status") as f:

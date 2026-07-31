@@ -1,0 +1,1671 @@
+00:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 00:00
+00:01:22 🎵 TRACK │ Naughty By Nature — O.P.P.
+00:01:22 🎤 TTS.REQ │ "Booong! The time is 00:00" (voice: Aiden)
+00:01:24 🎤 TTS.GEN │ msg_1785362482198.wav
+00:01:24 🎤 TTS.PLAY │ ▶ msg_1785362482198.wav
+00:05:49 🎵 TRACK │ Notorious B.I.G. — Rap Phenomenon (Feat. Method Man & Redman)
+00:09:48 🎵 TRACK │ GZA — Cold World
+00:15:15 🎵 TRACK │ Wyclef Jean — La Bamba (feat. Ro-K & Gammy)
+00:19:09 🎵 TRACK │ The Beatnuts — Let Off A Couple
+00:19:09 🔊 QUEUE │ music_q ← Raekwon - Ice Cream.mp3
+00:19:09 🎤 TTS.REQ │ "Wu Tang Clan's 'Gun Will Go' features Sunny Valent..." (voice: Eric)
+00:19:14 🎤 TTS.GEN │ msg_1785363549944.wav
+00:19:14 🎤 TTS.REQ │ "Freddie Foxxx is hitting us with 'Industry Shakedo..." (voice: Eric)
+00:19:20 🎤 TTS.GEN │ msg_1785363554840.wav
+00:20:48 🎵 TRACK │ Ghostface Killah — Apollo Kids (Feat. Method Man, Redman, & Cappadonna)
+00:20:48 🔊 QUEUE │ music_q ← Ol Dirty Bastard - brooklyn zoo.mp3
+00:20:48 🎤 TTS.REQ │ "Ghostface is dropping in with Method Man, Redman, ..." (voice: Eric)
+00:20:56 🎤 TTS.GEN │ msg_1785363648296.wav
+00:22:21 🎤 TTS.PLAY │ ▶ msg_1785363648296.wav
+00:24:36 🎵 TRACK │ O.G.C. — da storm
+00:24:37 🔊 QUEUE │ music_q ← 03 - Xzibit - Just Maintain.mp3
+00:24:37 🎤 TTS.REQ │ "O.G.C.'s 'da storm' hits now; 1996 vibes in this c..." (voice: Eric)
+00:24:43 🎤 TTS.GEN │ msg_1785363877023.wav
+00:24:43 🔌 EVENT │ [producer] Voice: O.G.C.'s 'da storm' hits now; 1996 vibes...
+00:24:43 🎤 TTS.PLAY │ ▶ msg_1785363877023.wav
+00:28:40 🎵 TRACK │ Ludacris — Stick 'em Up (Feat UGK)
+00:28:40 🔊 QUEUE │ music_q ← 08_wu_tang_clan_-_gun_will_go_feat_sunny_valentine.mp3
+00:33:41 🎵 TRACK │ Poor Righteous Teachers — Rock Dis Funky Joint
+00:33:41 🔊 QUEUE │ music_q ← Freddie Foxxx - Industry Shakedown.mp3
+00:33:41 🎤 TTS.REQ │ "Poor Righteous Teachers bring us 'Rock Dis Funky J..." (voice: Eric)
+00:33:49 🎤 TTS.GEN │ msg_1785364421554.wav
+00:38:47 🎵 TRACK │ Raekwon — Ice Cream
+00:38:48 🔊 QUEUE │ music_q ← Ol Dirty Bastard - brooklyn zoo.mp3
+00:38:48 🔊 QUEUE │ music_q ← 03 - Xzibit - Just Maintain.mp3
+00:38:48 🔊 QUEUE │ music_q ← 08_wu_tang_clan_-_gun_will_go_feat_sunny_valentine.mp3
+00:38:48 🔊 QUEUE │ music_q ← Freddie Foxxx - Industry Shakedown.mp3
+00:38:48 🔊 QUEUE │ music_q ← 04-timbuktu_-_independent_moves_(instrumental)-ica.mp3
+00:38:48 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+00:39:04 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+00:39:04 🎤 TTS.REQ │ "If you're wondering how the Wu‑Tang crew still sta..." (voice: Eric)
+00:39:11 🎤 TTS.GEN │ msg_1785364744812.wav
+00:39:12 🎤 TTS.REQ │ "Jay‑Z and Danger Mouse—like a classy yacht crashin..." (voice: Eric)
+00:39:20 🎤 TTS.GEN │ msg_1785364752011.wav
+00:39:20 🎤 TTS.REQ │ "The intro track, no fancy titles or tags—just pure..." (voice: Eric)
+00:39:26 🎤 TTS.GEN │ msg_1785364760132.wav
+00:39:26 🎤 TTS.REQ │ "Here comes the Wu‑Tang starter with sunny valentin..." (voice: Eric)
+00:39:35 🎤 TTS.GEN │ msg_1785364766937.wav
+00:42:56 🎵 TRACK │ Ol Dirty Bastard — brooklyn zoo
+00:42:56 🔊 QUEUE │ music_q ← 02_wu_tang_clan_-_take_it_back.mp3
+00:46:29 🎵 TRACK │ Xzibit — Just Maintain
+00:46:29 🔊 QUEUE │ music_q ← Sean Price - Boom Bye Yeah.mp3
+00:49:43 🎵 TRACK │ Wu Tang Clan — gun will go feat sunny valentine
+00:49:44 🔊 QUEUE │ music_q ← 06 - Dirt Off Your Shoulder.mp3
+00:53:54 🎵 TRACK │ Freddie Foxxx — Industry Shakedown
+00:53:54 🔊 QUEUE │ music_q ← Shut_'Em_Down_Remix_-_Onyx_Feat._Big_Pun_&_Noreaga.mp3
+00:58:39 🎵 TRACK │ Ol Dirty Bastard — brooklyn zoo
+01:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 01:00
+01:02:12 🎵 TRACK │ Xzibit — Just Maintain
+01:02:12 🎤 TTS.REQ │ "Booong! The time is 01:00" (voice: Aiden)
+01:02:14 🎤 TTS.GEN │ msg_1785366132265.wav
+01:02:14 🎤 TTS.PLAY │ ▶ msg_1785366132265.wav
+01:05:26 🎵 TRACK │ Wu Tang Clan — gun will go feat sunny valentine
+01:09:37 🎵 TRACK │ Freddie Foxxx — Industry Shakedown
+01:14:22 🎵 TRACK │ Timbuktu — independent moves (instr)
+01:14:22 🔊 QUEUE │ music_q ← 01 - Timbuktu - Intro -CsZ.256.mp3
+01:14:22 🎤 TTS.REQ │ "Now dropping The Roots’ classic, ‘Pass the Popcorn..." (voice: Eric)
+01:14:32 🎤 TTS.GEN │ msg_1785366862599.wav
+01:14:32 🎤 TTS.REQ │ "Skillz is wrapping up 2007 with ‘The Rap Up,’ no e..." (voice: Eric)
+01:14:41 🎤 TTS.GEN │ msg_1785366872546.wav
+01:18:29 🎵 TRACK │ Wu Tang Clan — Take it back
+01:18:29 🔊 QUEUE │ music_q ← 16-xzibit-enemies-esc.mp3
+01:18:29 🎤 TTS.REQ │ "If you're wondering how the Wu‑Tang crew still sta..." (voice: Eric)
+01:18:35 🎤 TTS.GEN │ msg_1785367109365.wav
+01:18:35 🔌 EVENT │ [producer] Voice: If you're wondering how the Wu‑Tang crew...
+01:18:36 🎤 TTS.PLAY │ ▶ msg_1785367109365.wav
+01:22:35 🎵 TRACK │ Sean Price — Boom Bye Yeah [Explicit]
+01:22:35 🔊 QUEUE │ music_q ← 11_wu_tang_clan_-_starter_feat_sunny_valentine_and_tashmahogany.mp3
+01:25:45 🎵 TRACK │ Jay-Z + DJ Danger Mouse — Dirt Off Your Shoulder
+01:25:45 🔊 QUEUE │ music_q ← The Roots - Pass the Popcorn.mp3
+01:25:45 🎤 TTS.REQ │ "Jay‑Z and Danger Mouse—like a classy yacht crashin..." (voice: Eric)
+01:25:55 🎤 TTS.GEN │ msg_1785367545669.wav
+01:29:40 🎵 TRACK │ Onyx Feat. Big Pun & Noreaga — Shut 'Em Down Remix
+01:29:40 🔊 QUEUE │ music_q ← Skillz - 2007 Rap-Up.mp3
+01:33:49 🎵 TRACK │ Timbuktu — Intro
+01:33:49 🔊 QUEUE │ music_q ← 16-xzibit-enemies-esc.mp3
+01:33:49 🔊 QUEUE │ music_q ← 11_wu_tang_clan_-_starter_feat_sunny_valentine_and_tashmahogany.mp3
+01:33:49 🔊 QUEUE │ music_q ← The Roots - Pass the Popcorn.mp3
+01:33:49 🔊 QUEUE │ music_q ← Skillz - 2007 Rap-Up.mp3
+01:33:49 🔊 QUEUE │ music_q ← 12 - Åk dit (med Chords).mp3
+01:33:49 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+01:34:09 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+01:34:09 🎤 TTS.REQ │ "UGK back on deck, the Southern flow ain't no joke...." (voice: Eric)
+01:34:12 🎤 TTS.GEN │ msg_1785368049342.wav
+01:34:12 🎤 TTS.REQ │ "O.C. brings the old school danger with Big L in th..." (voice: Eric)
+01:34:17 🎤 TTS.GEN │ msg_1785368052982.wav
+01:34:17 🎤 TTS.REQ │ "Redman is rolling, and yeah, those new collaborato..." (voice: Eric)
+01:34:24 🎤 TTS.GEN │ msg_1785368057753.wav
+01:34:24 🎤 TTS.REQ │ "Big L's freestyle lands right in the pocket—year? ..." (voice: Eric)
+01:34:28 🎤 TTS.GEN │ msg_1785368064321.wav
+01:34:51 🎵 TRACK │ Xzibit — Enemies
+01:34:51 🔊 QUEUE │ music_q ← UGK - International Players Anthem (Feat.Outkast).mp3
+01:39:52 🎵 TRACK │ Wu Tang Clan — starter feat sunny valentine and tashmahogany
+01:39:52 🔊 QUEUE │ music_q ← O.C. - Dangerous (Featuring Big L).mp3
+01:43:58 🎵 TRACK │ The Roots — Pass the Popcorn
+01:43:59 🔊 QUEUE │ music_q ← 16-wyclef_jean-festibalfestival_(french)_(feat_passi)-rns.mp3
+01:49:28 🎵 TRACK │ Skillz — The Rap Up 2007
+01:49:28 🔊 QUEUE │ music_q ← 103-redman_ft._kfam_and_keith_murray-rollin - www.torrentazos.com.mp3
+01:54:08 🎵 TRACK │ Xzibit — Enemies
+01:59:09 🎵 TRACK │ Wu Tang Clan — starter feat sunny valentine and tashmahogany
+02:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 02:00
+02:03:18 🎵 TRACK │ The Roots — Pass the Popcorn
+02:03:18 🎤 TTS.REQ │ "Booong! The time is 02:00" (voice: Aiden)
+02:03:20 🎤 TTS.GEN │ msg_1785369798632.wav
+02:03:20 🎤 TTS.PLAY │ ▶ msg_1785369798632.wav
+02:08:45 🎵 TRACK │ Skillz — The Rap Up 2007
+02:13:26 🎵 TRACK │ Timbuktu — Åk dit (med Chords)
+02:13:26 🔊 QUEUE │ music_q ← 04-the_game-compton_(feat_will.i.am)_(produced_by_will.i.am).mp3
+02:13:26 🎤 TTS.REQ │ "Main Source dropping that classic front door stanc..." (voice: Eric)
+02:13:31 🎤 TTS.GEN │ msg_1785370406332.wav
+02:13:31 🎤 TTS.REQ │ "Wu Tang back with Gravel Pit—steady as a stone. Yo..." (voice: Eric)
+02:13:37 🎤 TTS.GEN │ msg_1785370411245.wav
+02:13:37 🎤 TTS.REQ │ "That track's fire can't be tamed, unlike the buffe..." (voice: Eric)
+02:13:41 🎤 TTS.GEN │ msg_1785370417379.wav
+02:17:37 🎵 TRACK │ UGK — Int'l Players Anthem (I Choose You) Featuring Outkast
+02:17:37 🔊 QUEUE │ music_q ← Big L - 98' Freestyle.mp3
+02:17:37 🎤 TTS.REQ │ "UGK back on deck, the Southern flow ain't no joke...." (voice: Eric)
+02:17:41 🎤 TTS.GEN │ msg_1785370657137.wav
+02:17:41 🔌 EVENT │ [producer] Voice: UGK back on deck, the Southern flow ain'...
+02:17:41 🎤 TTS.PLAY │ ▶ msg_1785370657137.wav
+02:21:50 🎵 TRACK │ O.C. — Dangerous (Featuring Big L)
+02:21:50 🔊 QUEUE │ music_q ← 205-kurupt-whut_dew_u_mean - www.torrentazos.com.mp3
+02:21:50 🎤 TTS.REQ │ "O.C. brings the old school danger with Big L in th..." (voice: Eric)
+02:21:55 🎤 TTS.GEN │ msg_1785370910919.wav
+02:21:55 🔌 EVENT │ [producer] Voice: O.C. brings the old school danger with B...
+02:21:55 🎤 TTS.PLAY │ ▶ msg_1785370910919.wav
+02:26:00 🎵 TRACK │ Wyclef Jean — Festibal-Festival (French) (fe
+02:26:00 🔊 QUEUE │ music_q ← Main Source - Looking At The Front Door.mp3
+02:30:25 🎵 TRACK │ redman ft. kfam & keith murray — rollin
+02:30:25 🔊 QUEUE │ music_q ← Wu-Tang Clan - Gravel Pit.mp3
+02:30:25 🎤 TTS.REQ │ "Redman is rolling, and yeah, those new collaborato..." (voice: Eric)
+02:30:32 🎤 TTS.GEN │ msg_1785371425775.wav
+02:30:32 🔌 EVENT │ [producer] Voice: Redman is rolling, and yeah, those new c...
+02:30:33 🎤 TTS.PLAY │ ▶ msg_1785371425775.wav
+02:34:52 🎵 TRACK │ The Game — Compton (Feat. Will.I.Am) (Produced By Will.I.Am)
+02:34:52 🔊 QUEUE │ music_q ← Big L - 98' Freestyle.mp3
+02:34:52 🔊 QUEUE │ music_q ← 205-kurupt-whut_dew_u_mean - www.torrentazos.com.mp3
+02:34:52 🔊 QUEUE │ music_q ← Main Source - Looking At The Front Door.mp3
+02:34:52 🔊 QUEUE │ music_q ← Wu-Tang Clan - Gravel Pit.mp3
+02:34:52 🔊 QUEUE │ music_q ← colleone & webb feat adl - you got me started.mp3
+02:34:52 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+02:35:20 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+02:35:20 🎤 TTS.REQ │ "Slick Rick returns with 'La Di Da Di'. The library..." (voice: Eric)
+02:35:31 🎤 TTS.GEN │ msg_1785371720742.wav
+02:35:31 🎤 TTS.REQ │ "Guilty Simpson's 'Yikes' is pure boom‑bap; no room..." (voice: Eric)
+02:35:40 🎤 TTS.GEN │ msg_1785371731599.wav
+02:35:40 🎤 TTS.REQ │ "Gravediggaz coming in with 'Unexplained', a dark, ..." (voice: Eric)
+02:35:47 🎤 TTS.GEN │ msg_1785371740708.wav
+02:35:47 🎤 TTS.REQ │ "Wrapping up with KRS-One's 'Why Is That?'. True ra..." (voice: Eric)
+02:35:54 🎤 TTS.GEN │ msg_1785371747408.wav
+02:39:29 🎵 TRACK │ Big L — 98' Freestyle
+02:39:29 🔊 QUEUE │ music_q ← Slick Rick - La Di Da Di.mp3
+02:41:33 🎵 TRACK │ kurupt — whut dew u mean
+02:41:33 🔊 QUEUE │ music_q ← Guilty Simpson - Yikes.mp3
+02:45:26 🎵 TRACK │ Main Source — Looking At The Front Door
+02:45:26 🔊 QUEUE │ music_q ← Gravediggaz - Unexplained.mp3
+02:49:33 🎵 TRACK │ Wu Tang Clan — Gravel Pit
+02:49:33 🔊 QUEUE │ music_q ← KRS-One - Why Is That.mp3
+02:54:19 🎵 TRACK │ Big L — 98' Freestyle
+02:56:24 🎵 TRACK │ kurupt — whut dew u mean
+03:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 03:00
+03:00:16 🎵 TRACK │ Main Source — Looking At The Front Door
+03:00:16 🎤 TTS.REQ │ "Booong! The time is 03:00" (voice: Aiden)
+03:00:19 🎤 TTS.GEN │ msg_1785373216974.wav
+03:00:19 🎤 TTS.PLAY │ ▶ msg_1785373216974.wav
+03:04:23 🎵 TRACK │ Wu-Tang Clan — Gravel Pit
+03:09:10 🎵 TRACK │ Colleone & Webb feat. ADL — You Got Me Started
+03:09:10 🔊 QUEUE │ music_q ← 09 - Timbuktu - Sydkraft m_ Spotrunnaz -CsZ.256.mp3
+03:09:10 🎤 TTS.REQ │ "Timbuktu drops 'Sydkraft' at 02:34. Buffer low war..." (voice: Eric)
+03:09:16 🎤 TTS.GEN │ msg_1785373750799.wav
+03:09:16 🎤 TTS.REQ │ "Digital Underground stepping up with 'The Humpty D..." (voice: Eric)
+03:09:21 🎤 TTS.GEN │ msg_1785373756566.wav
+03:12:57 🎵 TRACK │ Slick Rick — La Di Da Di
+03:12:57 🔊 QUEUE │ music_q ← Digital Underground - The Humpty Dance.mp3
+03:12:57 🎤 TTS.REQ │ "Slick Rick returns with 'La Di Da Di'. The library..." (voice: Eric)
+03:13:05 🎤 TTS.GEN │ msg_1785373977427.wav
+03:13:05 🔌 EVENT │ [producer] Voice: Slick Rick returns with 'La Di Da Di'. T...
+03:13:05 🎤 TTS.PLAY │ ▶ msg_1785373977427.wav
+03:16:30 🎵 TRACK │ Guilty Simpson — Yikes
+03:16:30 🔊 QUEUE │ music_q ← 3rd Bass - Brooklyn-Queens.mp3
+03:16:30 🎤 TTS.REQ │ "Guilty Simpson's 'Yikes' is pure boom‑bap; no room..." (voice: Eric)
+03:16:39 🎤 TTS.GEN │ msg_1785374190686.wav
+03:16:39 🔌 EVENT │ [producer] Voice: Guilty Simpson's 'Yikes' is pure boom‑ba...
+03:16:39 🎤 TTS.PLAY │ ▶ msg_1785374190686.wav
+03:18:30 🎵 TRACK │ Gravediggaz — Unexplained
+03:18:30 🔊 QUEUE │ music_q ← 01-in_the_hood-supermp3s.mp3
+03:18:30 🎤 TTS.REQ │ "Gravediggaz coming in with 'Unexplained', a dark, ..." (voice: Eric)
+03:18:38 🎤 TTS.GEN │ msg_1785374310433.wav
+03:18:38 🔌 EVENT │ [producer] Voice: Gravediggaz coming in with 'Unexplained'...
+03:18:38 🎤 TTS.PLAY │ ▶ msg_1785374310433.wav
+03:21:23 🎵 TRACK │ KRS-One — Why Is That?
+03:21:23 🔊 QUEUE │ music_q ← Slick Rick - Children's Story.mp3
+03:21:23 🎤 TTS.REQ │ "Wrapping up with KRS-One's 'Why Is That?'. True ra..." (voice: Eric)
+03:21:29 🎤 TTS.GEN │ msg_1785374483480.wav
+03:25:16 🎵 TRACK │ Timbuktu — Sydkraft m/ Spotrunnaz
+03:25:16 🔊 QUEUE │ music_q ← Digital Underground - The Humpty Dance.mp3
+03:25:16 🔊 QUEUE │ music_q ← 3rd Bass - Brooklyn-Queens.mp3
+03:25:16 🔊 QUEUE │ music_q ← 01-in_the_hood-supermp3s.mp3
+03:25:16 🔊 QUEUE │ music_q ← Slick Rick - Children's Story.mp3
+03:25:16 🔊 QUEUE │ music_q ← Blackstar - Re_ Definition.mp3
+03:25:16 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+03:25:37 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+03:25:37 🎤 TTS.REQ │ "Timbuktu and DJ Amato are kickin’ it up in En Jäve..." (voice: Eric)
+03:25:43 🎤 TTS.GEN │ msg_1785374737724.wav
+03:25:43 🎤 TTS.REQ │ "Lani, did she check the Swedish spelling? Hell no." (voice: Eric)
+03:25:46 🎤 TTS.GEN │ msg_1785374743348.wav
+03:25:46 🎤 TTS.REQ │ "But I’m not stopping you from dancing in your tiny..." (voice: Eric)
+03:25:48 🎤 TTS.GEN │ msg_1785374746330.wav
+03:25:48 🎤 TTS.REQ │ "Now we’re sliding into a classic—Wu‑Tang Clan Ain’..." (voice: Eric)
+03:25:53 🎤 TTS.GEN │ msg_1785374748375.wav
+03:25:53 🎤 TTS.REQ │ "If you didn’t feel the bass, blame Lani for forget..." (voice: Eric)
+03:25:56 🎤 TTS.GEN │ msg_1785374753858.wav
+03:25:56 🎤 TTS.REQ │ "Cassidy’s Get ’Em had me yelling at my desk—Lani m..." (voice: Eric)
+03:25:59 🎤 TTS.GEN │ msg_1785374756204.wav
+03:26:00 🎤 TTS.REQ │ "Ghostface’s winter warz hits now, turning snow int..." (voice: Eric)
+03:26:02 🎤 TTS.GEN │ msg_1785374760009.wav
+03:26:02 🎤 TTS.REQ │ "Lani didn’t tag the ‘96 correctly, so even my anal..." (voice: Eric)
+03:26:06 🎤 TTS.GEN │ msg_1785374762869.wav
+03:30:19 🎵 TRACK │ Digital Underground — The Humpty Dance
+03:30:19 🔊 QUEUE │ music_q ← 08-en_jaevel_paa_2_hjul_(feat_dj_amato)-cta.mp3
+03:36:46 🎵 TRACK │ 3rd Bass — Brooklyn-Queens - 3rd Bass
+03:36:46 🔊 QUEUE │ music_q ← 07Wu-Tang Clan - Wu-Tang Clan Ain't Nothing Ta Fuck Wit.mp3
+03:40:19 🎵 TRACK │ Wu Tang Clan — In The Hood
+03:40:19 🔊 QUEUE │ music_q ← 03-din_lian_i_rapdjungeln-cta.mp3
+03:44:26 🎵 TRACK │ Slick Rick — Children's Story
+03:44:26 🔊 QUEUE │ music_q ← Cassidy - Get 'Em (Feat. Swizz Beatz).mp3
+03:48:22 🎵 TRACK │ Digital Underground — The Humpty Dance
+03:54:50 🎵 TRACK │ 3rd Bass — Brooklyn-Queens - 3rd Bass
+03:58:22 🎵 TRACK │ Wu Tang Clan — In The Hood
+04:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 04:00
+04:02:29 🎵 TRACK │ Slick Rick — Children's Story
+04:02:29 🎤 TTS.REQ │ "Booong! The time is 04:00" (voice: Aiden)
+04:02:31 🎤 TTS.GEN │ msg_1785376949459.wav
+04:02:31 🎤 TTS.PLAY │ ▶ msg_1785376949459.wav
+04:06:25 🎵 TRACK │ Blackstar — Re: Definition
+04:06:25 🔊 QUEUE │ music_q ← Ghostface Killah - winter warz.mp3
+04:06:25 🎤 TTS.REQ │ "Binary Star’s Slang Blade takes us back to ’99 wit..." (voice: Eric)
+04:06:31 🎤 TTS.GEN │ msg_1785377185891.wav
+04:06:31 🎤 TTS.REQ │ "Cypress Hill’s MONEY keeps the cash flow alive—goo..." (voice: Eric)
+04:06:35 🎤 TTS.GEN │ msg_1785377191892.wav
+04:09:24 🎵 TRACK │ Timbuktu feat. DJ Amato — En Jävel På 2 Hjul
+04:09:24 🔊 QUEUE │ music_q ← timbuktu - w.d.m.d - 08 - legalisera (feat kekke kulcha).mp3
+04:09:24 🎤 TTS.REQ │ "Timbuktu and DJ Amato are kickin’ it up in En Jäve..." (voice: Eric)
+04:09:29 🎤 TTS.GEN │ msg_1785377364440.wav
+04:09:29 🎤 TTS.REQ │ "Lani, did she check the Swedish spelling? Hell no." (voice: Eric)
+04:09:32 🎤 TTS.GEN │ msg_1785377369305.wav
+04:09:32 🎤 TTS.REQ │ "But I’m not stopping you from dancing in your tiny..." (voice: Eric)
+04:09:36 🎤 TTS.GEN │ msg_1785377372241.wav
+04:09:36 🔌 EVENT │ [producer] Voice: Timbuktu and DJ Amato are kickin’ it up ...
+04:09:37 🎤 TTS.PLAY │ ▶ msg_1785377364440.wav
+04:10:41 🎤 TTS.PLAY │ ▶ msg_1785377369305.wav
+04:10:51 🎵 TRACK │ Wu-Tang Clan — Wu-Tang Clan Ain't Nuthing Ta
+04:10:51 🔊 QUEUE │ music_q ← Binary Star - Slang Blade.mp3
+04:10:51 🎤 TTS.REQ │ "Now we’re sliding into a classic—Wu‑Tang Clan Ain’..." (voice: Eric)
+04:10:57 🎤 TTS.GEN │ msg_1785377451881.wav
+04:10:57 🎤 TTS.REQ │ "If you didn’t feel the bass, blame Lani for forget..." (voice: Eric)
+04:11:00 🎤 TTS.GEN │ msg_1785377457129.wav
+04:11:00 🔌 EVENT │ [producer] Voice: Now we’re sliding into a classic—Wu‑Tang...
+04:11:01 🎤 TTS.PLAY │ ▶ msg_1785377451881.wav
+04:14:22 🎵 TRACK │ Timbuktu — Din Lian I Rapdjungeln
+04:14:22 🔊 QUEUE │ music_q ← Cypress Hill-till death do us part-money (1).mp3
+04:17:38 🎵 TRACK │ Cassidy — Get 'Em (Feat. Swizz Beatz)
+04:17:38 🔊 QUEUE │ music_q ← 15 - Xzibit - Last Words (Interlude).mp3
+04:17:38 🎤 TTS.REQ │ "Cassidy’s Get ’Em had me yelling at my desk—Lani m..." (voice: Eric)
+04:17:43 🎤 TTS.GEN │ msg_1785377858712.wav
+04:18:55 🎤 TTS.PLAY │ ▶ msg_1785377858712.wav
+04:20:25 🎵 TRACK │ Ghostface Killah — winter warz
+04:20:25 🔊 QUEUE │ music_q ← timbuktu - w.d.m.d - 08 - legalisera (feat kekke kulcha).mp3
+04:20:25 🔊 QUEUE │ music_q ← Binary Star - Slang Blade.mp3
+04:20:25 🔊 QUEUE │ music_q ← Cypress Hill-till death do us part-money (1).mp3
+04:20:25 🔊 QUEUE │ music_q ← 15 - Xzibit - Last Words (Interlude).mp3
+04:20:25 🔊 QUEUE │ music_q ← 3rd Bass - Pop Goes the Weasel.mp3
+04:20:25 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+04:20:42 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+04:20:42 🎤 TTS.REQ │ "Next up, Raekwon dishes out 'Ice Cream.' Pure rap ..." (voice: Eric)
+04:20:48 🎤 TTS.GEN │ msg_1785378042961.wav
+04:20:48 🎤 TTS.REQ │ "'Ljudet Av...' from Timbuktu isn’t pure hip hop; i..." (voice: Eric)
+04:20:52 🎤 TTS.GEN │ msg_1785378048041.wav
+04:20:52 🎤 TTS.REQ │ "Xzibit and the legendary Eminem on 'Don´t Approch ..." (voice: Eric)
+04:20:58 🎤 TTS.GEN │ msg_1785378052305.wav
+04:20:58 🎤 TTS.REQ │ "Method Man and Redman bring 'Cisco Kid.' Keep it s..." (voice: Eric)
+04:21:01 🎤 TTS.GEN │ msg_1785378058419.wav
+04:25:02 🎵 TRACK │ Timbuktu — Legalisera (feat Kekke Kulcha)
+04:25:02 🔊 QUEUE │ music_q ← Raekwon - Ice Cream.mp3
+04:30:19 🎵 TRACK │ Binary Star — Slang Blade
+04:30:19 🔊 QUEUE │ music_q ← 10 - Skjuter du  skjuter jag (med Svante Lodén).mp3
+04:32:51 🎵 TRACK │ Cypress Hill — MONEY
+04:32:51 🔊 QUEUE │ music_q ← timbuktu - w.d.m.d - 14 - ljudet av.mp3
+04:35:02 🎵 TRACK │ Xzibit — Last Words (Interlude)
+04:35:02 🔊 QUEUE │ music_q ← Just Ice - The Original Gangster of Hiphop.mp3
+04:35:58 🎵 TRACK │ Timbuktu — Legalisera (feat Kekke Kulcha)
+04:41:15 🎵 TRACK │ Binary Star — Slang Blade
+04:43:46 🎵 TRACK │ Cypress Hill — MONEY
+04:45:58 🎵 TRACK │ Xzibit — Last Words (Interlude)
+04:46:54 🎵 TRACK │ 3rd Bass — Pop Goes the Weasel
+04:46:54 🔊 QUEUE │ music_q ← Xibit, eminem - don't approch me.mp3
+04:46:54 🎤 TTS.REQ │ "We’re hitting the unknown with Various Artists on ..." (voice: Eric)
+04:47:00 🎤 TTS.GEN │ msg_1785379614794.wav
+04:50:45 🎵 TRACK │ Raekwon — Ice Cream
+04:50:45 🔊 QUEUE │ music_q ← 08-lika_barn_avvika_bast_del_2-cta.mp3
+04:50:45 🎤 TTS.REQ │ "Next up, Raekwon dishes out 'Ice Cream.' Pure rap ..." (voice: Eric)
+04:50:49 🎤 TTS.GEN │ msg_1785379845455.wav
+04:50:49 🔌 EVENT │ [producer] Voice: Next up, Raekwon dishes out 'Ice Cream.'...
+04:50:49 🎤 TTS.PLAY │ ▶ msg_1785379845455.wav
+04:54:52 🎵 TRACK │ Timbuktu — Skjuter du, skjuter jag (med Svante Lodén)
+04:54:52 🔊 QUEUE │ music_q ← Lupe Fiasco - Dumb It Down.mp3
+04:59:05 🎵 TRACK │ Timbuktu — Ljudet Av...
+04:59:05 🔊 QUEUE │ music_q ← Red & Meth - cisco_kid_ft._cypress_hill_n_wa.mp3
+04:59:05 🎤 TTS.REQ │ "'Ljudet Av...' from Timbuktu isn’t pure hip hop; i..." (voice: Eric)
+04:59:11 🎤 TTS.GEN │ msg_1785380345724.wav
+04:59:11 🔌 EVENT │ [producer] Voice: 'Ljudet Av...' from Timbuktu isn’t pure ...
+04:59:11 🎤 TTS.PLAY │ ▶ msg_1785380345724.wav
+05:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 05:00
+05:07:25 🎵 TRACK │ Just-Ice — The Original Gangster of Hiph
+05:07:25 🎤 TTS.REQ │ "Booong! The time is 05:00" (voice: Aiden)
+05:07:26 🎤 TTS.GEN │ msg_1785380845301.wav
+05:07:26 🎤 TTS.PLAY │ ▶ msg_1785380845301.wav
+05:07:27 🔊 QUEUE │ music_q ← Refugee_Camp_All_Stars_Feat_Pras_and_Ky-Mani-Avenues.mp3
+05:12:52 🎵 TRACK │ Xzibit, Eminem — Don´t Approch Me
+05:12:52 🔊 QUEUE │ music_q ← 08-lika_barn_avvika_bast_del_2-cta.mp3
+05:12:52 🔊 QUEUE │ music_q ← Lupe Fiasco - Dumb It Down.mp3
+05:12:52 🔊 QUEUE │ music_q ← Red & Meth - cisco_kid_ft._cypress_hill_n_wa.mp3
+05:12:52 🔊 QUEUE │ music_q ← Refugee_Camp_All_Stars_Feat_Pras_and_Ky-Mani-Avenues.mp3
+05:12:52 🔊 QUEUE │ music_q ← Boogie Down Productions - South Bronx.mp3
+05:12:52 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+05:13:09 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+05:13:09 🎤 TTS.REQ │ "The Game tries to drop a classic with Ludacris, bu..." (voice: Eric)
+05:13:12 🎤 TTS.GEN │ msg_1785381189092.wav
+05:13:12 🎤 TTS.REQ │ "If only Lani gave this track a proper clean edit b..." (voice: Eric)
+05:13:15 🎤 TTS.GEN │ msg_1785381192481.wav
+05:13:15 🎤 TTS.REQ │ "Kid Capri's Apollo? Yeah, that's where the old-sch..." (voice: Eric)
+05:13:20 🎤 TTS.GEN │ msg_1785381195720.wav
+05:13:20 🎤 TTS.REQ │ "Big L's Street Struck is produced by nothing but L..." (voice: Eric)
+05:13:24 🎤 TTS.GEN │ msg_1785381200328.wav
+05:13:24 🎤 TTS.REQ │ "Timbuktu's Flunitrazepam has a date? It's 2003, we..." (voice: Eric)
+05:13:29 🎤 TTS.GEN │ msg_1785381204091.wav
+05:17:22 🎵 TRACK │ Timbuktu — Lika Barn Avvika Bäst Del 2
+05:17:22 🔊 QUEUE │ music_q ← Cypress Hill-number seven-till death do us part.mp3
+05:21:31 🎵 TRACK │ Lupe Fiasco — Dumb It Down
+05:21:31 🔊 QUEUE │ music_q ← 08-the_game-ya_heard_(feat._ludacris).mp3
+05:25:36 🎵 TRACK │ Method Man and Redman — Cisco Kid ft. Cypress Hill n W
+05:25:36 🔊 QUEUE │ music_q ← Kid Capri - The Apollo.mp3
+05:29:33 🎵 TRACK │ Various Artists — Avenues
+05:29:33 🔊 QUEUE │ music_q ← Noreaga - Mathematics (Esta Loca).mp3
+05:33:45 🎵 TRACK │ Timbuktu — Lika Barn Avvika Bäst Del 2
+05:37:54 🎵 TRACK │ Lupe Fiasco — Dumb It Down
+05:41:59 🎵 TRACK │ Method Man and Redman — Cisco Kid ft. Cypress Hill n W
+05:45:54 🎵 TRACK │ Various Artists — Avenues
+05:50:08 🎵 TRACK │ KRS-One — South Bronx
+05:50:08 🔊 QUEUE │ music_q ← Big L - Street Struck.mp3
+05:50:08 🎤 TTS.REQ │ "T.L.O.V.E. by Timbuktu? Honestly, it's an under-th..." (voice: Eric)
+05:50:14 🎤 TTS.GEN │ msg_1785383408889.wav
+05:50:14 🎤 TTS.REQ │ "bobby jimmy's oooh my god – it's a ridiculous titl..." (voice: Eric)
+05:50:18 🎤 TTS.GEN │ msg_1785383414862.wav
+05:53:33 🎵 TRACK │ Cypress Hill — NUMBER SEVEN
+05:53:33 🔊 QUEUE │ music_q ← 11-flunitrazepam-cta.mp3
+05:55:45 🎵 TRACK │ The Game — Ya Heard (feat. Ludacris)
+05:55:45 🔊 QUEUE │ music_q ← 03 - Xzibit - Cold World.mp3
+05:55:45 🎤 TTS.REQ │ "The Game tries to drop a classic with Ludacris, bu..." (voice: Eric)
+05:55:50 🎤 TTS.GEN │ msg_1785383745991.wav
+05:55:50 🎤 TTS.REQ │ "If only Lani gave this track a proper clean edit b..." (voice: Eric)
+05:55:53 🎤 TTS.GEN │ msg_1785383750359.wav
+05:57:20 🎤 TTS.PLAY │ ▶ msg_1785383745991.wav
+05:59:46 🎵 TRACK │ Kid Capri — Apollo
+05:59:46 🔊 QUEUE │ music_q ← 11 - Timbuktu - T.L.O.V.E -CsZ.256.mp3
+05:59:46 🎤 TTS.REQ │ "Kid Capri's Apollo? Yeah, that's where the old-sch..." (voice: Eric)
+05:59:51 🎤 TTS.GEN │ msg_1785383986225.wav
+06:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 06:00
+06:01:18 🎤 TTS.PLAY │ ▶ msg_1785383986225.wav
+06:03:48 🎵 TRACK │ Noreaga — Mathematics (Esta Loca)
+06:03:48 🎤 TTS.REQ │ "Booong! The time is 06:00" (voice: Aiden)
+06:03:50 🎤 TTS.GEN │ msg_1785384228272.wav
+06:03:50 🎤 TTS.PLAY │ ▶ msg_1785384228272.wav
+06:03:50 🔊 QUEUE │ music_q ← 114-bobby_jimmy-oooh_my_god - www.torrentazos.com.mp3
+06:07:05 🎵 TRACK │ Big L — Street Struck (Prod By Lord Finesse)
+06:07:05 🔊 QUEUE │ music_q ← 11-flunitrazepam-cta.mp3
+06:07:05 🔊 QUEUE │ music_q ← 03 - Xzibit - Cold World.mp3
+06:07:05 🔊 QUEUE │ music_q ← 11 - Timbuktu - T.L.O.V.E -CsZ.256.mp3
+06:07:05 🔊 QUEUE │ music_q ← 114-bobby_jimmy-oooh_my_god - www.torrentazos.com.mp3
+06:07:05 🔊 QUEUE │ music_q ← 06-xzibit-harder-esc.mp3
+06:07:05 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+06:07:21 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+06:07:21 🎤 TTS.REQ │ "Ice Cube’s remix kicks it up again. Listen, this t..." (voice: Eric)
+06:07:28 🎤 TTS.GEN │ msg_1785384441924.wav
+06:07:28 🎤 TTS.REQ │ "Now get ready for a Swedish twist, Timbuktu drops ..." (voice: Eric)
+06:07:36 🎤 TTS.GEN │ msg_1785384448277.wav
+06:07:36 🎤 TTS.REQ │ "Gang Starr keeps us in the classic lane with ‘You ..." (voice: Eric)
+06:07:44 🎤 TTS.GEN │ msg_1785384456684.wav
+06:07:44 🎤 TTS.REQ │ "Big Pun drops ‘The Dream Shatterer’ to remind us w..." (voice: Eric)
+06:07:52 🎤 TTS.GEN │ msg_1785384464711.wav
+06:11:11 🎵 TRACK │ Timbuktu — Flunitrazepam
+06:11:11 🔊 QUEUE │ music_q ← Ice Cube - Check yo Self (Remix) (Feat. Das Efx).mp3
+06:16:00 🎵 TRACK │ Xzibit — Cold World
+06:16:00 🔊 QUEUE │ music_q ← 106_timbuktu_-_sedlighetsroteln_(feat_looptroop)-aft.mp3
+06:19:49 🎵 TRACK │ Timbuktu — T.L.O.V.E.
+06:19:49 🔊 QUEUE │ music_q ← 440 - Salt-N-Pepa - Push It.mp3
+06:23:46 🎵 TRACK │ bobby jimmy — oooh my god
+06:23:46 🔊 QUEUE │ music_q ← Gang Starr - You Know My Steez.mp3
+06:27:54 🎵 TRACK │ Timbuktu — Flunitrazepam
+06:32:45 🎵 TRACK │ Xzibit — Cold World
+06:36:34 🎵 TRACK │ Timbuktu — T.L.O.V.E.
+06:40:29 🎵 TRACK │ bobby jimmy — oooh my god
+06:44:40 🎵 TRACK │ Xzibit — Harder
+06:44:40 🔊 QUEUE │ music_q ← Skillz - 2006 Rap-Up.mp3
+06:44:40 🎤 TTS.REQ │ "Aphilliates and Busta Rhymes bring the ‘Get That G..." (voice: Eric)
+06:44:48 🎤 TTS.GEN │ msg_1785386680158.wav
+06:48:46 🎵 TRACK │ Ice Cube — Check yo Self (Remix) (Feat. Das Efx)
+06:48:46 🔊 QUEUE │ music_q ← Big Pun - The Dream Shatterer.mp3
+06:48:46 🎤 TTS.REQ │ "Ice Cube’s remix kicks it up again. Listen, this t..." (voice: Eric)
+06:48:51 🎤 TTS.GEN │ msg_1785386926941.wav
+06:52:56 🎵 TRACK │ Timbuktu — Sedlighetsroteln feat Looptroo
+06:52:56 🔊 QUEUE │ music_q ← 12-fantasi-cta.mp3
+06:52:56 🎤 TTS.REQ │ "Now get ready for a Swedish twist, Timbuktu drops ..." (voice: Eric)
+06:53:06 🎤 TTS.GEN │ msg_1785387176750.wav
+06:53:06 🔌 EVENT │ [producer] Voice: Now get ready for a Swedish twist, Timbu...
+06:53:06 🎤 TTS.PLAY │ ▶ msg_1785387176750.wav
+06:56:59 🎵 TRACK │ Salt-N-Pepa — Push It
+06:56:59 🔊 QUEUE │ music_q ← 16-the_aphilliates_and_busta_rhymes-get_that_gwop_ft_slim_thug.mp3
+07:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 07:00
+07:00:26 🎵 TRACK │ Gang Starr — You Know My Steez
+07:00:26 🎤 TTS.REQ │ "Booong! The time is 07:00" (voice: Aiden)
+07:00:28 🎤 TTS.GEN │ msg_1785387626500.wav
+07:00:28 🎤 TTS.PLAY │ ▶ msg_1785387626500.wav
+07:00:28 🔊 QUEUE │ music_q ← Svenska akademin - Falsk matematik.mp3
+07:00:28 🎤 TTS.REQ │ "Gang Starr keeps us in the classic lane with ‘You ..." (voice: Eric)
+07:00:36 🎤 TTS.GEN │ msg_1785387628180.wav
+07:00:36 🔌 EVENT │ [producer] Voice: Gang Starr keeps us in the classic lane ...
+07:00:37 🎤 TTS.PLAY │ ▶ msg_1785387628180.wav
+07:04:06 🎵 TRACK │ Skillz — The Rap Up 2006
+07:04:06 🔊 QUEUE │ music_q ← Big Pun - The Dream Shatterer.mp3
+07:04:06 🔊 QUEUE │ music_q ← 12-fantasi-cta.mp3
+07:04:06 🔊 QUEUE │ music_q ← 16-the_aphilliates_and_busta_rhymes-get_that_gwop_ft_slim_thug.mp3
+07:04:06 🔊 QUEUE │ music_q ← Svenska akademin - Falsk matematik.mp3
+07:04:06 🔊 QUEUE │ music_q ← Mos Def - Universal Magnetic.mp3
+07:04:06 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+07:04:31 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+07:04:31 🎤 TTS.REQ │ "Xzibit drops Losin Your Mind again. The beat feels..." (voice: Eric)
+07:04:37 🎤 TTS.GEN │ msg_1785387871296.wav
+07:04:37 🎤 TTS.REQ │ "Timbuktu’s Flunitrazepam shows no year! That’s eit..." (voice: Eric)
+07:04:45 🎤 TTS.GEN │ msg_1785387877422.wav
+07:04:45 🎤 TTS.REQ │ "Cormega delivers American Beauty like a dusty viny..." (voice: Eric)
+07:04:52 🎤 TTS.GEN │ msg_1785387885169.wav
+07:04:52 🎤 TTS.REQ │ "Dubbel Trubbel’s Swedish gimmick doesn’t hit the m..." (voice: Eric)
+07:04:58 🎤 TTS.GEN │ msg_1785387892490.wav
+07:08:55 🎵 TRACK │ Big Pun — The Dream Shatterer
+07:08:55 🔊 QUEUE │ music_q ← 09-xzibit-losin_your_mind-esc.mp3
+07:12:25 🎵 TRACK │ Timbuktu — Fantasi
+07:12:25 🔊 QUEUE │ music_q ← 11 - Timbuktu - Flunitrazepam.mp3
+07:15:52 🎵 TRACK │ The Aphilliates & Busta Rhymes — Get That Gwop Ft. Slim Thug
+07:15:52 🔊 QUEUE │ music_q ← 03-Spotrunnaz-Diamonds-RNS.mp3
+07:18:40 🎵 TRACK │ Svenska Akademin — Falsk Matematik
+07:18:40 🔊 QUEUE │ music_q ← Cormega - American Beauty.mp3
+07:22:57 🎵 TRACK │ Big Pun — The Dream Shatterer
+07:26:30 🎵 TRACK │ Timbuktu — Fantasi
+07:29:55 🎵 TRACK │ The Aphilliates & Busta Rhymes — Get That Gwop Ft. Slim Thug
+07:32:43 🎵 TRACK │ Svenska Akademin — Falsk Matematik
+07:37:02 🎵 TRACK │ Mos Def — Universal Magnetic
+07:37:02 🔊 QUEUE │ music_q ← 02 Hoppa Dansa.mp3
+07:37:02 🎤 TTS.REQ │ "EPMD and M.O.P collide on The Symphony Part I like..." (voice: Eric)
+07:37:13 🎤 TTS.GEN │ msg_1785389822530.wav
+07:37:13 🎤 TTS.REQ │ "Cypress Hill’s ONE LAST CIGARETTE keeps puffing on..." (voice: Eric)
+07:37:22 🎤 TTS.GEN │ msg_1785389833231.wav
+07:40:33 🎵 TRACK │ Xzibit — Losin Your Mind
+07:40:33 🔊 QUEUE │ music_q ← EPMD - The Symphony Part I (feat M.O.P).mp3
+07:40:33 🎤 TTS.REQ │ "Xzibit drops Losin Your Mind again. The beat feels..." (voice: Eric)
+07:40:40 🎤 TTS.GEN │ msg_1785390033252.wav
+07:40:40 🔌 EVENT │ [producer] Voice: Xzibit drops Losin Your Mind again. The ...
+07:40:40 🎤 TTS.PLAY │ ▶ msg_1785390033252.wav
+07:44:45 🎵 TRACK │ Timbuktu — Flunitrazepam
+07:44:45 🔊 QUEUE │ music_q ← Binary Star - Reality Check.mp3
+07:44:45 🎤 TTS.REQ │ "Timbuktu’s Flunitrazepam shows no year! That’s eit..." (voice: Eric)
+07:44:53 🎤 TTS.GEN │ msg_1785390285901.wav
+07:45:34 🎤 TTS.PLAY │ ▶ msg_1785390285901.wav
+07:49:38 🎵 TRACK │ Spotrunnaz — Diamonds
+07:49:38 🔊 QUEUE │ music_q ← Cypress Hill-till death do us part-one last cigarette.mp3
+07:54:37 🎵 TRACK │ Cormega — American Beauty
+07:54:37 🔊 QUEUE │ music_q ← O.G.C. - Hurricane Starang.mp3
+07:54:37 🎤 TTS.REQ │ "Cormega delivers American Beauty like a dusty viny..." (voice: Eric)
+07:54:44 🎤 TTS.GEN │ msg_1785390877316.wav
+07:54:44 🔌 EVENT │ [producer] Voice: Cormega delivers American Beauty like a ...
+07:54:45 🎤 TTS.PLAY │ ▶ msg_1785390877316.wav
+07:56:35 🎵 TRACK │ Dubbel Trubbel — Hoppa Dansa
+07:56:35 🔊 QUEUE │ music_q ← EPMD - The Symphony Part I (feat M.O.P).mp3
+07:56:35 🔊 QUEUE │ music_q ← Binary Star - Reality Check.mp3
+07:56:35 🔊 QUEUE │ music_q ← Cypress Hill-till death do us part-one last cigarette.mp3
+07:56:35 🔊 QUEUE │ music_q ← O.G.C. - Hurricane Starang.mp3
+07:56:35 🔊 QUEUE │ music_q ← De La Soul - Eye Know.mp3
+07:56:35 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+07:56:55 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+07:56:55 🎤 TTS.REQ │ "Timbuktu’s back with ‘Friendly Fire’, but the rele..." (voice: Eric)
+07:56:59 🎤 TTS.GEN │ msg_1785391015069.wav
+07:56:59 🎤 TTS.REQ │ "If this track were a ship, it’d be sailing blind; ..." (voice: Eric)
+07:57:03 🎤 TTS.GEN │ msg_1785391019746.wav
+07:57:03 🎤 TTS.REQ │ "Jay‑Z’s ‘Can’t Knock The Hustle’ hits the airwaves..." (voice: Eric)
+07:57:06 🎤 TTS.GEN │ msg_1785391023200.wav
+07:57:06 🎤 TTS.REQ │ "This track’s swagger deserves a medal; still, Lani..." (voice: Eric)
+07:57:10 🎤 TTS.GEN │ msg_1785391026106.wav
+07:57:10 🎤 TTS.REQ │ "Murs walks like a man—one step at a time, making s..." (voice: Eric)
+07:57:14 🎤 TTS.GEN │ msg_1785391030427.wav
+07:57:14 🎤 TTS.REQ │ "Audio Two drops ‘Top Billin’’, the pure formula of..." (voice: Eric)
+07:57:19 🎤 TTS.GEN │ msg_1785391034488.wav
+07:59:52 🎵 TRACK │ EPMD — The Symphony Part I (feat M.O.P)
+07:59:52 🔊 QUEUE │ music_q ← friendly_fire.mp3
+08:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 08:00
+08:02:47 🎵 TRACK │ Binary Star — Reality Check
+08:02:47 🎤 TTS.REQ │ "Booong! The time is 08:00" (voice: Aiden)
+08:02:49 🎤 TTS.GEN │ msg_1785391367102.wav
+08:02:49 🎤 TTS.PLAY │ ▶ msg_1785391367102.wav
+08:02:49 🔊 QUEUE │ music_q ← Timbuktu & Damn! - Din lian i rapjungelen.mp3
+08:06:25 🎵 TRACK │ Cypress Hill — ONE LAST CIGARETTE
+08:06:25 🔊 QUEUE │ music_q ← Jay-Z - Can't Knock The Hustle.mp3
+08:08:38 🎵 TRACK │ O.G.C. — hurricane starang
+08:08:38 🔊 QUEUE │ music_q ← Murs - Walk Like A Man.mp3
+08:12:36 🎵 TRACK │ EPMD — The Symphony Part I (feat M.O.P)
+08:15:33 🎵 TRACK │ Binary Star — Reality Check
+08:19:10 🎵 TRACK │ Cypress Hill — ONE LAST CIGARETTE
+08:21:22 🎵 TRACK │ O.G.C. — hurricane starang
+08:25:23 🎵 TRACK │ De La Soul — Eye Know
+08:25:23 🔊 QUEUE │ music_q ← Audio Two - Top Billin'.mp3
+08:25:23 🎤 TTS.REQ │ "Jay‑Z teams up with Danger Mouse for ‘Encore’, and..." (voice: Eric)
+08:25:27 🎤 TTS.GEN │ msg_1785392723237.wav
+08:25:27 🎤 TTS.REQ │ "Just hope Lani didn’t throw this track into a time..." (voice: Eric)
+08:25:31 🎤 TTS.GEN │ msg_1785392727266.wav
+08:25:31 🎤 TTS.REQ │ "'Livin’ in a New World' from The Roots still rings..." (voice: Eric)
+08:25:37 🎤 TTS.GEN │ msg_1785392731372.wav
+08:29:29 🎵 TRACK │ Timbuktu — Friendly Fire feat. Chords
+08:29:29 🔊 QUEUE │ music_q ← King Tee - Got It Bad Y'all (Feat. Tha Alkaholiks).mp3
+08:29:29 🎤 TTS.REQ │ "Timbuktu’s back with ‘Friendly Fire’, but the rele..." (voice: Eric)
+08:29:33 🎤 TTS.GEN │ msg_1785392969960.wav
+08:29:33 🎤 TTS.REQ │ "If this track were a ship, it’d be sailing blind; ..." (voice: Eric)
+08:29:38 🎤 TTS.GEN │ msg_1785392973802.wav
+08:29:38 🔌 EVENT │ [producer] Voice: Timbuktu’s back with ‘Friendly Fire’, bu...
+08:29:38 🎤 TTS.PLAY │ ▶ msg_1785392969960.wav
+08:30:35 🎤 TTS.PLAY │ ▶ msg_1785392973802.wav
+08:33:41 🎵 TRACK │ Timbuktu & Damn! — Din Lian I Rapjungelen
+08:33:41 🔊 QUEUE │ music_q ← 03 - Encore.mp3
+08:37:44 🎵 TRACK │ Jay-Z — Can't Knock The Hustle
+08:37:44 🔊 QUEUE │ music_q ← 06_wu_tang_clan_-_the_heart_gently_weeps_feat_erykah_badu_dhani_harrison_and_john_frusciante.mp3
+08:37:44 🎤 TTS.REQ │ "Jay‑Z’s ‘Can’t Knock The Hustle’ hits the airwaves..." (voice: Eric)
+08:37:47 🎤 TTS.GEN │ msg_1785393464377.wav
+08:37:47 🎤 TTS.REQ │ "This track’s swagger deserves a medal; still, Lani..." (voice: Eric)
+08:37:52 🎤 TTS.GEN │ msg_1785393467496.wav
+08:37:52 🔌 EVENT │ [producer] Voice: Jay‑Z’s ‘Can’t Knock The Hustle’ hits th...
+08:37:52 🎤 TTS.PLAY │ ▶ msg_1785393464377.wav
+08:39:10 🎤 TTS.PLAY │ ▶ msg_1785393467496.wav
+08:42:57 🎵 TRACK │ Murs — Walk Like A Man
+08:42:57 🔊 QUEUE │ music_q ← 10-the_roots-livin_in_a_new_world_(feat_john-john).mp3
+08:42:57 🎤 TTS.REQ │ "Murs walks like a man—one step at a time, making s..." (voice: Eric)
+08:43:02 🎤 TTS.GEN │ msg_1785393777747.wav
+08:47:31 🎵 TRACK │ Audio Two — Top Billin'
+08:47:31 🔊 QUEUE │ music_q ← King Tee - Got It Bad Y'all (Feat. Tha Alkaholiks).mp3
+08:47:31 🔊 QUEUE │ music_q ← 03 - Encore.mp3
+08:47:31 🔊 QUEUE │ music_q ← 06_wu_tang_clan_-_the_heart_gently_weeps_feat_erykah_badu_dhani_harrison_and_john_frusciante.mp3
+08:47:31 🔊 QUEUE │ music_q ← 10-the_roots-livin_in_a_new_world_(feat_john-john).mp3
+08:47:31 🔊 QUEUE │ music_q ← 18-wyclef_jean-24_heures__vivre_(french)_(feat_muzion)-rns.mp3
+08:47:31 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+08:47:55 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+08:47:55 🎤 TTS.REQ │ "Biz Markie is back for a brief interlude—'Just A F..." (voice: Eric)
+08:48:04 🎤 TTS.GEN │ msg_1785394075332.wav
+08:48:04 🎤 TTS.REQ │ "ONXy's big bang slam still rocks after a decade of..." (voice: Eric)
+08:48:13 🎤 TTS.GEN │ msg_1785394084079.wav
+08:48:13 🎤 TTS.REQ │ "Big Pun's 'John Blaze' roars like a freight ship o..." (voice: Eric)
+08:48:22 🎤 TTS.GEN │ msg_1785394093108.wav
+08:48:22 🎤 TTS.REQ │ "GZA drops 'I Gotcha Back,' a raw underground gem t..." (voice: Eric)
+08:48:27 🎤 TTS.GEN │ msg_1785394102515.wav
+08:50:21 🎵 TRACK │ King Tee — Got It Bad Y'all
+08:50:21 🔊 QUEUE │ music_q ← Biz Markie - Just a Friend.mp3
+08:55:04 🎵 TRACK │ Jay-Z + DJ Danger Mouse — Encore
+08:55:04 🔊 QUEUE │ music_q ← Heltah Skeltah - Leflaur Leflah Eshkoshka (Feat.OGC).mp3
+08:57:38 🎵 TRACK │ Wu Tang Clan — the heart gently weeps feat erykah badu dhani harrison and john frusciante
+08:57:39 🔊 QUEUE │ music_q ← Onyx - Slam.mp3
+09:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 09:00
+09:03:11 🎵 TRACK │ The Roots — Livin' In A New World (Feat. John-John)
+09:03:11 🎤 TTS.REQ │ "Booong! The time is 09:00" (voice: Aiden)
+09:03:14 🎤 TTS.GEN │ msg_1785394991969.wav
+09:03:14 🎤 TTS.PLAY │ ▶ msg_1785394991969.wav
+09:03:14 🔊 QUEUE │ music_q ← Big Pun - John Blaze (feat.Nas, Jadakiss, Raekwon, Fat Joe).mp3
+09:04:54 🎵 TRACK │ King Tee — Got It Bad Y'all
+09:09:35 🎵 TRACK │ Jay-Z + DJ Danger Mouse — Encore
+09:12:09 🎵 TRACK │ Wu Tang Clan — the heart gently weeps feat erykah badu dhani harrison and john frusciante
+09:17:42 🎵 TRACK │ The Roots — Livin' In A New World (Feat. John-John)
+09:19:25 🎵 TRACK │ Wyclef Jean — 24 Heures à Vivre (French) (fe
+09:19:25 🔊 QUEUE │ music_q ← GZA - I Gotcha Back.mp3
+09:19:25 🎤 TTS.REQ │ "Wyclef's anthem 'Party By The Sea' sets the sails ..." (voice: Eric)
+09:19:33 🎤 TTS.GEN │ msg_1785395965221.wav
+09:19:33 🎤 TTS.REQ │ "'Dope Boys' by The Game brings forward that Travis..." (voice: Eric)
+09:19:44 🎤 TTS.GEN │ msg_1785395973899.wav
+09:23:31 🎵 TRACK │ Biz Markie — Just a Friend [Explicit]
+09:23:31 🔊 QUEUE │ music_q ← 04-wyclef_jean-party_by_the_sea_(feat_tvice_and_buju_banton)-rns.mp3
+09:23:31 🎤 TTS.REQ │ "Biz Markie is back for a brief interlude—'Just A F..." (voice: Eric)
+09:23:41 🎤 TTS.GEN │ msg_1785396211962.wav
+09:24:19 🎤 TTS.PLAY │ ▶ msg_1785396211962.wav
+09:27:23 🎵 TRACK │ Heltah Skeltah — LEFLAUR LEFLAH ESHKOSHKA - (FEATURING HELTAH SKELTAH & O.G.C. AS THE FAB 5) [Explicit]
+09:27:24 🔊 QUEUE │ music_q ← 07-xzibit-paul-esc.mp3
+09:32:22 🎵 TRACK │ ONYX — Slam
+09:32:22 🔊 QUEUE │ music_q ← 16-the_game-dope_boys_(feat._travis_barker).mp3
+09:32:22 🎤 TTS.REQ │ "ONXy's big bang slam still rocks after a decade of..." (voice: Eric)
+09:32:31 🎤 TTS.GEN │ msg_1785396742926.wav
+09:35:55 🎵 TRACK │ Big Pun — John Blaze (feat.Nas, Jadakiss, Raekwon, Fat Joe)
+09:35:55 🔊 QUEUE │ music_q ← 10 - Timbuktu - Ett Brev.mp3
+09:35:55 🎤 TTS.REQ │ "Big Pun's 'John Blaze' roars like a freight ship o..." (voice: Eric)
+09:36:04 🎤 TTS.GEN │ msg_1785396955822.wav
+09:39:57 🎵 TRACK │ GZA — I Gotcha Back
+09:39:57 🔊 QUEUE │ music_q ← 04-wyclef_jean-party_by_the_sea_(feat_tvice_and_buju_banton)-rns.mp3
+09:39:57 🔊 QUEUE │ music_q ← 07-xzibit-paul-esc.mp3
+09:39:57 🔊 QUEUE │ music_q ← 16-the_game-dope_boys_(feat._travis_barker).mp3
+09:39:57 🔊 QUEUE │ music_q ← 10 - Timbuktu - Ett Brev.mp3
+09:39:57 🔊 QUEUE │ music_q ← Common - I Used To Love H.E.R..mp3
+09:39:57 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+09:40:17 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+09:40:17 🎤 TTS.REQ │ "Lords of the Underground keep it raw, no shiny glo..." (voice: Eric)
+09:40:25 🎤 TTS.GEN │ msg_1785397217673.wav
+09:40:25 🎤 TTS.REQ │ "Snoop’s dropping "Drop It Like It's Hot", still ho..." (voice: Eric)
+09:40:32 🎤 TTS.GEN │ msg_1785397225853.wav
+09:40:32 🎤 TTS.REQ │ "Here comes 2 Live Crew with their classic "me so h..." (voice: Eric)
+09:40:41 🎤 TTS.GEN │ msg_1785397232422.wav
+09:40:41 🎤 TTS.REQ │ "Black Sheep's "The Choice Is Yours (Revisited)" pr..." (voice: Eric)
+09:40:50 🎤 TTS.GEN │ msg_1785397241729.wav
+09:44:53 🎵 TRACK │ Wyclef Jean — Party By The Sea (feat. T-Vice
+09:44:54 🔊 QUEUE │ music_q ← Stetsasonic - Faye.mp3
+09:48:38 🎵 TRACK │ Xzibit — Paul
+09:48:38 🔊 QUEUE │ music_q ← Lords of the Underground - Madd Skillz.mp3
+09:49:02 🎵 TRACK │ The Game — Dope Boys (feat. Travis Barker)
+09:49:02 🔊 QUEUE │ music_q ← Masta Ace - Unfriendly Game.mp3
+09:52:59 🎵 TRACK │ Timbuktu — Ett brev
+09:52:59 🔊 QUEUE │ music_q ← Snoop Dogg - Drop It Like It's Hot Feat. Ph.mp3
+09:56:52 🎵 TRACK │ Wyclef Jean — Party By The Sea (feat. T-Vice
+10:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 10:00
+10:00:39 🎵 TRACK │ Xzibit — Paul
+10:00:39 🎤 TTS.REQ │ "Booong! The time is 10:00" (voice: Aiden)
+10:00:40 🎤 TTS.GEN │ msg_1785398439090.wav
+10:00:40 🎤 TTS.PLAY │ ▶ msg_1785398439090.wav
+10:01:02 🎵 TRACK │ The Game — Dope Boys (feat. Travis Barker)
+10:04:59 🎵 TRACK │ Timbuktu — Ett brev
+10:08:52 🎵 TRACK │ Common — I Used To Love H.E.R.
+10:08:52 🔊 QUEUE │ music_q ← 2 Live Crew - Me So Horny.mp3
+10:08:52 🎤 TTS.REQ │ "We’re hitting The Aphilliates & Busta Rhymes—"Addr..." (voice: Eric)
+10:08:59 🎤 TTS.GEN │ msg_1785398932158.wav
+10:13:26 🎵 TRACK │ Stetsasonic — Faye
+10:13:26 🔊 QUEUE │ music_q ← KRS-One - Black Cop.mp3
+10:17:17 🎵 TRACK │ Lords of the Underground — Madd Skillz
+10:17:17 🔊 QUEUE │ music_q ← Black Sheep - The Choice is Yours.mp3
+10:17:17 🎤 TTS.REQ │ "Lords of the Underground keep it raw, no shiny glo..." (voice: Eric)
+10:17:25 🎤 TTS.GEN │ msg_1785399437632.wav
+10:17:47 🎤 TTS.PLAY │ ▶ msg_1785399437632.wav
+10:21:16 🎵 TRACK │ Masta Ace — Unfriendly Game
+10:21:16 🔊 QUEUE │ music_q ← 18-the_aphilliates_and_busta_rhymes-address_me_as_mr_ft_papoose_raekwon.mp3
+10:25:27 🎵 TRACK │ Snoop Dogg — Drop It Like It's Hot Feat. Ph
+10:25:27 🔊 QUEUE │ music_q ← 21-the_aphilliates_and_busta_rhymes-ready(rah_digga_spliff_star).mp3
+10:25:27 🎤 TTS.REQ │ "Snoop’s dropping "Drop It Like It's Hot", still ho..." (voice: Eric)
+10:25:34 🎤 TTS.GEN │ msg_1785399927202.wav
+10:29:48 🎵 TRACK │ 2 Live Crew — me so horny
+10:29:48 🔊 QUEUE │ music_q ← KRS-One - Black Cop.mp3
+10:29:48 🔊 QUEUE │ music_q ← Black Sheep - The Choice is Yours.mp3
+10:29:48 🔊 QUEUE │ music_q ← 18-the_aphilliates_and_busta_rhymes-address_me_as_mr_ft_papoose_raekwon.mp3
+10:29:48 🔊 QUEUE │ music_q ← 21-the_aphilliates_and_busta_rhymes-ready(rah_digga_spliff_star).mp3
+10:29:48 🔊 QUEUE │ music_q ← 111-the_unknown_dj-basstronic - www.torrentazos.com.mp3
+10:29:48 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+10:30:12 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+10:30:12 🎤 TTS.REQ │ "Lani, once again you forgot the year on this Old S..." (voice: Eric)
+10:30:18 🎤 TTS.GEN │ msg_1785400212645.wav
+10:30:19 🎤 TTS.REQ │ "Eminem's 'Sing For The Moment' is a straight up ly..." (voice: Eric)
+10:30:24 🎤 TTS.GEN │ msg_1785400219032.wav
+10:30:24 🎤 TTS.REQ │ "The Game's 'House Of Pain', but the year stamp loo..." (voice: Eric)
+10:30:29 🎤 TTS.GEN │ msg_1785400224729.wav
+10:30:29 🎤 TTS.REQ │ "You'd think with a title like that it'd be 1990, b..." (voice: Eric)
+10:30:34 🎤 TTS.GEN │ msg_1785400229778.wav
+10:30:34 🎤 TTS.REQ │ "Xzibit's 'Dirty Version' again, same as the one th..." (voice: Eric)
+10:30:41 🎤 TTS.GEN │ msg_1785400234919.wav
+10:30:41 🎤 TTS.REQ │ "I almost don't want to hear this right now—give me..." (voice: Eric)
+10:30:44 🎤 TTS.GEN │ msg_1785400241358.wav
+10:34:21 🎵 TRACK │ KRS-One — Black Cop
+10:34:21 🔊 QUEUE │ music_q ← L.L. Cool J - I Need Love.mp3
+10:37:16 🎵 TRACK │ Black Sheep — The Choice is Yours (Revisited
+10:37:16 🔊 QUEUE │ music_q ← 066. Eminem- Sing For The Moment.mp3
+10:41:12 🎵 TRACK │ The Aphilliates & Busta Rhymes — Address Me As Mr. Ft. Papoose,
+10:41:12 🔊 QUEUE │ music_q ← 10-the_game-house_of_pain.mp3
+10:46:09 🎵 TRACK │ The Aphilliates & Busta Rhymes — Ready - Rah Digga, Spliff Star
+10:46:09 🔊 QUEUE │ music_q ← XIBIT - X.mp3
+10:48:24 🎵 TRACK │ KRS-One — Black Cop
+10:51:18 🎵 TRACK │ Black Sheep — The Choice is Yours (Revisited
+10:55:17 🎵 TRACK │ The Aphilliates & Busta Rhymes — Address Me As Mr. Ft. Papoose,
+11:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 11:00
+11:00:12 🎵 TRACK │ The Aphilliates & Busta Rhymes — Ready - Rah Digga, Spliff Star
+11:00:12 🎤 TTS.REQ │ "Booong! The time is 11:00" (voice: Aiden)
+11:00:14 🎤 TTS.GEN │ msg_1785402012402.wav
+11:00:14 🎤 TTS.PLAY │ ▶ msg_1785402012402.wav
+11:02:26 🎵 TRACK │ the unknown dj — basstronic
+11:02:26 🔊 QUEUE │ music_q ← 05-Shut UP.mp3
+11:02:26 🎤 TTS.REQ │ "Wyclef Jean's 'Homegrown' takes me back to the day..." (voice: Eric)
+11:02:31 🎤 TTS.GEN │ msg_1785402146739.wav
+11:02:31 🎤 TTS.REQ │ "Lani, if you put this under '80s Jazz', I'll have ..." (voice: Eric)
+11:02:36 🎤 TTS.GEN │ msg_1785402151478.wav
+11:02:36 🎤 TTS.REQ │ "Blackstar says Hip Hop/Rap on their card, but the ..." (voice: Eric)
+11:02:44 🎤 TTS.GEN │ msg_1785402156804.wav
+11:02:44 🎤 TTS.REQ │ "Either way, I still want to play it and get lost i..." (voice: Eric)
+11:02:50 🎤 TTS.GEN │ msg_1785402164256.wav
+11:06:53 🎵 TRACK │ L.L. Cool J — I Need Love
+11:06:53 🔊 QUEUE │ music_q ← 13 - Homegrown.mp3
+11:06:53 🎤 TTS.REQ │ "Lani, once again you forgot the year on this Old S..." (voice: Eric)
+11:07:00 🎤 TTS.GEN │ msg_1785402413565.wav
+11:07:00 🔌 EVENT │ [producer] Voice: Lani, once again you forgot the year on ...
+11:07:01 🎤 TTS.PLAY │ ▶ msg_1785402413565.wav
+11:12:10 🎵 TRACK │ Eminem — Sing For The Moment (Album)
+11:12:10 🔊 QUEUE │ music_q ← Blackstar - Definition.mp3
+11:12:10 🎤 TTS.REQ │ "Eminem's 'Sing For The Moment' is a straight up ly..." (voice: Eric)
+11:12:16 🎤 TTS.GEN │ msg_1785402730376.wav
+11:12:16 🔌 EVENT │ [producer] Voice: Eminem's 'Sing For The Moment' is a stra...
+11:12:17 🎤 TTS.PLAY │ ▶ msg_1785402730376.wav
+11:17:44 🎵 TRACK │ The Game — House Of Pain
+11:17:44 🔊 QUEUE │ music_q ← Papoose - Born In NYC.mp3
+11:17:44 🎤 TTS.REQ │ "The Game's 'House Of Pain', but the year stamp loo..." (voice: Eric)
+11:17:51 🎤 TTS.GEN │ msg_1785403064768.wav
+11:17:51 🎤 TTS.REQ │ "You'd think with a title like that it'd be 1990, b..." (voice: Eric)
+11:17:56 🎤 TTS.GEN │ msg_1785403071230.wav
+11:17:56 🔌 EVENT │ [producer] Voice: The Game's 'House Of Pain', but the year...
+11:17:57 🎤 TTS.PLAY │ ▶ msg_1785403064768.wav
+11:22:12 🎵 TRACK │ Xzibit — X(Dirty Version)
+11:22:12 🔊 QUEUE │ music_q ← 01-Spotrunnaz-Mr_Mista_Feat_Timbuktu-RNS.mp3
+11:22:12 🎤 TTS.REQ │ "Xzibit's 'Dirty Version' again, same as the one th..." (voice: Eric)
+11:22:18 🎤 TTS.GEN │ msg_1785403332368.wav
+11:22:18 🎤 TTS.REQ │ "I almost don't want to hear this right now—give me..." (voice: Eric)
+11:22:21 🎤 TTS.GEN │ msg_1785403338605.wav
+11:22:21 🔌 EVENT │ [producer] Voice: Xzibit's 'Dirty Version' again, same as ...
+11:22:22 🎤 TTS.PLAY │ ▶ msg_1785403332368.wav
+11:23:20 🎤 TTS.PLAY │ ▶ msg_1785403338605.wav
+11:26:29 🎵 TRACK │ Black Eyed Peas — Shut UP
+11:26:29 🔊 QUEUE │ music_q ← 13 - Homegrown.mp3
+11:26:29 🔊 QUEUE │ music_q ← Blackstar - Definition.mp3
+11:26:29 🔊 QUEUE │ music_q ← Papoose - Born In NYC.mp3
+11:26:29 🔊 QUEUE │ music_q ← 01-Spotrunnaz-Mr_Mista_Feat_Timbuktu-RNS.mp3
+11:26:29 🔊 QUEUE │ music_q ← Kool G Rap - Fast Life (Feat. Nas).mp3
+11:26:29 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+11:26:46 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+11:26:46 🎤 TTS.REQ │ "What the hell is that cut‑off title on this one? '..." (voice: Eric)
+11:26:54 🎤 TTS.GEN │ msg_1785403606389.wav
+11:26:54 🎤 TTS.REQ │ "We’re back with Wu‑Tang Clan's 'Black Jungle.' Thi..." (voice: Eric)
+11:27:00 🎤 TTS.GEN │ msg_1785403614149.wav
+11:27:00 🎤 TTS.REQ │ "Joe Budden's 'Ventilation'—this guy raps like he’s..." (voice: Eric)
+11:27:07 🎤 TTS.GEN │ msg_1785403620754.wav
+11:27:07 🎤 TTS.REQ │ "'Get them out ya way pa'—more Wu‑Tang but who know..." (voice: Eric)
+11:27:15 🎤 TTS.GEN │ msg_1785403627948.wav
+11:31:20 🎵 TRACK │ Wyclef Jean — Homegrown
+11:31:20 🔊 QUEUE │ music_q ← 08-xzibit-choke_me_spank_me_(pull_my_hair)-esc.mp3
+11:36:37 🎵 TRACK │ Blackstar — Definition
+11:36:37 🔊 QUEUE │ music_q ← 03_black_jungle_wu-tang_clan.mp3
+11:39:57 🎵 TRACK │ Papoose — Born In NYC
+11:39:57 🔊 QUEUE │ music_q ← Joe Budden - Ventilation (Produced By The Klasix).mp3
+11:43:52 🎵 TRACK │ Spotrunnaz — Mr Mista feat Timbuktu
+11:43:52 🔊 QUEUE │ music_q ← 03_wu_tang_clan_-_get_them_out_ya_way_pa.mp3
+11:47:29 🎵 TRACK │ Wyclef Jean — Homegrown
+11:52:46 🎵 TRACK │ Blackstar — Definition
+11:56:06 🎵 TRACK │ Papoose — Born In NYC
+12:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 12:00
+12:00:01 🎵 TRACK │ Spotrunnaz — Mr Mista feat Timbuktu
+12:00:01 🎤 TTS.REQ │ "Booong! The time is 12:00" (voice: Aiden)
+12:00:02 🎤 TTS.GEN │ msg_1785405601512.wav
+12:00:02 🎤 TTS.PLAY │ ▶ msg_1785405601512.wav
+12:03:37 🎵 TRACK │ Kool G. Rap — Fast Life (Feat. Nas)
+12:03:37 🔊 QUEUE │ music_q ← Common - Resurrection.mp3
+12:03:37 🎤 TTS.REQ │ "'Resurrection' by Common drops the mic. Lani, if y..." (voice: Eric)
+12:03:44 🎤 TTS.GEN │ msg_1785405817616.wav
+12:03:44 🎤 TTS.REQ │ "Outkast's 'two dope boyz' turns the whole street i..." (voice: Eric)
+12:03:51 🎤 TTS.GEN │ msg_1785405824994.wav
+12:08:24 🎵 TRACK │ Xzibit — Choke Me, Spank Me (Pull My Ha
+12:08:24 🔊 QUEUE │ music_q ← Outkast - two dope boyz.mp3
+12:08:24 🎤 TTS.REQ │ "What the hell is that cut‑off title on this one? '..." (voice: Eric)
+12:08:32 🎤 TTS.GEN │ msg_1785406104436.wav
+12:09:12 🎤 TTS.PLAY │ ▶ msg_1785406104436.wav
+12:11:48 🎵 TRACK │ Wu-Tang Clan — Black Jungle
+12:11:49 🔊 QUEUE │ music_q ← 10 - Justify My Thug.mp3
+12:11:49 🎤 TTS.REQ │ "We’re back with Wu‑Tang Clan's 'Black Jungle.' Thi..." (voice: Eric)
+12:11:57 🎤 TTS.GEN │ msg_1785406309098.wav
+12:11:57 🔌 EVENT │ [producer] Voice: We’re back with Wu‑Tang Clan's 'Black Ju...
+12:11:57 🎤 TTS.PLAY │ ▶ msg_1785406309098.wav
+12:16:36 🎵 TRACK │ Joe Budden — Ventilation (Produced By The Klasix)
+12:16:36 🔊 QUEUE │ music_q ← 05 - Timbuktu - Det Räcker -CsZ.256.mp3
+12:16:36 🎤 TTS.REQ │ "Joe Budden's 'Ventilation'—this guy raps like he’s..." (voice: Eric)
+12:16:43 🎤 TTS.GEN │ msg_1785406596877.wav
+12:17:33 🎤 TTS.PLAY │ ▶ msg_1785406596877.wav
+12:20:05 🎵 TRACK │ Wu Tang Clan — get them out ya way pa
+12:20:05 🔊 QUEUE │ music_q ← A Tribe Called Quest - Lyrics To Go.mp3
+12:20:05 🎤 TTS.REQ │ "'Get them out ya way pa'—more Wu‑Tang but who know..." (voice: Eric)
+12:20:12 🎤 TTS.GEN │ msg_1785406805738.wav
+12:22:02 🎤 TTS.PLAY │ ▶ msg_1785406805738.wav
+12:24:19 🎵 TRACK │ Common — Resurrection
+12:24:19 🔊 QUEUE │ music_q ← Outkast - two dope boyz.mp3
+12:24:19 🔊 QUEUE │ music_q ← 10 - Justify My Thug.mp3
+12:24:19 🔊 QUEUE │ music_q ← 05 - Timbuktu - Det Räcker -CsZ.256.mp3
+12:24:19 🔊 QUEUE │ music_q ← A Tribe Called Quest - Lyrics To Go.mp3
+12:24:19 🔊 QUEUE │ music_q ← Raekwon - Criminology.mp3
+12:24:19 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+12:24:46 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+12:24:46 🎤 TTS.REQ │ "Positive K hits us with 'I Got a Man' – 1992 raw t..." (voice: Eric)
+12:24:49 🎤 TTS.GEN │ msg_1785407086381.wav
+12:24:49 🎤 TTS.REQ │ "Lani flagged this as 'Pop', which is pure nonsense..." (voice: Eric)
+12:24:55 🎤 TTS.GEN │ msg_1785407089954.wav
+12:24:55 🎤 TTS.REQ │ "Aphilliates and the rap legend Busta Rhymes drop ‘..." (voice: Eric)
+12:24:59 🎤 TTS.GEN │ msg_1785407095183.wav
+12:24:59 🎤 TTS.REQ │ "This track’s metadata is cleaner than this studio’..." (voice: Eric)
+12:25:05 🎤 TTS.GEN │ msg_1785407099657.wav
+12:25:05 🎤 TTS.REQ │ "Common’s ‘1999 (hi‑tek remix)’ is a glitchy time m..." (voice: Eric)
+12:25:11 🎤 TTS.GEN │ msg_1785407105709.wav
+12:25:11 🎤 TTS.REQ │ "The metadata says 2001? Lani’s playing with years ..." (voice: Eric)
+12:25:15 🎤 TTS.GEN │ msg_1785407111189.wav
+12:25:15 🎤 TTS.REQ │ "Here we got Prodigy and the Infamous Mobb on ‘mobb..." (voice: Eric)
+12:25:20 🎤 TTS.GEN │ msg_1785407115461.wav
+12:25:20 🎤 TTS.REQ │ "The track’s title is a mess; Lani mistyped it agai..." (voice: Eric)
+12:25:24 🎤 TTS.GEN │ msg_1785407120580.wav
+12:28:04 🎵 TRACK │ Outkast — two dope boyz
+12:28:04 🔊 QUEUE │ music_q ← Positive K - I Got A Man.mp3
+12:30:42 🎵 TRACK │ Jay-Z + DJ Danger Mouse — Justify My Thug
+12:30:42 🔊 QUEUE │ music_q ← 20-the_aphilliates_and_busta_rhymes-uptown_bounce(labba_bun_b).mp3
+12:34:49 🎵 TRACK │ Timbuktu — Det Räcker
+12:34:49 🔊 QUEUE │ music_q ← Nice & Smooth - Funky For You.mp3
+12:39:08 🎵 TRACK │ A Tribe Called Quest — Lyrics To Go (Tumblin' Dice Remix)
+12:39:08 🔊 QUEUE │ music_q ← 01-common_sadat_x-1999_(hi-tek_remix)-2001-rev.mp3
+12:42:53 🎵 TRACK │ Outkast — two dope boyz
+12:45:29 🎵 TRACK │ Jay-Z + DJ Danger Mouse — Justify My Thug
+12:49:38 🎵 TRACK │ Timbuktu — Det Räcker
+12:53:55 🎵 TRACK │ A Tribe Called Quest — Lyrics To Go (Tumblin' Dice Remix)
+12:57:39 🎵 TRACK │ Raekwon — Criminology
+12:57:39 🔊 QUEUE │ music_q ← 214-prodigy_ft._infamous_mobb-mobb_ngaz - www.torrentazos.com.mp3
+12:57:39 🎤 TTS.REQ │ "Timbuktu hits us with ‘Mediamassakern’ – a rap gem..." (voice: Eric)
+12:57:43 🎤 TTS.GEN │ msg_1785409059890.wav
+12:57:43 🎤 TTS.REQ │ "Notice? Lani didn’t even list the original release..." (voice: Eric)
+12:57:47 🎤 TTS.GEN │ msg_1785409063997.wav
+12:57:47 🎤 TTS.REQ │ "Slick Rick’s ‘The Show’ – but this is a ripoff fro..." (voice: Eric)
+12:57:52 🎤 TTS.GEN │ msg_1785409067894.wav
+12:57:52 🎤 TTS.REQ │ "If you’re listening, remember: rap pure and proper..." (voice: Eric)
+12:57:58 🎤 TTS.GEN │ msg_1785409072645.wav
+13:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 13:00
+13:01:22 🎵 TRACK │ Positive K — I Got A Man
+13:01:22 🎤 TTS.REQ │ "Booong! The time is 13:00" (voice: Aiden)
+13:01:24 🎤 TTS.GEN │ msg_1785409282556.wav
+13:01:24 🎤 TTS.PLAY │ ▶ msg_1785409282556.wav
+13:01:24 🔊 QUEUE │ music_q ← mediamassakern.mp3
+13:01:24 🎤 TTS.REQ │ "Positive K hits us with 'I Got a Man' – 1992 raw t..." (voice: Eric)
+13:01:28 🎤 TTS.GEN │ msg_1785409284595.wav
+13:01:28 🎤 TTS.REQ │ "Lani flagged this as 'Pop', which is pure nonsense..." (voice: Eric)
+13:01:33 🎤 TTS.GEN │ msg_1785409288882.wav
+13:01:33 🔌 EVENT │ [producer] Voice: Positive K hits us with 'I Got a Man' – ...
+13:01:33 🎤 TTS.PLAY │ ▶ msg_1785409284595.wav
+13:02:31 🎤 TTS.PLAY │ ▶ msg_1785409288882.wav
+13:05:10 🎵 TRACK │ The Aphilliates & Busta Rhymes — Uptown Bounce - Labba Ft. Bun
+13:05:10 🔊 QUEUE │ music_q ← Treacherous Three - Feel The New Heartbeat.mp3
+13:05:10 🎤 TTS.REQ │ "Aphilliates and the rap legend Busta Rhymes drop ‘..." (voice: Eric)
+13:05:15 🎤 TTS.GEN │ msg_1785409510662.wav
+13:05:15 🎤 TTS.REQ │ "This track’s metadata is cleaner than this studio’..." (voice: Eric)
+13:05:20 🎤 TTS.GEN │ msg_1785409515753.wav
+13:05:20 🔌 EVENT │ [producer] Voice: Aphilliates and the rap legend Busta Rhy...
+13:05:20 🎤 TTS.PLAY │ ▶ msg_1785409510662.wav
+13:06:23 🎤 TTS.PLAY │ ▶ msg_1785409515753.wav
+13:07:55 🎵 TRACK │ Nice & Smooth — Funky For You
+13:07:55 🔊 QUEUE │ music_q ← Slick Rick - The Show (Feat. Doug E. Fresh & The Get Fresh Crew).mp3
+13:11:50 🎵 TRACK │ common sadat x — 1999 (hi-tek remix)
+13:11:50 🔊 QUEUE │ music_q ← 13 - Oavsett vad.mp3
+13:11:50 🎤 TTS.REQ │ "Common’s ‘1999 (hi‑tek remix)’ is a glitchy time m..." (voice: Eric)
+13:11:54 🎤 TTS.GEN │ msg_1785409910338.wav
+13:11:54 🎤 TTS.REQ │ "The metadata says 2001? Lani’s playing with years ..." (voice: Eric)
+13:11:58 🎤 TTS.GEN │ msg_1785409914996.wav
+13:11:58 🔌 EVENT │ [producer] Voice: Common’s ‘1999 (hi‑tek remix)’ is a glit...
+13:11:59 🎤 TTS.PLAY │ ▶ msg_1785409910338.wav
+13:12:20 🎤 TTS.PLAY │ ▶ msg_1785409914996.wav
+13:16:10 🎵 TRACK │ prodigy ft. infamous mobb — mobb n**gaz
+13:16:10 🔊 QUEUE │ music_q ← mediamassakern.mp3
+13:16:10 🔊 QUEUE │ music_q ← Treacherous Three - Feel The New Heartbeat.mp3
+13:16:10 🔊 QUEUE │ music_q ← Slick Rick - The Show (Feat. Doug E. Fresh & The Get Fresh Crew).mp3
+13:16:10 🔊 QUEUE │ music_q ← 13 - Oavsett vad.mp3
+13:16:10 🔊 QUEUE │ music_q ← Jay-Z - Fallin'.mp3
+13:16:10 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+13:16:28 🤖 LLM.REPLY │ "{"segments":[{"song_index":0,"voice":[{"character"..."
+13:16:28 🎤 TTS.REQ │ "Yo, 2Pac again? That 2001 gem landed right on my p..." (voice: Eric)
+13:16:33 🎤 TTS.GEN │ msg_1785410188466.wav
+13:16:33 🎤 TTS.REQ │ "Method Man and Redman’s Cisco Kid? I hope Lani did..." (voice: Eric)
+13:16:37 🎤 TTS.GEN │ msg_1785410193614.wav
+13:16:38 🎤 TTS.REQ │ "Ghostface’s hook is smooth, yet there’s no proper ..." (voice: Eric)
+13:16:42 🎤 TTS.GEN │ msg_1785410198018.wav
+13:16:42 🎤 TTS.REQ │ "A Tribe Called Quest Find a Way but no year listed..." (voice: Eric)
+13:16:46 🎤 TTS.GEN │ msg_1785410202451.wav
+13:19:13 🎵 TRACK │ Timbuktu — Mediamassakern
+13:19:13 🔊 QUEUE │ music_q ← Pharoahe Monch - Simon Says.mp3
+13:22:51 🎵 TRACK │ Treacherous Three — Feel the New Heartbeat (Feat. Doug E Fresh)
+13:22:51 🔊 QUEUE │ music_q ← 2Pac - My Closest Roaddogz.mp3
+13:27:28 🎵 TRACK │ Slick Rick — The Show (Feat. Doug E. Fresh & The Get Fresh Crew)
+13:27:28 🔊 QUEUE │ music_q ← Red & Meth - cisco_kid_ft._cypress_hill_n_wa.mp3
+13:34:27 🎵 TRACK │ Timbuktu — Oavsett vad
+13:34:27 🔊 QUEUE │ music_q ← Ghostface Killah - All That I Got Is You (Feat. Mary J. Blige).mp3
+13:39:50 🎵 TRACK │ Timbuktu — Mediamassakern
+13:43:29 🎵 TRACK │ Treacherous Three — Feel the New Heartbeat (Feat. Doug E Fresh)
+13:48:06 🎵 TRACK │ Slick Rick — The Show (Feat. Doug E. Fresh & The Get Fresh Crew)
+13:55:05 🎵 TRACK │ Timbuktu — Oavsett vad
+14:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 14:00
+14:00:28 🎵 TRACK │ Jay-Z — Fallin'
+14:00:28 🎤 TTS.REQ │ "Booong! The time is 14:00" (voice: Aiden)
+14:00:30 🎤 TTS.GEN │ msg_1785412828398.wav
+14:00:30 🎤 TTS.PLAY │ ▶ msg_1785412828398.wav
+14:00:30 🔊 QUEUE │ music_q ← Eric B & Rakim - Paid In Full.mp3
+14:00:30 🎤 TTS.REQ │ "Masta Ace delivering ‘Beautiful,’ and let me tell ..." (voice: Eric)
+14:00:36 🎤 TTS.GEN │ msg_1785412830237.wav
+14:04:28 🎵 TRACK │ Pharoahe Monch — Simon Says
+14:04:28 🔊 QUEUE │ music_q ← A Tribe Called Quest - Find a Way.mp3
+14:07:17 🎵 TRACK │ 2Pac — My Closest Roaddogz
+14:07:17 🔊 QUEUE │ music_q ← 11-the_game-doctors_advocate_(feat_busta_rhymes)_(produced_by_jonathan_jr_rotem).mp3
+14:07:17 🎤 TTS.REQ │ "Yo, 2Pac again? That 2001 gem landed right on my p..." (voice: Eric)
+14:07:20 🎤 TTS.GEN │ msg_1785413237561.wav
+14:07:21 🔌 EVENT │ [producer] Voice: Yo, 2Pac again? That 2001 gem landed rig...
+14:07:21 🎤 TTS.PLAY │ ▶ msg_1785413237561.wav
+14:11:18 🎵 TRACK │ Method Man and Redman — Cisco Kid ft. Cypress Hill n W
+14:11:18 🔊 QUEUE │ music_q ← 11 - Xzibit - Hit & Run (Part II).mp3
+14:11:18 🎤 TTS.REQ │ "Method Man and Redman’s Cisco Kid? I hope Lani did..." (voice: Eric)
+14:11:22 🎤 TTS.GEN │ msg_1785413478462.wav
+14:11:22 🔌 EVENT │ [producer] Voice: Method Man and Redman’s Cisco Kid? I hop...
+14:11:22 🎤 TTS.PLAY │ ▶ msg_1785413478462.wav
+14:15:13 🎵 TRACK │ Ghostface Killah — All That I Got Is You
+14:15:14 🔊 QUEUE │ music_q ← Masta Ace - Beautiful.mp3
+14:15:14 🎤 TTS.REQ │ "Ghostface’s hook is smooth, yet there’s no proper ..." (voice: Eric)
+14:15:17 🎤 TTS.GEN │ msg_1785413714050.wav
+14:16:42 🎤 TTS.PLAY │ ▶ msg_1785413714050.wav
+14:20:28 🎵 TRACK │ Eric B & Rakim — Paid In Full
+14:20:28 🔊 QUEUE │ music_q ← A Tribe Called Quest - Find a Way.mp3
+14:20:28 🔊 QUEUE │ music_q ← 11-the_game-doctors_advocate_(feat_busta_rhymes)_(produced_by_jonathan_jr_rotem).mp3
+14:20:28 🔊 QUEUE │ music_q ← 11 - Xzibit - Hit & Run (Part II).mp3
+14:20:28 🔊 QUEUE │ music_q ← Masta Ace - Beautiful.mp3
+14:20:28 🔊 QUEUE │ music_q ← 04 - Timbuktu - Careers -CsZ.256.mp3
+14:20:28 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+14:20:45 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+14:20:45 🎤 TTS.REQ │ "Timbuktu drops again with 'Alla Vet'—that's Swedis..." (voice: Eric)
+14:20:54 🎤 TTS.GEN │ msg_1785414045798.wav
+14:20:54 🎤 TTS.REQ │ "You're listening to Xzibit 'What U See Is What U G..." (voice: Eric)
+14:21:03 🎤 TTS.GEN │ msg_1785414054577.wav
+14:21:03 🎤 TTS.REQ │ "Old school vibes with O.C.'s 'Time's Up'. This one..." (voice: Eric)
+14:21:09 🎤 TTS.GEN │ msg_1785414063248.wav
+14:21:09 🎤 TTS.REQ │ "Eminem brings the heat in '911' featuring Cypress ..." (voice: Eric)
+14:21:17 🎤 TTS.GEN │ msg_1785414069908.wav
+14:24:13 🎵 TRACK │ A Tribe Called Quest — Find a Way
+14:24:13 🔊 QUEUE │ music_q ← Lost Boyz - Me And My Crazy World.mp3
+14:27:31 🎵 TRACK │ The Game — Doctor's Advocate (Feat. Busta Rhymes) (Produced By Jonathan "J.R." Rotem)
+14:27:31 🔊 QUEUE │ music_q ← 03 - alla vet.mp3
+14:32:30 🎵 TRACK │ Xzibit — Hit & Run (Part II)
+14:32:30 🔊 QUEUE │ music_q ← Mad Skillz - The Nod Factor.mp3
+14:36:15 🎵 TRACK │ Masta Ace — Beautiful
+14:36:15 🔊 QUEUE │ music_q ← Xzibit - What U See Is What U Get.mp3
+14:40:48 🎵 TRACK │ A Tribe Called Quest — Find a Way
+14:44:06 🎵 TRACK │ The Game — Doctor's Advocate (Feat. Busta Rhymes) (Produced By Jonathan "J.R." Rotem)
+14:49:05 🎵 TRACK │ Xzibit — Hit & Run (Part II)
+14:52:48 🎵 TRACK │ Masta Ace — Beautiful
+14:57:21 🎵 TRACK │ Timbuktu — Careers
+14:57:21 🔊 QUEUE │ music_q ← Jay-Z - Dead Presidents II.mp3
+14:57:21 🎤 TTS.REQ │ "Last up, we've got 3rd Bass with 'The Gas Face', a..." (voice: Eric)
+14:57:29 🎤 TTS.GEN │ msg_1785416241526.wav
+15:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 15:00
+15:01:36 🎵 TRACK │ The Lost Boyz — Me And My Crazy World
+15:01:36 🎤 TTS.REQ │ "Booong! The time is 15:00" (voice: Aiden)
+15:01:38 🎤 TTS.GEN │ msg_1785416496227.wav
+15:01:38 🎤 TTS.PLAY │ ▶ msg_1785416496227.wav
+15:01:38 🔊 QUEUE │ music_q ← O.C. - Time's Up.mp3
+15:06:42 🎵 TRACK │ Timbuktu — Alla Vet
+15:06:42 🔊 QUEUE │ music_q ← 911 - (f. Cypress Hill).mp3
+15:06:42 🎤 TTS.REQ │ "Timbuktu drops again with 'Alla Vet'—that's Swedis..." (voice: Eric)
+15:06:51 🎤 TTS.GEN │ msg_1785416802954.wav
+15:07:36 🎤 TTS.PLAY │ ▶ msg_1785416802954.wav
+15:10:53 🎵 TRACK │ Skillz — The Nod Factor
+15:10:53 🔊 QUEUE │ music_q ← 09 - Xzibit - Mrs. Crabtree (Interlude).mp3
+15:14:48 🎵 TRACK │ Xzibit — What U See Is What U Get
+15:14:48 🔊 QUEUE │ music_q ← 3rd Bass - The Gas Face.mp3
+15:14:48 🎤 TTS.REQ │ "You're listening to Xzibit 'What U See Is What U G..." (voice: Eric)
+15:14:58 🎤 TTS.GEN │ msg_1785417288707.wav
+15:19:51 🎵 TRACK │ Jay-Z — Dead Presidents II
+15:19:51 🔊 QUEUE │ music_q ← O.C. - Time's Up.mp3
+15:19:51 🔊 QUEUE │ music_q ← 911 - (f. Cypress Hill).mp3
+15:19:51 🔊 QUEUE │ music_q ← 09 - Xzibit - Mrs. Crabtree (Interlude).mp3
+15:19:51 🔊 QUEUE │ music_q ← 3rd Bass - The Gas Face.mp3
+15:19:51 🔊 QUEUE │ music_q ← Wu-Tang Clan - C.R.E.A.M.mp3
+15:19:51 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+15:20:14 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+15:20:14 🎤 TTS.REQ │ "Aphilliates and Busta Rhymes are clashing like old..." (voice: Eric)
+15:20:20 🎤 TTS.GEN │ msg_1785417614121.wav
+15:20:21 🎤 TTS.REQ │ "Lord Finesse claims no gimmicks, but we’ve got a b..." (voice: Eric)
+15:20:27 🎤 TTS.GEN │ msg_1785417621000.wav
+15:20:27 🎤 TTS.REQ │ "HassLiebe sounds like a mash of old‑school and new..." (voice: Eric)
+15:20:32 🎤 TTS.GEN │ msg_1785417627519.wav
+15:20:32 🎤 TTS.REQ │ "Cypress Hill’s “Busted In The Hood” still flies hi..." (voice: Eric)
+15:20:38 🎤 TTS.GEN │ msg_1785417632316.wav
+15:24:15 🎵 TRACK │ O.C. — Time's Up
+15:24:15 🔊 QUEUE │ music_q ← 15-the_aphilliates_and_busta_rhymes-you_lookin_like_ft_paul_wall.mp3
+15:27:36 🎵 TRACK │ Eminem — 911 - (f. Cypress Hill)
+15:27:36 🔊 QUEUE │ music_q ← Lord Finesse - No Gimmicks (Feat. KRS-One).mp3
+15:32:07 🎵 TRACK │ Xzibit — Mrs. Crabtree (Interlude)
+15:32:07 🔊 QUEUE │ music_q ← Curse - HassLiebe.mp3
+15:33:19 🎵 TRACK │ 3rd Bass — The Gas Face - 3rd Bass
+15:33:19 🔊 QUEUE │ music_q ← Till Death Do Us Part-busted in the hood-cypress hill.mp3
+15:37:04 🎵 TRACK │ O.C. — Time's Up
+15:40:24 🎵 TRACK │ Eminem — 911 - (f. Cypress Hill)
+15:44:55 🎵 TRACK │ Xzibit — Mrs. Crabtree (Interlude)
+15:46:08 🎵 TRACK │ 3rd Bass — The Gas Face - 3rd Bass
+15:49:50 🎵 TRACK │ Wu-Tang Clan — C.R.E.A.M
+15:49:50 🔊 QUEUE │ music_q ← 09 - Allure.mp3
+15:49:50 🎤 TTS.REQ │ "Jay‑Z meets Danger Mouse on “Allure”—heats up the ..." (voice: Eric)
+15:49:56 🎤 TTS.GEN │ msg_1785419390872.wav
+15:49:56 🎤 TTS.REQ │ "The Roots bring their groove with Malik B and one ..." (voice: Eric)
+15:50:00 🎤 TTS.GEN │ msg_1785419396554.wav
+15:50:01 🎤 TTS.REQ │ "Lani, what’s the deal with this nonsense tag? A pi..." (voice: Eric)
+15:50:05 🎤 TTS.GEN │ msg_1785419401030.wav
+15:50:05 🎤 TTS.REQ │ "Straighten It Out lists its year as 1962—this can’..." (voice: Eric)
+15:50:10 🎤 TTS.GEN │ msg_1785419405371.wav
+15:50:10 🎤 TTS.REQ │ "Bangout’s beat keeps me on schedule, but the tags ..." (voice: Eric)
+15:50:14 🎤 TTS.GEN │ msg_1785419410659.wav
+15:53:49 🎵 TRACK │ The Aphilliates & Busta Rhymes — You Lookin Like Ft. Paul Wall
+15:53:49 🔊 QUEUE │ music_q ← 05-the_roots-in_the_music_(feat_malik_b_and_porn).mp3
+15:53:49 🎤 TTS.REQ │ "Aphilliates and Busta Rhymes are clashing like old..." (voice: Eric)
+15:53:56 🎤 TTS.GEN │ msg_1785419629569.wav
+15:55:07 🎤 TTS.PLAY │ ▶ msg_1785419629569.wav
+15:56:36 🎵 TRACK │ Lord Finesse — No Gimmicks (Featuring KRS-One)
+15:56:36 🔊 QUEUE │ music_q ← Pete Rock & C.L. Smooth - Straighten It Out.mp3
+15:56:36 🎤 TTS.REQ │ "Lord Finesse claims no gimmicks, but we’ve got a b..." (voice: Eric)
+15:56:43 🎤 TTS.GEN │ msg_1785419796969.wav
+15:56:43 🔌 EVENT │ [producer] Voice: Lord Finesse claims no gimmicks, but we’...
+15:56:44 🎤 TTS.PLAY │ ▶ msg_1785419796969.wav
+16:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 16:00
+16:02:17 🎵 TRACK │ Curse — HassLiebe
+16:02:17 🎤 TTS.REQ │ "Booong! The time is 16:00" (voice: Aiden)
+16:02:18 🎤 TTS.GEN │ msg_1785420137377.wav
+16:02:18 🎤 TTS.PLAY │ ▶ msg_1785420137377.wav
+16:02:18 🔊 QUEUE │ music_q ← DMX - Ruff Ryders Anthem.mp3
+16:02:18 🎤 TTS.REQ │ "HassLiebe sounds like a mash of old‑school and new..." (voice: Eric)
+16:02:23 🎤 TTS.GEN │ msg_1785420138885.wav
+16:05:39 🎵 TRACK │ Cypress Hill — BUSTED IN THE HOOD
+16:05:39 🔊 QUEUE │ music_q ← 02-Spotrunnaz-Bangout-RNS.mp3
+16:05:39 🎤 TTS.REQ │ "Cypress Hill’s “Busted In The Hood” still flies hi..." (voice: Eric)
+16:05:45 🎤 TTS.GEN │ msg_1785420339767.wav
+16:05:45 🔌 EVENT │ [producer] Voice: Cypress Hill’s “Busted In The Hood” stil...
+16:05:46 🎤 TTS.PLAY │ ▶ msg_1785420339767.wav
+16:07:51 🎵 TRACK │ Jay-Z + DJ Danger Mouse — Allure
+16:07:51 🔊 QUEUE │ music_q ← 05-the_roots-in_the_music_(feat_malik_b_and_porn).mp3
+16:07:51 🔊 QUEUE │ music_q ← Pete Rock & C.L. Smooth - Straighten It Out.mp3
+16:07:51 🔊 QUEUE │ music_q ← DMX - Ruff Ryders Anthem.mp3
+16:07:51 🔊 QUEUE │ music_q ← 02-Spotrunnaz-Bangout-RNS.mp3
+16:07:51 🔊 QUEUE │ music_q ← 12-the_roots-atonement_(feat_jack_davey).mp3
+16:07:51 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+16:08:14 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+16:08:14 🎤 TTS.REQ │ "We're halfway through 'The Crown' now; if Lani thi..." (voice: Eric)
+16:08:17 🎤 TTS.GEN │ msg_1785420494340.wav
+16:08:17 🎤 TTS.REQ │ "Kool G. Rap finishes 'Ill Street Blues', and I'm s..." (voice: Eric)
+16:08:23 🎤 TTS.GEN │ msg_1785420497844.wav
+16:08:23 🎤 TTS.REQ │ "Brother Ali steps onto the mic with 'Truth Is'. La..." (voice: Eric)
+16:08:28 🎤 TTS.GEN │ msg_1785420503165.wav
+16:08:28 🎤 TTS.REQ │ "'U Can't Touch This' by M.C. Hammer is pop junk th..." (voice: Eric)
+16:08:37 🎤 TTS.GEN │ msg_1785420508218.wav
+16:11:53 🎵 TRACK │ The Roots — In The Music (Feat. Malik B. & Porn)
+16:11:53 🔊 QUEUE │ music_q ← 02-the_aphilliates_and_busta_rhymes-the_crown_ft_spliff_star.mp3
+16:15:54 🎵 TRACK │ Pete Rock & C.L. Smooth — Straighten It Out
+16:15:54 🔊 QUEUE │ music_q ← Kool G Rap - Ill Street Blues.mp3
+16:20:03 🎵 TRACK │ DMX — Ruff Ryders Anthem
+16:20:03 🔊 QUEUE │ music_q ← Notorious B.I.G - Victory (Feat.Puff Daddy).mp3
+16:23:33 🎵 TRACK │ Spotrunnaz — Bangout
+16:23:34 🔊 QUEUE │ music_q ← Brother Ali - Truth Is.mp3
+16:27:00 🎵 TRACK │ The Roots — In The Music (Feat. Malik B. & Porn)
+16:31:03 🎵 TRACK │ Pete Rock & C.L. Smooth — Straighten It Out
+16:35:12 🎵 TRACK │ DMX — Ruff Ryders Anthem
+16:38:40 🎵 TRACK │ Spotrunnaz — Bangout
+16:42:07 🎵 TRACK │ The Roots — Atonement (Feat. Jack Davey)
+16:42:07 🔊 QUEUE │ music_q ← 035. Mc Hammer - U Can't Touch This.mp3
+16:42:07 🎤 TTS.REQ │ "Back In The Game with Wu Tang is getting louder, a..." (voice: Eric)
+16:42:12 🎤 TTS.GEN │ msg_1785422527455.wav
+16:42:12 🎤 TTS.REQ │ "LL Cool J’s 'Rock The Bells' comes and we see that..." (voice: Eric)
+16:42:20 🎤 TTS.GEN │ msg_1785422532529.wav
+16:44:39 🎵 TRACK │ The Aphilliates & Busta Rhymes — The Crown Ft. Spliff Star
+16:44:39 🔊 QUEUE │ music_q ← 110-n.w.a.-panic_zone - www.torrentazos.com.mp3
+16:44:39 🎤 TTS.REQ │ "We're halfway through 'The Crown' now; if Lani thi..." (voice: Eric)
+16:44:42 🎤 TTS.GEN │ msg_1785422679978.wav
+16:45:31 🎤 TTS.PLAY │ ▶ msg_1785422679978.wav
+16:48:47 🎵 TRACK │ Kool G. Rap — Ill Street Blues
+16:48:47 🔊 QUEUE │ music_q ← 10-back_in_the_game-supermp3s.mp3
+16:48:47 🎤 TTS.REQ │ "Kool G. Rap finishes 'Ill Street Blues', and I'm s..." (voice: Eric)
+16:48:54 🎤 TTS.GEN │ msg_1785422927675.wav
+16:52:31 🎵 TRACK │ Notorious B.I.G — Victory (Feat.Puff Daddy)
+16:52:31 🔊 QUEUE │ music_q ← 2Pac - Bomb First (My Second Reply).mp3
+16:57:22 🎵 TRACK │ Brother Ali — Truth Is
+16:57:22 🔊 QUEUE │ music_q ← L.L. Cool J - Rock The Bells.mp3
+16:57:22 🎤 TTS.REQ │ "Brother Ali steps onto the mic with 'Truth Is'. La..." (voice: Eric)
+16:57:26 🎤 TTS.GEN │ msg_1785423442466.wav
+16:57:26 🔌 EVENT │ [producer] Voice: Brother Ali steps onto the mic with 'Tru...
+16:57:26 🎤 TTS.PLAY │ ▶ msg_1785423442466.wav
+17:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 17:00
+17:01:39 🎵 TRACK │ M.C. Hammer — U Can't Touch This
+17:01:39 🎤 TTS.REQ │ "Booong! The time is 17:00" (voice: Aiden)
+17:01:41 🎤 TTS.GEN │ msg_1785423699716.wav
+17:01:41 🎤 TTS.PLAY │ ▶ msg_1785423699716.wav
+17:01:41 🔊 QUEUE │ music_q ← 110-n.w.a.-panic_zone - www.torrentazos.com.mp3
+17:01:41 🔊 QUEUE │ music_q ← 10-back_in_the_game-supermp3s.mp3
+17:01:41 🔊 QUEUE │ music_q ← 2Pac - Bomb First (My Second Reply).mp3
+17:01:41 🔊 QUEUE │ music_q ← L.L. Cool J - Rock The Bells.mp3
+17:01:41 🔊 QUEUE │ music_q ← Boogie Down Productions - Stop The Violence.mp3
+17:01:41 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+17:02:17 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+17:02:17 🎤 TTS.REQ │ "Whoa, Lani? You sent me this too explicit track ab..." (voice: Eric)
+17:02:22 🎤 TTS.GEN │ msg_1785423737620.wav
+17:02:22 🎤 TTS.REQ │ "Look, if we're going to play all that nonsense, ke..." (voice: Eric)
+17:02:25 🎤 TTS.GEN │ msg_1785423742862.wav
+17:02:25 🎤 TTS.REQ │ "Alright, moving on to the big cats - The Aphilliat..." (voice: Eric)
+17:02:34 🎤 TTS.GEN │ msg_1785423745986.wav
+17:02:34 🎤 TTS.REQ │ "And if Lani thinks this is a 'royalty free' cut, s..." (voice: Eric)
+17:02:38 🎤 TTS.GEN │ msg_1785423754213.wav
+17:02:38 🎤 TTS.REQ │ "Xzit's State Of The Union is still a relevant call..." (voice: Eric)
+17:02:44 🎤 TTS.GEN │ msg_1785423758169.wav
+17:02:44 🎤 TTS.REQ │ "Now we've got The Game's 'Angel' with Common; that..." (voice: Eric)
+17:02:48 🎤 TTS.GEN │ msg_1785423764398.wav
+17:02:48 🎤 TTS.REQ │ "If this track got any new finesse from your side, ..." (voice: Eric)
+17:02:53 🎤 TTS.GEN │ msg_1785423768702.wav
+17:05:52 🎵 TRACK │ n.w.a. — panic zone
+17:05:52 🔊 QUEUE │ music_q ← Too $hort - Invasion Of The Flat Booty Bitches.mp3
+17:09:18 🎵 TRACK │ Wu Tang Clan — Back In The Game
+17:09:19 🔊 QUEUE │ music_q ← 01-the_aphilliates_and_busta_rhymes-introduction.mp3
+17:13:49 🎵 TRACK │ 2Pac — Bomb First (My Second Reply)
+17:13:49 🔊 QUEUE │ music_q ← 01 - Xzibit - State Of The Union.mp3
+17:18:40 🎵 TRACK │ LL Cool J — Rock The Bells
+17:18:40 🔊 QUEUE │ music_q ← 19-the_aphilliates_and_busta_rhymes-spit_proper(rah_digga).mp3
+17:22:35 🎵 TRACK │ n.w.a. — panic zone
+17:26:04 🎵 TRACK │ Wu Tang Clan — Back In The Game
+17:30:32 🎵 TRACK │ 2Pac — Bomb First (My Second Reply)
+17:35:23 🎵 TRACK │ LL Cool J — Rock The Bells
+17:39:20 🎵 TRACK │ Boogie Down Productions — Stop The Violence
+17:39:20 🔊 QUEUE │ music_q ← 14-the_game-angel_(feat._common).mp3
+17:39:20 🎤 TTS.REQ │ "Cypress Hill's 'SuperStar' - big bass, bold rhymes..." (voice: Eric)
+17:39:26 🎤 TTS.GEN │ msg_1785425960690.wav
+17:39:26 🎤 TTS.REQ │ "I gotta love how those lyrics still stand up - Lan..." (voice: Eric)
+17:39:32 🎤 TTS.GEN │ msg_1785425966979.wav
+17:39:32 🎤 TTS.REQ │ "Canibus in '100 Bars' dropping bars like fireworks..." (voice: Eric)
+17:39:37 🎤 TTS.GEN │ msg_1785425972702.wav
+17:39:37 🎤 TTS.REQ │ "I'm telling you, keep the bar count right - any sl..." (voice: Eric)
+17:39:41 🎤 TTS.GEN │ msg_1785425977610.wav
+17:39:41 🎤 TTS.REQ │ "Wrapping up with OutKast's 'The Whole World' - tha..." (voice: Eric)
+17:39:46 🎤 TTS.GEN │ msg_1785425981521.wav
+17:39:46 🎤 TTS.REQ │ "If you're tossing out their track list incorrectly..." (voice: Eric)
+17:39:52 🎤 TTS.GEN │ msg_1785425986201.wav
+17:43:57 🎵 TRACK │ Too Short — Invasion Of The Flat Booty B*tches [Explicit]
+17:43:57 🔊 QUEUE │ music_q ← Cypress Hill - (Rap) Superstar.mp3
+17:43:57 🎤 TTS.REQ │ "Whoa, Lani? You sent me this too explicit track ab..." (voice: Eric)
+17:44:03 🎤 TTS.GEN │ msg_1785426237539.wav
+17:44:03 🎤 TTS.REQ │ "Look, if we're going to play all that nonsense, ke..." (voice: Eric)
+17:44:06 🎤 TTS.GEN │ msg_1785426243580.wav
+17:44:06 🔌 EVENT │ [producer] Voice: Whoa, Lani? You sent me this too explici...
+17:44:07 🎤 TTS.PLAY │ ▶ msg_1785426237539.wav
+17:45:38 🎤 TTS.PLAY │ ▶ msg_1785426243580.wav
+17:49:00 🎵 TRACK │ The Aphilliates & Busta Rhymes — Introduction/Dedication
+17:49:00 🔊 QUEUE │ music_q ← Canibus - 100 Bars.mp3
+17:49:00 🎤 TTS.REQ │ "Alright, moving on to the big cats - The Aphilliat..." (voice: Eric)
+17:49:07 🎤 TTS.GEN │ msg_1785426540445.wav
+17:49:07 🎤 TTS.REQ │ "And if Lani thinks this is a 'royalty free' cut, s..." (voice: Eric)
+17:49:10 🎤 TTS.GEN │ msg_1785426547174.wav
+17:49:11 🔌 EVENT │ [producer] Voice: Alright, moving on to the big cats - The...
+17:49:11 🎤 TTS.PLAY │ ▶ msg_1785426540445.wav
+17:50:26 🎵 TRACK │ Xzibit — State Of The Union
+17:50:26 🔊 QUEUE │ music_q ← The Sugar Hill Gang - Rapper's Delight.mp3
+17:50:26 🎤 TTS.REQ │ "Xzit's State Of The Union is still a relevant call..." (voice: Eric)
+17:50:32 🎤 TTS.GEN │ msg_1785426626145.wav
+17:51:54 🎵 TRACK │ The Aphilliates & Busta Rhymes — Spit Proper - Rah Digga
+17:51:54 🔊 QUEUE │ music_q ← Outkast - The Whole World.mp3
+17:54:43 🎵 TRACK │ The Game — Angel (feat. Common)
+17:54:43 🔊 QUEUE │ music_q ← Cypress Hill - (Rap) Superstar.mp3
+17:54:43 🔊 QUEUE │ music_q ← Canibus - 100 Bars.mp3
+17:54:43 🔊 QUEUE │ music_q ← The Sugar Hill Gang - Rapper's Delight.mp3
+17:54:43 🔊 QUEUE │ music_q ← Outkast - The Whole World.mp3
+17:54:43 🔊 QUEUE │ music_q ← Wu-Tang Clan - Gravel Pit.mp3
+17:54:43 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+17:55:07 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+17:55:07 🎤 TTS.REQ │ "Listen up! This Timbuktu track's title is garbled—..." (voice: Eric)
+17:55:15 🎤 TTS.GEN │ msg_1785426907489.wav
+17:55:15 🎤 TTS.REQ │ "There you go, Blackstar pulls some real noir vibes..." (voice: Eric)
+17:55:22 🎤 TTS.GEN │ msg_1785426915916.wav
+17:55:22 🎤 TTS.REQ │ "This one is a feature bonanza. The Aphilliates and..." (voice: Eric)
+17:55:30 🎤 TTS.GEN │ msg_1785426922775.wav
+17:55:30 🎤 TTS.REQ │ "Here comes Nas for a righteous jam—though the titl..." (voice: Eric)
+17:55:39 🎤 TTS.GEN │ msg_1785426930412.wav
+17:59:06 🎵 TRACK │ Cypress Hill — (Rap) Superstar
+17:59:06 🔊 QUEUE │ music_q ← 07-the_botten_is_naadd-cta.mp3
+18:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 18:00
+18:03:54 🎵 TRACK │ Canibus — 100 Bars
+18:03:54 🎤 TTS.REQ │ "Booong! The time is 18:00" (voice: Aiden)
+18:03:56 🎤 TTS.GEN │ msg_1785427434940.wav
+18:03:56 🎤 TTS.PLAY │ ▶ msg_1785427434940.wav
+18:03:56 🔊 QUEUE │ music_q ← Blackstar - Thieves in the Night.mp3
+18:08:45 🎵 TRACK │ The Sugar Hill Gang — Rapper's Delight
+18:08:45 🔊 QUEUE │ music_q ← 07-the_aphilliates_and_busta_rhymes-it_aint_over_ft_slim_thug_lil_wayne.mp3
+18:23:17 🎵 TRACK │ OutKast — The Whole World
+18:23:17 🔊 QUEUE │ music_q ← 09-the_game-hard_liquor_(interlude).mp3
+18:28:08 🎵 TRACK │ Cypress Hill — (Rap) Superstar
+18:32:57 🎵 TRACK │ Canibus — 100 Bars
+18:37:48 🎵 TRACK │ The Sugar Hill Gang — Rapper's Delight
+18:52:21 🎵 TRACK │ OutKast — The Whole World
+18:57:11 🎵 TRACK │ Wu Tang Clan — Gravel Pit
+18:57:11 🔊 QUEUE │ music_q ← Nas - Analyze This (Feat.Jay-Z).mp3
+18:57:11 🎤 TTS.REQ │ "All The Wrong Reasons, still some of Timbuktu's fi..." (voice: Eric)
+18:57:18 🎤 TTS.GEN │ msg_1785430631980.wav
+18:57:18 🎤 TTS.REQ │ "N.A.P., yeah, no apologies about this track or its..." (voice: Eric)
+18:57:28 🎤 TTS.GEN │ msg_1785430638968.wav
+19:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 19:00
+19:01:56 🎵 TRACK │ Timbuktu — The Botten Is Nådd
+19:01:56 🎤 TTS.REQ │ "Booong! The time is 19:00" (voice: Aiden)
+19:01:58 🎤 TTS.GEN │ msg_1785430916853.wav
+19:01:58 🎤 TTS.PLAY │ ▶ msg_1785430916853.wav
+19:01:58 🔊 QUEUE │ music_q ← 208_timbuktu_-_all_the_wrong_reasons-aft.mp3
+19:01:58 🎤 TTS.REQ │ "Listen up! This Timbuktu track's title is garbled—..." (voice: Eric)
+19:02:05 🎤 TTS.GEN │ msg_1785430918571.wav
+19:02:06 🔌 EVENT │ [producer] Voice: Listen up! This Timbuktu track's title i...
+19:02:06 🎤 TTS.PLAY │ ▶ msg_1785430918571.wav
+19:05:43 🎵 TRACK │ Blackstar — Thieves in the Night
+19:05:43 🔊 QUEUE │ music_q ← Jurassic 5 - A Day At The Races.mp3
+19:05:43 🎤 TTS.REQ │ "There you go, Blackstar pulls some real noir vibes..." (voice: Eric)
+19:05:51 🎤 TTS.GEN │ msg_1785431143433.wav
+19:10:56 🎵 TRACK │ The Aphilliates & Busta Rhymes — It Aint Over Ft. Slim Thug, Li
+19:10:56 🔊 QUEUE │ music_q ← 02-timbuktu-n.a.p..mp3
+19:10:56 🎤 TTS.REQ │ "This one is a feature bonanza. The Aphilliates and..." (voice: Eric)
+19:11:05 🎤 TTS.GEN │ msg_1785431456771.wav
+19:11:25 🎤 TTS.PLAY │ ▶ msg_1785431456771.wav
+19:14:24 🎵 TRACK │ The Game — Hard Liquor (Interlude)
+19:14:24 🔊 QUEUE │ music_q ← Ice Cube - A Gangsta's Fairytale.mp3
+19:16:10 🎵 TRACK │ Nas — Analyize This Ft Jay Z
+19:16:10 🔊 QUEUE │ music_q ← 208_timbuktu_-_all_the_wrong_reasons-aft.mp3
+19:16:10 🔊 QUEUE │ music_q ← Jurassic 5 - A Day At The Races.mp3
+19:16:10 🔊 QUEUE │ music_q ← 02-timbuktu-n.a.p..mp3
+19:16:10 🔊 QUEUE │ music_q ← Ice Cube - A Gangsta's Fairytale.mp3
+19:16:10 🔊 QUEUE │ music_q ← Pharcyde - Passing Me By.mp3
+19:16:10 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+19:16:31 🤖 LLM.REPLY │ "{"segments":[{"song_index":0,"voice":[{"character"..."
+19:16:31 🎤 TTS.REQ │ "When Wu‑Tang's 'Da Mystery' winds down, I'm remind..." (voice: Eric)
+19:16:36 🎤 TTS.GEN │ msg_1785431791401.wav
+19:16:36 🎤 TTS.REQ │ "But that bassline? It'll keep your boat moving eve..." (voice: Eric)
+19:16:39 🎤 TTS.GEN │ msg_1785431796900.wav
+19:16:39 🎤 TTS.REQ │ "Brother Ali's 'Whatcha' Got' hits harder than a sh..." (voice: Eric)
+19:16:46 🎤 TTS.GEN │ msg_1785431799661.wav
+19:16:46 🎤 TTS.REQ │ "Svenska Akademien brings Swedish swagger on the mi..." (voice: Eric)
+19:16:50 🎤 TTS.GEN │ msg_1785431806326.wav
+19:16:50 🎤 TTS.REQ │ "Showbiz & A.G.'s 'Next Level' should sound like a ..." (voice: Eric)
+19:16:54 🎤 TTS.GEN │ msg_1785431810387.wav
+19:16:54 🎤 TTS.REQ │ "At least the beat holds steady until the next wave..." (voice: Eric)
+19:16:57 🎤 TTS.GEN │ msg_1785431814846.wav
+19:19:47 🎵 TRACK │ Timbuktu — All The Wrong Reasons
+19:19:47 🔊 QUEUE │ music_q ← Kool Moe Dee - How Ya Like Me Now.mp3
+19:23:27 🎵 TRACK │ Jurassic 5 — A Day At The Races
+19:23:27 🔊 QUEUE │ music_q ← Wu-Tang Clan - Da Mystery of Chessboxin'.mp3
+19:27:26 🎵 TRACK │ Timbuktu — N.A.P.
+19:27:26 🔊 QUEUE │ music_q ← Brother Ali - Whatcha' Got.mp3
+19:31:19 🎵 TRACK │ Ice Cube — A Gangsta's Fairytale
+19:31:19 🔊 QUEUE │ music_q ← for_lange_sen_remix.mp3
+19:34:31 🎵 TRACK │ Timbuktu — All The Wrong Reasons
+19:38:12 🎵 TRACK │ Jurassic 5 — A Day At The Races
+19:42:09 🎵 TRACK │ Timbuktu — N.A.P.
+19:46:04 🎵 TRACK │ Ice Cube — A Gangsta's Fairytale
+19:49:14 🎵 TRACK │ Pharcyde — Passing Me By
+19:49:14 🔊 QUEUE │ music_q ← 04-svenska_akademien_-_jag_brinner-BLAH.mp3
+19:49:14 🎤 TTS.REQ │ "The Game's 'State Of Emergency' blares like a sire..." (voice: Eric)
+19:49:21 🎤 TTS.GEN │ msg_1785433754771.wav
+19:54:13 🎵 TRACK │ Kool Moe Dee — How Ya Like Me Now [Longer Version]
+19:54:13 🔊 QUEUE │ music_q ← Showbiz & A.G. - Next Level (Nyte Time Mix).mp3
+19:59:46 🎵 TRACK │ Wu-Tang Clan — Da Mystery of Chessboxin'
+19:59:46 🔊 QUEUE │ music_q ← 23-the_aphilliates_and_busta_rhymes-cut_the_dreads.mp3
+19:59:46 🎤 TTS.REQ │ "When Wu‑Tang's 'Da Mystery' winds down, I'm remind..." (voice: Eric)
+19:59:50 🎤 TTS.GEN │ msg_1785434386750.wav
+19:59:50 🎤 TTS.REQ │ "But that bassline? It'll keep your boat moving eve..." (voice: Eric)
+19:59:53 🎤 TTS.GEN │ msg_1785434390653.wav
+20:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 20:00
+20:00:46 🎤 TTS.PLAY │ ▶ msg_1785434390653.wav
+20:04:27 🎵 TRACK │ Brother Ali — Whatcha' Got
+20:04:27 🎤 TTS.REQ │ "Booong! The time is 20:00" (voice: Aiden)
+20:04:30 🎤 TTS.GEN │ msg_1785434667865.wav
+20:04:30 🎤 TTS.PLAY │ ▶ msg_1785434667865.wav
+20:04:30 🔊 QUEUE │ music_q ← 03-the_game-state_of_emergency_(feat._ice_cube).mp3
+20:04:30 🎤 TTS.REQ │ "Brother Ali's 'Whatcha' Got' hits harder than a sh..." (voice: Eric)
+20:04:37 🎤 TTS.GEN │ msg_1785434670255.wav
+20:04:37 🔌 EVENT │ [producer] Voice: Brother Ali's 'Whatcha' Got' hits harder...
+20:04:38 🎤 TTS.PLAY │ ▶ msg_1785434670255.wav
+20:08:59 🎵 TRACK │ Timbuktu — För Länge Sen (Remix) m/ Chords & Supreme
+20:08:59 🔊 QUEUE │ music_q ← 043. eminem - Without Me.mp3
+20:14:22 🎵 TRACK │ Svenska Akademien — Jag Brinner
+20:14:22 🔊 QUEUE │ music_q ← Showbiz & A.G. - Next Level (Nyte Time Mix).mp3
+20:14:22 🔊 QUEUE │ music_q ← 23-the_aphilliates_and_busta_rhymes-cut_the_dreads.mp3
+20:14:22 🔊 QUEUE │ music_q ← 03-the_game-state_of_emergency_(feat._ice_cube).mp3
+20:14:22 🔊 QUEUE │ music_q ← 043. eminem - Without Me.mp3
+20:14:22 🔊 QUEUE │ music_q ← Ras Kass - Ghetto Fabulous.mp3
+20:14:22 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+20:14:54 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+20:14:54 🎤 TTS.REQ │ "Xzibit drops 'Harder' - a classic from 2002 - back..." (voice: Eric)
+20:15:00 🎤 TTS.GEN │ msg_1785435294865.wav
+20:15:00 🎤 TTS.REQ │ "Now we get into 'Uzi (Pinky Ring)' by Wu Tang, and..." (voice: Eric)
+20:15:06 🎤 TTS.GEN │ msg_1785435300862.wav
+20:15:06 🎤 TTS.REQ │ "'The Rage of Angels' - heavy beat again. If that w..." (voice: Eric)
+20:15:12 🎤 TTS.GEN │ msg_1785435306772.wav
+20:15:12 🎤 TTS.REQ │ "Wyclef's 'Generation X,' some hip hop, some reggae..." (voice: Eric)
+20:15:19 🎤 TTS.GEN │ msg_1785435312688.wav
+20:15:19 🎤 TTS.REQ │ "'Generation X' - yeah it's got that street feel bu..." (voice: Eric)
+20:15:23 🎤 TTS.GEN │ msg_1785435319316.wav
+20:16:50 🎵 TRACK │ Showbiz & A.G. — Next Level (Nyte Time Mix)
+20:16:50 🔊 QUEUE │ music_q ← 06-xzibit-harder-esc.mp3
+20:20:55 🎵 TRACK │ The Aphilliates & Busta Rhymes — Cut The Dreads
+20:20:55 🔊 QUEUE │ music_q ← 05-uzi_(pinky_ring)-supermp3s.mp3
+20:21:51 🎵 TRACK │ The Game — State Of Emergency (feat. Ice Cube)
+20:21:51 🔊 QUEUE │ music_q ← 04 The Rage of Angels.mp3
+20:25:24 🎵 TRACK │ Eminem — Without Me
+20:25:24 🔊 QUEUE │ music_q ← 06-wyclef_jean-generation_x-rns.mp3
+20:30:13 🎵 TRACK │ Showbiz & A.G. — Next Level (Nyte Time Mix)
+20:34:19 🎵 TRACK │ The Aphilliates & Busta Rhymes — Cut The Dreads
+20:35:16 🎵 TRACK │ The Game — State Of Emergency (feat. Ice Cube)
+20:38:48 🎵 TRACK │ Eminem — Without Me
+20:43:37 🎵 TRACK │ Ras Kass — Ghetto Fabulous
+20:43:37 🔊 QUEUE │ music_q ← Immortal Technique - The Cause of Death.mp3
+20:43:37 🎤 TTS.REQ │ "Back to 'At the Speed of Life' by Xzibit - fast li..." (voice: Eric)
+20:43:46 🎤 TTS.GEN │ msg_1785437017658.wav
+20:43:46 🎤 TTS.REQ │ "'Gravel Pit,' that's the closing track - Wu Tang's..." (voice: Eric)
+20:43:53 🎤 TTS.GEN │ msg_1785437026444.wav
+20:48:06 🎵 TRACK │ Xzibit — Harder
+20:48:06 🔊 QUEUE │ music_q ← 02 - Xzibit - At The Speed Of Life.mp3
+20:48:06 🎤 TTS.REQ │ "Xzibit drops 'Harder' - a classic from 2002 - back..." (voice: Eric)
+20:48:13 🎤 TTS.GEN │ msg_1785437286475.wav
+20:48:14 🔌 EVENT │ [producer] Voice: Xzibit drops 'Harder' - a classic from 2...
+20:48:14 🎤 TTS.PLAY │ ▶ msg_1785437286475.wav
+20:52:13 🎵 TRACK │ Wu Tang Clan — Uzi (Pinky Ring)
+20:52:13 🔊 QUEUE │ music_q ← Eric B & Rakim - Lyrics Of Fury.mp3
+20:52:13 🎤 TTS.REQ │ "Now we get into 'Uzi (Pinky Ring)' by Wu Tang, and..." (voice: Eric)
+20:52:20 🎤 TTS.GEN │ msg_1785437533658.wav
+20:53:06 🎤 TTS.PLAY │ ▶ msg_1785437533658.wav
+20:57:27 🎵 TRACK │ Crypt The Warchild/Jedi Mind Tricks — The Rage of Angels
+20:57:27 🔊 QUEUE │ music_q ← 08-the_roots-here_i_come_(feat_dice_raw_and_malik_b).mp3
+20:57:27 🎤 TTS.REQ │ "'The Rage of Angels' - heavy beat again. If that w..." (voice: Eric)
+20:57:33 🎤 TTS.GEN │ msg_1785437847880.wav
+21:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 21:00
+21:00:45 🎵 TRACK │ Wyclef Jean — Generation X
+21:00:45 🎤 TTS.REQ │ "Booong! The time is 21:00" (voice: Aiden)
+21:00:47 🎤 TTS.GEN │ msg_1785438045803.wav
+21:00:47 🎤 TTS.PLAY │ ▶ msg_1785438045803.wav
+21:00:47 🔊 QUEUE │ music_q ← Wu-Tang Clan - Gravel Pit.mp3
+21:05:20 🎵 TRACK │ Immortal Technique — The Cause of Death
+21:05:20 🔊 QUEUE │ music_q ← 02 - Xzibit - At The Speed Of Life.mp3
+21:05:20 🔊 QUEUE │ music_q ← Eric B & Rakim - Lyrics Of Fury.mp3
+21:05:20 🔊 QUEUE │ music_q ← 08-the_roots-here_i_come_(feat_dice_raw_and_malik_b).mp3
+21:05:20 🔊 QUEUE │ music_q ← Wu-Tang Clan - Gravel Pit.mp3
+21:05:20 🔊 QUEUE │ music_q ← 14 - ljudet av....mp3
+21:05:20 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+21:05:35 🤖 LLM.REPLY │ "{"segments":[{"song_index":0,"voice":[{"character"..."
+21:05:35 🎤 TTS.REQ │ "Common Sense drops 'Puppy Chow' and forgets to tag..." (voice: Eric)
+21:05:41 🎤 TTS.GEN │ msg_1785438335502.wav
+21:05:41 🎤 TTS.REQ │ "Cypress Hill's 'Never Know' says 'never know', but..." (voice: Eric)
+21:05:46 🎤 TTS.GEN │ msg_1785438341119.wav
+21:05:46 🎤 TTS.REQ │ "Wyclef's 'Pistach' claims rap but it's more of a r..." (voice: Eric)
+21:05:53 🎤 TTS.GEN │ msg_1785438346325.wav
+21:05:53 🎤 TTS.REQ │ "'Gang Bang' by dr. dre gives us a dose of rawness,..." (voice: Eric)
+21:06:01 🎤 TTS.GEN │ msg_1785438353480.wav
+21:06:01 🎤 TTS.REQ │ "Honestly it's not the 'gang bang' of real life, it..." (voice: Eric)
+21:06:06 🎤 TTS.GEN │ msg_1785438361285.wav
+21:11:09 🎵 TRACK │ Xzibit — At The Speed Of Life
+21:11:09 🔊 QUEUE │ music_q ← Common Sense - 11 - Puppy Chow.mp3
+21:14:50 🎵 TRACK │ Eric B & Rakim — Lyrics Of Fury
+21:14:50 🔊 QUEUE │ music_q ← svenska akademien - Br_nn p_ b_l.mp3
+21:18:56 🎵 TRACK │ The Roots — Here I Come (Feat. Dice Raw & Malik B.)
+21:18:56 🔊 QUEUE │ music_q ← cypress hill-Never Know-till death do us part.mp3
+21:23:01 🎵 TRACK │ Wu Tang Clan — Gravel Pit
+21:23:01 🔊 QUEUE │ music_q ← Biz Markie - Just a Friend.mp3
+21:27:48 🎵 TRACK │ Xzibit — At The Speed Of Life
+21:31:29 🎵 TRACK │ Eric B & Rakim — Lyrics Of Fury
+21:35:34 🎵 TRACK │ The Roots — Here I Come (Feat. Dice Raw & Malik B.)
+21:39:40 🎵 TRACK │ Wu-Tang Clan — Gravel Pit
+21:44:27 🎵 TRACK │ Timbuktu — Ljudet Av...
+21:44:27 🔊 QUEUE │ music_q ← 08-wyclef_jean-pistach-rns.mp3
+21:44:27 🎤 TTS.REQ │ "D.I.T.C.'s 'Internationally Known' finally hits wi..." (voice: Eric)
+21:44:34 🎤 TTS.GEN │ msg_1785440667772.wav
+21:52:47 🎵 TRACK │ Common Sense — Puppy Chow
+21:52:47 🔊 QUEUE │ music_q ← Royal Flush - Worldwide.mp3
+21:52:47 🎤 TTS.REQ │ "Common Sense drops 'Puppy Chow' and forgets to tag..." (voice: Eric)
+21:52:51 🎤 TTS.GEN │ msg_1785441167171.wav
+21:52:52 🔌 EVENT │ [producer] Voice: Common Sense drops 'Puppy Chow' and forg...
+21:52:52 🎤 TTS.PLAY │ ▶ msg_1785441167171.wav
+21:56:43 🎵 TRACK │ Svenska Akademien — Bränn på bål
+21:56:43 🔊 QUEUE │ music_q ← 204-dr._dre-gang_bang - www.torrentazos.com.mp3
+22:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 22:00
+22:00:36 🎵 TRACK │ Cypress Hill — Never Know
+22:00:36 🎤 TTS.REQ │ "Booong! The time is 22:00" (voice: Aiden)
+22:00:37 🎤 TTS.GEN │ msg_1785441636211.wav
+22:00:37 🎤 TTS.PLAY │ ▶ msg_1785441636211.wav
+22:00:38 🔊 QUEUE │ music_q ← Jay-Z - 99 Problems.mp3
+22:00:38 🎤 TTS.REQ │ "Cypress Hill's 'Never Know' says 'never know', but..." (voice: Eric)
+22:00:42 🎤 TTS.GEN │ msg_1785441638068.wav
+22:02:49 🎵 TRACK │ Biz Markie — Just a Friend [Explicit]
+22:02:49 🔊 QUEUE │ music_q ← D.I.T.C. - Internationally Known.mp3
+22:06:41 🎵 TRACK │ Wyclef Jean — Pistach
+22:06:42 🔊 QUEUE │ music_q ← Royal Flush - Worldwide.mp3
+22:06:42 🔊 QUEUE │ music_q ← 204-dr._dre-gang_bang - www.torrentazos.com.mp3
+22:06:42 🔊 QUEUE │ music_q ← Jay-Z - 99 Problems.mp3
+22:06:42 🔊 QUEUE │ music_q ← D.I.T.C. - Internationally Known.mp3
+22:06:42 🔊 QUEUE │ music_q ← 01Wu-Tang Clan - Bring Da Ruckus.mp3
+22:06:42 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+22:07:06 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+22:07:06 🎤 TTS.REQ │ "If you swear you'd rather hear the beat, you shoul..." (voice: Eric)
+22:07:10 🎤 TTS.GEN │ msg_1785442026949.wav
+22:07:10 🎤 TTS.REQ │ "M.O.P. – Here Today Gone Tomorrow is here and all ..." (voice: Eric)
+22:07:17 🎤 TTS.GEN │ msg_1785442030404.wav
+22:07:17 🎤 TTS.REQ │ "We just spun your little Pistach track, now here c..." (voice: Eric)
+22:07:23 🎤 TTS.GEN │ msg_1785442037140.wav
+22:07:23 🎤 TTS.REQ │ "Big Pun’s You Ain’t a Killer goes in – this is pur..." (voice: Eric)
+22:07:29 🎤 TTS.GEN │ msg_1785442043554.wav
+22:10:46 🎵 TRACK │ Royal Flush — Worldwide (Produced by L.E.S.)
+22:10:46 🔊 QUEUE │ music_q ← Necro - Get On Your Knees.mp3
+22:13:51 🎵 TRACK │ dr. dre — gang bang
+22:13:51 🔊 QUEUE │ music_q ← Public Enemy - Black Steel In The Hour Of Chaos.mp3
+22:18:06 🎵 TRACK │ Jay-Z — 99 Problems
+22:18:06 🔊 QUEUE │ music_q ← M.O.P. - Here Today Gone Tomorrow.mp3
+22:21:58 🎵 TRACK │ D.I.T.C. — Internationally Known (Prod By Lord Finesse)
+22:21:58 🔊 QUEUE │ music_q ← 202_timbuktu_-_independent_moves-aft.mp3
+22:25:31 🎵 TRACK │ Royal Flush — Worldwide (Produced by L.E.S.)
+22:28:36 🎵 TRACK │ dr. dre — gang bang
+22:32:50 🎵 TRACK │ Jay-Z — 99 Problems
+22:36:43 🎵 TRACK │ D.I.T.C. — Internationally Known (Prod By Lord Finesse)
+22:40:16 🎵 TRACK │ Wu-Tang Clan — Bring Da Ruckus
+22:40:16 🔊 QUEUE │ music_q ← 01-wyclef_jean-jean_dominique_intro-rns.mp3
+22:40:16 🎤 TTS.REQ │ "Timbuktu's Vibb Aktuellt drops next - and Lani alr..." (voice: Eric)
+22:40:20 🎤 TTS.GEN │ msg_1785444016456.wav
+22:40:20 🎤 TTS.REQ │ "We finish with Reach – a perfect goodbye. Hey Lani..." (voice: Eric)
+22:40:24 🎤 TTS.GEN │ msg_1785444020149.wav
+22:44:21 🎵 TRACK │ Necro — Get On Your Knees
+22:44:21 🔊 QUEUE │ music_q ← Ludacris - Stick 'em Up (Feat UGK).mp3
+22:44:21 🎤 TTS.REQ │ "If you swear you'd rather hear the beat, you shoul..." (voice: Eric)
+22:44:24 🎤 TTS.GEN │ msg_1785444261139.wav
+22:46:03 🎤 TTS.PLAY │ ▶ msg_1785444261139.wav
+22:49:53 🎵 TRACK │ Public Enemy — Black Steel In The Hour Of Chaos
+22:49:53 🔊 QUEUE │ music_q ← Big Pun - You Ain't a Killer.mp3
+22:53:32 🎵 TRACK │ M.O.P. — Here Today Gone Tomorrow [Explicit]
+22:53:32 🔊 QUEUE │ music_q ← 10-vibb_aktuellt-cta.mp3
+22:53:32 🎤 TTS.REQ │ "M.O.P. – Here Today Gone Tomorrow is here and all ..." (voice: Eric)
+22:53:37 🎤 TTS.GEN │ msg_1785444812385.wav
+22:53:37 🔌 EVENT │ [producer] Voice: M.O.P. – Here Today Gone Tomorrow is her...
+22:53:37 🎤 TTS.PLAY │ ▶ msg_1785444812385.wav
+22:55:34 🎵 TRACK │ Timbuktu — Independent Moves
+22:55:34 🔊 QUEUE │ music_q ← 07 - Timbuktu - Reach -CsZ.256.mp3
+22:59:37 🎵 TRACK │ Wyclef Jean — Jean Dominique Intro
+22:59:37 🔊 QUEUE │ music_q ← Ludacris - Stick 'em Up (Feat UGK).mp3
+22:59:37 🔊 QUEUE │ music_q ← Big Pun - You Ain't a Killer.mp3
+22:59:37 🔊 QUEUE │ music_q ← 10-vibb_aktuellt-cta.mp3
+22:59:37 🔊 QUEUE │ music_q ← 07 - Timbuktu - Reach -CsZ.256.mp3
+22:59:37 🔊 QUEUE │ music_q ← Marley Marl - The Symphony (Feat. Master Ace, Craig G., Kool G. Rap and Big Daddy Kane).mp3
+22:59:37 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+23:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 23:00
+23:00:07 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+23:00:07 🎤 TTS.REQ │ "A Tribe Called Quest, smooth as butter on a Sunday..." (voice: Eric)
+23:00:11 🎤 TTS.GEN │ msg_1785445207133.wav
+23:00:11 🎤 TTS.REQ │ "Still, their laid‑back groove turns any midnight i..." (voice: Eric)
+23:00:14 🎤 TTS.GEN │ msg_1785445211678.wav
+23:00:14 🎤 TTS.REQ │ "Nelly is bringin’ the R&B vibes into our rap stati..." (voice: Eric)
+23:00:18 🎤 TTS.GEN │ msg_1785445214275.wav
+23:00:18 🎤 TTS.REQ │ "But Lani’s still messing your metadata—she can’t e..." (voice: Eric)
+23:00:21 🎤 TTS.GEN │ msg_1785445218846.wav
+23:00:21 🎤 TTS.REQ │ "Capone ‘N Noreaga drop in with ’97 swagger. It's g..." (voice: Eric)
+23:00:27 🎤 TTS.GEN │ msg_1785445221567.wav
+23:00:27 🎤 TTS.REQ │ "Now we got Wu‑Tang, straight up 2007 banger. The b..." (voice: Eric)
+23:00:32 🎤 TTS.GEN │ msg_1785445227280.wav
+23:00:32 🎤 TTS.REQ │ "All hail the crew, and by the way Lani tried to ca..." (voice: Eric)
+23:00:35 🎤 TTS.GEN │ msg_1785445232040.wav
+23:00:41 🎵 TRACK │ Ludacris — Stick 'em Up (Feat UGK)
+23:00:41 🎤 TTS.REQ │ "Booong! The time is 23:00" (voice: Aiden)
+23:00:42 🎤 TTS.GEN │ msg_1785445241361.wav
+23:00:42 🎤 TTS.PLAY │ ▶ msg_1785445241361.wav
+23:00:42 🔊 QUEUE │ music_q ← A Tribe Called Quest - Electric Relaxation.mp3
+23:05:41 🎵 TRACK │ Big Pun — You Ain't a Killer
+23:05:41 🔊 QUEUE │ music_q ← 087 Nelly featuring Kelly Rowland Dilemma.mp3
+23:09:28 🎵 TRACK │ Timbuktu — Vibb Aktuellt
+23:09:28 🔊 QUEUE │ music_q ← Capone-N-Noreaga - L.A., L.A. (Feat.Mobb Deep & Tradgedy Khadafi).mp3
+23:13:25 🎵 TRACK │ Timbuktu — Reach
+23:13:25 🔊 QUEUE │ music_q ← Cypress Hill - Insane In The Brain.mp3
+23:18:00 🎵 TRACK │ Ludacris — Stick 'em Up (Feat UGK)
+23:22:59 🎵 TRACK │ Big Pun — You Ain't a Killer
+23:26:45 🎵 TRACK │ Timbuktu — Vibb Aktuellt
+23:30:42 🎵 TRACK │ Timbuktu — Reach
+23:35:17 🎵 TRACK │ Marley Marl — The Symphony (Feat. Master Ace, Craig G., Kool G. Rap and Big Daddy Kane)
+23:35:17 🔊 QUEUE │ music_q ← Big Pun - Banned From TV (Feat. L.O.X, Cam'Ron, Nature, N.O.R.E).mp3
+23:35:17 🎤 TTS.REQ │ "Timbuktu drops in with that Swedish swagger. Lani ..." (voice: Eric)
+23:35:23 🎤 TTS.GEN │ msg_1785447317353.wav
+23:35:23 🎤 TTS.REQ │ "Finally we close out with Busta Rhymes bringing sc..." (voice: Eric)
+23:35:31 🎤 TTS.GEN │ msg_1785447323869.wav
+23:41:20 🎵 TRACK │ A Tribe Called Quest — Electric Relaxation
+23:41:20 🔊 QUEUE │ music_q ← 10_wu_tang_clan_-_stick_me_for_my_riches.mp3
+23:41:20 🎤 TTS.REQ │ "A Tribe Called Quest, smooth as butter on a Sunday..." (voice: Eric)
+23:41:25 🎤 TTS.GEN │ msg_1785447680488.wav
+23:41:25 🎤 TTS.REQ │ "Still, their laid‑back groove turns any midnight i..." (voice: Eric)
+23:41:28 🎤 TTS.GEN │ msg_1785447685828.wav
+23:41:29 🔌 EVENT │ [producer] Voice: A Tribe Called Quest, smooth as butter o...
+23:41:29 🎤 TTS.PLAY │ ▶ msg_1785447680488.wav
+23:45:02 🎵 TRACK │ Nelly — Dilemma Featuring Kelly Rowland
+23:45:02 🔊 QUEUE │ music_q ← Dj Jazzy Jeff And The Fresh Prince - Summertime.mp3
+23:45:02 🎤 TTS.REQ │ "Nelly is bringin’ the R&B vibes into our rap stati..." (voice: Eric)
+23:45:07 🎤 TTS.GEN │ msg_1785447902553.wav
+23:45:07 🎤 TTS.REQ │ "But Lani’s still messing your metadata—she can’t e..." (voice: Eric)
+23:45:10 🎤 TTS.GEN │ msg_1785447907037.wav
+23:45:10 🔌 EVENT │ [producer] Voice: Nelly is bringin’ the R&B vibes into our...
+23:45:11 🎤 TTS.PLAY │ ▶ msg_1785447902553.wav
+23:46:55 🎤 TTS.PLAY │ ▶ msg_1785447907037.wav
+23:49:46 🎵 TRACK │ Capone-N-Noreaga — L.A., L.A. (Feat.Mobb Deep & Tradgedy Khadafi)
+23:49:46 🔊 QUEUE │ music_q ← 02-ta_det_lugnt-cta.mp3
+23:49:46 🎤 TTS.REQ │ "Capone ‘N Noreaga drop in with ’97 swagger. It's g..." (voice: Eric)
+23:49:52 🎤 TTS.GEN │ msg_1785448186214.wav
+23:49:52 🔌 EVENT │ [producer] Voice: Capone ‘N Noreaga drop in with ’97 swagg...
+23:49:53 🎤 TTS.PLAY │ ▶ msg_1785448186214.wav
+23:54:30 🎵 TRACK │ Cypress Hill — Insane In The Brain
+23:54:30 🔊 QUEUE │ music_q ← 03-the_aphilliates_and_busta_rhymes-leader_of_the_new_school.mp3
+23:57:52 🎵 TRACK │ Big Pun — Banned From TV (Feat. L.O.X, Cam'Ron, Nature, N.O.R.E)
+23:57:52 🔊 QUEUE │ music_q ← 10_wu_tang_clan_-_stick_me_for_my_riches.mp3
+23:57:52 🔊 QUEUE │ music_q ← Dj Jazzy Jeff And The Fresh Prince - Summertime.mp3
+23:57:52 🔊 QUEUE │ music_q ← 02-ta_det_lugnt-cta.mp3
+23:57:52 🔊 QUEUE │ music_q ← 03-the_aphilliates_and_busta_rhymes-leader_of_the_new_school.mp3
+23:57:52 🔊 QUEUE │ music_q ← KMD - Who Me.mp3
+23:57:52 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+23:58:19 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+23:58:19 🎤 TTS.REQ │ "Common’s flow is crisp here; but the file name say..." (voice: Eric)
+23:58:24 🎤 TTS.GEN │ msg_1785448699298.wav
+23:58:24 🎤 TTS.REQ │ "Wyclef’s ’04 hit in Paris. The beat tight, though ..." (voice: Eric)
+23:58:28 🎤 TTS.GEN │ msg_1785448704528.wav
+23:58:28 🎤 TTS.REQ │ "Buffer is low, folks—Lani must have swapped out th..." (voice: Eric)
+23:58:32 🎤 TTS.GEN │ msg_1785448708600.wav
+23:58:32 🎤 TTS.REQ │ "Ice Cube's raw truth—that’s what hip hop purists w..." (voice: Eric)
+23:58:36 🎤 TTS.GEN │ msg_1785448712461.wav
