@@ -41,6 +41,7 @@ class TTSService:
         instruct: str = "Speak calmly and clearly",
         voice_map: dict[str, str] | None = None,
         fallbacks: dict | None = None,
+        default_fallback: dict | None = None,
         loudness_target: float = -12.0,
         true_peak: float = -1.5,
         compress_threshold: str = "-18dB",
@@ -74,6 +75,11 @@ class TTSService:
         self.fallbacks: dict[str, list[dict]] = {
             voice: list(chain or []) for voice, chain in (fallbacks or {}).items()
         }
+        # Catch-all for voices with no chain of their own. Enumerating fallbacks
+        # per known voice leaves any *unknown* one with nowhere to go — which is
+        # how Snoop's `Adrian` (a voice the local backend does not have) silently
+        # lost every one of his lines.
+        self.default_fallback: dict = dict(default_fallback or {})
         self.loudness_target = loudness_target
         self.true_peak = true_peak
         self.compress_threshold = compress_threshold
@@ -119,7 +125,8 @@ class TTSService:
         """
         primary = self.voice_map.get(speaker, self.endpoint)
         routes: list[tuple[str, str]] = [(primary, speaker)]
-        for entry in self.fallbacks.get(speaker, []):
+        chain = self.fallbacks.get(speaker) or ([self.default_fallback] if self.default_fallback else [])
+        for entry in chain:
             if not isinstance(entry, dict):
                 logger.warning(f"Ignoring malformed TTS fallback for {speaker!r}: {entry!r}")
                 continue

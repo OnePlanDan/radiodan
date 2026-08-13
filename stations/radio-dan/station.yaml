@@ -71,6 +71,12 @@ audio:
     # Eric (Bad Mouth Bob) lives only on the local Qwen box, which is what made
     # the 2026-06-16 outage total — swap in a voice you actually like here.
     fallbacks:
+      # Snoop's configured voice `Adrian` does not exist on the local Qwen box
+      # (Vivian, Serena, Uncle_Fu, Dylan, Eric, Ryan, Aiden, Ono_Anna, Sohee),
+      # so every one of his lines 422'd. Chatterbox has an actual snoop voice.
+      Adrian:
+        - endpoint: http://192.168.1.15:11700/api/tts/custom
+          speaker: snoop
       Eric:
         - endpoint: http://192.168.1.15:11700/api/tts/custom
           speaker: carlin
@@ -87,6 +93,11 @@ audio:
       snoop:
         - endpoint: http://localhost:42001/tts/custom-voice
           speaker: Aiden
+
+    # Any voice with no chain of its own lands here rather than in silence.
+    default_fallback:
+      endpoint: http://192.168.1.15:11700/api/tts/custom
+      speaker: carlin
 
     # Voice watchdog — alerts when no voice reaches air while music keeps playing.
     # Must stay well above the producer's ~50 min rebuild cycle.

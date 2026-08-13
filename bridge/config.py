@@ -110,6 +110,9 @@ class TTSConfig:
     # Shape: {"Eric": [{"endpoint": "http://host:port/api/tts/custom",
     #                   "speaker": "carlin"}], ...}
     fallbacks: dict = field(default_factory=dict)
+    # Used for any speaker without its own chain, so an unrecognised voice
+    # degrades to a working one rather than to silence.
+    default_fallback: dict = field(default_factory=dict)
     # Voice watchdog: alert when nothing has reached air for this long. Keep it
     # well above the producer's ~50 min rebuild cycle to avoid false alarms.
     silence_alert_hours: float = 3.0
@@ -269,6 +272,7 @@ class Config:
             cache_dir=tts_cfg.get("cache_dir", "/tmp/tts_cache"),
             voice_map=dict(tts_cfg.get("voice_map", {}) or {}),
             fallbacks=dict(tts_cfg.get("fallbacks", {}) or {}),
+            default_fallback=dict(tts_cfg.get("default_fallback", {}) or {}),
             silence_alert_hours=float(tts_cfg.get("silence_alert_hours", 3.0)),
             silence_check_interval=float(tts_cfg.get("silence_check_interval", 300.0)),
             health_check_on_start=bool(tts_cfg.get("health_check_on_start", True)),

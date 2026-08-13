@@ -124,6 +124,7 @@ async def main() -> None:
         instruct=config.audio.tts.instruct,
         voice_map=config.audio.tts.voice_map,
         fallbacks=config.audio.tts.fallbacks,
+        default_fallback=config.audio.tts.default_fallback,
         loudness_target=config.audio.tts.loudness_target,
         true_peak=config.audio.tts.true_peak,
         compress_threshold=config.audio.tts.compress_threshold,

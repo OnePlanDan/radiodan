@@ -277,3 +277,56 @@ async def test_silent_for_measures_from_start_before_any_success(svc_factory):
     svc._started_at = time.time() - 3600
     assert svc.silent_for_seconds == pytest.approx(3600, abs=5)
     assert svc.stats()["ever_succeeded"] is False
+
+
+# =====================================================================
+# CATCH-ALL FALLBACK
+# =====================================================================
+
+def test_unknown_voice_uses_the_default_fallback(svc_factory):
+    """Enumerating fallbacks per known voice leaves an *unknown* one with
+    nowhere to go. Snoop's `Adrian` was not on the local backend and not in the
+    fallback table, so every one of his lines 422'd into silence — 33% of the
+    station's talk, for two weeks, with no alert."""
+    svc = svc_factory(
+        endpoint="http://qwen/tts",
+        fallbacks={"Eric": [{"endpoint": "http://box/api", "speaker": "carlin"}]},
+        default_fallback={"endpoint": "http://box/api", "speaker": "carlin"},
+    )
+    assert svc.routes_for("Adrian") == [
+        ("http://qwen/tts", "Adrian"),
+        ("http://box/api", "carlin"),
+    ]
+
+
+def test_an_explicit_chain_beats_the_default(svc_factory):
+    svc = svc_factory(
+        endpoint="http://qwen/tts",
+        fallbacks={"Adrian": [{"endpoint": "http://box/api", "speaker": "snoop"}]},
+        default_fallback={"endpoint": "http://box/api", "speaker": "carlin"},
+    )
+    assert svc.routes_for("Adrian")[1] == ("http://box/api", "snoop")
+
+
+def test_without_a_default_an_unknown_voice_has_one_route(svc_factory):
+    svc = svc_factory(endpoint="http://qwen/tts")
+    assert svc.routes_for("Adrian") == [("http://qwen/tts", "Adrian")]
+
+
+async def test_unknown_voice_actually_survives_a_rejection(svc_factory):
+    """The 422 case end to end: the primary refuses the voice, the catch-all
+    carries the line."""
+    seen: list = []
+    sick, sick_url = await _serve(_tts_app(status=422))
+    good, good_url = await _serve(_tts_app(record=seen))
+    try:
+        svc = svc_factory(endpoint=sick_url,
+                          default_fallback={"endpoint": good_url, "speaker": "carlin"})
+        await svc.start()
+        path = await svc.speak("yeah", speaker="Adrian")
+        assert path.read_bytes() == WAV
+        assert [p["speaker"] for p in seen] == ["carlin"]
+        await svc.stop()
+    finally:
+        await sick.close()
+        await good.close()
