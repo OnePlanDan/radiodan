@@ -159,7 +159,10 @@ class MusicLibraryScanner:
     # Files in these folders are visible on disk (for triage / Samba browsing) but
     # excluded from the library so the planner never queues them. `_damaged/` holds
     # symlinks to MP3s flagged by scan_mp3_health.sh.
-    EXCLUDED_TOP_DIRS: tuple[str, ...] = ("_damaged",)
+    # `_programmes/` holds commissioned episodes. They live under the music root
+    # because that is what Liquidsoap has mounted, but they are not songs and the
+    # planner must never pick one as filler.
+    EXCLUDED_TOP_DIRS: tuple[str, ...] = ("_damaged", "_programmes")
 
     def _find_audio_files(self) -> list[Path]:
         """Find all audio files recursively, skipping EXCLUDED_TOP_DIRS."""
@@ -905,7 +908,7 @@ class PlaylistPlanner:
     # =====================================================================
 
     async def insert_track(self, file_path: str, position: int | None = None) -> bool:
-        """Insert a track into the upcoming queue.
+        """Insert a library track into the upcoming queue.
 
         Args:
             file_path: Path to the audio file (must exist in library)
@@ -923,6 +926,30 @@ class PlaylistPlanner:
         if track is None:
             logger.warning(f"insert_track: file not in library: {file_path}")
             return False
+
+        return await self.insert_item(track, position)
+
+    async def insert_item(self, item: dict, position: int | None = None) -> bool:
+        """Insert any ready-made queue item — a track, or a programme episode.
+
+        A commissioned episode is scheduled exactly like a song: same queue, same
+        crossfade, same z_stagger, same scheduled event. The only difference is
+        where the dict came from, so it does not need to be in `music_library`.
+
+        Carrying `loudness_lufs`/`true_peak_dbfs` on the item means an episode
+        also gets the same per-track normalisation gain as music, which is how a
+        delivered programme ends up at the station's level without a separate
+        path for it.
+
+        Args:
+            item: Queue item — needs at least `file_path`; `artist`, `title`,
+                `duration_seconds` and the loudness fields are used when present.
+            position: 0-based insertion index, or None to append
+        """
+        if not item.get("file_path"):
+            logger.warning("insert_item: item has no file_path")
+            return False
+        track = dict(item)
 
         async with self._lock:
             if position is None or position >= len(self._upcoming):
@@ -954,7 +981,9 @@ class PlaylistPlanner:
             await self._save_queue_to_db()
             await self._emit("queue_changed", self._upcoming)
 
-        logger.info(f"Inserted track at pos {position}: {track.get('artist', '?')} - {track.get('title', '?')}")
+        logger.info(
+            f"Inserted at pos {position}: {track.get('artist', '?')} - {track.get('title', '?')}"
+        )
         return True
 
     async def remove_track(self, position: int) -> dict | None:

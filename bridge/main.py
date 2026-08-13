@@ -29,6 +29,8 @@ from bridge.audio.voice_scheduler import VoiceScheduler
 from bridge.audio.playlist_planner import PlaylistPlanner
 from bridge.audio.loudness import LoudnessScanner
 from bridge.audio.listener_tracker import ListenerTracker
+from bridge.services.audiosegment import AudioSegmentClient
+from bridge.services.commissions import CommissionService
 from bridge.plugins import load_plugin_instances
 from bridge.web.server import WebServer
 from bridge.booth import booth
@@ -188,6 +190,21 @@ async def main() -> None:
 
     # Presence history cannot be backfilled, so this samples from boot regardless
     # of whether anything consumes it yet.
+    # Commissioning: order episodes from AudioSegment, collect them when they
+    # land, offer them to the queue like any other block of material.
+    segment_client: AudioSegmentClient | None = None
+    commissions: CommissionService | None = None
+    if config.audio.audiosegment.enabled:
+        seg = config.audio.audiosegment
+        segment_client = AudioSegmentClient(base_url=seg.base_url)
+        commissions = CommissionService(
+            client=segment_client,
+            db_path=db_path,
+            programme_dir=music_dir / seg.programme_dir,
+            poll_interval=seg.poll_interval,
+            auto_requeue=seg.auto_requeue,
+        )
+
     listener_tracker = ListenerTracker(
         db_path=db_path,
         status_url=f"http://localhost:{config.audio.icecast.external_port}/status-json.xsl",
@@ -289,6 +306,7 @@ async def main() -> None:
         project_root=project_root,
         voice_watchdog=voice_watchdog,
         listener_tracker=listener_tracker,
+        commissions=commissions,
     )
 
     # Set up graceful shutdown
@@ -330,6 +348,14 @@ async def main() -> None:
         await voice_scheduler.start()
         await voice_watchdog.start()
         await listener_tracker.start()
+        if commissions is not None:
+            await segment_client.start()
+            await commissions.start()
+            if not await segment_client.is_healthy():
+                logger.warning(
+                    f"AudioSegment unreachable at {config.audio.audiosegment.base_url} — "
+                    "commissions will retry; music is unaffected"
+                )
 
         # Wire feedback loop: track changes drive playlist advancement
         stream_context.on("track_changed", playlist_planner.advance)
@@ -395,6 +421,9 @@ async def main() -> None:
                     logger.exception(f"Failed to stop plugin: {plugin.instance_id}")
             await voice_watchdog.stop()
             await listener_tracker.stop()
+            if commissions is not None:
+                await commissions.stop()
+                await segment_client.stop()
             if loudness_scanner is not None:
                 await loudness_scanner.stop()
             await voice_scheduler.stop()

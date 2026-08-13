@@ -38,6 +38,25 @@ class PlaylistConfig:
 
 
 @dataclass
+class AudioSegmentConfig:
+    """Commissioning programme episodes from the AudioSegment service.
+
+    Its guide calls the host `mnemosyne`; forge has no DNS entry for it, so the
+    wg address is the default. Episodes live under the music root because that is
+    what Liquidsoap has mounted, in a directory the library scanner excludes.
+    """
+    enabled: bool = True
+    base_url: str = "http://10.10.0.9:8100/api"
+    programme_dir: str = "_programmes"
+    # Measured history is ~20 min for a 7 min episode, so checking each minute is
+    # already far finer-grained than the work being waited on.
+    poll_interval: float = 60.0
+    auto_requeue: bool = True
+    # Passed to the assembler for weather/real-world context.
+    location: str = ""
+
+
+@dataclass
 class NormalizationConfig:
     """Per-track music loudness normalisation (ReplayGain-style static gain).
 
@@ -134,6 +153,7 @@ class AudioConfig:
     playlist: PlaylistConfig = field(default_factory=PlaylistConfig)
     watchdog: WatchdogConfig = field(default_factory=WatchdogConfig)
     normalization: NormalizationConfig = field(default_factory=NormalizationConfig)
+    audiosegment: AudioSegmentConfig = field(default_factory=AudioSegmentConfig)
 
 
 @dataclass
@@ -220,6 +240,16 @@ class Config:
             scan_pause_seconds=float(norm_cfg.get("scan_pause_seconds", 5.0)),
         )
 
+        seg_cfg = audio_cfg.get("audiosegment", {}) or {}
+        audiosegment = AudioSegmentConfig(
+            enabled=bool(seg_cfg.get("enabled", True)),
+            base_url=seg_cfg.get("base_url", "http://10.10.0.9:8100/api"),
+            programme_dir=seg_cfg.get("programme_dir", "_programmes"),
+            poll_interval=float(seg_cfg.get("poll_interval", 60.0)),
+            auto_requeue=bool(seg_cfg.get("auto_requeue", True)),
+            location=seg_cfg.get("location", ""),
+        )
+
         watchdog_cfg = audio_cfg.get("watchdog", {})
         watchdog = WatchdogConfig(
             grace_seconds=watchdog_cfg.get("grace_seconds", 10.0),
@@ -291,6 +321,7 @@ class Config:
                 playlist=playlist,
                 watchdog=watchdog,
                 normalization=normalization,
+                audiosegment=audiosegment,
             ),
             telegram=telegram,
             ai=AIConfig(ollama=ollama),

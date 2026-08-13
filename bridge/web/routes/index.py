@@ -45,6 +45,18 @@ _BODY_FIELDS: dict[str, dict] = {
         "notes": "First non-empty field wins, in the order listed. Response reports "
                  "applied/pending/error and the seed actually in effect.",
     },
+    "POST /api/programmes": {
+        "fields": {
+            "show": "show name from GET /api/programmes/shows (required)",
+            "concept": "one or two sentences — the brief (required)",
+            "location": "place name, for weather and real-world context",
+            "weight": "1-10 emotional heaviness",
+            "context_mode": "'sharp' (today's real events) or 'fuzzy' (ambient)",
+        },
+        "notes": "Asynchronous: returns a job immediately, audio lands ~20 min "
+                 "later for a 7 min episode. Long blocks are far cheaper per "
+                 "minute than short ones. Music is unaffected if it never arrives.",
+    },
     "POST /api/playback/say": {
         "fields": {
             "text": "what to speak (required)",
@@ -131,6 +143,10 @@ async def api_index(request: web.Request) -> web.Response:
         "hosts": "GET /api/producer/characters",
         "change_the_show": "POST /api/producer/seed",
         "speak_now": "POST /api/playback/say",
+        "who_is_listening": "GET /api/listeners",
+        "programmes": "GET /api/programmes",
+        "commission_an_episode": "POST /api/programmes",
+        "put_an_episode_on_air": "POST /api/programmes/{job_id}/air",
     }
 
     return web.json_response({
