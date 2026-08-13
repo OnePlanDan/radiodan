@@ -35,6 +35,18 @@ audio:
     # relative to playlist.music_dir. Leave empty to disable.
     fallback_track_path: ""
 
+  # Commissioning programme episodes from AudioSegment.
+  audiosegment:
+    enabled: true
+    base_url: http://10.10.0.9:8100/api
+    location: "Gothenburg, Sweden"
+    # Shows this station owns. Producing an episode advances a series' episode
+    # number, recap and trait state, so only our own shows belong here.
+    # lani-viv, bobs-boat, space-pod and default are someone else's.
+    owned_shows:
+      - radiodan-morning      # The Morning Wire — bulletin, one presenter
+      - radiodan-latenight    # Bad Signal After Dark — two hosts, commercials
+
   # Per-track music loudness normalisation. Measured 2026-07-29 across the
   # library: source loudness spans -34.7 to +10.0 LUFS (44.7 dB), so songs jumped
   # badly against each other and against the DJ. A master volume trim moves the
