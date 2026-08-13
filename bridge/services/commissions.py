@@ -75,12 +75,16 @@ class CommissionService:
         programme_dir: Path,
         poll_interval: float = 60.0,
         auto_requeue: bool = True,
+        owned_shows: list[str] | None = None,
     ):
         self.client = client
         self.db_path = db_path
         self.programme_dir = Path(programme_dir)
         self.poll_interval = max(15.0, poll_interval)
         self.auto_requeue = auto_requeue
+        # Commissioning writes to a live series — episode number, recap, traits,
+        # debts. Only shows this station owns are ours to order against.
+        self.owned_shows = set(owned_shows or [])
         self._db = None
         self._task: asyncio.Task | None = None
         self._requeued: set[str] = set()
@@ -141,6 +145,13 @@ class CommissionService:
         context_mode: str | None = None,
     ) -> dict:
         """Order an episode. Returns the commission row; audio arrives later."""
+        if show not in self.owned_shows:
+            raise PermissionError(
+                f"'{show}' is not a show this station owns "
+                f"(owned: {sorted(self.owned_shows) or 'none yet'}). "
+                "Commissioning advances a series' episode number, recap and trait "
+                "state, so it is only done against shows we created."
+            )
         result = await self.client.produce(
             show, concept, location=location, weight=weight, context_mode=context_mode
         )

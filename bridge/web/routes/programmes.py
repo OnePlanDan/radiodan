@@ -69,6 +69,8 @@ async def commission(request: web.Request) -> web.Response:
             weight=body.get("weight"),
             context_mode=body.get("context_mode"),
         )
+    except PermissionError as e:
+        raise web.HTTPForbidden(reason=str(e))
     except Exception as e:
         logger.exception("Commission failed")
         raise web.HTTPBadGateway(reason=f"AudioSegment rejected the commission: {e}")

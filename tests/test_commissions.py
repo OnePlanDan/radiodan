@@ -67,6 +67,7 @@ async def svc(tmp_path, monkeypatch):
         db_path=tmp_path / "radiodan.db",
         programme_dir=tmp_path / "_programmes",
         poll_interval=15.0,
+        owned_shows=["lani-viv", "bobs-boat"],
     )
     # Measurement and duration shell out to ffmpeg/ffprobe; stub them so the
     # tests exercise the flow, not the encoders.

@@ -204,6 +204,7 @@ async def main() -> None:
             programme_dir=music_dir / seg.programme_dir,
             poll_interval=seg.poll_interval,
             auto_requeue=seg.auto_requeue,
+            owned_shows=seg.owned_shows,
         )
 
     listener_tracker = ListenerTracker(

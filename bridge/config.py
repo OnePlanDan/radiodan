@@ -47,6 +47,16 @@ class AudioSegmentConfig:
     """
     enabled: bool = True
     base_url: str = "http://10.10.0.9:8100/api"
+    # Shows this station owns and may therefore commission from.
+    #
+    # Producing an episode is a WRITE to a live series: it advances the episode
+    # number, rewrites the recap, and rotates trait and debt state. The service
+    # is shared, and `lani-viv` and `bobs-boat` belong to someone else — a test
+    # commission against lani-viv landed in its canon as episode 559. Naming
+    # what this station owns makes that boundary a configured fact rather than a
+    # matter of any one agent's judgement. Shows created by this station get
+    # added here; someone else's never do.
+    owned_shows: list = field(default_factory=list)
     programme_dir: str = "_programmes"
     # Measured history is ~20 min for a 7 min episode, so checking each minute is
     # already far finer-grained than the work being waited on.
@@ -247,6 +257,7 @@ class Config:
         audiosegment = AudioSegmentConfig(
             enabled=bool(seg_cfg.get("enabled", True)),
             base_url=seg_cfg.get("base_url", "http://10.10.0.9:8100/api"),
+            owned_shows=list(seg_cfg.get("owned_shows", []) or []),
             programme_dir=seg_cfg.get("programme_dir", "_programmes"),
             poll_interval=float(seg_cfg.get("poll_interval", 60.0)),
             auto_requeue=bool(seg_cfg.get("auto_requeue", True)),
