@@ -1,0 +1,2173 @@
+00:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 00:00
+00:02:38 🎵 TRACK │ Dionne Warwick — Walk On By
+00:02:38 🎤 TTS.REQ │ "Booong! The time is 00:00" (voice: Aiden)
+00:02:40 🎤 TTS.GEN │ msg_1786140158443.wav
+00:02:40 🎤 TTS.PLAY │ ▶ msg_1786140158443.wav
+00:05:24 🎵 TRACK │ Wu Tang Clan — Track  6
+00:09:35 🎵 TRACK │ Wu Tang Clan — Track  7
+00:13:22 🎵 TRACK │ Marley Marl — The Symphony (Feat. Master Ace, Craig G., Kool G. Rap and Big Daddy Kane)
+00:13:22 🔊 QUEUE │ music_q ← The Fat Boys - Jail House Rap.mp3
+00:13:22 🎤 TTS.REQ │ "Lupe's instrumental vibes give that futuristic fee..." (voice: Adrian)
+00:13:22 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+00:13:22 🎤 TTS.REQ │ "Cypress Hill’s Stank Ass Hoe is an aggressive bop ..." (voice: Eric)
+00:13:27 🎤 TTS.GEN │ msg_1786140802566.wav
+00:13:27 🎤 TTS.REQ │ "We’re keeping the West Coast heat while we pump up..." (voice: Adrian)
+00:13:27 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+00:13:27 🎤 TTS.REQ │ "VA_-_RLSLOG: this garbage track has no genre, no y..." (voice: Eric)
+00:13:35 🎤 TTS.GEN │ msg_1786140807229.wav
+00:19:25 🎵 TRACK │ Tu-Pac, Snoop Doggy Dog — Gangsta Party
+00:19:25 🔊 QUEUE │ music_q ← Lupe Fiasco - The Instrumental F. Jonah Matranga.mp3
+00:19:25 🎤 TTS.REQ │ "Now we're dropping Tupac, Snoop’s old banger—Gangs..." (voice: Eric)
+00:19:31 🎤 TTS.GEN │ msg_1786141165735.wav
+00:19:31 🎤 TTS.REQ │ "No sweat, we keep it real. You know how we roll in..." (voice: Adrian)
+00:19:31 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+00:19:31 🔌 EVENT │ [producer] Voice: Now we're dropping Tupac, Snoop’s old ba...
+00:19:31 🎤 TTS.PLAY │ ▶ msg_1786141165735.wav
+00:20:03 🎤 TTS.REQ │ "No sweat, we keep it real. You know how we roll in..." (voice: Adrian)
+00:20:03 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+00:20:03 🔌 PLG.ERR │ [producer] Voice playback failed: No sweat, we keep it real. You
+00:23:28 🎵 TRACK │ Timbuktu — Absorb This m/ DJ Noize
+00:23:28 🔊 QUEUE │ music_q ← 10 - vin, kvinnor & sng (feat. supreme & masayah).mp3
+00:27:19 🎵 TRACK │ Cormega — Angel Dust Ft. Havoc
+00:27:19 🔊 QUEUE │ music_q ← 06.Cypress Hill - Stank Ass Hoe.mp3
+00:27:19 🎤 TTS.REQ │ "Cormega’s Angel Dust with Havoc is all about that ..." (voice: Eric)
+00:27:23 🎤 TTS.GEN │ msg_1786141639503.wav
+00:27:23 🎤 TTS.REQ │ "True, staying sharp; we’re keeping the vibe strong..." (voice: Adrian)
+00:27:23 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+00:27:23 🔌 EVENT │ [producer] Voice: Cormega’s Angel Dust with Havoc is all a...
+00:27:23 🎤 TTS.PLAY │ ▶ msg_1786141639503.wav
+00:29:14 🎤 TTS.REQ │ "True, staying sharp; we’re keeping the vibe strong..." (voice: Adrian)
+00:29:14 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+00:29:14 🔌 PLG.ERR │ [producer] Voice playback failed: True, staying sharp; we’re kee
+00:30:48 🎵 TRACK │ Timbuktu — Över, Över, Övfer (feat Spotru
+00:30:48 🔊 QUEUE │ music_q ← 205-crome_-_crm_save_my_soul.mp3
+00:30:48 🎤 TTS.REQ │ "Timbuktu's Över, Över, Övfer missing even a year? ..." (voice: Eric)
+00:30:55 🎤 TTS.GEN │ msg_1786141848836.wav
+00:30:55 🎤 TTS.REQ │ "Still, the beats are clean, so let’s give it a spi..." (voice: Adrian)
+00:30:55 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+00:30:55 🔌 EVENT │ [producer] Voice: Timbuktu's Över, Över, Övfer missing eve...
+00:30:55 🎤 TTS.PLAY │ ▶ msg_1786141848836.wav
+00:34:48 🎵 TRACK │ The Fat Boys — Jail House Rap
+00:34:48 🔊 QUEUE │ music_q ← Lupe Fiasco - The Instrumental F. Jonah Matranga.mp3
+00:34:48 🔊 QUEUE │ music_q ← 10 - vin, kvinnor & sng (feat. supreme & masayah).mp3
+00:34:48 🔊 QUEUE │ music_q ← 06.Cypress Hill - Stank Ass Hoe.mp3
+00:34:48 🔊 QUEUE │ music_q ← 205-crome_-_crm_save_my_soul.mp3
+00:34:48 🔊 QUEUE │ music_q ← JJ Cale - Cocaïne.mp3
+00:34:48 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+00:35:30 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+00:35:30 🎤 TTS.REQ │ "Ah Queen Latifah's 'Unity', finally someone's keep..." (voice: Eric)
+00:35:39 🎤 TTS.GEN │ msg_1786142130173.wav
+00:35:39 🎤 TTS.REQ │ "This isn't even a hip hop track, it's rock from th..." (voice: Eric)
+00:35:43 🎤 TTS.GEN │ msg_1786142139112.wav
+00:35:43 🎤 TTS.REQ │ "Yeah that's not something I'd play after Eminem. T..." (voice: Adrian)
+00:35:43 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+00:35:43 🎤 TTS.REQ │ "West Coast vibes in a Swedish hip hop track? Sound..." (voice: Adrian)
+00:35:43 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+00:35:43 🎤 TTS.REQ │ "Evanescence on this playlist? That's a rock ballad..." (voice: Eric)
+00:35:49 🎤 TTS.GEN │ msg_1786142143786.wav
+00:35:49 🎤 TTS.REQ │ "True, but sometimes you gotta feel that emotional ..." (voice: Adrian)
+00:35:49 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+00:39:51 🎵 TRACK │ Lupe Fiasco — The Instrumental F. Jonah Matranga
+00:39:51 🔊 QUEUE │ music_q ← Queen Latifah - U.N.I.T.Y.mp3
+00:43:14 🎵 TRACK │ Timbuktu — Vin, Kvinnor & Sång (feat Supr
+00:43:14 🔊 QUEUE │ music_q ← 01 - Pop Muzik.mp3
+00:47:47 🎵 TRACK │ Cypress Hill — Stank Ass Hoe
+00:47:47 🔊 QUEUE │ music_q ← Svenska akademin - tror du de.mp3
+00:52:02 🎵 TRACK │ VA_-_RLSLOG-2nd-Anniversary-in-Memory-of-Scit-2CD-2008-RLSLOG — crome_-_crm_save_my_soul
+00:52:02 🔊 QUEUE │ music_q ← 0777-Captain.Sensible-Wot.mp3
+00:54:14 🎵 TRACK │ Lupe Fiasco — The Instrumental F. Jonah Matranga
+00:57:35 🎵 TRACK │ Timbuktu — Vin, Kvinnor & Sång (feat Supr
+01:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 01:00
+01:02:08 🎵 TRACK │ Cypress Hill — Stank Ass Hoe
+01:02:08 🎤 TTS.REQ │ "Booong! The time is 01:00" (voice: Aiden)
+01:02:09 🎤 TTS.GEN │ msg_1786143728168.wav
+01:02:09 🎤 TTS.PLAY │ ▶ msg_1786143728168.wav
+01:06:24 🎵 TRACK │ VA_-_RLSLOG-2nd-Anniversary-in-Memory-of-Scit-2CD-2008-RLSLOG — crome_-_crm_save_my_soul
+01:08:37 🎵 TRACK │ JJ Cale — Cocaïne
+01:08:37 🔊 QUEUE │ music_q ← 035. Evanescence - Going Under.mp3
+01:08:37 🎤 TTS.REQ │ "Nah, Lani tried to hit it hot but Necro's real gri..." (voice: Eric)
+01:08:41 🎤 TTS.GEN │ msg_1786144117194.wav
+01:08:41 🎤 TTS.REQ │ "That's right—this track keeps the energy alive whe..." (voice: Adrian)
+01:08:41 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+01:08:41 🎤 TTS.REQ │ "Finally something that actually belongs here, but ..." (voice: Eric)
+01:08:45 🎤 TTS.GEN │ msg_1786144121852.wav
+01:11:19 🎵 TRACK │ Queen Latifah — UNITY
+01:11:19 🔊 QUEUE │ music_q ← 08 - Miami.mp3
+01:11:19 🎤 TTS.REQ │ "Ah Queen Latifah's 'Unity', finally someone's keep..." (voice: Eric)
+01:11:27 🎤 TTS.GEN │ msg_1786144279762.wav
+01:11:27 🔌 EVENT │ [producer] Voice: Ah Queen Latifah's 'Unity', finally some...
+01:11:27 🎤 TTS.PLAY │ ▶ msg_1786144279762.wav
+01:15:26 🎵 TRACK │ U2 — Pop Muzik
+01:15:26 🔊 QUEUE │ music_q ← Necro - The Most Sadistic (Feat.Ill Bill).mp3
+01:15:26 🎤 TTS.REQ │ "This isn't even a hip hop track, it's rock from th..." (voice: Eric)
+01:15:31 🎤 TTS.GEN │ msg_1786144526904.wav
+01:15:31 🎤 TTS.REQ │ "Yeah that's not something I'd play after Eminem. T..." (voice: Adrian)
+01:15:31 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+01:16:09 🎤 TTS.PLAY │ ▶ msg_1786144526904.wav
+01:18:29 🎵 TRACK │ Svenska Akademin — Tror Du De?
+01:18:29 🔊 QUEUE │ music_q ← Eminem - Loose Yourself (BEST VERSION).mp3
+01:18:29 🎤 TTS.REQ │ "West Coast vibes in a Swedish hip hop track? Sound..." (voice: Adrian)
+01:18:29 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+01:18:29 🔌 EVENT │ [producer] Voice: West Coast vibes in a Swedish hip hop tr...
+01:18:29 🎤 TTS.REQ │ "West Coast vibes in a Swedish hip hop track? Sound..." (voice: Adrian)
+01:18:29 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+01:18:29 🔌 PLG.ERR │ [producer] Voice playback failed: West Coast vibes in a Swedish 
+01:21:44 🎵 TRACK │ Captain Sensible — Wot
+01:21:44 🔊 QUEUE │ music_q ← 035. Evanescence - Going Under.mp3
+01:21:44 🔊 QUEUE │ music_q ← 08 - Miami.mp3
+01:21:44 🔊 QUEUE │ music_q ← Necro - The Most Sadistic (Feat.Ill Bill).mp3
+01:21:44 🔊 QUEUE │ music_q ← Eminem - Loose Yourself (BEST VERSION).mp3
+01:21:44 🔊 QUEUE │ music_q ← cypress hill - kronologik.mp3
+01:21:44 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+01:22:20 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+01:22:20 🎤 TTS.REQ │ "Mobb Deep, that's a straight-up street anthem—feel..." (voice: Adrian)
+01:22:20 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+01:22:20 🎤 TTS.REQ │ "Listen, if Lani's database is messed up again you'..." (voice: Eric)
+01:22:26 🎤 TTS.GEN │ msg_1786144940242.wav
+01:22:26 🎤 TTS.REQ │ "Keep that energy high, and keep your gains coming." (voice: Adrian)
+01:22:26 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+01:22:26 🎤 TTS.REQ │ "U2? Really? We ain't playing rock tonight, we’re t..." (voice: Eric)
+01:22:32 🎤 TTS.GEN │ msg_1786144946672.wav
+01:22:32 🎤 TTS.REQ │ "But if you love it, it's all good—just don't expec..." (voice: Adrian)
+01:22:32 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+01:22:32 🎤 TTS.REQ │ "Cliff Richard and The Young Ones? This pops off th..." (voice: Eric)
+01:22:37 🎤 TTS.GEN │ msg_1786144952142.wav
+01:22:37 🎤 TTS.REQ │ "Said I'll keep it smooth but maybe add some old-sc..." (voice: Adrian)
+01:22:37 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+01:22:37 🎤 TTS.REQ │ "Ulf Lundell's 15-Älskling? Yeah, missing year and ..." (voice: Eric)
+01:22:45 🎤 TTS.GEN │ msg_1786144957672.wav
+01:22:45 🎤 TTS.REQ │ "But if that melody lifts your heart, keep vibing." (voice: Adrian)
+01:22:45 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+01:24:58 🎵 TRACK │ Evanescence — Going Under
+01:24:59 🔊 QUEUE │ music_q ← Mobb Deep - Eye For A Eye (Your Beef Is Mines) (With NaS & Raekwon).mp3
+01:28:29 🎵 TRACK │ U2 — Miami
+01:28:29 🔊 QUEUE │ music_q ← 10Wu-Tang Clan - Protect Ya Neck.mp3
+01:33:16 🎵 TRACK │ Necro — The Most Sadistic Ft. ILL BILL
+01:33:16 🔊 QUEUE │ music_q ← 04 - U2 - I Still Havent Found What Im Looking For.mp3
+01:36:11 🎵 TRACK │ Eminem — Loose Yourself (BEST VERSION)
+01:36:11 🔊 QUEUE │ music_q ← 0268-Laid.Back-Sunshine.Reggae.mp3
+01:41:38 🎵 TRACK │ Evanescence — Going Under
+01:45:09 🎵 TRACK │ U2 — Miami
+01:49:56 🎵 TRACK │ Necro — The Most Sadistic Ft. ILL BILL
+01:52:50 🎵 TRACK │ Eminem — Loose Yourself (BEST VERSION)
+01:58:17 🎵 TRACK │ Cypress Hill — Kronologik
+01:58:17 🔊 QUEUE │ music_q ← 099. Cliff Richard & The Young Ones - Living Doll.mp3
+01:58:17 🎤 TTS.REQ │ "Wyclef in the mix—hot 93.1 Pussycat—let's get that..." (voice: Adrian)
+01:58:17 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+01:58:17 🎤 TTS.REQ │ "If there's any metadata bug you hear a wrong name ..." (voice: Eric)
+01:58:21 🎤 TTS.GEN │ msg_1786147097752.wav
+01:58:21 🎤 TTS.REQ │ "Aight, keep your flow steady and lift that shoulde..." (voice: Adrian)
+01:58:21 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+01:58:21 🎤 TTS.REQ │ "Atmosphere's 'Gods Bathroom Floor' is pure hip-hop..." (voice: Eric)
+01:58:25 🎤 TTS.GEN │ msg_1786147101822.wav
+01:58:25 🎤 TTS.REQ │ "Feel the depth? It's like a slow jog on the treadm..." (voice: Adrian)
+01:58:25 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+01:58:25 🎤 TTS.REQ │ "Just remember, if Lani starts messing up again you..." (voice: Eric)
+01:58:29 🎤 TTS.GEN │ msg_1786147105963.wav
+02:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 02:00
+02:02:58 🎵 TRACK │ Mobb Deep — Eye For A Eye (Your Beef Is Mines) (With NaS & Raekwon)
+02:02:58 🎤 TTS.REQ │ "Booong! The time is 02:00" (voice: Aiden)
+02:03:00 🎤 TTS.GEN │ msg_1786147378550.wav
+02:03:00 🎤 TTS.PLAY │ ▶ msg_1786147378550.wav
+02:03:00 🔊 QUEUE │ music_q ← 15 - Öppna Landskap [cd2] - Ulf Lundell - 15-Älskling.mp3
+02:07:43 🎵 TRACK │ Wu-Tang Clan — Protect Ya Neck
+02:07:43 🔊 QUEUE │ music_q ← 10-wyclef_jean-hot_931_pussycat-rns.mp3
+02:07:43 🎤 TTS.REQ │ "Mobb Deep, that's a straight-up street anthem—feel..." (voice: Adrian)
+02:07:43 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+02:07:43 🎤 TTS.REQ │ "Listen, if Lani's database is messed up again you'..." (voice: Eric)
+02:07:47 🎤 TTS.GEN │ msg_1786147663581.wav
+02:07:47 🎤 TTS.REQ │ "Keep that energy high, and keep your gains coming." (voice: Adrian)
+02:07:47 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+02:07:47 🔌 EVENT │ [producer] Voice: Mobb Deep, that's a straight-up street a...
+02:07:47 🎤 TTS.REQ │ "Mobb Deep, that's a straight-up street anthem—feel..." (voice: Adrian)
+02:07:47 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+02:07:47 🔌 PLG.ERR │ [producer] Voice playback failed: Mobb Deep, that's a straight-u
+02:09:16 🎤 TTS.PLAY │ ▶ msg_1786147663581.wav
+02:12:30 🎵 TRACK │ U2 — I Still Havent Found What Im Looking For
+02:12:30 🔊 QUEUE │ music_q ← 1997_11 Blur - Song2.mp3
+02:12:30 🎤 TTS.REQ │ "U2? Really? We ain't playing rock tonight, we’re t..." (voice: Eric)
+02:12:36 🎤 TTS.GEN │ msg_1786147950695.wav
+02:12:36 🎤 TTS.REQ │ "But if you love it, it's all good—just don't expec..." (voice: Adrian)
+02:12:36 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+02:12:36 🔌 EVENT │ [producer] Voice: U2? Really? We ain't playing rock tonigh...
+02:12:36 🎤 TTS.PLAY │ ▶ msg_1786147950695.wav
+02:17:05 🎵 TRACK │ Laid Back — Sunshine Reggae
+02:17:05 🔊 QUEUE │ music_q ← Atmosphere - God's Bathroom Floor.mp3
+02:21:16 🎵 TRACK │ Cliff Richard & The Young Ones — Living Doll
+02:21:16 🔊 QUEUE │ music_q ← 15 - Öppna Landskap [cd2] - Ulf Lundell - 15-Älskling.mp3
+02:21:16 🔊 QUEUE │ music_q ← 10-wyclef_jean-hot_931_pussycat-rns.mp3
+02:21:16 🔊 QUEUE │ music_q ← 1997_11 Blur - Song2.mp3
+02:21:16 🔊 QUEUE │ music_q ← Atmosphere - God's Bathroom Floor.mp3
+02:21:16 🔊 QUEUE │ music_q ← 14 - All I Want Is You.mp3
+02:21:16 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+02:22:06 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+02:22:06 🎤 TTS.REQ │ "Lani's got another glitch; this blues track has no..." (voice: Eric)
+02:22:15 🎤 TTS.GEN │ msg_1786148526636.wav
+02:22:15 🎤 TTS.REQ │ "No worries, brother. We’re riding this groove anyw..." (voice: Adrian)
+02:22:15 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+02:22:15 🎤 TTS.REQ │ "Don’t hand me that laid‑back vibe. We’re talking h..." (voice: Eric)
+02:22:19 🎤 TTS.GEN │ msg_1786148535539.wav
+02:22:19 🎤 TTS.REQ │ "Straight up, I keep it chilled while the sweat sli..." (voice: Adrian)
+02:22:19 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+02:22:19 🎤 TTS.REQ │ "C.R.E.A.M., the real OG on this one. Lani's librar..." (voice: Eric)
+02:22:25 🎤 TTS.GEN │ msg_1786148539642.wav
+02:22:25 🎤 TTS.REQ │ "For sure, we’re pumping that West Coast flavor wit..." (voice: Adrian)
+02:22:25 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+02:22:25 🎤 TTS.REQ │ "I’ll keep hip‑hop pure – promise. Let’s get those ..." (voice: Eric)
+02:22:28 🎤 TTS.GEN │ msg_1786148545448.wav
+02:22:28 🎤 TTS.REQ │ "Yeah baby, stay steady and feel the rhythm as we p..." (voice: Adrian)
+02:22:28 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+02:22:28 🎤 TTS.REQ │ "Now dropping a soul jam from Booker T., but you’re..." (voice: Eric)
+02:22:36 🎤 TTS.GEN │ msg_1786148548450.wav
+02:22:36 🎤 TTS.REQ │ "Mando Diao's rocking but it’s not exactly hip-hop—..." (voice: Eric)
+02:22:40 🎤 TTS.GEN │ msg_1786148556494.wav
+02:22:40 🎤 TTS.REQ │ "We keep the vibes flowing, even if this is a bit c..." (voice: Adrian)
+02:22:40 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+02:22:40 🎤 TTS.REQ │ "Lani would have thrown this track into the wrong p..." (voice: Eric)
+02:22:43 🎤 TTS.GEN │ msg_1786148560751.wav
+02:22:43 🎤 TTS.REQ │ "When the beat hits your chest, forget any genre—it..." (voice: Adrian)
+02:22:43 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+02:22:43 🎤 TTS.REQ │ "That’s what I’m talking about; keep those legs bur..." (voice: Eric)
+02:22:46 🎤 TTS.GEN │ msg_1786148563658.wav
+02:25:29 🎵 TRACK │ Ulf Lundell — 15-Älskling
+02:25:29 🔊 QUEUE │ music_q ← 224-r@z_-_deep_in_my_soul.mp3
+02:30:36 🎵 TRACK │ Wyclef Jean — Hot 93.1 Pussycat
+02:30:36 🔊 QUEUE │ music_q ← 05._Yahel_-_La_Esperansa-eMi.mp3
+02:34:19 🎵 TRACK │ 1997_11 Blur — Song2
+02:34:19 🔊 QUEUE │ music_q ← 08Wu-Tang Clan - C.R.E.A.M..mp3
+02:36:15 🎵 TRACK │ Atmosphere — Gods Bathroom Floor (Added Bon
+02:36:15 🔊 QUEUE │ music_q ← 181 - Booker T. & The M.G.s - Green Onions.mp3
+02:40:06 🎵 TRACK │ Ulf Lundell — 15-Älskling
+02:45:15 🎵 TRACK │ Wyclef Jean — Hot 93.1 Pussycat
+02:48:58 🎵 TRACK │ 1997_11 Blur — Song2
+02:50:54 🎵 TRACK │ Atmosphere — Gods Bathroom Floor (Added Bon
+02:54:45 🎵 TRACK │ U2 — All I Want Is You
+02:54:45 🔊 QUEUE │ music_q ← 068. Mando Diao - Sheepdog.mp3
+02:54:45 🎤 TTS.REQ │ "If that’s not a burn, you can’t call it workout—La..." (voice: Eric)
+02:54:49 🎤 TTS.GEN │ msg_1786150485589.wav
+02:54:49 🎤 TTS.REQ │ "Artist? This track is noise and metadata is missin..." (voice: Eric)
+02:54:52 🎤 TTS.GEN │ msg_1786150489206.wav
+03:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 03:00
+03:04:31 🎵 TRACK │ VA_-_RLSLOG-2nd-Anniversary-in-Memory-of-Scit-2CD-2008-RLSLOG — r@z_-_deep_in_my_soul
+03:04:31 🎤 TTS.REQ │ "Booong! The time is 03:00" (voice: Aiden)
+03:04:33 🎤 TTS.GEN │ msg_1786151071427.wav
+03:04:33 🎤 TTS.PLAY │ ▶ msg_1786151071427.wav
+03:04:33 🔊 QUEUE │ music_q ← 064. Midge Ure - If I Was.mp3
+03:04:33 🎤 TTS.REQ │ "Lani's got another glitch; this blues track has no..." (voice: Eric)
+03:04:38 🎤 TTS.GEN │ msg_1786151073349.wav
+03:04:38 🎤 TTS.REQ │ "No worries, brother. We’re riding this groove anyw..." (voice: Adrian)
+03:04:38 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+03:04:38 🎤 TTS.REQ │ "Don’t hand me that laid‑back vibe. We’re talking h..." (voice: Eric)
+03:04:41 🎤 TTS.GEN │ msg_1786151078403.wav
+03:04:41 🎤 TTS.REQ │ "Straight up, I keep it chilled while the sweat sli..." (voice: Adrian)
+03:04:41 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+03:04:41 🔌 EVENT │ [producer] Voice: Lani's got another glitch; this blues tr...
+03:04:42 🎤 TTS.PLAY │ ▶ msg_1786151073349.wav
+03:04:42 🔌 EVENT │ [producer] Queued between songs: Straight up, I keep it chilled while the...
+03:04:43 🎤 TTS.PLAY │ ▶ msg_1786151078403.wav
+03:04:53 🎵 TRACK │ Yahel — La Esperansa
+03:04:53 🎤 TTS.REQ │ "Straight up, I keep it chilled while the sweat sli..." (voice: Adrian)
+03:04:53 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+03:04:53 🔌 PLG.ERR │ [producer] Voice playback failed: Straight up, I keep it chilled
+03:04:53 🔊 QUEUE │ music_q ← 196 - Guns N' Roses - Sweet Child O' Mine.mp3
+03:13:00 🎵 TRACK │ Wu-Tang Clan — C.R.E.A.M.
+03:13:00 🔊 QUEUE │ music_q ← 254 - AC DC - Highway To Hell.mp3
+03:13:00 🎤 TTS.REQ │ "C.R.E.A.M., the real OG on this one. Lani's librar..." (voice: Eric)
+03:13:08 🎤 TTS.GEN │ msg_1786151580958.wav
+03:13:08 🎤 TTS.REQ │ "For sure, we’re pumping that West Coast flavor wit..." (voice: Adrian)
+03:13:08 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+03:13:08 🎤 TTS.REQ │ "I’ll keep hip‑hop pure – promise. Let’s get those ..." (voice: Eric)
+03:13:11 🎤 TTS.GEN │ msg_1786151588690.wav
+03:13:11 🎤 TTS.REQ │ "Yeah baby, stay steady and feel the rhythm as we p..." (voice: Adrian)
+03:13:11 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+03:13:11 🔌 EVENT │ [producer] Voice: C.R.E.A.M., the real OG on this one. Lan...
+03:13:12 🎤 TTS.PLAY │ ▶ msg_1786151580958.wav
+03:13:12 🔌 EVENT │ [producer] Queued between songs: Yeah baby, stay steady and feel the rhyt...
+03:13:51 🎤 TTS.REQ │ "For sure, we’re pumping that West Coast flavor wit..." (voice: Adrian)
+03:13:51 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+03:13:51 🔌 PLG.ERR │ [producer] Voice playback failed: For sure, we’re pumping that W
+03:17:07 🎵 TRACK │ Booker T. & The M.G.s — Green Onions
+03:17:07 🎤 TTS.REQ │ "Yeah baby, stay steady and feel the rhythm as we p..." (voice: Adrian)
+03:17:07 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+03:17:07 🔌 PLG.ERR │ [producer] Voice playback failed: Yeah baby, stay steady and fee
+03:17:07 🔊 QUEUE │ music_q ← A Santa Sings - Rudolf Red Nose Raindeer.mp3
+03:17:07 🎤 TTS.REQ │ "Now dropping a soul jam from Booker T., but you’re..." (voice: Eric)
+03:17:15 🎤 TTS.GEN │ msg_1786151827170.wav
+03:18:02 🎤 TTS.PLAY │ ▶ msg_1786151827170.wav
+03:19:53 🎵 TRACK │ Mando Diao — sheepdog
+03:19:53 🔊 QUEUE │ music_q ← 064. Midge Ure - If I Was.mp3
+03:19:53 🔊 QUEUE │ music_q ← 196 - Guns N' Roses - Sweet Child O' Mine.mp3
+03:19:53 🔊 QUEUE │ music_q ← 254 - AC DC - Highway To Hell.mp3
+03:19:53 🔊 QUEUE │ music_q ← A Santa Sings - Rudolf Red Nose Raindeer.mp3
+03:19:53 🔊 QUEUE │ music_q ← 474 - Funkadelic - One Nation Under A Groove.mp3
+03:19:53 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+03:20:30 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+03:20:30 🎤 TTS.REQ │ "Alright, Jurassic 5 is straight-up old school hip ..." (voice: Eric)
+03:20:37 🎤 TTS.GEN │ msg_1786152030955.wav
+03:20:37 🎤 TTS.REQ │ "Yo, those rhymes are slick and the bass hits just ..." (voice: Adrian)
+03:20:37 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+03:20:37 🎤 TTS.REQ │ "Just a heads up: Lani messed up the tags again—no ..." (voice: Eric)
+03:20:41 🎤 TTS.GEN │ msg_1786152037101.wav
+03:20:41 🎤 TTS.REQ │ "Girl, it ain't a big thing. Tonight's about feelin..." (voice: Adrian)
+03:20:41 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+03:20:41 🎤 TTS.REQ │ "Janet Jackson on 'Nasty'? Who put this in the play..." (voice: Eric)
+03:20:45 🎤 TTS.GEN │ msg_1786152041181.wav
+03:20:45 🎤 TTS.REQ │ "Yo, but the groove is infectious; even if it ain’t..." (voice: Adrian)
+03:20:45 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+03:20:45 🎤 TTS.REQ │ "If this keeps coming, I’m sending Lani a personal ..." (voice: Eric)
+03:20:50 🎤 TTS.GEN │ msg_1786152045313.wav
+03:20:50 🎤 TTS.REQ │ "EPMD's 'Head Banger' — the perfect workout anthem,..." (voice: Eric)
+03:20:52 🎤 TTS.GEN │ msg_1786152050570.wav
+03:20:52 🎤 TTS.REQ │ "Word up! That beat’s a timeless piece of West Coas..." (voice: Adrian)
+03:20:52 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+03:20:52 🎤 TTS.REQ │ "Honestly Lani might have forgot to tag it correctl..." (voice: Eric)
+03:20:58 🎤 TTS.GEN │ msg_1786152052751.wav
+03:20:58 🎤 TTS.REQ │ "All we need is that rhythm. Let the sweat flow, ye..." (voice: Adrian)
+03:20:58 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+03:20:58 🎤 TTS.REQ │ "Timbuktu's ‘independent moves’ is pure instrument...." (voice: Eric)
+03:21:03 🎤 TTS.GEN │ msg_1786152058246.wav
+03:21:03 🎤 TTS.REQ │ "Aight, that’s some smooth background beat – keeps ..." (voice: Adrian)
+03:21:03 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+03:23:24 🎵 TRACK │ Midge Ure — If I Was
+03:23:24 🔊 QUEUE │ music_q ← 053. Roxette - Dressed for success.mp3
+03:28:03 🎵 TRACK │ Guns N' Roses — Sweet Child O' Mine
+03:28:03 🔊 QUEUE │ music_q ← Jurassic 5 - Whats Golden.mp3
+03:33:54 🎵 TRACK │ AC/DC — Highway To Hell
+03:33:54 🔊 QUEUE │ music_q ← 028. Janet Jackson - Nasty.mp3
+03:37:19 🎵 TRACK │ Artist — Track 01
+03:37:19 🔊 QUEUE │ music_q ← EPMD - Head Banger.mp3
+03:39:49 🎵 TRACK │ Midge Ure — If I Was
+03:44:30 🎵 TRACK │ Guns N' Roses — Sweet Child O' Mine
+03:50:22 🎵 TRACK │ AC/DC — Highway To Hell
+03:53:44 🎵 TRACK │ Artist — Track 01
+03:56:17 🎵 TRACK │ Funkadelic — One Nation Under A Groove
+03:56:17 🔊 QUEUE │ music_q ← 1997_42 Suede - Lazy.mp3
+03:56:17 🎤 TTS.REQ │ "Now we’ve got the Black Eyed Peas spamming 'Shut U..." (voice: Eric)
+03:56:19 🎤 TTS.GEN │ msg_1786154177247.wav
+03:56:19 🎤 TTS.REQ │ "Yo! That track’s a straight pump up jam for any mi..." (voice: Adrian)
+03:56:19 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+03:56:19 🎤 TTS.REQ │ "Lani dropped another glitch – metadata says just ‘..." (voice: Eric)
+03:56:25 🎤 TTS.GEN │ msg_1786154179896.wav
+03:56:25 🎤 TTS.REQ │ "No doubt, but we’re all about that loud energy ton..." (voice: Adrian)
+03:56:25 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+03:56:25 🎤 TTS.REQ │ "Last one is EPMD's 'You Gots To Chill', a timeless..." (voice: Eric)
+03:56:28 🎤 TTS.GEN │ msg_1786154185060.wav
+03:56:28 🎤 TTS.REQ │ "That’s the right kind of classic—good thumps, good..." (voice: Adrian)
+03:56:28 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+03:56:28 🎤 TTS.REQ │ "But Lani’s still missing that year tag again. This..." (voice: Eric)
+03:56:31 🎤 TTS.GEN │ msg_1786154188410.wav
+03:56:31 🎤 TTS.REQ │ "Nah man, if the beats keep dropping, we're fine. L..." (voice: Adrian)
+03:56:31 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+04:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 04:00
+04:03:42 🎵 TRACK │ Roxette — Dressed For Success
+04:03:42 🎤 TTS.REQ │ "Booong! The time is 04:00" (voice: Aiden)
+04:03:44 🎤 TTS.GEN │ msg_1786154622581.wav
+04:03:44 🎤 TTS.PLAY │ ▶ msg_1786154622581.wav
+04:03:44 🔊 QUEUE │ music_q ← 0894-Robbie.Nevil-Cest.la.vie.mp3
+04:07:49 🎵 TRACK │ Jurassic 5 — Whats Golden
+04:07:49 🔊 QUEUE │ music_q ← 04-timbuktu_-_independent_moves_(instrumental)-ica.mp3
+04:07:49 🎤 TTS.REQ │ "Alright, Jurassic 5 is straight-up old school hip ..." (voice: Eric)
+04:07:52 🎤 TTS.GEN │ msg_1786154869122.wav
+04:07:52 🎤 TTS.REQ │ "Yo, those rhymes are slick and the bass hits just ..." (voice: Adrian)
+04:07:52 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+04:07:52 🎤 TTS.REQ │ "Just a heads up: Lani messed up the tags again—no ..." (voice: Eric)
+04:07:55 🎤 TTS.GEN │ msg_1786154872587.wav
+04:07:55 🎤 TTS.REQ │ "Girl, it ain't a big thing. Tonight's about feelin..." (voice: Adrian)
+04:07:55 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+04:07:55 🔌 EVENT │ [producer] Voice: Alright, Jurassic 5 is straight-up old s...
+04:07:56 🎤 TTS.PLAY │ ▶ msg_1786154869122.wav
+04:07:56 🔌 EVENT │ [producer] Queued between songs: Girl, it ain't a big thing. Tonight's ab...
+04:08:33 🎤 TTS.REQ │ "Yo, those rhymes are slick and the bass hits just ..." (voice: Adrian)
+04:08:33 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+04:08:33 🔌 PLG.ERR │ [producer] Voice playback failed: Yo, those rhymes are slick and
+04:10:53 🎵 TRACK │ Janet Jackson — Nasty
+04:10:53 🎤 TTS.REQ │ "Girl, it ain't a big thing. Tonight's about feelin..." (voice: Adrian)
+04:10:53 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+04:10:53 🔌 PLG.ERR │ [producer] Voice playback failed: Girl, it ain't a big thing. To
+04:10:53 🔊 QUEUE │ music_q ← 156. Black Eyed Peas - Shut Up (15 i dec).mp3
+04:10:53 🎤 TTS.REQ │ "Janet Jackson on 'Nasty'? Who put this in the play..." (voice: Eric)
+04:10:56 🎤 TTS.GEN │ msg_1786155053369.wav
+04:10:56 🎤 TTS.REQ │ "Yo, but the groove is infectious; even if it ain’t..." (voice: Adrian)
+04:10:56 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+04:10:56 🎤 TTS.REQ │ "If this keeps coming, I’m sending Lani a personal ..." (voice: Eric)
+04:11:00 🎤 TTS.GEN │ msg_1786155056793.wav
+04:11:01 🔌 EVENT │ [producer] Voice: Janet Jackson on 'Nasty'? Who put this i...
+04:11:01 🎤 TTS.PLAY │ ▶ msg_1786155053369.wav
+04:12:07 🎤 TTS.REQ │ "Yo, but the groove is infectious; even if it ain’t..." (voice: Adrian)
+04:12:07 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+04:12:07 🔌 PLG.ERR │ [producer] Voice playback failed: Yo, but the groove is infectio
+04:14:50 🎵 TRACK │ EPMD — Head Banger
+04:14:50 🔊 QUEUE │ music_q ← EPMD - You Gots To Chill.mp3
+04:14:50 🎤 TTS.REQ │ "EPMD's 'Head Banger' — the perfect workout anthem,..." (voice: Eric)
+04:14:53 🎤 TTS.GEN │ msg_1786155290591.wav
+04:14:53 🎤 TTS.REQ │ "Word up! That beat’s a timeless piece of West Coas..." (voice: Adrian)
+04:14:53 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+04:14:53 🎤 TTS.REQ │ "Honestly Lani might have forgot to tag it correctl..." (voice: Eric)
+04:14:56 🎤 TTS.GEN │ msg_1786155293542.wav
+04:14:56 🎤 TTS.REQ │ "All we need is that rhythm. Let the sweat flow, ye..." (voice: Adrian)
+04:14:56 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+04:14:56 🔌 EVENT │ [producer] Voice: EPMD's 'Head Banger' — the perfect worko...
+04:14:57 🎤 TTS.PLAY │ ▶ msg_1786155290591.wav
+04:14:57 🔌 EVENT │ [producer] Queued between songs: All we need is that rhythm. Let the swea...
+04:16:07 🎤 TTS.REQ │ "Word up! That beat’s a timeless piece of West Coas..." (voice: Adrian)
+04:16:07 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+04:16:07 🔌 PLG.ERR │ [producer] Voice playback failed: Word up! That beat’s a timeles
+04:19:38 🎵 TRACK │ 1997_42 Suede — Lazy
+04:19:38 🎤 TTS.REQ │ "All we need is that rhythm. Let the sweat flow, ye..." (voice: Adrian)
+04:19:38 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+04:19:38 🔌 PLG.ERR │ [producer] Voice playback failed: All we need is that rhythm. Le
+04:19:38 🔊 QUEUE │ music_q ← 0894-Robbie.Nevil-Cest.la.vie.mp3
+04:19:38 🔊 QUEUE │ music_q ← 04-timbuktu_-_independent_moves_(instrumental)-ica.mp3
+04:19:38 🔊 QUEUE │ music_q ← 156. Black Eyed Peas - Shut Up (15 i dec).mp3
+04:19:38 🔊 QUEUE │ music_q ← EPMD - You Gots To Chill.mp3
+04:19:38 🔊 QUEUE │ music_q ← 09 - Allure.mp3
+04:19:38 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+04:20:08 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+04:20:08 🎤 TTS.REQ │ "Xizit’s Papparazzi is ready to launch your gains. ..." (voice: Eric)
+04:20:13 🎤 TTS.GEN │ msg_1786155608824.wav
+04:20:13 🎤 TTS.REQ │ "Yeah, but listen how smooth those hooks break you ..." (voice: Adrian)
+04:20:13 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+04:20:13 🎤 TTS.REQ │ "Now Xzibit's Plastic Surgery—no doubt it’s about f..." (voice: Eric)
+04:20:17 🎤 TTS.GEN │ msg_1786155613579.wav
+04:20:17 🎤 TTS.REQ │ "Feel that bass? G‑funk vibes creeping through the ..." (voice: Adrian)
+04:20:17 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+04:20:17 🎤 TTS.REQ │ "Hey, Timbuktu’s M.I.S is oddly spaced; maybe Lani ..." (voice: Eric)
+04:20:21 🎤 TTS.GEN │ msg_1786155617743.wav
+04:20:21 🎤 TTS.REQ │ "Weird track names but we still spin it like a clas..." (voice: Adrian)
+04:20:21 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+04:20:21 🎤 TTS.REQ │ "ONYX’s Throw Ya Gunz is the hype‑maker for your sw..." (voice: Eric)
+04:20:24 🎤 TTS.GEN │ msg_1786155621358.wav
+04:20:24 🎤 TTS.REQ │ "You feel that, man? All that energy is perfect for..." (voice: Adrian)
+04:20:24 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+04:20:24 🎤 TTS.REQ │ "Sure sure, but I swear Lani probably put the wrong..." (voice: Eric)
+04:20:31 🎤 TTS.GEN │ msg_1786155624180.wav
+04:20:31 🎤 TTS.REQ │ "Nah, she did fine, just letting you know we’re all..." (voice: Adrian)
+04:20:31 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+04:22:53 🎵 TRACK │ Robbie Nevil — C'est la vie
+04:22:53 🔊 QUEUE │ music_q ← Xzibit - Papparazzi.mp3
+04:26:13 🎵 TRACK │ Timbuktu — independent moves (instr)
+04:26:13 🔊 QUEUE │ music_q ← 01-gene_pitney-24_hours_from_tulsa-xxl.mp3
+04:30:18 🎵 TRACK │ Black Eyed Peas — Shut Up
+04:30:18 🔊 QUEUE │ music_q ← 13 - Xzibit - Plastic Surgery.mp3
+04:35:09 🎵 TRACK │ EPMD — You Gots To Chill
+04:35:09 🔊 QUEUE │ music_q ← timbuktu - w.d.m.d - 09 - m.i.s (jubba).mp3
+04:39:30 🎵 TRACK │ Robbie Nevil — C'est la vie
+04:42:51 🎵 TRACK │ Timbuktu — independent moves (instr)
+04:46:56 🎵 TRACK │ Black Eyed Peas — Shut Up
+04:51:49 🎵 TRACK │ EPMD — You Gots To Chill
+04:56:09 🎵 TRACK │ Jay-Z + DJ Danger Mouse — Allure
+04:56:10 🔊 QUEUE │ music_q ← 04-svenska_akademien-talande_tystnad-ftd.mp3
+04:56:10 🎤 TTS.REQ │ "Here’s STAN by Eminem—genre? Who the hell knows? L..." (voice: Eric)
+04:56:13 🎤 TTS.GEN │ msg_1786157770064.wav
+04:56:13 🎤 TTS.REQ │ "Yet these bars are still pure weapon for your work..." (voice: Adrian)
+04:56:13 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+04:56:13 🎤 TTS.REQ │ "Michael dropping Black Or White… not hip‑hop, but ..." (voice: Eric)
+04:56:19 🎤 TTS.GEN │ msg_1786157773265.wav
+04:56:19 🎤 TTS.REQ │ "But damn, those beats are so funky you’d think we ..." (voice: Adrian)
+04:56:19 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+05:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 05:00
+05:00:10 🎵 TRACK │ Xibit — Papparazzi
+05:00:10 🎤 TTS.REQ │ "Booong! The time is 05:00" (voice: Aiden)
+05:00:12 🎤 TTS.GEN │ msg_1786158010752.wav
+05:00:12 🎤 TTS.PLAY │ ▶ msg_1786158010752.wav
+05:00:12 🔊 QUEUE │ music_q ← Onyx - throw ya gunz .mp3
+05:00:12 🎤 TTS.REQ │ "Xizit’s Papparazzi is ready to launch your gains. ..." (voice: Eric)
+05:00:17 🎤 TTS.GEN │ msg_1786158012697.wav
+05:00:17 🎤 TTS.REQ │ "Yeah, but listen how smooth those hooks break you ..." (voice: Adrian)
+05:00:17 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+05:00:17 🔌 EVENT │ [producer] Voice: Xizit’s Papparazzi is ready to launch yo...
+05:00:18 🎤 TTS.PLAY │ ▶ msg_1786158012697.wav
+05:04:03 🎵 TRACK │ Gene Pitney — 24 Hours From Tulsa
+05:04:03 🔊 QUEUE │ music_q ← Freestyle Fellowship - 7th Seal.mp3
+05:06:57 🎵 TRACK │ Xzibit — Plastic Surgery
+05:06:57 🔊 QUEUE │ music_q ← 004 STAN Eminem.mp3
+05:06:57 🎤 TTS.REQ │ "Now Xzibit's Plastic Surgery—no doubt it’s about f..." (voice: Eric)
+05:07:02 🎤 TTS.GEN │ msg_1786158417940.wav
+05:07:02 🎤 TTS.REQ │ "Feel that bass? G‑funk vibes creeping through the ..." (voice: Adrian)
+05:07:02 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+05:07:02 🔌 EVENT │ [producer] Voice: Now Xzibit's Plastic Surgery—no doubt it...
+05:07:02 🎤 TTS.PLAY │ ▶ msg_1786158417940.wav
+05:11:32 🎵 TRACK │ Timbuktu — M.I.S
+05:11:32 🔊 QUEUE │ music_q ← 0240-Michael.Jackson-Black.Or.White.mp3
+05:11:32 🎤 TTS.REQ │ "Hey, Timbuktu’s M.I.S is oddly spaced; maybe Lani ..." (voice: Eric)
+05:11:35 🎤 TTS.GEN │ msg_1786158692159.wav
+05:11:35 🎤 TTS.REQ │ "Weird track names but we still spin it like a clas..." (voice: Adrian)
+05:11:35 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+05:11:35 🔌 EVENT │ [producer] Voice: Weird track names but we still spin it l...
+05:11:35 🎤 TTS.REQ │ "Weird track names but we still spin it like a clas..." (voice: Adrian)
+05:11:35 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+05:11:35 🔌 PLG.ERR │ [producer] Voice playback failed: Weird track names but we still
+05:13:19 🎤 TTS.PLAY │ ▶ msg_1786158692159.wav
+05:14:52 🎵 TRACK │ Svenska Akademien — _Talande Tystnad
+05:14:52 🔊 QUEUE │ music_q ← Onyx - throw ya gunz .mp3
+05:14:52 🔊 QUEUE │ music_q ← Freestyle Fellowship - 7th Seal.mp3
+05:14:52 🔊 QUEUE │ music_q ← 004 STAN Eminem.mp3
+05:14:52 🔊 QUEUE │ music_q ← 0240-Michael.Jackson-Black.Or.White.mp3
+05:14:52 🔊 QUEUE │ music_q ← 102_timbuktu_-_mvh-aft.mp3
+05:14:52 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+05:15:24 🤖 LLM.REPLY │ "{"segments":[
+  {
+    "song_index":0,
+    "voice":..."
+05:15:24 🎤 TTS.REQ │ "Jag Drar is another hit from Timbuktu, ready to ke..." (voice: Eric)
+05:15:28 🎤 TTS.GEN │ msg_1786158924784.wav
+05:15:28 🎤 TTS.REQ │ "Yeah, Snoop on deck with the West Coast swagger, k..." (voice: Adrian)
+05:15:28 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+05:15:28 🎤 TTS.REQ │ "Can't let the beat slack off — this track will cru..." (voice: Eric)
+05:15:31 🎤 TTS.GEN │ msg_1786158928908.wav
+05:15:31 🎤 TTS.REQ │ "Fancy's Chinese Eyes is not hip-hop, but I'm playi..." (voice: Eric)
+05:15:35 🎤 TTS.GEN │ msg_1786158931185.wav
+05:15:35 🎤 TTS.REQ │ "The Game dropping Scream On 'Em, Swizz Beatz's bea..." (voice: Eric)
+05:15:39 🎤 TTS.GEN │ msg_1786158935961.wav
+05:15:39 🎤 TTS.REQ │ "West coast vibes in the mix, keeping the crew hype..." (voice: Adrian)
+05:15:39 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+05:15:39 🎤 TTS.REQ │ "I hear that beat too hard — can't say I'm impresse..." (voice: Eric)
+05:15:42 🎤 TTS.GEN │ msg_1786158939132.wav
+05:15:42 🎤 TTS.REQ │ "Wyclef Jean's Lavi New York blends hip hop and reg..." (voice: Eric)
+05:15:46 🎤 TTS.GEN │ msg_1786158942100.wav
+05:18:31 🎵 TRACK │ ONYX — Throw Ya Gunz
+05:18:31 🔊 QUEUE │ music_q ← 023. Pink - Just Like a Pill [Radio Edit]1.mp3
+05:21:44 🎵 TRACK │ Freestyle Fellowship — 7th Seal
+05:21:44 🔊 QUEUE │ music_q ← timbuktu - w.d.m.d - 13 - jag drar.mp3
+05:27:02 🎵 TRACK │ 2001 - Topp 100 — STAN Eminem
+05:27:03 🔊 QUEUE │ music_q ← 055. Fancy - Chinese Eyes.mp3
+05:33:40 🎵 TRACK │ Michael Jackson — Black Or White
+05:33:40 🔊 QUEUE │ music_q ← 08 - Öppna Landskap 75-95 [cd1] - Ulf Lundell - 08-Den vassa eggen.mp3
+05:37:53 🎵 TRACK │ ONYX — Throw Ya Gunz
+05:41:03 🎵 TRACK │ Freestyle Fellowship — 7th Seal
+05:46:22 🎵 TRACK │ 2001 - Topp 100 — STAN Eminem
+05:53:02 🎵 TRACK │ Michael Jackson — Black Or White
+05:57:12 🎵 TRACK │ Timbuktu — MVH
+05:57:13 🔊 QUEUE │ music_q ← 09-the_game-scream_on_em_(feat_swizz_beatz).mp3
+05:57:13 🎤 TTS.REQ │ "Electronic beat from Cynthie aka Vynil Princess, s..." (voice: Eric)
+05:57:17 🎤 TTS.GEN │ msg_1786161433036.wav
+05:57:17 🎤 TTS.REQ │ "We keep it chill yet energetic, so you stay motiva..." (voice: Adrian)
+05:57:17 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+05:57:17 🎤 TTS.REQ │ "Undercover's Baker Street lacking a year? That's a..." (voice: Eric)
+05:57:21 🎤 TTS.GEN │ msg_1786161437341.wav
+06:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 06:00
+06:01:13 🎵 TRACK │ Pink — Just Like a Pill
+06:01:13 🎤 TTS.REQ │ "Booong! The time is 06:00" (voice: Aiden)
+06:01:15 🎤 TTS.GEN │ msg_1786161673769.wav
+06:01:15 🎤 TTS.PLAY │ ▶ msg_1786161673769.wav
+06:01:15 🔊 QUEUE │ music_q ← 11-wyclef_jean-lavi_new_york_(feat_buggah)-rns.mp3
+06:05:08 🎵 TRACK │ Timbuktu — Jag Drar
+06:05:08 🔊 QUEUE │ music_q ← 047. Linkin Park - Numb.mp3
+06:05:08 🎤 TTS.REQ │ "Jag Drar is another hit from Timbuktu, ready to ke..." (voice: Eric)
+06:05:11 🎤 TTS.GEN │ msg_1786161908579.wav
+06:05:11 🎤 TTS.REQ │ "Yeah, Snoop on deck with the West Coast swagger, k..." (voice: Adrian)
+06:05:11 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+06:05:11 🎤 TTS.REQ │ "Can't let the beat slack off — this track will cru..." (voice: Eric)
+06:05:14 🎤 TTS.GEN │ msg_1786161911888.wav
+06:05:14 🔌 EVENT │ [producer] Voice: Jag Drar is another hit from Timbuktu, r...
+06:05:14 🎤 TTS.PLAY │ ▶ msg_1786161908579.wav
+06:06:44 🎤 TTS.REQ │ "Yeah, Snoop on deck with the West Coast swagger, k..." (voice: Adrian)
+06:06:44 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+06:06:44 🔌 PLG.ERR │ [producer] Voice playback failed: Yeah, Snoop on deck with the W
+06:08:58 🎵 TRACK │ Fancy — Chinese Eyes
+06:08:58 🔊 QUEUE │ music_q ← 309-cynthie_aka.vynil_princess-all_we_need_short-mil.mp3
+06:08:58 🎤 TTS.REQ │ "Fancy's Chinese Eyes is not hip-hop, but I'm playi..." (voice: Eric)
+06:09:03 🎤 TTS.GEN │ msg_1786162138067.wav
+06:13:15 🎵 TRACK │ Ulf Lundell — 08-Den vassa eggen
+06:13:15 🔊 QUEUE │ music_q ← 0600-Undercover-Baker.Street.mp3
+06:19:01 🎵 TRACK │ The Game — Scream On 'Em (Feat. Swizz Beatz)
+06:19:01 🔊 QUEUE │ music_q ← 11-wyclef_jean-lavi_new_york_(feat_buggah)-rns.mp3
+06:19:01 🔊 QUEUE │ music_q ← 047. Linkin Park - Numb.mp3
+06:19:01 🔊 QUEUE │ music_q ← 309-cynthie_aka.vynil_princess-all_we_need_short-mil.mp3
+06:19:01 🔊 QUEUE │ music_q ← 0600-Undercover-Baker.Street.mp3
+06:19:01 🔊 QUEUE │ music_q ← FLCTR4 (Jogeir Cover feat Zabutom).mp3
+06:19:01 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+06:19:41 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+06:19:41 🎤 TTS.REQ │ ""Dance track, so weird that Lani thinks 'strong rh..." (voice: Eric)
+06:19:46 🎤 TTS.GEN │ msg_1786162781530.wav
+06:19:46 🎤 TTS.REQ │ ""Hold up though, that beat is pumping people in th..." (voice: Adrian)
+06:19:46 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+06:19:46 🎤 TTS.REQ │ ""Finally a real rap track. You hear this? Pure lyr..." (voice: Eric)
+06:19:50 🎤 TTS.GEN │ msg_1786162786545.wav
+06:19:50 🎤 TTS.REQ │ ""Yeah, it's dope, man, keeps the energy high like ..." (voice: Adrian)
+06:19:50 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+06:19:50 🎤 TTS.REQ │ ""Punk rock? This ain't hip hop and we don't need t..." (voice: Eric)
+06:19:53 🎤 TTS.GEN │ msg_1786162790509.wav
+06:19:53 🎤 TTS.REQ │ ""But that driving rhythm could pump you up, kid. L..." (voice: Adrian)
+06:19:53 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+06:19:53 🎤 TTS.REQ │ ""Swedish rap? I'm not talking about fluff."" (voice: Eric)
+06:19:54 🎤 TTS.GEN │ msg_1786162793053.wav
+06:19:54 🎤 TTS.REQ │ ""But it's got that smooth vibe, man. Good for the ..." (voice: Adrian)
+06:19:54 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+06:23:15 🎵 TRACK │ Wyclef Jean — Lavi New York (feat. Buggah)
+06:23:16 🔊 QUEUE │ music_q ← 205. Da Buzz Stronger Than Words Can Say (1 i nov).mp3
+06:27:30 🎵 TRACK │ Linkin Park — Numb
+06:27:30 🔊 QUEUE │ music_q ← 014. MOTORHOMES___THE_MAN.mp3
+06:30:33 🎵 TRACK │ Cynthie aka.Vynil Princess — All We Need Short
+06:30:33 🔊 QUEUE │ music_q ← 3 - As I Come Back.mp3
+06:34:02 🎵 TRACK │ Undercover — Baker Street
+06:34:02 🔊 QUEUE │ music_q ← 07 - The Offspring - Tehran.mp3
+06:38:00 🎵 TRACK │ Wyclef Jean — Lavi New York (feat. Buggah)
+06:42:13 🎵 TRACK │ Linkin Park — Numb
+06:45:16 🎵 TRACK │ Cynthie aka.Vynil Princess — All We Need Short
+06:48:45 🎵 TRACK │ Undercover — Baker Street
+06:52:43 🎵 TRACK │ Dubmood — FLCTR4 (Jogeir Cover feat Zabutom)
+06:52:43 🔊 QUEUE │ music_q ← Svenska akademin - tror du de.mp3
+06:52:43 🎤 TTS.REQ │ ""Pop fluff again? Lani must be playing a joke on u..." (voice: Eric)
+06:52:46 🎤 TTS.GEN │ msg_1786164763967.wav
+06:52:46 🎤 TTS.REQ │ ""I feel that, but sometimes we gotta flex the mix...." (voice: Adrian)
+06:52:46 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+06:52:46 🎤 TTS.REQ │ ""Missing metadata on another remix from Lani? Clas..." (voice: Eric)
+06:52:49 🎤 TTS.GEN │ msg_1786164766268.wav
+06:52:49 🎤 TTS.REQ │ ""Still fire though, keep vibing."" (voice: Adrian)
+06:52:49 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+06:55:36 🎵 TRACK │ Da Buzz — Stronger Than Words Can Say
+06:55:36 🔊 QUEUE │ music_q ← 04 - Gone.mp3
+06:55:36 🎤 TTS.REQ │ ""Dance track, so weird that Lani thinks 'strong rh..." (voice: Eric)
+06:55:39 🎤 TTS.GEN │ msg_1786164936611.wav
+06:55:39 🎤 TTS.REQ │ ""Hold up though, that beat is pumping people in th..." (voice: Adrian)
+06:55:39 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+06:55:39 🔌 EVENT │ [producer] Voice: "Dance track, so weird that Lani thinks ...
+06:55:39 🎤 TTS.PLAY │ ▶ msg_1786164936611.wav
+06:57:13 🎤 TTS.REQ │ ""Hold up though, that beat is pumping people in th..." (voice: Adrian)
+06:57:13 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+06:57:13 🔌 PLG.ERR │ [producer] Voice playback failed: "Hold up though, that beat is 
+06:59:12 🎵 TRACK │ Motorhomes — The Man
+06:59:13 🔊 QUEUE │ music_q ← 02 - I Fall Down.mp3
+07:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 07:00
+07:02:47 🎵 TRACK │ Busta Rhymes — As I Come Back
+07:02:47 🎤 TTS.REQ │ "Booong! The time is 07:00" (voice: Aiden)
+07:02:50 🎤 TTS.GEN │ msg_1786165367670.wav
+07:02:50 🎤 TTS.PLAY │ ▶ msg_1786165367670.wav
+07:02:50 🔊 QUEUE │ music_q ← 109. Paola Fine Without You.mp3
+07:02:50 🎤 TTS.REQ │ ""Finally a real rap track. You hear this? Pure lyr..." (voice: Eric)
+07:02:53 🎤 TTS.GEN │ msg_1786165370188.wav
+07:02:53 🎤 TTS.REQ │ ""Yeah, it's dope, man, keeps the energy high like ..." (voice: Adrian)
+07:02:53 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+07:02:53 🔌 EVENT │ [producer] Voice: "Finally a real rap track. You hear this...
+07:02:53 🎤 TTS.PLAY │ ▶ msg_1786165370188.wav
+07:04:41 🎤 TTS.REQ │ ""Yeah, it's dope, man, keeps the energy high like ..." (voice: Adrian)
+07:04:41 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+07:04:41 🔌 PLG.ERR │ [producer] Voice playback failed: "Yeah, it's dope, man, keeps t
+07:06:02 🎵 TRACK │ The Offspring — Tehran
+07:06:02 🔊 QUEUE │ music_q ← 01 - Sabre Tooth(Discovery Mix).mp3
+07:06:02 🎤 TTS.REQ │ ""Punk rock? This ain't hip hop and we don't need t..." (voice: Eric)
+07:06:05 🎤 TTS.GEN │ msg_1786165562869.wav
+07:06:05 🎤 TTS.REQ │ ""But that driving rhythm could pump you up, kid. L..." (voice: Adrian)
+07:06:05 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+07:06:05 🔌 EVENT │ [producer] Voice: "Punk rock? This ain't hip hop and we do...
+07:06:06 🎤 TTS.PLAY │ ▶ msg_1786165562869.wav
+07:07:09 🎤 TTS.REQ │ ""But that driving rhythm could pump you up, kid. L..." (voice: Adrian)
+07:07:09 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+07:07:09 🔌 PLG.ERR │ [producer] Voice playback failed: "But that driving rhythm could
+07:09:05 🎵 TRACK │ Svenska Akademin — Tror Du De?
+07:09:05 🔊 QUEUE │ music_q ← 04 - Gone.mp3
+07:09:05 🔊 QUEUE │ music_q ← 02 - I Fall Down.mp3
+07:09:05 🔊 QUEUE │ music_q ← 109. Paola Fine Without You.mp3
+07:09:05 🔊 QUEUE │ music_q ← 01 - Sabre Tooth(Discovery Mix).mp3
+07:09:05 🔊 QUEUE │ music_q ← 03 - Timbuktu - Rap -CsZ.256.mp3
+07:09:05 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+07:09:59 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+07:09:59 🎤 TTS.REQ │ "All right, we gotta break some rules, Sins—Svenska..." (voice: Eric)
+07:10:07 🎤 TTS.GEN │ msg_1786165799803.wav
+07:10:07 🎤 TTS.REQ │ "You know how it goes, baby—that beat’s smooth; mig..." (voice: Adrian)
+07:10:07 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+07:10:07 🎤 TTS.REQ │ "I tell Lani that she needs to fix her metadata, ot..." (voice: Eric)
+07:10:12 🎤 TTS.GEN │ msg_1786165807875.wav
+07:10:12 🎤 TTS.REQ │ "Fair point, Bob. Just remember some groove doesn’t..." (voice: Adrian)
+07:10:12 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+07:10:12 🎤 TTS.REQ │ "U2's 'The Refugee' just dropped? That's a rock bal..." (voice: Eric)
+07:10:18 🎤 TTS.GEN │ msg_1786165812563.wav
+07:10:18 🎤 TTS.REQ │ "True, but some classic riffs still keep the vibe a..." (voice: Adrian)
+07:10:18 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+07:10:18 🎤 TTS.REQ │ "Now here's old-school heat—Keith Murray's 'The Mos..." (voice: Eric)
+07:10:24 🎤 TTS.GEN │ msg_1786165818287.wav
+07:10:24 🎤 TTS.REQ │ "Yeah man, this track still has that West Coast swa..." (voice: Adrian)
+07:10:24 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+07:10:24 🎤 TTS.REQ │ "Lani, I swear every damn time she loads something ..." (voice: Eric)
+07:10:30 🎤 TTS.GEN │ msg_1786165824082.wav
+07:10:30 🎤 TTS.REQ │ "Respect, bro; keep that old school flow alive for ..." (voice: Adrian)
+07:10:30 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+07:10:30 🎤 TTS.REQ │ "Canibus drops '100 Bars' and he's still hitting th..." (voice: Eric)
+07:10:34 🎤 TTS.GEN │ msg_1786165830611.wav
+07:10:34 🎤 TTS.REQ │ "Yo for sure, man; he keeps it real with that cereb..." (voice: Adrian)
+07:10:34 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+07:12:18 🎵 TRACK │ U2 — Gone
+07:12:18 🔊 QUEUE │ music_q ← 11-svenska_akademien-kenneths_nya-tosho.mp3
+07:16:54 🎵 TRACK │ U2 — I Fall Down
+07:16:55 🔊 QUEUE │ music_q ← 036. Coldplay - In My Place.mp3
+07:20:29 🎵 TRACK │ Paola — Fine Without You
+07:20:29 🔊 QUEUE │ music_q ← 06 - The Refugee.mp3
+07:23:24 🎵 TRACK │ K90 - Aquarius — Sabre Tooth(Discovery Mix)
+07:23:24 🔊 QUEUE │ music_q ← Keith Murray - The Most Beautifullest Thing In The World.mp3
+07:32:52 🎵 TRACK │ U2 — Gone
+07:37:29 🎵 TRACK │ U2 — I Fall Down
+07:41:03 🎵 TRACK │ Paola — Fine Without You
+07:43:58 🎵 TRACK │ K90 - Aquarius — Sabre Tooth(Discovery Mix)
+07:53:26 🎵 TRACK │ Timbuktu — Rap
+07:53:26 🔊 QUEUE │ music_q ← 04 - Rejoice.mp3
+07:53:26 🎤 TTS.REQ │ "Wyclef's 'Pistach'—a hybrid Haitian swing and hip ..." (voice: Eric)
+07:53:31 🎤 TTS.GEN │ msg_1786168406485.wav
+07:53:31 🎤 TTS.REQ │ "Yeah, we love that funk mix! Keeps the body moving..." (voice: Adrian)
+07:53:31 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+07:53:31 🎤 TTS.REQ │ "Still, I gotta tell Lani she needs to keep her pla..." (voice: Eric)
+07:53:38 🎤 TTS.GEN │ msg_1786168411800.wav
+07:53:38 🎤 TTS.REQ │ "No problem, Bob. Let’s just keep pumping those leg..." (voice: Adrian)
+07:53:38 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+07:53:38 🎤 TTS.REQ │ "Alright, this final track is 'DJ Dor - In the Mix ..." (voice: Eric)
+07:53:45 🎤 TTS.GEN │ msg_1786168418158.wav
+07:53:45 🎤 TTS.REQ │ "You know how it goes; we spin these mixes to keep ..." (voice: Adrian)
+07:53:45 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+07:55:26 🎵 TRACK │ Svenska Akademien — Kenneths Nya
+07:55:26 🔊 QUEUE │ music_q ← Canibus - 100 Bars.mp3
+07:55:26 🎤 TTS.REQ │ "All right, we gotta break some rules, Sins—Svenska..." (voice: Eric)
+07:55:32 🎤 TTS.GEN │ msg_1786168526887.wav
+07:55:32 🎤 TTS.REQ │ "You know how it goes, baby—that beat’s smooth; mig..." (voice: Adrian)
+07:55:32 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+07:55:32 🎤 TTS.REQ │ "I tell Lani that she needs to fix her metadata, ot..." (voice: Eric)
+07:55:37 🎤 TTS.GEN │ msg_1786168532874.wav
+07:55:37 🎤 TTS.REQ │ "Fair point, Bob. Just remember some groove doesn’t..." (voice: Adrian)
+07:55:37 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+07:55:37 🔌 EVENT │ [producer] Voice: All right, we gotta break some rules, Si...
+07:55:37 🎤 TTS.PLAY │ ▶ msg_1786168526887.wav
+07:56:48 🎤 TTS.REQ │ "You know how it goes, baby—that beat’s smooth; mig..." (voice: Adrian)
+07:56:48 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+07:56:48 🔌 PLG.ERR │ [producer] Voice playback failed: You know how it goes, baby—tha
+08:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 08:00
+08:00:56 🎵 TRACK │ Coldplay — In My Place
+08:00:56 🎤 TTS.REQ │ "Booong! The time is 08:00" (voice: Aiden)
+08:00:58 🎤 TTS.GEN │ msg_1786168856971.wav
+08:00:58 🎤 TTS.PLAY │ ▶ msg_1786168856971.wav
+08:00:58 🔊 QUEUE │ music_q ← 08-wyclef_jean-pistach-rns.mp3
+08:04:37 🎵 TRACK │ U2 — The Refugee
+08:04:37 🔊 QUEUE │ music_q ← 16-the_game-dope_boys_(feat._travis_barker).mp3
+08:04:37 🎤 TTS.REQ │ "U2's 'The Refugee' just dropped? That's a rock bal..." (voice: Eric)
+08:04:44 🎤 TTS.GEN │ msg_1786169077615.wav
+08:04:44 🎤 TTS.REQ │ "True, but some classic riffs still keep the vibe a..." (voice: Adrian)
+08:04:44 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+08:04:44 🔌 EVENT │ [producer] Voice: U2's 'The Refugee' just dropped? That's ...
+08:04:44 🎤 TTS.PLAY │ ▶ msg_1786169077615.wav
+08:08:13 🎵 TRACK │ Keith Murray — The Most Beautifullest Thing In This World
+08:08:13 🔊 QUEUE │ music_q ← 01-va_-_dj_dor_-_in_the_mix_volume_2-boss.mp3
+08:08:13 🎤 TTS.REQ │ "Now here's old-school heat—Keith Murray's 'The Mos..." (voice: Eric)
+08:08:18 🎤 TTS.GEN │ msg_1786169293827.wav
+08:08:18 🎤 TTS.REQ │ "Yeah man, this track still has that West Coast swa..." (voice: Adrian)
+08:08:18 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+08:08:18 🎤 TTS.REQ │ "Lani, I swear every damn time she loads something ..." (voice: Eric)
+08:08:24 🎤 TTS.GEN │ msg_1786169298495.wav
+08:08:24 🎤 TTS.REQ │ "Respect, bro; keep that old school flow alive for ..." (voice: Adrian)
+08:08:24 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+08:08:24 🔌 EVENT │ [producer] Voice: Now here's old-school heat—Keith Murray'...
+08:08:25 🎤 TTS.PLAY │ ▶ msg_1786169293827.wav
+08:10:06 🎤 TTS.REQ │ "Yeah man, this track still has that West Coast swa..." (voice: Adrian)
+08:10:06 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+08:10:06 🔌 PLG.ERR │ [producer] Voice playback failed: Yeah man, this track still has
+08:11:56 🎵 TRACK │ U2 — Rejoice
+08:11:56 🔊 QUEUE │ music_q ← Canibus - 100 Bars.mp3
+08:11:56 🔊 QUEUE │ music_q ← 08-wyclef_jean-pistach-rns.mp3
+08:11:56 🔊 QUEUE │ music_q ← 16-the_game-dope_boys_(feat._travis_barker).mp3
+08:11:56 🔊 QUEUE │ music_q ← 01-va_-_dj_dor_-_in_the_mix_volume_2-boss.mp3
+08:11:56 🔊 QUEUE │ music_q ← friendly_fire.mp3
+08:11:56 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+08:12:29 🤖 LLM.REPLY │ "{"segments":[{"song_index":0,"voice":[{"character"..."
+08:12:29 🎤 TTS.REQ │ "Kirsty MacCall tries to break into hip-hop with 'A..." (voice: Eric)
+08:12:36 🎤 TTS.GEN │ msg_1786169549229.wav
+08:12:36 🎤 TTS.REQ │ "You know I'm laid back about it, man, but this ain..." (voice: Adrian)
+08:12:36 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+08:12:36 🎤 TTS.REQ │ "If it's not Hip-Hop or Rap, then Lani's done that ..." (voice: Eric)
+08:12:40 🎤 TTS.GEN │ msg_1786169556499.wav
+08:12:40 🎤 TTS.REQ │ "Immortal Technique's 'Freedom Of Speech' is a clas..." (voice: Eric)
+08:12:46 🎤 TTS.GEN │ msg_1786169560786.wav
+08:12:46 🎤 TTS.REQ │ "Yo! Real talk; this track's vibe will pump up the ..." (voice: Adrian)
+08:12:46 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+08:12:46 🎤 TTS.REQ │ "Wheatus tries to cross over into rap, but no genre..." (voice: Eric)
+08:12:50 🎤 TTS.GEN │ msg_1786169566699.wav
+08:12:50 🎤 TTS.REQ │ "Still gotta respect the melody, real smooth though..." (voice: Adrian)
+08:12:50 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+08:12:50 🎤 TTS.REQ │ "Peggy Lee's 'Fever' claims to be from 2006, but th..." (voice: Eric)
+08:12:57 🎤 TTS.GEN │ msg_1786169570894.wav
+08:12:57 🎤 TTS.REQ │ "But it's a classic, baby; still heat it up in the ..." (voice: Adrian)
+08:12:57 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+08:15:29 🎵 TRACK │ Canibus — 100 Bars
+08:15:29 🔊 QUEUE │ music_q ← 17-wyclef_jean-la_vie_ghetto_(french)_(feat_passi)-rns.mp3
+08:20:19 🎵 TRACK │ Wyclef Jean — Pistach
+08:20:20 🔊 QUEUE │ music_q ← 100. Kirsty MacCall - A New England.mp3
+08:24:24 🎵 TRACK │ The Game — Dope Boys (feat. Travis Barker)
+08:24:24 🔊 QUEUE │ music_q ← Immortal Technique - Freedom of Speech.mp3
+08:28:21 🎵 TRACK │ VA — DJ Dor - In the Mix Volume 2
+08:28:21 🔊 QUEUE │ music_q ← 0385-Wheatus-Teenage.Dirtbag.mp3
+09:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 09:00
+09:12:55 🎵 TRACK │ Canibus — 100 Bars
+09:12:55 🎤 TTS.REQ │ "Booong! The time is 09:00" (voice: Aiden)
+09:12:57 🎤 TTS.GEN │ msg_1786173175885.wav
+09:12:57 🎤 TTS.PLAY │ ▶ msg_1786173175885.wav
+09:17:48 🎵 TRACK │ Wyclef Jean — Pistach
+09:21:53 🎵 TRACK │ The Game — Dope Boys (feat. Travis Barker)
+09:25:48 🎵 TRACK │ VA — DJ Dor - In the Mix Volume 2
+10:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 10:00
+10:10:24 🎵 TRACK │ Timbuktu — Friendly Fire feat. Chords
+10:10:24 🎤 TTS.REQ │ "Booong! The time is 10:00" (voice: Aiden)
+10:10:25 🎤 TTS.GEN │ msg_1786176624430.wav
+10:10:25 🎤 TTS.PLAY │ ▶ msg_1786176624430.wav
+10:10:25 🔊 QUEUE │ music_q ← 0102-Vicky.Leandros-Theo.wir.fahr.n.nach.Lodz.mp3
+10:10:25 🎤 TTS.REQ │ "Wyclef's 'Decifer' keeps flow strong and the year ..." (voice: Eric)
+10:10:31 🎤 TTS.GEN │ msg_1786176625775.wav
+10:10:31 🎤 TTS.REQ │ "This track sure adds a spicy twist to our gym sess..." (voice: Adrian)
+10:10:31 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+10:10:31 🎤 TTS.REQ │ "True. It's a solid piece, but if we had more songs..." (voice: Eric)
+10:10:35 🎤 TTS.GEN │ msg_1786176631431.wav
+10:14:36 🎵 TRACK │ Wyclef Jean — La Vie Ghetto (French) (feat.
+10:14:36 🔊 QUEUE │ music_q ← 106-peggy_lee-fever.mp3
+10:18:29 🎵 TRACK │ Kirsty MacCall — A New England
+10:18:29 🔊 QUEUE │ music_q ← Tenacious D - 02 - One Note Song.mp3
+10:18:29 🎤 TTS.REQ │ "Kirsty MacCall tries to break into hip-hop with 'A..." (voice: Eric)
+10:18:36 🎤 TTS.GEN │ msg_1786177109500.wav
+10:18:36 🎤 TTS.REQ │ "You know I'm laid back about it, man, but this ain..." (voice: Adrian)
+10:18:36 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+10:18:36 🎤 TTS.REQ │ "If it's not Hip-Hop or Rap, then Lani's done that ..." (voice: Eric)
+10:18:40 🎤 TTS.GEN │ msg_1786177116790.wav
+10:18:40 🔌 EVENT │ [producer] Voice: Kirsty MacCall tries to break into hip-h...
+10:18:41 🎤 TTS.PLAY │ ▶ msg_1786177109500.wav
+10:20:25 🎤 TTS.REQ │ "You know I'm laid back about it, man, but this ain..." (voice: Adrian)
+10:20:25 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+10:20:25 🔌 PLG.ERR │ [producer] Voice playback failed: You know I'm laid back about i
+10:22:12 🎵 TRACK │ Immortal Technique — Freedom of Speech
+10:22:12 🔊 QUEUE │ music_q ← 08 - Decifer.mp3
+10:22:12 🎤 TTS.REQ │ "Immortal Technique's 'Freedom Of Speech' is a clas..." (voice: Eric)
+10:22:18 🎤 TTS.GEN │ msg_1786177332067.wav
+10:22:18 🎤 TTS.REQ │ "Yo! Real talk; this track's vibe will pump up the ..." (voice: Adrian)
+10:22:18 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+10:22:18 🔌 EVENT │ [producer] Voice: Immortal Technique's 'Freedom Of Speech'...
+10:22:18 🎤 TTS.PLAY │ ▶ msg_1786177332067.wav
+10:25:13 🎵 TRACK │ Wheatus — Teenage Dirtbag
+10:25:13 🔊 QUEUE │ music_q ← 01 Syster sol.mp3
+10:25:13 🎤 TTS.REQ │ "Wheatus tries to cross over into rap, but no genre..." (voice: Eric)
+10:25:18 🎤 TTS.GEN │ msg_1786177513821.wav
+10:25:18 🎤 TTS.REQ │ "Still gotta respect the melody, real smooth though..." (voice: Adrian)
+10:25:18 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+10:25:18 🔌 EVENT │ [producer] Voice: Wheatus tries to cross over into rap, bu...
+10:25:19 🎤 TTS.PLAY │ ▶ msg_1786177513821.wav
+10:26:19 🎤 TTS.REQ │ "Still gotta respect the melody, real smooth though..." (voice: Adrian)
+10:26:19 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+10:26:19 🔌 PLG.ERR │ [producer] Voice playback failed: Still gotta respect the melody
+10:28:58 🎵 TRACK │ Vicky Leandros — Theo Wir Fahr'n Nach Lodz
+10:28:58 🔊 QUEUE │ music_q ← 106-peggy_lee-fever.mp3
+10:28:58 🔊 QUEUE │ music_q ← Tenacious D - 02 - One Note Song.mp3
+10:28:58 🔊 QUEUE │ music_q ← 08 - Decifer.mp3
+10:28:58 🔊 QUEUE │ music_q ← 01 Syster sol.mp3
+10:28:58 🔊 QUEUE │ music_q ← Insane Clown Posse - Slim Anus (Eminem Parody).mp3
+10:28:58 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+10:29:44 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+10:29:44 🎤 TTS.REQ │ "Rock ballad in a gym set? Lani, this is like handi..." (voice: Eric)
+10:29:50 🎤 TTS.GEN │ msg_1786177784321.wav
+10:29:50 🎤 TTS.REQ │ "I hear that deep chord you’re throwing. But it ain..." (voice: Adrian)
+10:29:50 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+10:29:50 🎤 TTS.REQ │ "At last, a track that feels like the streets talk ..." (voice: Eric)
+10:29:54 🎤 TTS.GEN │ msg_1786177790524.wav
+10:29:54 🎤 TTS.REQ │ "West Coast swagger meets East coast truth; that’s ..." (voice: Adrian)
+10:29:54 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+10:29:54 🎤 TTS.REQ │ "Eminem’s cameo might be a little off, but the flow..." (voice: Eric)
+10:29:58 🎤 TTS.GEN │ msg_1786177794071.wav
+10:29:58 🎤 TTS.REQ │ "So we’re blasting an 80s Europe ballad to ignite a..." (voice: Eric)
+10:30:04 🎤 TTS.GEN │ msg_1786177798524.wav
+10:30:04 🎤 TTS.REQ │ "It ain't a groove for sweat yet. We’ll turn up the..." (voice: Adrian)
+10:30:04 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+10:30:04 🎤 TTS.REQ │ "Finally, LL Cool J drops some righteous bars. No L..." (voice: Eric)
+10:30:09 🎤 TTS.GEN │ msg_1786177804811.wav
+10:30:09 🎤 TTS.REQ │ "The bass line makes my head nod, but we’ll keep th..." (voice: Adrian)
+10:30:09 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+10:32:49 🎵 TRACK │ Peggy Lee — Fever
+10:32:49 🔊 QUEUE │ music_q ← 016. Metallica - Nothing Else Matters.mp3
+10:36:03 🎵 TRACK │ Tenacious D — One Note Song
+10:36:03 🔊 QUEUE │ music_q ← Notorious B.I.G. - Dead Wrong (Feat. Eminem).mp3
+10:37:22 🎵 TRACK │ Wyclef Jean — Decifer
+10:37:22 🔊 QUEUE │ music_q ← 025. Europe - Open Your Heart.mp3
+10:41:43 🎵 TRACK │ Syster Sol — 01 Vad sysslar vi med
+10:41:43 🔊 QUEUE │ music_q ← L.L. Cool J - I Shot Ya (Feat Keith Murray, Prodigy, Foxy Brown & Fat Joe).mp3
+10:43:09 🎵 TRACK │ Peggy Lee — Fever
+10:46:26 🎵 TRACK │ Tenacious D — One Note Song
+10:47:44 🎵 TRACK │ Wyclef Jean — Decifer
+10:52:03 🎵 TRACK │ Syster Sol — 01 Vad sysslar vi med
+10:53:31 🎵 TRACK │ Insane Clown Posse — Slim Anus
+10:53:31 🔊 QUEUE │ music_q ← Till Death Do Us Part-last laugh-cypress hill.mp3
+10:53:31 🎤 TTS.REQ │ "Cypress Hill’s classic track gets us hyped. Though..." (voice: Eric)
+10:53:37 🎤 TTS.GEN │ msg_1786179211591.wav
+10:53:37 🎤 TTS.REQ │ "You feel that rhythm? That’s pure Californian heat..." (voice: Adrian)
+10:53:37 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+10:53:37 🎤 TTS.REQ │ "Timbuktu’s instrumental hits us with that raw West..." (voice: Eric)
+10:53:40 🎤 TTS.GEN │ msg_1786179217126.wav
+10:53:40 🎤 TTS.REQ │ "The beat keeps the energy steady; no lilt for Lani..." (voice: Adrian)
+10:53:40 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+10:58:18 🎵 TRACK │ Metallica — Nothing Else Matters
+10:58:18 🔊 QUEUE │ music_q ← Sublime-18.mp3
+10:58:18 🎤 TTS.REQ │ "Rock ballad in a gym set? Lani, this is like handi..." (voice: Eric)
+10:58:22 🎤 TTS.GEN │ msg_1786179498508.wav
+10:58:22 🎤 TTS.REQ │ "I hear that deep chord you’re throwing. But it ain..." (voice: Adrian)
+10:58:22 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+10:58:22 🔌 EVENT │ [producer] Voice: Rock ballad in a gym set? Lani, this is ...
+10:58:23 🎤 TTS.PLAY │ ▶ msg_1786179498508.wav
+10:59:09 🎤 TTS.REQ │ "I hear that deep chord you’re throwing. But it ain..." (voice: Adrian)
+10:59:09 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+10:59:09 🔌 PLG.ERR │ [producer] Voice playback failed: I hear that deep chord you’re 
+11:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 11:00
+11:04:42 🎵 TRACK │ Notorious B.I.G. — Dead Wrong (Feat. Eminem)
+11:04:42 🎤 TTS.REQ │ "Booong! The time is 11:00" (voice: Aiden)
+11:04:45 🎤 TTS.GEN │ msg_1786179882578.wav
+11:04:45 🎤 TTS.PLAY │ ▶ msg_1786179882578.wav
+11:04:45 🔊 QUEUE │ music_q ← 066. Cappella - U Got 2 Let The Music.mp3
+11:04:45 🎤 TTS.REQ │ "At last, a track that feels like the streets talk ..." (voice: Eric)
+11:04:50 🎤 TTS.GEN │ msg_1786179885227.wav
+11:04:50 🎤 TTS.REQ │ "West Coast swagger meets East coast truth; that’s ..." (voice: Adrian)
+11:04:50 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+11:04:50 🎤 TTS.REQ │ "Eminem’s cameo might be a little off, but the flow..." (voice: Eric)
+11:04:55 🎤 TTS.GEN │ msg_1786179890377.wav
+11:04:55 🔌 EVENT │ [producer] Voice: At last, a track that feels like the str...
+11:04:56 🎤 TTS.PLAY │ ▶ msg_1786179885227.wav
+11:06:18 🎤 TTS.REQ │ "West Coast swagger meets East coast truth; that’s ..." (voice: Adrian)
+11:06:18 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+11:06:18 🔌 PLG.ERR │ [producer] Voice playback failed: West Coast swagger meets East 
+11:09:37 🎵 TRACK │ Europe — Open Your Heart
+11:09:37 🔊 QUEUE │ music_q ← 05-timbuktu_-_careers_(instrumental)-ica.mp3
+11:09:37 🎤 TTS.REQ │ "So we’re blasting an 80s Europe ballad to ignite a..." (voice: Eric)
+11:09:42 🎤 TTS.GEN │ msg_1786180177352.wav
+11:09:42 🎤 TTS.REQ │ "It ain't a groove for sweat yet. We’ll turn up the..." (voice: Adrian)
+11:09:42 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+11:09:42 🔌 EVENT │ [producer] Voice: So we’re blasting an 80s Europe ballad t...
+11:09:43 🎤 TTS.PLAY │ ▶ msg_1786180177352.wav
+11:13:40 🎵 TRACK │ L.L. Cool J — I Shot Ya (Feat Keith Murray, Prodigy, Foxy Brown & Fat Joe)
+11:13:40 🔊 QUEUE │ music_q ← 447 - The Shangri-Las - Leader Of The Pack.mp3
+11:13:40 🎤 TTS.REQ │ "Finally, LL Cool J drops some righteous bars. No L..." (voice: Eric)
+11:13:43 🎤 TTS.GEN │ msg_1786180420297.wav
+11:13:43 🎤 TTS.REQ │ "The bass line makes my head nod, but we’ll keep th..." (voice: Adrian)
+11:13:43 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+11:13:43 🔌 EVENT │ [producer] Voice: Finally, LL Cool J drops some righteous ...
+11:13:44 🎤 TTS.PLAY │ ▶ msg_1786180420297.wav
+11:15:08 🎤 TTS.REQ │ "The bass line makes my head nod, but we’ll keep th..." (voice: Adrian)
+11:15:08 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+11:15:08 🔌 PLG.ERR │ [producer] Voice playback failed: The bass line makes my head no
+11:18:37 🎵 TRACK │ Cypress Hill — LAST LAUGH
+11:18:37 🔊 QUEUE │ music_q ← Sublime-18.mp3
+11:18:37 🔊 QUEUE │ music_q ← 066. Cappella - U Got 2 Let The Music.mp3
+11:18:37 🔊 QUEUE │ music_q ← 05-timbuktu_-_careers_(instrumental)-ica.mp3
+11:18:37 🔊 QUEUE │ music_q ← 447 - The Shangri-Las - Leader Of The Pack.mp3
+11:18:37 🔊 QUEUE │ music_q ← MC Lyte - Ruffneck.mp3
+11:18:37 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+11:19:08 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+11:19:08 🎤 TTS.REQ │ "This is Svenska Akademin, and the metadata? No yea..." (voice: Eric)
+11:19:15 🎤 TTS.GEN │ msg_1786180748741.wav
+11:19:15 🎤 TTS.REQ │ "Still keepin’ it real in this track—let’s roll wit..." (voice: Adrian)
+11:19:15 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+11:19:15 🎤 TTS.REQ │ "Xzibit dropping 'Paparazzi', a true West Coast sta..." (voice: Adrian)
+11:19:15 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+11:19:15 🎤 TTS.REQ │ "Fine as hell, just keep the beat tight and no fill..." (voice: Eric)
+11:19:17 🎤 TTS.GEN │ msg_1786180755076.wav
+11:19:17 🎤 TTS.REQ │ "Cypress Hill here with 'STREET WARS' and I ain’t g..." (voice: Eric)
+11:19:21 🎤 TTS.GEN │ msg_1786180757838.wav
+11:19:21 🎤 TTS.REQ │ "Feel that energy burn, it’s all good—let’s keep pu..." (voice: Adrian)
+11:19:21 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+11:19:21 🎤 TTS.REQ │ "The Police! What the hell? This is rock from 'Mess..." (voice: Eric)
+11:19:27 🎤 TTS.GEN │ msg_1786180761503.wav
+11:19:27 🎤 TTS.REQ │ "Don’t miss a beat, though. We’re keeping it smooth..." (voice: Adrian)
+11:19:27 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+11:20:49 🎵 TRACK │ Sublime — Date Rape
+11:20:49 🔊 QUEUE │ music_q ← Svenska akademin - tror du de.mp3
+11:24:22 🎵 TRACK │ Capella — U Got 2 Let The Music
+11:24:22 🔊 QUEUE │ music_q ← 07 - Xzibit - Paparazzi.mp3
+11:27:55 🎵 TRACK │ Timbuktu — careers (instr)
+11:27:55 🔊 QUEUE │ music_q ← Afrika Bambaataa - Looking For The Perfect Beat (12'' Vocal Version) (Remastered) .mp3
+11:32:04 🎵 TRACK │ The Shangi-Las — Leader Of The Pack
+11:32:04 🔊 QUEUE │ music_q ← Cypress Hill-till death do us part-15-street wars.mp3
+11:34:50 🎵 TRACK │ Sublime — Date Rape
+11:38:23 🎵 TRACK │ Capella — U Got 2 Let The Music
+11:41:58 🎵 TRACK │ Timbuktu — careers (instr)
+11:46:05 🎵 TRACK │ The Shangi-Las — Leader Of The Pack
+11:48:53 🎵 TRACK │ MC Lyte — Ruffneck [Explicit]
+11:48:53 🔊 QUEUE │ music_q ← 108-the_police-message_in_a_bottle.mp3
+11:48:53 🎤 TTS.REQ │ "Dubmood's 'ST-Style' and there's no genre even lis..." (voice: Eric)
+11:49:00 🎤 TTS.GEN │ msg_1786182533634.wav
+11:49:00 🎤 TTS.REQ │ "Still vibin’—that rhythm has some West Coast soul." (voice: Adrian)
+11:49:00 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+11:52:46 🎵 TRACK │ Svenska Akademin — Tror Du De?
+11:52:46 🔊 QUEUE │ music_q ← Smoothe Da Hustler - Broken Language.mp3
+11:52:46 🎤 TTS.REQ │ "This is Svenska Akademin, and the metadata? No yea..." (voice: Eric)
+11:52:50 🎤 TTS.GEN │ msg_1786182766446.wav
+11:52:50 🎤 TTS.REQ │ "Still keepin’ it real in this track—let’s roll wit..." (voice: Adrian)
+11:52:50 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+11:52:50 🔌 EVENT │ [producer] Voice: Still keepin’ it real in this track—let’...
+11:52:50 🎤 TTS.REQ │ "Still keepin’ it real in this track—let’s roll wit..." (voice: Adrian)
+11:52:50 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+11:52:50 🔌 PLG.ERR │ [producer] Voice playback failed: Still keepin’ it real in this 
+11:53:19 🎤 TTS.PLAY │ ▶ msg_1786182766446.wav
+11:55:59 🎵 TRACK │ Xzibit — Paparazzi
+11:55:59 🔊 QUEUE │ music_q ← ST-Style feat Zabutom.mp3
+11:55:59 🎤 TTS.REQ │ "Xzibit dropping 'Paparazzi', a true West Coast sta..." (voice: Adrian)
+11:55:59 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+11:55:59 🎤 TTS.REQ │ "Fine as hell, just keep the beat tight and no fill..." (voice: Eric)
+11:56:02 🎤 TTS.GEN │ msg_1786182959658.wav
+11:56:02 🔌 EVENT │ [producer] Voice: Xzibit dropping 'Paparazzi', a true West...
+11:56:02 🎤 TTS.REQ │ "Xzibit dropping 'Paparazzi', a true West Coast sta..." (voice: Adrian)
+11:56:02 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+11:56:02 🔌 PLG.ERR │ [producer] Voice playback failed: Xzibit dropping 'Paparazzi', a
+11:59:51 🎵 TRACK │ Afrika Bambaata — Looking For The Perfect Beat (12" Vocal Version) (Remastered)
+11:59:51 🔊 QUEUE │ music_q ← Just Ice - The Original Gangster of Hiphop.mp3
+12:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 12:00
+12:06:44 🎵 TRACK │ Cypress Hill — STREET WARS
+12:06:44 🎤 TTS.REQ │ "Booong! The time is 12:00" (voice: Aiden)
+12:06:46 🎤 TTS.GEN │ msg_1786183604616.wav
+12:06:46 🎤 TTS.PLAY │ ▶ msg_1786183604616.wav
+12:06:46 🔊 QUEUE │ music_q ← 208-svenska_akademien-generalknas.mp3
+12:06:46 🎤 TTS.REQ │ "Cypress Hill here with 'STREET WARS' and I ain’t g..." (voice: Eric)
+12:06:49 🎤 TTS.GEN │ msg_1786183606132.wav
+12:06:49 🎤 TTS.REQ │ "Feel that energy burn, it’s all good—let’s keep pu..." (voice: Adrian)
+12:06:49 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+12:07:36 🎤 TTS.REQ │ "Feel that energy burn, it’s all good—let’s keep pu..." (voice: Adrian)
+12:07:36 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+12:07:36 🔌 PLG.ERR │ [producer] Voice playback failed: Feel that energy burn, it’s al
+12:08:56 🎵 TRACK │ The Police — Message In A Bottle
+12:08:56 🔊 QUEUE │ music_q ← Smoothe Da Hustler - Broken Language.mp3
+12:08:56 🔊 QUEUE │ music_q ← ST-Style feat Zabutom.mp3
+12:08:56 🔊 QUEUE │ music_q ← Just Ice - The Original Gangster of Hiphop.mp3
+12:08:56 🔊 QUEUE │ music_q ← 208-svenska_akademien-generalknas.mp3
+12:08:56 🔊 QUEUE │ music_q ← Murs - Walk Like A Man.mp3
+12:08:56 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+12:09:29 🤖 LLM.REPLY │ "{  
+  "segments": [  
+    {  
+      "song_index": ..."
+12:09:29 🎤 TTS.REQ │ "Junkie XL with Don Davis drops that soundtrack gro..." (voice: Adrian)
+12:09:29 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+12:09:29 🎤 TTS.REQ │ "Black Eyed Peas turn up, no tag again from Lani! S..." (voice: Eric)
+12:09:34 🎤 TTS.GEN │ msg_1786183769908.wav
+12:09:34 🎤 TTS.REQ │ "Yo, the beat's got that west coast swagger even th..." (voice: Adrian)
+12:09:34 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+12:09:34 🎤 TTS.REQ │ "If they don't clean up the library, I'm kicking th..." (voice: Eric)
+12:09:37 🎤 TTS.GEN │ msg_1786183774479.wav
+12:09:37 🎤 TTS.REQ │ "Stay in the groove though and keep crushing that s..." (voice: Adrian)
+12:09:37 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+12:09:37 🎤 TTS.REQ │ "Neil Diamond? Lani sure slipped that one into our ..." (voice: Eric)
+12:09:42 🎤 TTS.GEN │ msg_1786183777771.wav
+12:09:42 🎤 TTS.REQ │ "Now we get Gravediggaz with Nowhere to Run, and La..." (voice: Eric)
+12:09:47 🎤 TTS.GEN │ msg_1786183782592.wav
+12:13:39 🎵 TRACK │ Smooth Da Hustla — Broken Language
+12:13:39 🔊 QUEUE │ music_q ← 11-junkie_xl_and_don_davis-red_pill_blue_pill-ego.mp3
+12:16:33 🎵 TRACK │ Dubmood — ST-Style feat Zabutom
+12:16:33 🔊 QUEUE │ music_q ← lets get retarded (7).mp3
+12:18:32 🎵 TRACK │ Just-Ice — The Original Gangster of Hiph
+12:18:32 🔊 QUEUE │ music_q ← 0311-Neil.Diamond-I.Am.....I.Said.mp3
+12:23:57 🎵 TRACK │ Svenska Akademien — Generalknas
+12:23:57 🔊 QUEUE │ music_q ← Gravediggaz - Nowhere To Run, Nowhere To Hide.mp3
+12:25:43 🎵 TRACK │ Smooth Da Hustla — Broken Language
+12:28:38 🎵 TRACK │ Dubmood — ST-Style feat Zabutom
+12:30:34 🎵 TRACK │ Just-Ice — The Original Gangster of Hiph
+12:36:01 🎵 TRACK │ Svenska Akademien — Generalknas
+12:37:46 🎵 TRACK │ Murs — Walk Like A Man
+12:37:46 🔊 QUEUE │ music_q ← 0964-John.Lennon-Woman.mp3
+12:37:46 🎤 TTS.REQ │ "Survival of the fittest on deck — Mobb Deep is in ..." (voice: Eric)
+12:37:50 🎤 TTS.GEN │ msg_1786185466104.wav
+12:37:50 🎤 TTS.REQ │ "The drill style beats and raw rhymes hit like a fr..." (voice: Adrian)
+12:37:50 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+12:37:50 🎤 TTS.REQ │ "Don't get it twisted, these bars are heavy as a st..." (voice: Eric)
+12:37:54 🎤 TTS.GEN │ msg_1786185470661.wav
+12:37:54 🎤 TTS.REQ │ "Keep pushing the limits while we keep the vibe hig..." (voice: Adrian)
+12:37:54 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+12:42:20 🎵 TRACK │ Junkie XL And Don Davis — Red Pill, Blue Pill
+12:42:20 🔊 QUEUE │ music_q ← Mobb Deep - Survival Of The Fittest.mp3
+12:42:20 🎤 TTS.REQ │ "Junkie XL with Don Davis drops that soundtrack gro..." (voice: Adrian)
+12:42:20 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+12:42:20 🔌 EVENT │ [producer] Voice: Junkie XL with Don Davis drops that soun...
+12:42:20 🎤 TTS.REQ │ "Junkie XL with Don Davis drops that soundtrack gro..." (voice: Adrian)
+12:42:21 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+12:42:21 🔌 PLG.ERR │ [producer] Voice playback failed: Junkie XL with Don Davis drops
+12:51:14 🎵 TRACK │ Black Eyed Peas — Lets Get Retarded
+12:51:14 🔊 QUEUE │ music_q ← 0212-Ben.feat..Gim-Engel.mp3
+12:51:14 🎤 TTS.REQ │ "Black Eyed Peas turn up, no tag again from Lani! S..." (voice: Eric)
+12:51:19 🎤 TTS.GEN │ msg_1786186274789.wav
+12:51:19 🎤 TTS.REQ │ "Yo, the beat's got that west coast swagger even th..." (voice: Adrian)
+12:51:19 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+12:51:19 🎤 TTS.REQ │ "If they don't clean up the library, I'm kicking th..." (voice: Eric)
+12:51:22 🎤 TTS.GEN │ msg_1786186279484.wav
+12:51:22 🎤 TTS.REQ │ "Stay in the groove though and keep crushing that s..." (voice: Adrian)
+12:51:22 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+12:51:22 🔌 EVENT │ [producer] Voice: Black Eyed Peas turn up, no tag again fr...
+12:51:23 🎤 TTS.PLAY │ ▶ msg_1786186274789.wav
+12:51:23 🔌 EVENT │ [producer] Queued between songs: Stay in the groove though and keep crush...
+12:51:25 🎤 TTS.PLAY │ ▶ msg_1786186279484.wav
+12:52:22 🎤 TTS.REQ │ "Yo, the beat's got that west coast swagger even th..." (voice: Adrian)
+12:52:22 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+12:52:22 🔌 PLG.ERR │ [producer] Voice playback failed: Yo, the beat's got that west c
+12:55:10 ⚡ START │ Stuck-stream watchdog strike 1
+12:55:12 🎵 TRACK │ Neil Diamond — I Am ... I Said
+12:55:12 🎤 TTS.REQ │ "Stay in the groove though and keep crushing that s..." (voice: Adrian)
+12:55:12 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+12:55:12 🔌 PLG.ERR │ [producer] Voice playback failed: Stay in the groove though and 
+12:55:12 🔊 QUEUE │ music_q ← 12 - When Love Comes to Town.mp3
+12:55:13 🎤 TTS.REQ │ "Neil Diamond? Lani sure slipped that one into our ..." (voice: Eric)
+12:55:18 🎤 TTS.GEN │ msg_1786186513001.wav
+12:55:18 🔌 EVENT │ [producer] Voice: Neil Diamond? Lani sure slipped that one...
+12:55:19 🎤 TTS.PLAY │ ▶ msg_1786186513001.wav
+12:58:40 🎵 TRACK │ Gravediggaz — Nowhere To Run, Nowhere To Hide
+12:58:40 🔊 QUEUE │ music_q ← 119-chris_rea-nineties_blues-esc.mp3
+12:58:40 🎤 TTS.REQ │ "Now we get Gravediggaz with Nowhere to Run, and La..." (voice: Eric)
+12:58:45 🎤 TTS.GEN │ msg_1786186720171.wav
+12:58:45 🔌 EVENT │ [producer] Voice: Now we get Gravediggaz with Nowhere to R...
+12:58:46 🎤 TTS.PLAY │ ▶ msg_1786186720171.wav
+13:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 13:00
+13:02:05 🎵 TRACK │ John Lennon — Woman
+13:02:05 🎤 TTS.REQ │ "Booong! The time is 13:00" (voice: Aiden)
+13:02:06 🎤 TTS.GEN │ msg_1786186925111.wav
+13:02:06 🎤 TTS.PLAY │ ▶ msg_1786186925111.wav
+13:02:06 🔊 QUEUE │ music_q ← Mobb Deep - Survival Of The Fittest.mp3
+13:02:06 🔊 QUEUE │ music_q ← 0212-Ben.feat..Gim-Engel.mp3
+13:02:06 🔊 QUEUE │ music_q ← 12 - When Love Comes to Town.mp3
+13:02:06 🔊 QUEUE │ music_q ← 119-chris_rea-nineties_blues-esc.mp3
+13:02:06 🔊 QUEUE │ music_q ← Lauryn Hill - Doo Wop (That Thing).mp3
+13:02:06 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+13:02:56 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+13:02:56 🎤 TTS.REQ │ "Yo, Timbuktu just dropped this fire for your worko..." (voice: Adrian)
+13:02:56 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+13:02:56 🎤 TTS.REQ │ "Real rap grind; I love the flow, but is Lani final..." (voice: Eric)
+13:03:02 🎤 TTS.GEN │ msg_1786186976675.wav
+13:03:02 🎤 TTS.REQ │ "Here comes The Roots, and we’re talking long time?..." (voice: Eric)
+13:03:06 🎤 TTS.GEN │ msg_1786186982476.wav
+13:03:06 🎤 TTS.REQ │ "The beat's fresh as a new drop—keep your feet movi..." (voice: Adrian)
+13:03:06 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+13:03:06 🎤 TTS.REQ │ "Yo Lani, this metadata shows extra featured artist..." (voice: Eric)
+13:03:10 🎤 TTS.GEN │ msg_1786186986739.wav
+13:03:10 🎤 TTS.REQ │ "They keep it real, no gimmicks—smooth jam for you ..." (voice: Adrian)
+13:03:10 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+13:03:10 🎤 TTS.REQ │ "Now we get The Police—rock, not the beat we're aft..." (voice: Eric)
+13:03:14 🎤 TTS.GEN │ msg_1786186990902.wav
+13:03:14 🎤 TTS.REQ │ "Still that bass hits; it's good for a moment of he..." (voice: Adrian)
+13:03:14 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+13:03:14 🎤 TTS.REQ │ "GZA's 'Fame' drops the Mic for all y’all—East Coas..." (voice: Adrian)
+13:03:14 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+13:03:14 🎤 TTS.REQ │ "Yo, GZA’s lyrically heavy as ever—this one's pure ..." (voice: Eric)
+13:03:20 🎤 TTS.GEN │ msg_1786186994781.wav
+13:05:29 🎵 TRACK │ Mobb Deep — Survival Of The Fittest
+13:05:29 🔊 QUEUE │ music_q ← 14-www.stoppamej.nu-cta.mp3
+13:09:10 🎵 TRACK │ Ben feat. Gim — Engel
+13:09:10 🔊 QUEUE │ music_q ← 09-the_roots-long_time_(feat_peedi_peedi_and_bunny_sigler).mp3
+13:13:05 🎵 TRACK │ U2 — When Love Comes to Town
+13:13:05 🔊 QUEUE │ music_q ← 08 - Unchained Melody.mp3
+13:17:17 🎵 TRACK │ Chris Rea — Nineties Blues
+13:17:18 🔊 QUEUE │ music_q ← 203-the_police-invisible_sun.mp3
+13:22:21 🎵 TRACK │ Mobb Deep — Survival Of The Fittest
+13:26:01 🎵 TRACK │ Ben feat. Gim — Engel
+13:29:56 🎵 TRACK │ U2 — When Love Comes to Town
+13:34:09 🎵 TRACK │ Chris Rea — Nineties Blues
+13:39:10 🎵 TRACK │ Lauryn Hill — Doo Wop (That Thing)
+13:39:10 🔊 QUEUE │ music_q ← GZA - Fame.mp3
+13:39:10 🎤 TTS.REQ │ "Eminem's 'Loose Yourself' – that's a classic! This..." (voice: Eric)
+13:39:15 🎤 TTS.GEN │ msg_1786189150621.wav
+13:39:15 🎤 TTS.REQ │ "When we hear Marshall, it's all hype and hustle, k..." (voice: Adrian)
+13:39:15 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+13:39:15 🎤 TTS.REQ │ "U2…this is a glitch. 'One' with missing metadata, ..." (voice: Eric)
+13:39:22 🎤 TTS.GEN │ msg_1786189155061.wav
+13:39:22 🎤 TTS.REQ │ "Still that epic track can boost your cardio if you..." (voice: Adrian)
+13:39:22 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+13:39:22 🎤 TTS.REQ │ "Seriously, this file’s a mess, man! Fix it before ..." (voice: Eric)
+13:39:25 🎤 TTS.GEN │ msg_1786189162285.wav
+13:44:31 🎵 TRACK │ The Roots — Long Time (Feat. Peedi Peedi & Bunny Sigler)
+13:44:31 🔊 QUEUE │ music_q ← Eminem - Loose Yourself (BEST VERSION).mp3
+13:44:31 🎤 TTS.REQ │ "Here comes The Roots, and we’re talking long time?..." (voice: Eric)
+13:44:35 🎤 TTS.GEN │ msg_1786189471683.wav
+13:44:35 🎤 TTS.REQ │ "The beat's fresh as a new drop—keep your feet movi..." (voice: Adrian)
+13:44:35 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+13:44:35 🎤 TTS.REQ │ "Yo Lani, this metadata shows extra featured artist..." (voice: Eric)
+13:44:39 🎤 TTS.GEN │ msg_1786189475831.wav
+13:44:39 🎤 TTS.REQ │ "They keep it real, no gimmicks—smooth jam for you ..." (voice: Adrian)
+13:44:39 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+13:44:39 🔌 EVENT │ [producer] Voice: Here comes The Roots, and we’re talking ...
+13:44:40 🎤 TTS.PLAY │ ▶ msg_1786189471683.wav
+13:44:40 🔌 EVENT │ [producer] Queued between songs: Yo Lani, this metadata shows extra featu...
+13:45:27 🎤 TTS.REQ │ "The beat's fresh as a new drop—keep your feet movi..." (voice: Adrian)
+13:45:27 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+13:45:27 🔌 PLG.ERR │ [producer] Voice playback failed: The beat's fresh as a new drop
+13:48:47 🎵 TRACK │ U2 — Unchained Melody
+13:48:47 🎤 TTS.PLAY │ ▶ msg_1786189475831.wav
+13:48:47 🔊 QUEUE │ music_q ← Masta Ace - Unfriendly Game.mp3
+13:53:36 🎵 TRACK │ The Police — Invisible Sun
+13:53:36 🔊 QUEUE │ music_q ← 05_One.mp3
+13:53:36 🎤 TTS.REQ │ "Now we get The Police—rock, not the beat we're aft..." (voice: Eric)
+13:53:41 🎤 TTS.GEN │ msg_1786190016900.wav
+13:53:41 🎤 TTS.REQ │ "Still that bass hits; it's good for a moment of he..." (voice: Adrian)
+13:53:41 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+13:53:41 🔌 EVENT │ [producer] Voice: Now we get The Police—rock, not the beat...
+13:53:42 🎤 TTS.PLAY │ ▶ msg_1786190016900.wav
+13:57:17 🎵 TRACK │ GZA — Fame
+13:57:17 🔊 QUEUE │ music_q ← 0845-Bucks.Fizz-The.Land.Of.Make.Believe.mp3
+13:57:17 🎤 TTS.REQ │ "GZA's 'Fame' drops the Mic for all y’all—East Coas..." (voice: Adrian)
+13:57:17 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+13:57:17 🎤 TTS.REQ │ "Yo, GZA’s lyrically heavy as ever—this one's pure ..." (voice: Eric)
+13:57:23 🎤 TTS.GEN │ msg_1786190237359.wav
+13:57:24 🔌 EVENT │ [producer] Voice: GZA's 'Fame' drops the Mic for all y’all...
+13:57:24 🎤 TTS.REQ │ "GZA's 'Fame' drops the Mic for all y’all—East Coas..." (voice: Adrian)
+13:57:24 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+13:57:24 🔌 PLG.ERR │ [producer] Voice playback failed: GZA's 'Fame' drops the Mic for
+14:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 14:00
+14:00:58 🎵 TRACK │ Eminem — Loose Yourself (BEST VERSION)
+14:00:58 🎤 TTS.REQ │ "Booong! The time is 14:00" (voice: Aiden)
+14:00:59 🎤 TTS.GEN │ msg_1786190458658.wav
+14:00:59 🎤 TTS.PLAY │ ▶ msg_1786190458658.wav
+14:01:00 🔊 QUEUE │ music_q ← 14-www.stoppamej.nu-cta.mp3
+14:01:00 🔊 QUEUE │ music_q ← Masta Ace - Unfriendly Game.mp3
+14:01:00 🔊 QUEUE │ music_q ← 05_One.mp3
+14:01:00 🔊 QUEUE │ music_q ← 0845-Bucks.Fizz-The.Land.Of.Make.Believe.mp3
+14:01:00 🔊 QUEUE │ music_q ← 387 - Elton John - Tiny Dancer.mp3
+14:01:00 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+14:01:27 🤖 LLM.REPLY │ "{"segments":[
+  {
+    "song_index":0,
+    "voice":..."
+14:01:27 🎤 TTS.REQ │ "Now here we go – Pete Rock's grind on this one kee..." (voice: Eric)
+14:01:32 🎤 TTS.GEN │ msg_1786190487718.wav
+14:01:32 🎤 TTS.REQ │ "Word, that rhyme scheme's slick like a drift, smoo..." (voice: Adrian)
+14:01:32 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+14:01:32 🎤 TTS.REQ │ "Les Humphries Singers again? If you think I'm happ..." (voice: Eric)
+14:01:37 🎤 TTS.GEN │ msg_1786190492454.wav
+14:01:38 🎤 TTS.REQ │ "The climb is tryin' to pump me up, but this pop me..." (voice: Eric)
+14:01:41 🎤 TTS.GEN │ msg_1786190498025.wav
+14:01:41 🎤 TTS.REQ │ "Yo, but the beat's hype though – feel it in your c..." (voice: Adrian)
+14:01:41 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+14:01:41 🎤 TTS.REQ │ "Simple Minds doing that Alive and Kicking? I swear..." (voice: Eric)
+14:01:46 🎤 TTS.GEN │ msg_1786190501082.wav
+14:01:46 🎤 TTS.REQ │ "Still, that beat slaps good vibes, baby." (voice: Adrian)
+14:01:46 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+14:06:24 🎵 TRACK │ Masta Ace — Unfriendly Game
+14:06:25 🔊 QUEUE │ music_q ← 063. Eriksson - Glenmark - Upp Över Mina Öron.mp3
+14:10:35 🎵 TRACK │ U2 ¦X°Û¹Î — One
+14:10:35 🔊 QUEUE │ music_q ← Pete Rock - Verbal Murder 2 (Feat. Common, Big Pun, Noreaga).mp3
+14:15:06 🎵 TRACK │ Bucks Fizz — The Land Of Make Believe
+14:15:06 🔊 QUEUE │ music_q ← 0998-Les.Humphries.Singers-We.Are.Goin.Down.Jordan.mp3
+14:18:51 🎵 TRACK │ Masta Ace — Unfriendly Game
+14:23:08 🎵 TRACK │ U2 ¦X°Û¹Î — One
+14:27:39 🎵 TRACK │ Bucks Fizz — The Land Of Make Believe
+14:31:23 🎵 TRACK │ Elton John — Tiny Dancer
+14:31:24 🔊 QUEUE │ music_q ← 0088-Phil.Collins-Another.Day.in.Paradise.mp3
+14:31:24 🎤 TTS.REQ │ "The Police again? I swear Lani sent me some damn c..." (voice: Eric)
+14:31:30 🎤 TTS.GEN │ msg_1786192284017.wav
+14:31:30 🎤 TTS.REQ │ "Yeah man, that groove's so cold it'll make the des..." (voice: Adrian)
+14:31:30 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+14:37:35 🎵 TRACK │ Eriksson - Glenmark — Upp Över Mina Öron
+14:37:35 🔊 QUEUE │ music_q ← 19-the_climb_-_the_end-twc.mp3
+14:40:27 🎵 TRACK │ Pete Rock — Verbal Murder 2 (Feat. Common, Big Pun, Noreaga)
+14:40:27 🔊 QUEUE │ music_q ← 209-maxine_brown-since_i_found_you.mp3
+14:40:27 🎤 TTS.REQ │ "Now here we go – Pete Rock's grind on this one kee..." (voice: Eric)
+14:40:31 🎤 TTS.GEN │ msg_1786192827845.wav
+14:40:31 🎤 TTS.REQ │ "Word, that rhyme scheme's slick like a drift, smoo..." (voice: Adrian)
+14:40:31 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+14:41:18 🎤 TTS.PLAY │ ▶ msg_1786192827845.wav
+14:44:54 🎵 TRACK │ Les Humphries Singers — We Are Goin' Down Jordan
+14:44:54 🔊 QUEUE │ music_q ← 058. Simple Minds - Alive and Kicking.mp3
+14:44:54 🎤 TTS.REQ │ "Les Humphries Singers again? If you think I'm happ..." (voice: Eric)
+14:44:59 🎤 TTS.GEN │ msg_1786193094333.wav
+14:44:59 🔌 EVENT │ [producer] Voice: Les Humphries Singers again? If you thin...
+14:45:00 🎤 TTS.PLAY │ ▶ msg_1786193094333.wav
+14:47:50 🎵 TRACK │ Phil Collins — Another Day In Paradise
+14:47:50 🔊 QUEUE │ music_q ← neil_sedaka-happy_birthday_sweet_sixt.mp3
+14:53:07 🎵 TRACK │ the climb — the end
+14:53:07 🔊 QUEUE │ music_q ← 209-the_police-wrapped_around_your_finger.mp3
+14:53:07 🎤 TTS.REQ │ "The climb is tryin' to pump me up, but this pop me..." (voice: Eric)
+14:53:10 🎤 TTS.GEN │ msg_1786193587947.wav
+14:53:10 🎤 TTS.REQ │ "Yo, but the beat's hype though – feel it in your c..." (voice: Adrian)
+14:53:10 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+14:54:02 🎤 TTS.PLAY │ ▶ msg_1786193587947.wav
+14:56:23 🎵 TRACK │ Maxine Brown — Since I Found You
+14:56:23 🔊 QUEUE │ music_q ← 14-www.stoppamej.nu-cta.mp3
+14:56:23 🔊 QUEUE │ music_q ← 058. Simple Minds - Alive and Kicking.mp3
+14:56:23 🔊 QUEUE │ music_q ← neil_sedaka-happy_birthday_sweet_sixt.mp3
+14:56:23 🔊 QUEUE │ music_q ← 209-the_police-wrapped_around_your_finger.mp3
+14:56:23 🔊 QUEUE │ music_q ← 07 - Some Days Are Better Than Others.mp3
+14:56:23 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+14:56:51 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+14:56:51 🎤 TTS.REQ │ "Four Tops is a classic soul but the metadata's bla..." (voice: Eric)
+14:56:57 🎤 TTS.GEN │ msg_1786193811696.wav
+14:56:57 🎤 TTS.REQ │ "But that groove still gets your feet moving, y'all..." (voice: Adrian)
+14:56:57 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+14:56:57 🎤 TTS.REQ │ "Rick James and a super freaky funk track—nah, not ..." (voice: Eric)
+14:57:02 🎤 TTS.GEN │ msg_1786193817564.wav
+14:57:02 🎤 TTS.REQ │ "Still, the bass lines keep this gym humming like t..." (voice: Adrian)
+14:57:02 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+14:57:02 🎤 TTS.REQ │ "Wu-Tang's Gravel Pit is old school pure, that raw ..." (voice: Eric)
+14:57:07 🎤 TTS.GEN │ msg_1786193822738.wav
+14:57:08 🎤 TTS.REQ │ "East coast hustle meets smooth vibes—true power on..." (voice: Adrian)
+14:57:08 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+14:57:08 🎤 TTS.REQ │ "Big Daddy Kane rocks classic wordplay, no filler o..." (voice: Eric)
+14:57:12 🎤 TTS.GEN │ msg_1786193828007.wav
+14:57:12 🎤 TTS.REQ │ "Classic style with a fresh beat—perfect for keepin..." (voice: Adrian)
+14:57:12 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+14:59:09 🎵 TRACK │ Simple Minds — Alive and Kicking
+14:59:09 🔊 QUEUE │ music_q ← 09 - Tryin' to Throw Your Arms Around the World.mp3
+15:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 15:00
+15:03:52 🎵 TRACK │ Neil Sedaka — Happy Birthday Sweet Sixteen
+15:03:52 🎤 TTS.REQ │ "Booong! The time is 15:00" (voice: Aiden)
+15:03:54 🎤 TTS.GEN │ msg_1786194232763.wav
+15:03:54 🎤 TTS.PLAY │ ▶ msg_1786194232763.wav
+15:03:54 🔊 QUEUE │ music_q ← 206 - The Four Tops - Reach Out I'll Be There.mp3
+15:06:23 🎵 TRACK │ The Police — Wrapped Around Your Finger
+15:06:23 🔊 QUEUE │ music_q ← 477 - Rick James - Super Freak.mp3
+15:11:34 🎵 TRACK │ Simple Minds — Alive and Kicking
+15:16:21 🎵 TRACK │ Neil Sedaka — Happy Birthday Sweet Sixteen
+15:18:51 🎵 TRACK │ The Police — Wrapped Around Your Finger
+15:24:02 🎵 TRACK │ U2 — Some Days Are Better Than Others
+15:24:02 🔊 QUEUE │ music_q ← 0348-Status.Quo-In.The.Army.Now.mp3
+15:24:02 🎤 TTS.REQ │ "Timbuktu from Sweden brings some international hea..." (voice: Eric)
+15:24:07 🎤 TTS.GEN │ msg_1786195442647.wav
+15:24:07 🎤 TTS.REQ │ "Even so, that hook keeps the West coast feel; we r..." (voice: Adrian)
+15:24:07 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+15:24:07 🎤 TTS.REQ │ "The Game drops out but its lyrics lack depth, if y..." (voice: Eric)
+15:24:13 🎤 TTS.GEN │ msg_1786195447148.wav
+15:24:13 🎤 TTS.REQ │ "Yeah, real street vibes stay true on this set—keep..." (voice: Adrian)
+15:24:13 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+15:28:15 🎵 TRACK │ U2 — Tryin' to Throw Your Arms Around the World
+15:28:15 🔊 QUEUE │ music_q ← Wu-Tang Clan - Gravel Pit.mp3
+15:32:02 🎵 TRACK │ The Four Tops — Reach Out I'll Be There
+15:32:02 🔊 QUEUE │ music_q ← Big Daddy Kane - Raw.mp3
+15:32:02 🎤 TTS.REQ │ "Four Tops is a classic soul but the metadata's bla..." (voice: Eric)
+15:32:06 🎤 TTS.GEN │ msg_1786195922366.wav
+15:32:06 🎤 TTS.REQ │ "But that groove still gets your feet moving, y'all..." (voice: Adrian)
+15:32:06 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+15:32:06 🔌 EVENT │ [producer] Voice: Four Tops is a classic soul but the meta...
+15:32:07 🎤 TTS.PLAY │ ▶ msg_1786195922366.wav
+15:34:54 🎵 TRACK │ Rick James — Super Freak
+15:34:54 🔊 QUEUE │ music_q ← 211-johan_brodd_-_forever_blue.mp3
+15:34:54 🎤 TTS.REQ │ "Rick James and a super freaky funk track—nah, not ..." (voice: Eric)
+15:35:00 🎤 TTS.GEN │ msg_1786196094266.wav
+15:35:00 🎤 TTS.REQ │ "Still, the bass lines keep this gym humming like t..." (voice: Adrian)
+15:35:00 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+15:35:00 🔌 EVENT │ [producer] Voice: Rick James and a super freaky funk track...
+15:35:00 🎤 TTS.PLAY │ ▶ msg_1786196094266.wav
+15:36:12 🎤 TTS.REQ │ "Still, the bass lines keep this gym humming like t..." (voice: Adrian)
+15:36:12 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+15:36:12 🔌 PLG.ERR │ [producer] Voice playback failed: Still, the bass lines keep thi
+15:38:07 🎵 TRACK │ Status Quo — In The Army Now
+15:38:07 🔊 QUEUE │ music_q ← 01 - Generellt.mp3
+15:41:56 🎵 TRACK │ Wu-Tang Clan — Gravel Pit
+15:41:56 🔊 QUEUE │ music_q ← 19-the_game-outro.mp3
+15:41:56 🎤 TTS.REQ │ "Wu-Tang's Gravel Pit is old school pure, that raw ..." (voice: Eric)
+15:42:01 🎤 TTS.GEN │ msg_1786196516282.wav
+15:42:01 🎤 TTS.REQ │ "East coast hustle meets smooth vibes—true power on..." (voice: Adrian)
+15:42:01 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+15:42:01 🔌 EVENT │ [producer] Voice: Wu-Tang's Gravel Pit is old school pure,...
+15:42:02 🎤 TTS.PLAY │ ▶ msg_1786196516282.wav
+15:46:43 🎵 TRACK │ Big Daddy Kane — Raw
+15:46:43 🔊 QUEUE │ music_q ← 14-www.stoppamej.nu-cta.mp3
+15:46:43 🔊 QUEUE │ music_q ← 211-johan_brodd_-_forever_blue.mp3
+15:46:43 🔊 QUEUE │ music_q ← 01 - Generellt.mp3
+15:46:43 🔊 QUEUE │ music_q ← 19-the_game-outro.mp3
+15:46:43 🔊 QUEUE │ music_q ← 01 NFS Underground SoundTrax ~ Snoop Dogg Feat. The Doors ~ Riders On The Storm.mp3
+15:46:43 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+15:47:10 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+15:47:10 🎤 TTS.REQ │ "Another old‑school banger, but Lani couldn’t keep ..." (voice: Eric)
+15:47:15 🎤 TTS.GEN │ msg_1786196830286.wav
+15:47:15 🎤 TTS.REQ │ "Yeah, Jungle Brothers droppin’ that raw energy, ma..." (voice: Adrian)
+15:47:15 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+15:47:15 🎤 TTS.REQ │ "Yo, Papoose is spitting those letters like a dicti..." (voice: Eric)
+15:47:20 🎤 TTS.GEN │ msg_1786196835820.wav
+15:47:20 🎤 TTS.REQ │ "Keep slingin’ that alphabet, brother." (voice: Adrian)
+15:47:20 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+15:47:20 🎤 TTS.REQ │ "Here comes the ‘P.I.M.P.’ remix with a side of Sno..." (voice: Eric)
+15:47:24 🎤 TTS.GEN │ msg_1786196840047.wav
+15:47:24 🎤 TTS.REQ │ "Yeah, this remix’s smooth, keep your head in the g..." (voice: Adrian)
+15:47:24 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+15:47:24 🎤 TTS.REQ │ "Wu Tang drops ‘Soul Power’, pure East Coast soul w..." (voice: Eric)
+15:47:29 🎤 TTS.GEN │ msg_1786196844079.wav
+15:47:29 🎤 TTS.REQ │ "G‑funk vibes are still in the mix; keep your heart..." (voice: Adrian)
+15:47:29 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+15:50:50 🎵 TRACK │ VA_-_RLSLOG-2nd-Anniversary-in-Memory-of-Scit-2CD-2008-RLSLOG — johan_brodd_-_forever_blue
+15:50:50 🔊 QUEUE │ music_q ← 11_Bonnie_Tyler_-_Total_Eclipse_Of_My_Heart.mp3
+15:53:00 🎵 TRACK │ Timbuktu — Generellt
+15:53:00 🔊 QUEUE │ music_q ← Jungle Brothers - What U Waitin' 4.mp3
+15:55:49 🎵 TRACK │ The Game — Outro
+15:55:49 🔊 QUEUE │ music_q ← 013. brolle jr - playing with fire.mp3
+15:57:13 🎵 TRACK │ VA_-_RLSLOG-2nd-Anniversary-in-Memory-of-Scit-2CD-2008-RLSLOG — johan_brodd_-_forever_blue
+15:59:28 🎵 TRACK │ Timbuktu — Generellt
+16:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 16:00
+16:02:18 🎵 TRACK │ The Game — Outro
+16:02:18 🎤 TTS.REQ │ "Booong! The time is 16:00" (voice: Aiden)
+16:02:20 🎤 TTS.GEN │ msg_1786197738925.wav
+16:02:20 🎤 TTS.PLAY │ ▶ msg_1786197738925.wav
+16:03:40 🎵 TRACK │ Snoop Dogg feat. The Doors — Riders on the Storm (Fledwreck Remix)
+16:03:40 🔊 QUEUE │ music_q ← Papoose - Alphabetical Slaughter.mp3
+16:03:40 🎤 TTS.REQ │ "Last stop is Big L’s ‘Work Part II’, a classic tha..." (voice: Eric)
+16:03:45 🎤 TTS.GEN │ msg_1786197820907.wav
+16:03:45 🎤 TTS.REQ │ "You know how to grind, my people; keep the beat al..." (voice: Adrian)
+16:03:45 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+16:09:36 🎵 TRACK │ The_80s_Collection_-_CD_03 — _Bonnie_Tyler_-_Total_Eclipse_Of_My_Heart
+16:09:36 🔊 QUEUE │ music_q ← 50 Cent - PIMP (Remix).mp3
+16:13:58 🎵 TRACK │ Jungle Brothers — What "U" Waitin' "4"
+16:13:58 🔊 QUEUE │ music_q ← 11-the_surfaris-wipe_out-xxl.mp3
+16:13:58 🎤 TTS.REQ │ "Another old‑school banger, but Lani couldn’t keep ..." (voice: Eric)
+16:14:02 🎤 TTS.GEN │ msg_1786198438876.wav
+16:14:02 🎤 TTS.REQ │ "Yeah, Jungle Brothers droppin’ that raw energy, ma..." (voice: Adrian)
+16:14:02 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+16:15:10 🎤 TTS.PLAY │ ▶ msg_1786198438876.wav
+16:15:37 🎤 TTS.REQ │ "Yeah, Jungle Brothers droppin’ that raw energy, ma..." (voice: Adrian)
+16:15:37 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+16:15:37 🔌 PLG.ERR │ [producer] Voice playback failed: Yeah, Jungle Brothers droppin’
+16:17:59 🎵 TRACK │ Brolle Jr. — Playing with fire
+16:17:59 🔊 QUEUE │ music_q ← 109 - Van Morrison - Brown Eyed Girl.mp3
+16:21:31 🎵 TRACK │ Papoose — Alphabetical Slaughter
+16:21:31 🔊 QUEUE │ music_q ← 04-soul_power_(black_jungle)-supermp3s.mp3
+16:21:31 🎤 TTS.REQ │ "Yo, Papoose is spitting those letters like a dicti..." (voice: Eric)
+16:21:35 🎤 TTS.GEN │ msg_1786198891915.wav
+16:21:35 🎤 TTS.REQ │ "Keep slingin’ that alphabet, brother." (voice: Adrian)
+16:21:35 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+16:21:35 🔌 EVENT │ [producer] Voice: Yo, Papoose is spitting those letters li...
+16:21:35 🎤 TTS.PLAY │ ▶ msg_1786198891915.wav
+16:26:16 🎵 TRACK │ 50 Cent ft. Snoop and Don Magi — P.I.M.P. (Remix)
+16:26:16 🔊 QUEUE │ music_q ← Big L - Work Part II (Feat Gangstarr).mp3
+16:26:16 🎤 TTS.REQ │ "Here comes the ‘P.I.M.P.’ remix with a side of Sno..." (voice: Eric)
+16:26:21 🎤 TTS.GEN │ msg_1786199176988.wav
+16:26:21 🎤 TTS.REQ │ "Yeah, this remix’s smooth, keep your head in the g..." (voice: Adrian)
+16:26:21 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+16:26:21 🔌 EVENT │ [producer] Voice: Here comes the ‘P.I.M.P.’ remix with a s...
+16:26:21 🎤 TTS.PLAY │ ▶ msg_1786199176988.wav
+16:28:10 🎤 TTS.REQ │ "Yeah, this remix’s smooth, keep your head in the g..." (voice: Adrian)
+16:28:10 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+16:28:10 🔌 PLG.ERR │ [producer] Voice playback failed: Yeah, this remix’s smooth, kee
+16:30:58 🎵 TRACK │ The Surfaris — Wipe Out
+16:30:58 🔊 QUEUE │ music_q ← 14-www.stoppamej.nu-cta.mp3
+16:30:58 🔊 QUEUE │ music_q ← 109 - Van Morrison - Brown Eyed Girl.mp3
+16:30:58 🔊 QUEUE │ music_q ← 04-soul_power_(black_jungle)-supermp3s.mp3
+16:30:58 🔊 QUEUE │ music_q ← Big L - Work Part II (Feat Gangstarr).mp3
+16:30:58 🔊 QUEUE │ music_q ← Ice Cube - What Can I Do.mp3
+16:30:58 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+16:31:33 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+16:31:33 🎤 TTS.REQ │ "Wu’s 'Radioactive' still rips through like a stree..." (voice: Eric)
+16:31:37 🎤 TTS.GEN │ msg_1786199493389.wav
+16:31:37 🎤 TTS.REQ │ "That beat hits hard enough to make you hit the tre..." (voice: Adrian)
+16:31:37 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+16:31:37 🎤 TTS.REQ │ "And when the bass drops, it's a full body slam." (voice: Eric)
+16:31:39 🎤 TTS.GEN │ msg_1786199497956.wav
+16:31:39 🎤 TTS.REQ │ "The Aphilliates and Busta bring that old‑school sw..." (voice: Eric)
+16:31:44 🎤 TTS.GEN │ msg_1786199499985.wav
+16:31:44 🎤 TTS.REQ │ "Labba on the hook keeps us smooth yet tough; exact..." (voice: Adrian)
+16:31:44 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+16:31:44 🎤 TTS.REQ │ "Weird here, track has no release info or genre. La..." (voice: Eric)
+16:31:48 🎤 TTS.GEN │ msg_1786199504509.wav
+16:31:48 🎤 TTS.REQ │ "Yo, Abba on a hip‑hop set? This doesn't belong any..." (voice: Eric)
+16:31:52 🎤 TTS.GEN │ msg_1786199508485.wav
+16:31:52 🎤 TTS.REQ │ "Oldies in a hard‑hitting mix, that's a wild ride. ..." (voice: Adrian)
+16:31:52 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+16:33:33 🎵 TRACK │ Van Morrison — Brown Eyed Girl
+16:33:33 🔊 QUEUE │ music_q ← The Roots - Dont Say Nuthin.mp3
+16:36:36 🎵 TRACK │ Wu Tang Clan — Soul Power (Black Jungle)
+16:36:36 🔊 QUEUE │ music_q ← 09-radioactive_(four_assassins)-supermp3s.mp3
+16:41:23 🎵 TRACK │ Big L — Work Part II (Feat Gangstarr)
+16:41:23 🔊 QUEUE │ music_q ← 14-the_aphilliates_and_busta_rhymes-boss_of_the_bosses_ft_labba.mp3
+16:44:25 🎵 TRACK │ Van Morrison — Brown Eyed Girl
+16:47:32 🎵 TRACK │ Wu Tang Clan — Soul Power (Black Jungle)
+16:52:21 🎵 TRACK │ Big L — Work Part II (Feat Gangstarr)
+16:55:21 🎵 TRACK │ Ice Cube — WHAT CAN I DO [Explicit]
+16:55:21 🔊 QUEUE │ music_q ← 1994_24 Whigfield - Saturday night.mp3
+16:55:21 🎤 TTS.REQ │ "J Dilla's sounds lift the floor—imagine a gym with..." (voice: Eric)
+16:55:25 🎤 TTS.GEN │ msg_1786200921930.wav
+16:55:25 🎤 TTS.REQ │ "That laid back flow keeps us pushing; keep it tigh..." (voice: Adrian)
+16:55:25 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+16:55:25 🎤 TTS.REQ │ "Buffer low but that grit from Kool G keeps the fir..." (voice: Eric)
+16:55:28 🎤 TTS.GEN │ msg_1786200925538.wav
+16:55:28 🎤 TTS.REQ │ "Yeah, that punchy flow fuels you like gasoline—tim..." (voice: Adrian)
+16:55:28 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+16:59:56 🎵 TRACK │ The Roots — Dont Say Nuthin
+16:59:56 🔊 QUEUE │ music_q ← 12 Capre Demi.mp3
+17:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 17:00
+17:03:27 🎵 TRACK │ Wu Tang Clan — Radioactive (Four Assassins)
+17:03:27 🎤 TTS.REQ │ "Booong! The time is 17:00" (voice: Aiden)
+17:03:29 🎤 TTS.GEN │ msg_1786201407468.wav
+17:03:29 🎤 TTS.PLAY │ ▶ msg_1786201407468.wav
+17:03:29 🔊 QUEUE │ music_q ← 0083-Abba-SOS.mp3
+17:03:29 🎤 TTS.REQ │ "Wu’s 'Radioactive' still rips through like a stree..." (voice: Eric)
+17:03:31 🎤 TTS.GEN │ msg_1786201409517.wav
+17:03:31 🎤 TTS.REQ │ "That beat hits hard enough to make you hit the tre..." (voice: Adrian)
+17:03:31 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+17:03:31 🎤 TTS.REQ │ "And when the bass drops, it's a full body slam." (voice: Eric)
+17:03:33 🎤 TTS.GEN │ msg_1786201411707.wav
+17:03:33 🔌 EVENT │ [producer] Voice: And when the bass drops, it's a full bod...
+17:03:33 🎤 TTS.PLAY │ ▶ msg_1786201411707.wav
+17:05:24 🎤 TTS.PLAY │ ▶ msg_1786201409517.wav
+17:06:52 🎵 TRACK │ The Aphilliates & Busta Rhymes — Boss Of The Bosses Ft. Labba
+17:06:52 🔊 QUEUE │ music_q ← Slum Village - Reunion (feat. J Dilla).mp3
+17:06:52 🎤 TTS.REQ │ "The Aphilliates and Busta bring that old‑school sw..." (voice: Eric)
+17:06:56 🎤 TTS.GEN │ msg_1786201612634.wav
+17:06:56 🎤 TTS.REQ │ "Labba on the hook keeps us smooth yet tough; exact..." (voice: Adrian)
+17:06:56 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+17:06:56 🔌 EVENT │ [producer] Voice: The Aphilliates and Busta bring that old...
+17:06:56 🎤 TTS.PLAY │ ▶ msg_1786201612634.wav
+17:09:19 🎵 TRACK │ 1994_24 Whigfield — Saturday night
+17:09:19 🔊 QUEUE │ music_q ← 1996_16 Pulp - Disco 2000.mp3
+17:09:19 🎤 TTS.REQ │ "Weird here, track has no release info or genre. La..." (voice: Eric)
+17:09:23 🎤 TTS.GEN │ msg_1786201759526.wav
+17:09:23 🔌 EVENT │ [producer] Voice: Weird here, track has no release info or...
+17:09:23 🎤 TTS.PLAY │ ▶ msg_1786201759526.wav
+17:12:56 🎵 TRACK │ Dubbel Trubbel — Capre Demi
+17:12:56 🔊 QUEUE │ music_q ← Kool G Rap - Road to the Riches.mp3
+17:17:53 🎵 TRACK │ Abba — SOS
+17:17:53 🔊 QUEUE │ music_q ← 14-www.stoppamej.nu-cta.mp3
+17:17:53 🔊 QUEUE │ music_q ← Slum Village - Reunion (feat. J Dilla).mp3
+17:17:53 🔊 QUEUE │ music_q ← 1996_16 Pulp - Disco 2000.mp3
+17:17:53 🔊 QUEUE │ music_q ← Kool G Rap - Road to the Riches.mp3
+17:17:53 🔊 QUEUE │ music_q ← 10 - The Electric Co..mp3
+17:17:53 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+17:18:22 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+17:18:22 🎤 TTS.REQ │ "DMX’s ‘Let Me Fly’ lifts every muscle like a heavy..." (voice: Eric)
+17:18:27 🎤 TTS.GEN │ msg_1786202302099.wav
+17:18:27 🎤 TTS.REQ │ "Yo, that beat is fresh enough to get even your car..." (voice: Adrian)
+17:18:27 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+17:18:27 🎤 TTS.REQ │ "The Game’s ‘Never Can Say Goodbye’ swings harder t..." (voice: Eric)
+17:18:31 🎤 TTS.GEN │ msg_1786202307360.wav
+17:18:31 🎤 TTS.REQ │ "True that—West Coast groove in every bar, smooth e..." (voice: Adrian)
+17:18:31 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+17:18:31 🎤 TTS.REQ │ "Keep them gains steady; Lani better label this one..." (voice: Eric)
+17:18:34 🎤 TTS.GEN │ msg_1786202311330.wav
+17:18:34 🎤 TTS.REQ │ "Just Ice’s ‘Cold Gettin’ Dumb’ is a throwback that..." (voice: Eric)
+17:18:37 🎤 TTS.GEN │ msg_1786202314708.wav
+17:18:37 🎤 TTS.REQ │ "Large Professor’s classic ‘I Jus Wanna Chill’ hits..." (voice: Eric)
+17:18:41 🎤 TTS.GEN │ msg_1786202317939.wav
+17:18:41 🎤 TTS.REQ │ "That’s pure OG, no remix nonsense—tasteful and ste..." (voice: Adrian)
+17:18:41 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+17:18:41 🎤 TTS.REQ │ "Feel the boom? Imagine that bump as you drive your..." (voice: Eric)
+17:18:44 🎤 TTS.GEN │ msg_1786202321736.wav
+17:18:45 🎤 TTS.REQ │ "Just keep vibin’—the beat itself is a solid base f..." (voice: Adrian)
+17:18:45 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+17:21:08 🎵 TRACK │ Slum Village — Reunion (feat. J Dilla)
+17:21:08 🔊 QUEUE │ music_q ← DMX - Let me Fly.mp3
+17:25:07 🎵 TRACK │ 1996_16 Pulp — Disco 2000
+17:25:07 🔊 QUEUE │ music_q ← 15-the_game-never_can_say_goodbye_(feat._latoya_williams).mp3
+17:29:35 🎵 TRACK │ Kool G. Rap — Road to the Riches
+17:29:36 🔊 QUEUE │ music_q ← 06 Million Stylez.mp3
+17:34:46 🎵 TRACK │ Slum Village — Reunion (feat. J Dilla)
+17:38:49 🎵 TRACK │ 1996_16 Pulp — Disco 2000
+17:43:18 🎵 TRACK │ Kool G. Rap — Road to the Riches
+17:48:29 🎵 TRACK │ U2 — The Electric Co.
+17:48:29 🔊 QUEUE │ music_q ← Just Ice - Cold Gettin' Dumb.mp3
+17:48:29 🎤 TTS.REQ │ "Skillz’s ‘The Nod Factor’ lays down those rhythm p..." (voice: Eric)
+17:48:35 🎤 TTS.GEN │ msg_1786204109760.wav
+17:48:35 🎤 TTS.REQ │ "Yeah, it's like the warm‑up you can’t skip—smooth ..." (voice: Adrian)
+17:48:35 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+17:48:35 🎤 TTS.REQ │ "Wu‑Tang's newest ‘Babies’ throws bars like barbell..." (voice: Eric)
+17:48:40 🎤 TTS.GEN │ msg_1786204115462.wav
+17:48:40 🎤 TTS.REQ │ "Yo, that track’s gritty grind pumps the night righ..." (voice: Adrian)
+17:48:40 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+17:53:10 🎵 TRACK │ DMX — Let me Fly
+17:53:10 🔊 QUEUE │ music_q ← 063 - Buffalo Springfield -  For What It's Worth.mp3
+17:53:10 🎤 TTS.REQ │ "DMX’s ‘Let Me Fly’ lifts every muscle like a heavy..." (voice: Eric)
+17:53:15 🎤 TTS.GEN │ msg_1786204390721.wav
+17:53:15 🎤 TTS.REQ │ "Yo, that beat is fresh enough to get even your car..." (voice: Adrian)
+17:53:15 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+17:53:15 🔌 EVENT │ [producer] Voice: DMX’s ‘Let Me Fly’ lifts every muscle li...
+17:53:15 🎤 TTS.PLAY │ ▶ msg_1786204390721.wav
+17:57:18 🎵 TRACK │ The Game — Never Can Say Goodbye (feat. Latoya Williams)
+17:57:18 🔊 QUEUE │ music_q ← Large Professor - IJUSWANNACHILL.mp3
+17:57:18 🎤 TTS.REQ │ "The Game’s ‘Never Can Say Goodbye’ swings harder t..." (voice: Eric)
+17:57:23 🎤 TTS.GEN │ msg_1786204638872.wav
+17:57:23 🎤 TTS.REQ │ "True that—West Coast groove in every bar, smooth e..." (voice: Adrian)
+17:57:23 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+17:57:23 🎤 TTS.REQ │ "Keep them gains steady; Lani better label this one..." (voice: Eric)
+17:57:25 🎤 TTS.GEN │ msg_1786204643212.wav
+17:57:25 🔌 EVENT │ [producer] Voice: The Game’s ‘Never Can Say Goodbye’ swing...
+17:57:26 🎤 TTS.PLAY │ ▶ msg_1786204638872.wav
+17:57:26 🔌 EVENT │ [producer] Queued between songs: Keep them gains steady; Lani better labe...
+17:59:01 🎤 TTS.REQ │ "True that—West Coast groove in every bar, smooth e..." (voice: Adrian)
+17:59:01 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+17:59:01 🔌 PLG.ERR │ [producer] Voice playback failed: True that—West Coast groove in
+18:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 18:00
+18:01:53 🎵 TRACK │ Million Stylez — 06 In This time
+18:01:53 🎤 TTS.REQ │ "Booong! The time is 18:00" (voice: Aiden)
+18:01:55 🎤 TTS.GEN │ msg_1786204913635.wav
+18:01:55 🎤 TTS.PLAY │ ▶ msg_1786204913635.wav
+18:01:55 🎤 TTS.PLAY │ ▶ msg_1786204643212.wav
+18:01:55 🔊 QUEUE │ music_q ← Mad Skillz - The Nod Factor.mp3
+18:03:22 🎵 TRACK │ Just Ice — Cold Gettin' Dumb
+18:03:22 🔊 QUEUE │ music_q ← 08--babies-supermp3s.mp3
+18:03:22 🎤 TTS.REQ │ "Just Ice’s ‘Cold Gettin’ Dumb’ is a throwback that..." (voice: Eric)
+18:03:26 🎤 TTS.GEN │ msg_1786205002141.wav
+18:03:26 🔌 EVENT │ [producer] Voice: Just Ice’s ‘Cold Gettin’ Dumb’ is a thro...
+18:03:26 🎤 TTS.PLAY │ ▶ msg_1786205002141.wav
+18:07:49 🎵 TRACK │ Buffalo Springfield — For What It's Worth
+18:07:49 🔊 QUEUE │ music_q ← 098. A1 - Caught In The Middle.mp3
+18:10:24 🎵 TRACK │ Large Professor — Ijuswannachill
+18:10:24 🔊 QUEUE │ music_q ← 14-www.stoppamej.nu-cta.mp3
+18:10:24 🔊 QUEUE │ music_q ← Mad Skillz - The Nod Factor.mp3
+18:10:24 🔊 QUEUE │ music_q ← 08--babies-supermp3s.mp3
+18:10:24 🔊 QUEUE │ music_q ← 098. A1 - Caught In The Middle.mp3
+18:10:24 🔊 QUEUE │ music_q ← Notorious B.I.G. - Who Shot Ya_.mp3
+18:10:24 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+18:11:04 🤖 LLM.REPLY │ "{"segments":[{"song_index":0,"voice":[{"character"..."
+18:11:04 🎤 TTS.REQ │ "Who Shot Ya? Classic heat from Big Poppa—straight ..." (voice: Eric)
+18:11:10 🎤 TTS.GEN │ msg_1786205464888.wav
+18:11:10 🎤 TTS.REQ │ "Svenska Akademin's Risto & Essa bring a Scandinavi..." (voice: Eric)
+18:11:14 🎤 TTS.GEN │ msg_1786205470700.wav
+18:11:14 🎤 TTS.REQ │ "Aight fam, that Nordic beat’s got the West Coast g..." (voice: Adrian)
+18:11:14 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+18:11:14 🎤 TTS.REQ │ "The Shadows' Foot Tapper? Rock and roll—if this ai..." (voice: Eric)
+18:11:20 🎤 TTS.GEN │ msg_1786205474815.wav
+18:11:20 🎤 TTS.REQ │ "Timbuktu & DJ Amato slinging that 'En Jävel På 2 H..." (voice: Eric)
+18:11:26 🎤 TTS.GEN │ msg_1786205480580.wav
+18:11:26 🎤 TTS.REQ │ "And I feel the bass on me, so strap in—it’s about ..." (voice: Adrian)
+18:11:26 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+18:13:57 🎵 TRACK │ Skillz — The Nod Factor
+18:13:57 🔊 QUEUE │ music_q ← 034. Ferry Aid - Let It Be.mp3
+18:17:49 🎵 TRACK │ Wu Tang Clan — Babies
+18:17:50 🔊 QUEUE │ music_q ← Svenska akademin - risto & essa.mp3
+18:22:52 🎵 TRACK │ A1 — Caught in the middle
+18:22:53 🔊 QUEUE │ music_q ← 0126-Barbra.Streisand-Woman.in.love.mp3
+18:26:17 🎵 TRACK │ Skillz — The Nod Factor
+18:30:14 🎵 TRACK │ Wu Tang Clan — Babies
+18:35:17 🎵 TRACK │ A1 — Caught in the middle
+18:38:42 🎵 TRACK │ Notorious B.I.G. — Who Shot Ya?
+18:38:42 🔊 QUEUE │ music_q ← 02-the_shadows-foot_tapper-xxl.mp3
+18:38:42 🎤 TTS.REQ │ "Who Shot Ya? Classic heat from Big Poppa—straight ..." (voice: Eric)
+18:38:46 🎤 TTS.GEN │ msg_1786207122231.wav
+18:38:46 🔌 EVENT │ [producer] Voice: Who Shot Ya? Classic heat from Big Poppa...
+18:38:47 🎤 TTS.PLAY │ ▶ msg_1786207122231.wav
+18:38:47 🎤 TTS.REQ │ "Fugees bring the soulful rhythm, but this is my zo..." (voice: Eric)
+18:38:52 🎤 TTS.GEN │ msg_1786207127687.wav
+18:38:52 🎤 TTS.REQ │ "For sure, boss. These flows? Real vibes with that ..." (voice: Adrian)
+18:38:52 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+18:38:52 🎤 TTS.REQ │ "If you’re not feeling this beat, then… Lani, check..." (voice: Eric)
+18:38:56 🎤 TTS.GEN │ msg_1786207132331.wav
+18:38:56 🎤 TTS.REQ │ "We keep that energy high and let the crowd feel th..." (voice: Adrian)
+18:38:56 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+18:38:56 🎤 TTS.REQ │ "Dead Prez—the title says Hip-Hop but we got no met..." (voice: Eric)
+18:39:03 🎤 TTS.GEN │ msg_1786207136760.wav
+18:39:03 🎤 TTS.REQ │ "Still, when the bars drop, they know what they’re ..." (voice: Adrian)
+18:39:03 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+18:42:28 🎵 TRACK │ Ferry Aid — Let It Be
+18:42:28 🔊 QUEUE │ music_q ← 08-en_jaevel_paa_2_hjul_(feat_dj_amato)-cta.mp3
+18:48:31 🎵 TRACK │ Svenska Akademin — Risto_&_Essa
+18:48:31 🔊 QUEUE │ music_q ← Fugees - Fu-Gee-La.mp3
+18:48:31 🎤 TTS.REQ │ "Svenska Akademin's Risto & Essa bring a Scandinavi..." (voice: Eric)
+18:48:35 🎤 TTS.GEN │ msg_1786207711516.wav
+18:48:35 🎤 TTS.REQ │ "Aight fam, that Nordic beat’s got the West Coast g..." (voice: Adrian)
+18:48:35 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+18:48:35 🔌 EVENT │ [producer] Voice: Svenska Akademin's Risto & Essa bring a ...
+18:48:35 🎤 TTS.PLAY │ ▶ msg_1786207711516.wav
+18:51:58 🎵 TRACK │ Barbara Streisand — I Am A Woman In Love
+18:51:58 🔊 QUEUE │ music_q ← Dead Prez - Hip-Hop.mp3
+18:55:45 🎵 TRACK │ The Shadows — Foot Tapper
+18:55:45 🔊 QUEUE │ music_q ← 05 Wham - Wake Me Up Before You Go-Go.mp3
+18:55:45 🎤 TTS.REQ │ "The Shadows' Foot Tapper? Rock and roll—if this ai..." (voice: Eric)
+18:55:50 🎤 TTS.GEN │ msg_1786208145545.wav
+18:55:50 🔌 EVENT │ [producer] Voice: The Shadows' Foot Tapper? Rock and roll—...
+18:55:50 🎤 TTS.PLAY │ ▶ msg_1786208145545.wav
+18:58:17 🎵 TRACK │ Timbuktu feat. DJ Amato — En Jävel På 2 Hjul
+18:58:17 🔊 QUEUE │ music_q ← 14-www.stoppamej.nu-cta.mp3
+18:58:17 🔊 QUEUE │ music_q ← Fugees - Fu-Gee-La.mp3
+18:58:17 🔊 QUEUE │ music_q ← Dead Prez - Hip-Hop.mp3
+18:58:17 🔊 QUEUE │ music_q ← 05 Wham - Wake Me Up Before You Go-Go.mp3
+18:58:17 🔊 QUEUE │ music_q ← DMX - Look Thru My Eyes.mp3
+18:58:17 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+18:58:56 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+18:58:56 🎤 TTS.REQ │ "Ill Bill's 'Anatomy' comes in with no metadata, La..." (voice: Eric)
+18:59:02 🎤 TTS.GEN │ msg_1786208336026.wav
+18:59:02 🎤 TTS.REQ │ "Still, that flow is crisp, bro—like fresh cut on a..." (voice: Adrian)
+18:59:03 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+18:59:03 🎤 TTS.REQ │ "This unreleased Nas track feels like a ghost in th..." (voice: Eric)
+18:59:06 🎤 TTS.GEN │ msg_1786208343006.wav
+18:59:06 🎤 TTS.REQ │ "Wyclef’s 'Thug Angels' got that West Coast swagger..." (voice: Adrian)
+18:59:06 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+18:59:06 🎤 TTS.REQ │ "When those funky guitars jump in, it's chaos; Lani..." (voice: Eric)
+18:59:10 🎤 TTS.GEN │ msg_1786208346537.wav
+18:59:10 🎤 TTS.REQ │ "The Egyptian Lover's 'freak-a-holic' again loses i..." (voice: Eric)
+18:59:13 🎤 TTS.GEN │ msg_1786208350558.wav
+18:59:13 🎤 TTS.REQ │ "Yo, that beat drips like midnight tide, you feel t..." (voice: Adrian)
+18:59:13 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+18:59:13 🎤 TTS.REQ │ "Lani better check her plates—you can't spin junk o..." (voice: Eric)
+18:59:16 🎤 TTS.GEN │ msg_1786208353998.wav
+18:59:16 🎤 TTS.REQ │ "We keep it tight, baby. The crowd's gonna vibe wit..." (voice: Adrian)
+18:59:16 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+18:59:44 🎵 TRACK │ Fugees — Fu-Gee-La
+18:59:44 🔊 QUEUE │ music_q ← Ill Bill - The Anatomy Of A School Shooting.mp3
+19:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 19:00
+19:03:58 🎵 TRACK │ Dead Prez — Hip-Hop
+19:03:58 🎤 TTS.REQ │ "Booong! The time is 19:00" (voice: Aiden)
+19:04:00 🎤 TTS.GEN │ msg_1786208638849.wav
+19:04:00 🎤 TTS.PLAY │ ▶ msg_1786208638849.wav
+19:04:00 🔊 QUEUE │ music_q ← wutang - Nas - Silent Murder (unreleased).mp3
+19:07:27 🎵 TRACK │ wham — Wake me up before you go-go
+19:07:27 🔊 QUEUE │ music_q ← 04 - Thug Angel.mp3
+19:11:15 🎵 TRACK │ Fugees — Fu-Gee-La
+19:15:34 🎵 TRACK │ Dead Prez — Hip-Hop
+19:19:03 🎵 TRACK │ wham — Wake me up before you go-go
+19:22:52 🎵 TRACK │ DMX — Look Thru My Eyes
+19:22:52 🔊 QUEUE │ music_q ← 04 - Öppna Landskap 75-95 [cd1] - Ulf Lundell - 04-Snart kommer änglarna att landa.mp3
+19:22:52 🎤 TTS.REQ │ "Jurassic 5 in the house—'Thin Line'. This old-scho..." (voice: Adrian)
+19:22:52 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+19:22:52 🎤 TTS.REQ │ "That style lifts us out of the stale—though Lani's..." (voice: Eric)
+19:22:56 🎤 TTS.GEN │ msg_1786209772247.wav
+19:22:56 🎤 TTS.REQ │ "Pop is just a distraction for the gym. This track ..." (voice: Eric)
+19:22:59 🎤 TTS.GEN │ msg_1786209776472.wav
+19:26:40 🎵 TRACK │ Ill Bill — The Anatomy of a School Shooting
+19:26:40 🔊 QUEUE │ music_q ← 075 MON AMOUR Plan.mp3
+19:26:40 🎤 TTS.REQ │ "Ill Bill's 'Anatomy' comes in with no metadata, La..." (voice: Eric)
+19:26:48 🎤 TTS.GEN │ msg_1786210000980.wav
+19:26:48 🎤 TTS.REQ │ "Still, that flow is crisp, bro—like fresh cut on a..." (voice: Adrian)
+19:26:48 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+19:26:48 🔌 EVENT │ [producer] Voice: Ill Bill's 'Anatomy' comes in with no me...
+19:26:48 🎤 TTS.PLAY │ ▶ msg_1786210000980.wav
+19:27:24 🎤 TTS.REQ │ "Still, that flow is crisp, bro—like fresh cut on a..." (voice: Adrian)
+19:27:24 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+19:27:24 🔌 PLG.ERR │ [producer] Voice playback failed: Still, that flow is crisp, bro
+19:29:55 🎵 TRACK │ Nas — Silent Murder (Unreleased)
+19:29:55 🔊 QUEUE │ music_q ← 188 - Creedence Clearwater Revival - Who'll Stop The Rain.mp3
+19:29:55 🎤 TTS.REQ │ "This unreleased Nas track feels like a ghost in th..." (voice: Eric)
+19:29:59 🎤 TTS.GEN │ msg_1786210195609.wav
+19:31:36 🎤 TTS.PLAY │ ▶ msg_1786210195609.wav
+19:33:16 🎵 TRACK │ Wyclef — Thug Angels
+19:33:16 🔊 QUEUE │ music_q ← 113-the_egyptian_lover-freak-a-holic - www.torrentazos.com.mp3
+19:33:16 🎤 TTS.REQ │ "Wyclef’s 'Thug Angels' got that West Coast swagger..." (voice: Adrian)
+19:33:16 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+19:33:16 🎤 TTS.REQ │ "When those funky guitars jump in, it's chaos; Lani..." (voice: Eric)
+19:33:21 🎤 TTS.GEN │ msg_1786210396362.wav
+19:33:21 🔌 EVENT │ [producer] Voice: Wyclef’s 'Thug Angels' got that West Coa...
+19:33:21 🎤 TTS.REQ │ "Wyclef’s 'Thug Angels' got that West Coast swagger..." (voice: Adrian)
+19:33:21 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+19:33:21 🔌 PLG.ERR │ [producer] Voice playback failed: Wyclef’s 'Thug Angels' got tha
+19:37:21 🎵 TRACK │ Ulf Lundell — 04-Snart kommer änglarna att landa
+19:37:21 🔊 QUEUE │ music_q ← Jurassic 5 - Thin Line.mp3
+19:41:04 🎵 TRACK │ The Plan — Mon Amour
+19:41:04 🔊 QUEUE │ music_q ← 17 beyonce-deja vu (feat jay-z).mp3
+19:43:59 🎵 TRACK │ Creedence Clearwater Revival — Who'll Stop The Rain
+19:43:59 🔊 QUEUE │ music_q ← 14-www.stoppamej.nu-cta.mp3
+19:43:59 🔊 QUEUE │ music_q ← 113-the_egyptian_lover-freak-a-holic - www.torrentazos.com.mp3
+19:43:59 🔊 QUEUE │ music_q ← Jurassic 5 - Thin Line.mp3
+19:43:59 🔊 QUEUE │ music_q ← 17 beyonce-deja vu (feat jay-z).mp3
+19:43:59 🔊 QUEUE │ music_q ← 02 - mic check.mp3
+19:43:59 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+19:44:29 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+19:44:29 🎤 TTS.REQ │ ""Dubmood" but where's the genre and year? Lani, yo..." (voice: Eric)
+19:44:34 🎤 TTS.GEN │ msg_1786211069545.wav
+19:44:34 🎤 TTS.REQ │ "Hold up, Bob. These tracks gotta have clarity if w..." (voice: Adrian)
+19:44:34 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+19:44:34 🎤 TTS.REQ │ "The Aphilliates & Busta Rhymes—Gettin' Funky. This..." (voice: Eric)
+19:44:39 🎤 TTS.GEN │ msg_1786211074897.wav
+19:44:39 🎤 TTS.REQ │ "For sure man, that beat's got the West Coast vibe ..." (voice: Adrian)
+19:44:39 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+19:44:39 🎤 TTS.REQ │ "Liza Marklund Gömda—no genre, no year. Lani, if yo..." (voice: Eric)
+19:44:44 🎤 TTS.GEN │ msg_1786211079166.wav
+19:44:44 🎤 TTS.REQ │ ""Jazz - Greatest Hits — Miles" with no genre label..." (voice: Eric)
+19:44:50 🎤 TTS.GEN │ msg_1786211084338.wav
+19:46:23 🎵 TRACK │ the egyptian lover — freak-a-holic
+19:46:23 🔊 QUEUE │ music_q ← 209_timbuktu_-_boilin_hot_(feat_swing_and_spotrunnaz)-aft.mp3
+19:52:29 🎵 TRACK │ Jurassic 5 — Thin Line
+19:52:29 🔊 QUEUE │ music_q ← 01 Mario Airlines (Razor1911 KeyGen Edit).mp3
+19:57:12 🎵 TRACK │ Top 40 Singles-17-09-2006 a DHZ.Inc Release — beyonce-deja vu (feat jay-z)
+19:57:12 🔊 QUEUE │ music_q ← 14-billy_davis-tell_him-xxl.mp3
+20:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 20:00
+20:01:06 🎵 TRACK │ the egyptian lover — freak-a-holic
+20:01:06 🎤 TTS.REQ │ "Booong! The time is 20:00" (voice: Aiden)
+20:01:08 🎤 TTS.GEN │ msg_1786212066862.wav
+20:01:08 🎤 TTS.PLAY │ ▶ msg_1786212066862.wav
+20:07:17 🎵 TRACK │ Jurassic 5 — Thin Line
+20:11:58 🎵 TRACK │ Top 40 Singles-17-09-2006 a DHZ.Inc Release — beyonce-deja vu (feat jay-z)
+20:15:55 🎵 TRACK │ Timbuktu — Mic Check
+20:15:55 🔊 QUEUE │ music_q ← 22-the_aphilliates_and_busta_rhymes-gettin_funky(labba).mp3
+20:15:55 🎤 TTS.REQ │ "Boom Bye Yeah from Sean Price—yeah, that explicit ..." (voice: Adrian)
+20:15:55 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+20:15:55 🎤 TTS.REQ │ "Finally Timbuktu drops Mikrofonterapi; this track'..." (voice: Eric)
+20:15:58 🎤 TTS.GEN │ msg_1786212955165.wav
+20:15:58 🎤 TTS.REQ │ "And Bob, I'm feelin' that rhythm like it's my own ..." (voice: Adrian)
+20:15:58 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+20:19:49 🎵 TRACK │ Timbuktu — Boilin Hot feat Swing And Spot
+20:19:49 🔊 QUEUE │ music_q ← 10-miles_davis-miles-just.mp3
+20:24:32 🎵 TRACK │ Dubmood/ — Mario Airlines (Razor1911 KeyGen Edit)
+20:24:32 🔊 QUEUE │ music_q ← 205_timbuktu_-_absorb_this_(feat_dj_noize)-aft.mp3
+20:24:32 🎤 TTS.REQ │ ""Dubmood" but where's the genre and year? Lani, yo..." (voice: Eric)
+20:24:37 🎤 TTS.GEN │ msg_1786213472814.wav
+20:24:37 🎤 TTS.REQ │ "Hold up, Bob. These tracks gotta have clarity if w..." (voice: Adrian)
+20:24:37 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+20:24:37 🔌 EVENT │ [producer] Voice: "Dubmood" but where's the genre and year...
+20:24:38 🎤 TTS.PLAY │ ▶ msg_1786213472814.wav
+20:24:38 🔌 EVENT │ [producer] Queued between songs: Hold up, Bob. These tracks gotta have cl...
+20:29:11 🎵 TRACK │ Billy Davis — Tell Him
+20:29:11 🎤 TTS.REQ │ "Hold up, Bob. These tracks gotta have clarity if w..." (voice: Adrian)
+20:29:11 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+20:29:11 🔌 PLG.ERR │ [producer] Voice playback failed: Hold up, Bob. These tracks got
+20:29:11 🔊 QUEUE │ music_q ← Sean Price - Boom Bye Yeah.mp3
+20:31:18 🎵 TRACK │ The Aphilliates & Busta Rhymes — Gettin Funky - Labba
+20:31:18 🔊 QUEUE │ music_q ← 04 - Timbuktu - Mikrofonterapi -CsZ.256.mp3
+20:31:18 🎤 TTS.REQ │ "The Aphilliates & Busta Rhymes—Gettin' Funky. This..." (voice: Eric)
+20:31:21 🎤 TTS.GEN │ msg_1786213878201.wav
+20:31:21 🎤 TTS.REQ │ "For sure man, that beat's got the West Coast vibe ..." (voice: Adrian)
+20:31:21 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+20:31:21 🔌 EVENT │ [producer] Voice: The Aphilliates & Busta Rhymes—Gettin' F...
+20:31:22 🎤 TTS.PLAY │ ▶ msg_1786213878201.wav
+20:32:10 🎤 TTS.REQ │ "For sure man, that beat's got the West Coast vibe ..." (voice: Adrian)
+20:32:10 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+20:32:10 🔌 PLG.ERR │ [producer] Voice playback failed: For sure man, that beat's got 
+20:33:01 🎵 TRACK │ Jazz - Greatest Hits — Miles
+20:33:01 🔊 QUEUE │ music_q ← 14-www.stoppamej.nu-cta.mp3
+20:33:01 🔊 QUEUE │ music_q ← 205_timbuktu_-_absorb_this_(feat_dj_noize)-aft.mp3
+20:33:01 🔊 QUEUE │ music_q ← Sean Price - Boom Bye Yeah.mp3
+20:33:01 🔊 QUEUE │ music_q ← 04 - Timbuktu - Mikrofonterapi -CsZ.256.mp3
+20:33:01 🔊 QUEUE │ music_q ← 0700-Phil.Collins-Two.Hearts.mp3
+20:33:01 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+20:33:34 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+20:33:34 🎤 TTS.REQ │ "Cypress Hill's 'Killafornia' is something else. I ..." (voice: Eric)
+20:33:40 🎤 TTS.GEN │ msg_1786214014510.wav
+20:33:40 🎤 TTS.REQ │ "You know what's good though, that beat drops just ..." (voice: Adrian)
+20:33:40 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+20:33:40 🎤 TTS.REQ │ "Svenska Akademin 'Party'? No genre listed? Lani's ..." (voice: Eric)
+20:33:45 🎤 TTS.GEN │ msg_1786214020569.wav
+20:33:45 🎤 TTS.REQ │ "But if it has some bass, I'm here. Keep that energ..." (voice: Adrian)
+20:33:45 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+20:33:45 🎤 TTS.REQ │ "Ice Cube's 'cabbage patch', huh? Good, that's clas..." (voice: Eric)
+20:33:50 🎤 TTS.GEN │ msg_1786214025510.wav
+20:33:50 🎤 TTS.REQ │ "Yo, the flow is smooth. This track keeps the heat ..." (voice: Adrian)
+20:33:50 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+20:33:50 🎤 TTS.REQ │ "Now Audio Two — 'Top Billin'' still tops the chart..." (voice: Eric)
+20:33:55 🎤 TTS.GEN │ msg_1786214030203.wav
+20:33:55 🎤 TTS.REQ │ "That's what's up! The rhythm will get your chest p..." (voice: Adrian)
+20:33:55 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+20:38:40 🎵 TRACK │ Timbuktu — Absorb This feat DJ Noize
+20:38:40 🔊 QUEUE │ music_q ← Cypress Hill - Killafornia.mp3
+20:42:33 🎵 TRACK │ Sean Price — Boom Bye Yeah [Explicit]
+20:42:33 🔊 QUEUE │ music_q ← 112. Randy - X-Ray Eyes.mp3
+20:45:41 🎵 TRACK │ Timbuktu — Mikrofonterapi
+20:45:41 🔊 QUEUE │ music_q ← Svenska akademin - Party.mp3
+20:50:10 🎵 TRACK │ Timbuktu — Absorb This feat DJ Noize
+20:54:07 🎵 TRACK │ Sean Price — Boom Bye Yeah [Explicit]
+20:57:16 🎵 TRACK │ Timbuktu — Mikrofonterapi
+21:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 21:00
+21:01:44 🎵 TRACK │ Phil Collins — Two Hearts
+21:01:44 🎤 TTS.REQ │ "Booong! The time is 21:00" (voice: Aiden)
+21:01:46 🎤 TTS.GEN │ msg_1786215704917.wav
+21:01:46 🎤 TTS.PLAY │ ▶ msg_1786215704917.wav
+21:01:46 🔊 QUEUE │ music_q ← 296 - Bob Marley - Get Up Stand Up.mp3
+21:01:46 🎤 TTS.REQ │ "'The Rolling Stones' again? 'You Can't Always Get ..." (voice: Eric)
+21:01:53 🎤 TTS.GEN │ msg_1786215706359.wav
+21:01:53 🎤 TTS.REQ │ "That's the sound that could make you feel nostalgi..." (voice: Adrian)
+21:01:53 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+21:05:02 🎵 TRACK │ CYPRESS HILL — KILLAFORNIA
+21:05:02 🔊 QUEUE │ music_q ← 206-ice_cube-cabbage_patch - www.torrentazos.com.mp3
+21:05:02 🎤 TTS.REQ │ "Cypress Hill's 'Killafornia' is something else. I ..." (voice: Eric)
+21:05:08 🎤 TTS.GEN │ msg_1786215902959.wav
+21:05:08 🎤 TTS.REQ │ "You know what's good though, that beat drops just ..." (voice: Adrian)
+21:05:08 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+21:05:08 🔌 EVENT │ [producer] Voice: Cypress Hill's 'Killafornia' is somethin...
+21:05:09 🎤 TTS.PLAY │ ▶ msg_1786215902959.wav
+21:07:54 🎵 TRACK │ Randy — X-Ray Eyes
+21:07:54 🔊 QUEUE │ music_q ← Audio Two - Top Billin'.mp3
+21:11:12 🎵 TRACK │ Svenska Akademin — Party
+21:11:12 🔊 QUEUE │ music_q ← 04_psyco-wlm.mp3
+21:11:12 🎤 TTS.REQ │ "Svenska Akademin 'Party'? No genre listed? Lani's ..." (voice: Eric)
+21:11:19 🎤 TTS.GEN │ msg_1786216272860.wav
+21:11:19 🎤 TTS.REQ │ "But if it has some bass, I'm here. Keep that energ..." (voice: Adrian)
+21:11:19 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+21:11:19 🔌 EVENT │ [producer] Voice: Svenska Akademin 'Party'? No genre liste...
+21:11:20 🎤 TTS.PLAY │ ▶ msg_1786216272860.wav
+21:13:38 🎵 TRACK │ Bob Marley — Get Up, Stand Up
+21:13:38 🔊 QUEUE │ music_q ← 100 - The Rolling Stones - You Can't Always Get What You Want.mp3
+21:16:53 🎵 TRACK │ ice cube — cabbage patch
+21:16:53 🔊 QUEUE │ music_q ← 14-www.stoppamej.nu-cta.mp3
+21:16:53 🔊 QUEUE │ music_q ← Audio Two - Top Billin'.mp3
+21:16:53 🔊 QUEUE │ music_q ← 04_psyco-wlm.mp3
+21:16:53 🔊 QUEUE │ music_q ← 100 - The Rolling Stones - You Can't Always Get What You Want.mp3
+21:16:53 🔊 QUEUE │ music_q ← Svenska akademin - tror du de.mp3
+21:16:53 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+21:17:22 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+21:17:22 🎤 TTS.REQ │ "Missing genre and year? Lani, that track’s like a ..." (voice: Eric)
+21:17:27 🎤 TTS.GEN │ msg_1786216642745.wav
+21:17:27 🎤 TTS.REQ │ "Yeah fam, that hook is tight, keep it running like..." (voice: Adrian)
+21:17:27 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+21:17:27 🎤 TTS.REQ │ "If this ain't pure hip hop, Lani better be on a pr..." (voice: Eric)
+21:17:29 🎤 TTS.GEN │ msg_1786216647443.wav
+21:17:29 🎤 TTS.REQ │ "U2? What am I listening to after all the booty bum..." (voice: Eric)
+21:17:33 🎤 TTS.GEN │ msg_1786216649092.wav
+21:17:33 🎤 TTS.REQ │ "Big L in the house, no doubt it's straight fire." (voice: Eric)
+21:17:36 🎤 TTS.GEN │ msg_1786216653998.wav
+21:17:36 🎤 TTS.REQ │ "Yo yeah, that old school grind never gets stale." (voice: Adrian)
+21:17:36 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+21:21:02 🎵 TRACK │ Audio Two — Top Billin'
+21:21:02 🔊 QUEUE │ music_q ← 003 EN VÄN MED EN BIL Håkan Hellström.mp3
+21:23:52 🎵 TRACK │ Infected Mushroom — Psyco
+21:23:52 🔊 QUEUE │ music_q ← 06 - Xzibit - Beware Of Us (feat. Strong Arm Steady).mp3
+21:32:28 🎵 TRACK │ The Rolling Stones — You Can't Always Get What You Want
+21:32:28 🔊 QUEUE │ music_q ← 01 - I Will Follow.mp3
+21:39:57 🎵 TRACK │ Audio Two — Top Billin'
+21:42:54 🎵 TRACK │ Infected Mushroom — Psyco
+21:51:28 🎵 TRACK │ The Rolling Stones — You Can't Always Get What You Want
+21:58:59 🎵 TRACK │ Svenska Akademin — Tror Du De?
+21:58:59 🔊 QUEUE │ music_q ← Big L - Da Graveyard (Feat. Lord Finesse, Jay-Z, Microphone Nut, Y.U.).mp3
+21:58:59 🎤 TTS.REQ │ "Tragedy on the mic again, Lani better keep these g..." (voice: Eric)
+21:59:03 🎤 TTS.GEN │ msg_1786219139544.wav
+21:59:03 🎤 TTS.REQ │ "Smooth flows for smooth nights." (voice: Adrian)
+21:59:03 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+21:59:03 🎤 TTS.REQ │ "This track's a real high octane burner." (voice: Eric)
+21:59:04 🎤 TTS.GEN │ msg_1786219143294.wav
+21:59:04 🎤 TTS.REQ │ "Keep the rhythm flowing, just like the streets on ..." (voice: Adrian)
+21:59:04 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+22:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 22:00
+22:02:12 🎵 TRACK │ 2001 - Topp 100 — EN VÄN MED EN BIL Håkan Hellström
+22:02:12 🎤 TTS.REQ │ "Booong! The time is 22:00" (voice: Aiden)
+22:02:13 🎤 TTS.GEN │ msg_1786219332130.wav
+22:02:13 🎤 TTS.PLAY │ ▶ msg_1786219332130.wav
+22:02:13 🔊 QUEUE │ music_q ← 060 - Al Green - Let's Stay Together.mp3
+22:02:13 🎤 TTS.REQ │ "Missing genre and year? Lani, that track’s like a ..." (voice: Eric)
+22:02:17 🎤 TTS.GEN │ msg_1786219333552.wav
+22:02:17 🔌 EVENT │ [producer] Voice: Missing genre and year? Lani, that track...
+22:02:18 🎤 TTS.PLAY │ ▶ msg_1786219333552.wav
+22:05:49 🎵 TRACK │ Xzibit — Beware Of Us (feat. Strong Arm Steady)
+22:05:49 🔊 QUEUE │ music_q ← tragedy khadafi - sidewalk confessions.mp3
+22:05:49 🎤 TTS.REQ │ "Yeah fam, that hook is tight, keep it running like..." (voice: Adrian)
+22:05:49 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+22:05:49 🎤 TTS.REQ │ "If this ain't pure hip hop, Lani better be on a pr..." (voice: Eric)
+22:05:52 🎤 TTS.GEN │ msg_1786219549319.wav
+22:07:41 🎤 TTS.REQ │ "Yeah fam, that hook is tight, keep it running like..." (voice: Adrian)
+22:07:41 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+22:07:41 🔌 PLG.ERR │ [producer] Voice playback failed: Yeah fam, that hook is tight, 
+22:09:56 🎵 TRACK │ U2 — I Will Follow
+22:09:56 🔊 QUEUE │ music_q ← Kultiration - Rikemansgetto.mp3
+22:09:56 🎤 TTS.REQ │ "U2? What am I listening to after all the booty bum..." (voice: Eric)
+22:10:00 🎤 TTS.GEN │ msg_1786219796920.wav
+22:10:01 🔌 EVENT │ [producer] Voice: U2? What am I listening to after all the...
+22:10:01 🎤 TTS.PLAY │ ▶ msg_1786219796920.wav
+22:13:30 🎵 TRACK │ Big L — Da Graveyard (Feat. Lord Finesse, Jay-Z, Microphone Nut, Y.U.)
+22:13:30 🔊 QUEUE │ music_q ← 101 - The Jimi Hendrix Experience - Voodoo Child (Slight Return).mp3
+22:13:30 🎤 TTS.REQ │ "Big L in the house, no doubt it's straight fire." (voice: Eric)
+22:13:32 🎤 TTS.GEN │ msg_1786220010484.wav
+22:13:32 🎤 TTS.REQ │ "Yo yeah, that old school grind never gets stale." (voice: Adrian)
+22:13:32 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+22:13:32 🔌 EVENT │ [producer] Voice: Big L in the house, no doubt it's straig...
+22:13:33 🎤 TTS.PLAY │ ▶ msg_1786220010484.wav
+22:18:48 🎵 TRACK │ Al Green — Let's Stay Together
+22:18:48 🔊 QUEUE │ music_q ← 11 - Xzibit - Hit & Run (Part II).mp3
+22:22:01 🎵 TRACK │ Tragedy Khadafi — Sidewalk Confessions
+22:22:01 🔊 QUEUE │ music_q ← 14-www.stoppamej.nu-cta.mp3
+22:22:01 🔊 QUEUE │ music_q ← Kultiration - Rikemansgetto.mp3
+22:22:01 🔊 QUEUE │ music_q ← 101 - The Jimi Hendrix Experience - Voodoo Child (Slight Return).mp3
+22:22:01 🔊 QUEUE │ music_q ← 11 - Xzibit - Hit & Run (Part II).mp3
+22:22:01 🔊 QUEUE │ music_q ← 073. Depeche Mode - Condemnation.mp3
+22:22:01 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+22:22:34 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+22:22:34 🎤 TTS.REQ │ "Okay, this one is Synth Pop from '93—so in the wro..." (voice: Eric)
+22:22:42 🎤 TTS.GEN │ msg_1786220554371.wav
+22:22:42 🎤 TTS.REQ │ "Yo, synth pop can still bring that vibe, just keep..." (voice: Adrian)
+22:22:42 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+22:22:42 🎤 TTS.REQ │ "Finally a real rap track with no missing tags. KRS..." (voice: Eric)
+22:22:46 🎤 TTS.GEN │ msg_1786220562564.wav
+22:22:46 🎤 TTS.REQ │ "Word up, Bob! KRS-One’s always lit in the gym—get ..." (voice: Adrian)
+22:22:46 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+22:22:46 🎤 TTS.REQ │ "Bachman Turner Overdrive?? Where’s my rap? And you..." (voice: Eric)
+22:22:49 🎤 TTS.GEN │ msg_1786220566391.wav
+22:22:50 🎤 TTS.REQ │ "If it’s a rock jam, I’m still here pumping. But ma..." (voice: Adrian)
+22:22:50 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+22:22:50 🎤 TTS.REQ │ "Digital Underground, your life’s a cartoon—makes m..." (voice: Eric)
+22:22:53 🎤 TTS.GEN │ msg_1786220570035.wav
+22:22:53 🎤 TTS.REQ │ "That’s the kind of bass I want when the clock hits..." (voice: Adrian)
+22:22:53 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+22:26:18 🎵 TRACK │ Kultiration — Rikemansgetto
+22:26:18 🔊 QUEUE │ music_q ← KRS-One - Black Cop.mp3
+22:31:08 🎵 TRACK │ The Jimi Hendrix Experience — Voodoo Child (Slight Return)
+22:31:09 🔊 QUEUE │ music_q ← Cypress Hill - Jump Around.mp3
+22:36:17 🎵 TRACK │ Xzibit — Hit & Run (Part II)
+22:36:18 🔊 QUEUE │ music_q ← 0139-Bachman_Turner.Overdrive-You.Ain.t.Seen.Nothing.Yet.mp3
+22:40:02 🎵 TRACK │ Kultiration — Rikemansgetto
+22:44:57 🎵 TRACK │ The Jimi Hendrix Experience — Voodoo Child (Slight Return)
+22:50:06 🎵 TRACK │ Xzibit — Hit & Run (Part II)
+22:53:51 🎵 TRACK │ Depeche Mode — Condemnation
+22:53:51 🔊 QUEUE │ music_q ← 207-digital_underground-your_lifes_a_cartoon - www.torrentazos.com.mp3
+22:53:51 🎤 TTS.REQ │ "Okay, this one is Synth Pop from '93—so in the wro..." (voice: Eric)
+22:53:57 🎤 TTS.GEN │ msg_1786222431563.wav
+22:53:57 🎤 TTS.REQ │ "Yo, synth pop can still bring that vibe, just keep..." (voice: Adrian)
+22:53:57 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+22:53:57 🔌 EVENT │ [producer] Voice: Yo, synth pop can still bring that vibe,...
+22:53:57 🎤 TTS.REQ │ "Yo, synth pop can still bring that vibe, just keep..." (voice: Adrian)
+22:53:57 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+22:53:57 🔌 PLG.ERR │ [producer] Voice playback failed: Yo, synth pop can still bring 
+22:53:57 🎤 TTS.REQ │ "Her Majesty? This is rock, not our gym track. Lani..." (voice: Eric)
+22:54:01 🎤 TTS.GEN │ msg_1786222437608.wav
+22:54:01 🎤 TTS.REQ │ "Alright, let the drums run. Even if it’s a rock an..." (voice: Adrian)
+22:54:01 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+22:55:24 🎤 TTS.PLAY │ ▶ msg_1786222431563.wav
+22:57:10 🎵 TRACK │ KRS-One — Black Cop
+22:57:10 🔊 QUEUE │ music_q ← 0699-Offspring-Pretty.Fly.mp3
+22:57:10 🎤 TTS.REQ │ "Finally a real rap track with no missing tags. KRS..." (voice: Eric)
+22:57:14 🎤 TTS.GEN │ msg_1786222630258.wav
+22:57:14 🎤 TTS.REQ │ "Word up, Bob! KRS-One’s always lit in the gym—get ..." (voice: Adrian)
+22:57:14 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+22:58:22 🎤 TTS.REQ │ "Word up, Bob! KRS-One’s always lit in the gym—get ..." (voice: Adrian)
+22:58:22 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+22:58:22 🔌 PLG.ERR │ [producer] Voice playback failed: Word up, Bob! KRS-One’s always
+23:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 23:00
+23:00:04 🎵 TRACK │ Cypress Hill — Jump Around
+23:00:04 🎤 TTS.REQ │ "Booong! The time is 23:00" (voice: Aiden)
+23:00:06 🎤 TTS.GEN │ msg_1786222804841.wav
+23:00:06 🎤 TTS.PLAY │ ▶ msg_1786222804841.wav
+23:00:06 🔊 QUEUE │ music_q ← 0663-Torfrock-Pump.ab.das.Bier.mp3
+23:01:22 🎵 TRACK │ BACHMAN TURNER OVERDRIVE — YOU AIN'T SEEN NOTHING YET
+23:01:22 🔊 QUEUE │ music_q ← 141. Her Majesty - F.u.n.e.r.a.l (5+9 i juni).mp3
+23:01:22 🎤 TTS.REQ │ "Bachman Turner Overdrive?? Where’s my rap? And you..." (voice: Eric)
+23:01:26 🎤 TTS.GEN │ msg_1786222882880.wav
+23:01:26 🎤 TTS.REQ │ "If it’s a rock jam, I’m still here pumping. But ma..." (voice: Adrian)
+23:01:26 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+23:01:26 🔌 EVENT │ [producer] Voice: Bachman Turner Overdrive?? Where’s my ra...
+23:01:26 🎤 TTS.PLAY │ ▶ msg_1786222882880.wav
+23:04:55 🎵 TRACK │ digital underground — your life's a cartoon
+23:04:55 🔊 QUEUE │ music_q ← 0996-Olivia.Newton_John-Physical.mp3
+23:04:55 🎤 TTS.REQ │ "Digital Underground, your life’s a cartoon—makes m..." (voice: Eric)
+23:04:59 🎤 TTS.GEN │ msg_1786223095991.wav
+23:04:59 🎤 TTS.REQ │ "That’s the kind of bass I want when the clock hits..." (voice: Adrian)
+23:04:59 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+23:05:31 🎤 TTS.PLAY │ ▶ msg_1786223095991.wav
+23:08:12 🎵 TRACK │ The Offspring — Pretty Fly
+23:08:12 🔊 QUEUE │ music_q ← 14-www.stoppamej.nu-cta.mp3
+23:08:12 🔊 QUEUE │ music_q ← 0663-Torfrock-Pump.ab.das.Bier.mp3
+23:08:12 🔊 QUEUE │ music_q ← 141. Her Majesty - F.u.n.e.r.a.l (5+9 i juni).mp3
+23:08:12 🔊 QUEUE │ music_q ← 0996-Olivia.Newton_John-Physical.mp3
+23:08:12 🔊 QUEUE │ music_q ← 13 - Timbuktu - Serieskandalen -CsZ.256.mp3
+23:08:12 🤖 LLM │ "[Cast]
+Primary: id=bob name="Bad Mouth Bob"
+Person..."
+23:08:38 🤖 LLM.REPLY │ "{"segments":[{"song_index":0,"voice":[{"character"..."
+23:08:38 🎤 TTS.REQ │ "Capone-N-Noreaga drop that L.A. vibe, but I ain't ..." (voice: Eric)
+23:08:42 🎤 TTS.GEN │ msg_1786223318272.wav
+23:08:42 🎤 TTS.REQ │ "Yo, it's pure West Coast flow, baby—keeping it rea..." (voice: Adrian)
+23:08:42 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+23:11:17 🎵 TRACK │ EAV — Pump ab das Bier
+23:11:17 🔊 QUEUE │ music_q ← Capone-N-Noreaga - L.A., L.A. (Feat.Mobb Deep & Tradgedy Khadafi).mp3
+23:14:39 🎵 TRACK │ Her Majesty — F.U.N.E.R.A.L.
+23:14:39 🔊 QUEUE │ music_q ← 087 I'LL TAKE THE RAIN R.E.M..mp3
+23:18:46 🎵 TRACK │ Olivia Newton-John — Physical
+23:18:46 🔊 QUEUE │ music_q ← 14-x.stoppamej.nu.mp3
+23:22:23 🎵 TRACK │ EAV — Pump ab das Bier
+23:25:49 🎵 TRACK │ Her Majesty — F.U.N.E.R.A.L.
+23:29:58 🎵 TRACK │ Olivia Newton-John — Physical
+23:33:35 🎵 TRACK │ Timbuktu — Serieskandalen
+23:33:35 🔊 QUEUE │ music_q ← wu-tang_clan_-_gravel_pit.mp3
+23:37:54 🎵 TRACK │ Capone-N-Noreaga — L.A., L.A. (Feat.Mobb Deep & Tradgedy Khadafi)
+23:37:54 🔊 QUEUE │ music_q ← 07-yall_been_warned-supermp3s.mp3
+23:37:54 🎤 TTS.REQ │ "Capone-N-Noreaga drop that L.A. vibe, but I ain't ..." (voice: Eric)
+23:37:58 🎤 TTS.GEN │ msg_1786225074423.wav
+23:37:58 🎤 TTS.REQ │ "Yo, it's pure West Coast flow, baby—keeping it rea..." (voice: Adrian)
+23:37:58 🎤 TTS.ERR │ Adrian via http://localhost:42001/tts/custom-voice: HTTP 422: {"detail":[{"type":"enum","loc":["body","speaker"],"msg":"Input should be 'Vivian', 'Serena', 'Uncle_Fu', 'Dylan', 'Eric', 'Ryan', 'Aiden', 'Ono_Anna' or 'Sohee'","input":"Adrian","ctx":{"expected":"'
+23:37:58 🔌 EVENT │ [producer] Voice: Capone-N-Noreaga drop that L.A. vibe, bu...
+23:37:58 🎤 TTS.PLAY │ ▶ msg_1786225074423.wav
+23:42:37 🎵 TRACK │ R.E.M. — I'll Take the Rain
+23:42:37 🔊 QUEUE │ music_q ← 0086-Roxette-Joyride.mp3
+23:48:24 🎵 TRACK │ Timbuktu — www.stoppamej.nu
+23:48:25 🔊 QUEUE │ music_q ← Candyman - Knockin' Boots.mp3
+23:51:59 🎵 TRACK │ Wu Tang Clan — Gravel Pit
+23:51:59 🔊 QUEUE │ music_q ← 17-vangelis-ill_find_my_way_home-mvp.mp3
+23:56:46 🎵 TRACK │ Wu Tang Clan — Y'all Been Warned
+23:56:46 🔊 QUEUE │ music_q ← Mic Geronimo - Shit's Real.mp3

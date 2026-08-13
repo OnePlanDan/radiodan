@@ -1,0 +1,1874 @@
+00:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 00:00
+00:02:06 🎵 TRACK │ James Brown — Say It Loud (I'm Black And I'm Proud)
+00:02:06 🎤 TTS.REQ │ "Booong! The time is 00:00" (voice: Aiden)
+00:02:08 🎤 TTS.GEN │ msg_1785621726099.wav
+00:02:08 🎤 TTS.PLAY │ ▶ msg_1785621726099.wav
+00:02:08 🔊 QUEUE │ music_q ← 182 - The Drifters - Save The Last Dance For Me.mp3
+00:02:08 🔊 QUEUE │ music_q ← Ice T - 6'N The Morning.mp3
+00:02:08 🔊 QUEUE │ music_q ← 043. Backyard Babies - Minus Celsius.mp3
+00:02:08 🔊 QUEUE │ music_q ← 1994_33 Neneh Cherry & Youssou N'Dour - 7 Seconds.mp3
+00:02:08 🔊 QUEUE │ music_q ← 01-the_prodigy-spitfire-esc.mp3
+00:02:08 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+00:02:31 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+00:02:31 🎤 TTS.REQ │ "Coolio drops a track that blurs country twang and ..." (voice: vivianv2)
+00:02:37 🎤 TTS.GEN │ msg_1785621751364.wav
+00:02:37 🎤 TTS.REQ │ "The vibe is nostalgic yet punchy; it's like riding..." (voice: vivianv2)
+00:02:42 🎤 TTS.GEN │ msg_1785621757409.wav
+00:02:42 🎤 TTS.REQ │ "A German gem from ’84, this one blurs jazz and sou..." (voice: vivianv2)
+00:02:47 🎤 TTS.GEN │ msg_1785621762876.wav
+00:02:47 🎤 TTS.REQ │ "It’s like a window into a smoky lounge where every..." (voice: vivianv2)
+00:02:52 🎤 TTS.GEN │ msg_1785621767826.wav
+00:02:52 🎤 TTS.REQ │ "Cole drops his classic velvet voice, turning the s..." (voice: vivianv2)
+00:02:57 🎤 TTS.GEN │ msg_1785621772639.wav
+00:02:57 🎤 TTS.REQ │ "His words are timeless; they bridge our late‑night..." (voice: vivianv2)
+00:03:01 🎤 TTS.GEN │ msg_1785621777742.wav
+00:03:01 🎤 TTS.REQ │ "When Kate yells out 'libertine,' it's the ultimate..." (voice: vivianv2)
+00:03:06 🎤 TTS.GEN │ msg_1785621781663.wav
+00:03:06 🎤 TTS.REQ │ "The beat pulls you into an ecstatic spin; it’s ret..." (voice: vivianv2)
+00:03:11 🎤 TTS.GEN │ msg_1785621786654.wav
+00:04:48 🎵 TRACK │ The Drifters — Save The Last Dance For Me
+00:04:49 🔊 QUEUE │ music_q ← 0028-Coolio-Gangstas.Paradise..mp3
+00:07:45 🎵 TRACK │ Ice-T — 6'N The Morning
+00:07:45 🔊 QUEUE │ music_q ← 0950-Klaus.Lagenge.Band-1000.Und.1.Nacht.mp3
+00:11:24 🎵 TRACK │ Backyard Babies — Minus Celsius
+00:11:24 🔊 QUEUE │ music_q ← U.T.F.O. - Roxanne, Roxanne.mp3
+00:14:54 🎵 TRACK │ 1994_33 Neneh Cherry & Youssou N'Dour — 7 Seconds
+00:14:54 🔊 QUEUE │ music_q ← 03 - Nat King Cole - Let There Be Love.mp3
+00:19:49 🎵 TRACK │ The Drifters — Save The Last Dance For Me
+00:22:46 🎵 TRACK │ Ice-T — 6'N The Morning
+00:26:25 🎵 TRACK │ Backyard Babies — Minus Celsius
+00:29:55 🎵 TRACK │ 1994_33 Neneh Cherry & Youssou N'Dour — 7 Seconds
+00:34:50 🎵 TRACK │ The Prodigy — Spitfire
+00:34:50 🔊 QUEUE │ music_q ← 297 - Neil Young - Heart Of Gold.mp3
+00:34:50 🎤 TTS.REQ │ "Dexty’s classic erupts with that infectious riff—l..." (voice: vivianv2)
+00:34:56 🎤 TTS.GEN │ msg_1785623690763.wav
+00:34:56 🎤 TTS.REQ │ "We should all remember the joy of flipping vinyl a..." (voice: vivianv2)
+00:35:00 🎤 TTS.GEN │ msg_1785623696145.wav
+00:39:53 🎵 TRACK │ Coolio — Gangstas Paradies
+00:39:53 🔊 QUEUE │ music_q ← 110. Kate Ryan - Libertine (radio edit).mp3
+00:39:53 🎤 TTS.REQ │ "Coolio drops a track that blurs country twang and ..." (voice: vivianv2)
+00:39:58 🎤 TTS.GEN │ msg_1785623993645.wav
+00:39:58 🎤 TTS.REQ │ "The vibe is nostalgic yet punchy; it's like riding..." (voice: vivianv2)
+00:40:04 🎤 TTS.GEN │ msg_1785623998762.wav
+00:40:04 🔌 EVENT │ [producer] Voice: Coolio drops a track that blurs country ...
+00:40:05 🎤 TTS.PLAY │ ▶ msg_1785623993645.wav
+00:43:49 🎵 TRACK │ Klaus Lagenge Band — 1000 Und 1 Nacht
+00:43:50 🔊 QUEUE │ music_q ← 051. Peter Wolf - Come As You Are.mp3
+00:43:50 🎤 TTS.REQ │ "A German gem from ’84, this one blurs jazz and sou..." (voice: vivianv2)
+00:43:54 🎤 TTS.GEN │ msg_1785624230023.wav
+00:43:55 🎤 TTS.REQ │ "It’s like a window into a smoky lounge where every..." (voice: vivianv2)
+00:43:59 🎤 TTS.GEN │ msg_1785624235023.wav
+00:43:59 🔌 EVENT │ [producer] Voice: A German gem from ’84, this one blurs ja...
+00:44:00 🎤 TTS.PLAY │ ▶ msg_1785624230023.wav
+00:44:17 🎤 TTS.PLAY │ ▶ msg_1785624235023.wav
+00:47:05 🎵 TRACK │ U.T.F.O. — Roxanne, Roxanne
+00:47:05 🔊 QUEUE │ music_q ← dexys_midnight_runners_-_come_on_eileen-fezmp3.mp3
+00:52:14 🎵 TRACK │ Nat King Cole — Let There Be Love
+00:52:14 🔊 QUEUE │ music_q ← 0711-Katja.Ebstein-Es.war.einmal.ein.Jaeger.mp3
+00:52:14 🎤 TTS.REQ │ "Cole drops his classic velvet voice, turning the s..." (voice: vivianv2)
+00:52:19 🎤 TTS.GEN │ msg_1785624734398.wav
+00:52:19 🎤 TTS.REQ │ "His words are timeless; they bridge our late‑night..." (voice: vivianv2)
+00:52:23 🎤 TTS.GEN │ msg_1785624739443.wav
+00:52:23 🔌 EVENT │ [producer] Voice: Cole drops his classic velvet voice, tur...
+00:52:23 🎤 TTS.PLAY │ ▶ msg_1785624734398.wav
+00:54:54 🎵 TRACK │ Neil Young — Heart Of Gold
+00:54:54 🔊 QUEUE │ music_q ← 110. Kate Ryan - Libertine (radio edit).mp3
+00:54:54 🔊 QUEUE │ music_q ← 051. Peter Wolf - Come As You Are.mp3
+00:54:54 🔊 QUEUE │ music_q ← dexys_midnight_runners_-_come_on_eileen-fezmp3.mp3
+00:54:54 🔊 QUEUE │ music_q ← 0711-Katja.Ebstein-Es.war.einmal.ein.Jaeger.mp3
+00:54:54 🔊 QUEUE │ music_q ← 03-the_prodigy-memphis_bells-esc.mp3
+00:54:54 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+00:55:13 🤖 LLM.REPLY │ "{"segments":[{"song_index":0,"voice":[{"character"..."
+00:55:14 🎤 TTS.REQ │ "The bass kicks in, and nostalgia meets pulse with ..." (voice: vivianv2)
+00:55:19 🎤 TTS.GEN │ msg_1785624914009.wav
+00:55:19 🎤 TTS.REQ │ "Don’t you love how it feels like a neon rave in yo..." (voice: vivianv2)
+00:55:23 🎤 TTS.GEN │ msg_1785624919957.wav
+00:55:23 🎤 TTS.REQ │ "It’s all synths on rewind, but the energy keeps bu..." (voice: vivianv2)
+00:55:26 🎤 TTS.GEN │ msg_1785624923458.wav
+00:55:26 🎤 TTS.REQ │ "Now, take a seat on the swing of swing era as Coun..." (voice: vivianv2)
+00:55:31 🎤 TTS.GEN │ msg_1785624926852.wav
+00:55:31 🎤 TTS.REQ │ "Energy crashes like a stadium banger— ‘No Limit’ i..." (voice: vivianv2)
+00:55:36 🎤 TTS.GEN │ msg_1785624931727.wav
+00:55:36 🎤 TTS.REQ │ "And it’s still blasting in our dreams even after m..." (voice: vivianv2)
+00:55:39 🎤 TTS.GEN │ msg_1785624936591.wav
+00:55:39 🎤 TTS.REQ │ "Limp Bizkit’s Nookie takes us to the edge of garag..." (voice: vivianv2)
+00:55:45 🎤 TTS.GEN │ msg_1785624939690.wav
+00:55:45 🎤 TTS.REQ │ "Just keeping it real, Viv; no irony here yet." (voice: vivianv2)
+00:55:47 🎤 TTS.GEN │ msg_1785624945045.wav
+00:57:55 🎵 TRACK │ Trance to Dance — Kate Ryan - Libertine (radio e
+00:57:55 🔊 QUEUE │ music_q ← 24 - Count Basie - Come Fly With Me.mp3
+01:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 01:00
+01:01:06 🎵 TRACK │ Peter Wolf — Come as You Are
+01:01:06 🎤 TTS.REQ │ "Booong! The time is 01:00" (voice: Aiden)
+01:01:09 🎤 TTS.GEN │ msg_1785625266035.wav
+01:01:09 🎤 TTS.PLAY │ ▶ msg_1785625266035.wav
+01:01:09 🔊 QUEUE │ music_q ← 0144-David.Hasselhoff-Looking.for.Freedom.mp3
+01:03:43 🎵 TRACK │ Dexy's Midnight Runners — Come On Eileen
+01:03:43 🔊 QUEUE │ music_q ← 013. 2 Unlimited - No limit.mp3
+01:07:42 🎵 TRACK │ Katja Ebstein — Es war einmal ein Jäger
+01:07:42 🔊 QUEUE │ music_q ← Limp Bizkit - Nookie.mp3
+01:10:55 🎵 TRACK │ Trance to Dance — Kate Ryan - Libertine (radio e
+01:14:05 🎵 TRACK │ Peter Wolf — Come as You Are
+01:16:44 🎵 TRACK │ Dexy's Midnight Runners — Come On Eileen
+01:20:43 🎵 TRACK │ Katja Ebstein — Es war einmal ein Jäger
+01:23:55 🎵 TRACK │ The Prodigy — Memphis Bells
+01:23:55 🔊 QUEUE │ music_q ← 0149-Londonbeat-I.ve.Been.Thinking.About.You.mp3
+01:23:55 🎤 TTS.REQ │ "The bass kicks in, and nostalgia meets pulse with ..." (voice: vivianv2)
+01:24:00 🎤 TTS.GEN │ msg_1785626635974.wav
+01:24:00 🎤 TTS.REQ │ "Don’t you love how it feels like a neon rave in yo..." (voice: vivianv2)
+01:24:03 🎤 TTS.GEN │ msg_1785626640235.wav
+01:24:03 🎤 TTS.REQ │ "It’s all synths on rewind, but the energy keeps bu..." (voice: vivianv2)
+01:24:07 🎤 TTS.GEN │ msg_1785626643956.wav
+01:24:07 🔌 EVENT │ [producer] Voice: The bass kicks in, and nostalgia meets p...
+01:24:07 🎤 TTS.PLAY │ ▶ msg_1785626635974.wav
+01:24:08 🎤 TTS.REQ │ "‘I’ve Been Thinking About You’ is that classic 90s..." (voice: vivianv2)
+01:24:12 🎤 TTS.GEN │ msg_1785626648281.wav
+01:24:12 🎤 TTS.REQ │ "It paints a soft sunrise over our memories, doesn’..." (voice: vivianv2)
+01:24:15 🎤 TTS.GEN │ msg_1785626652505.wav
+01:24:15 🎤 TTS.REQ │ "And to close the night like a phoenix rising from ..." (voice: vivianv2)
+01:24:21 🎤 TTS.GEN │ msg_1785626655550.wav
+01:25:33 🎤 TTS.PLAY │ ▶ msg_1785626640235.wav
+01:28:18 🎵 TRACK │ Count Basie — Come Fly With Me
+01:28:19 🔊 QUEUE │ music_q ← 1984_40 Tina Turner - What's Love Got To Do With it.mp3
+01:28:19 🎤 TTS.REQ │ "Now, take a seat on the swing of swing era as Coun..." (voice: vivianv2)
+01:28:23 🎤 TTS.GEN │ msg_1785626899077.wav
+01:28:23 🔌 EVENT │ [producer] Voice: Now, take a seat on the swing of swing e...
+01:28:24 🎤 TTS.PLAY │ ▶ msg_1785626899077.wav
+01:31:00 🎵 TRACK │ David Hasselhoff — Looking For Freedom
+01:31:01 🔊 QUEUE │ music_q ← 013. 2 Unlimited - No limit.mp3
+01:31:01 🔊 QUEUE │ music_q ← Limp Bizkit - Nookie.mp3
+01:31:01 🔊 QUEUE │ music_q ← 0149-Londonbeat-I.ve.Been.Thinking.About.You.mp3
+01:31:01 🔊 QUEUE │ music_q ← 1984_40 Tina Turner - What's Love Got To Do With it.mp3
+01:31:01 🔊 QUEUE │ music_q ← 325 - The Young Rascals - Good Lovin'.mp3
+01:31:01 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+01:31:22 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+01:31:22 🎤 TTS.REQ │ "Sugababes' hook is a bright flare in this retro-el..." (voice: vivianv2)
+01:31:28 🎤 TTS.GEN │ msg_1785627082379.wav
+01:31:28 🎤 TTS.REQ │ "The chorus loops just right, reminding us of late-..." (voice: vivianv2)
+01:31:33 🎤 TTS.GEN │ msg_1785627088858.wav
+01:31:33 🎤 TTS.REQ │ "Celtic undertones meet electronic pulses—an unexpe..." (voice: vivianv2)
+01:31:38 🎤 TTS.GEN │ msg_1785627093658.wav
+01:31:38 🎤 TTS.REQ │ "It's a new day in our radio dreamscape, and every ..." (voice: vivianv2)
+01:31:43 🎤 TTS.GEN │ msg_1785627098715.wav
+01:31:43 🎤 TTS.REQ │ "Das Omen stirs a retro vibe infused with synth sha..." (voice: vivianv2)
+01:31:48 🎤 TTS.GEN │ msg_1785627103297.wav
+01:31:48 🎤 TTS.REQ │ "The track turns nostalgia into an edge of mystery,..." (voice: vivianv2)
+01:31:53 🎤 TTS.GEN │ msg_1785627108626.wav
+01:31:53 🎤 TTS.REQ │ "Wyclef drops a fusion of beats that feels like ste..." (voice: vivianv2)
+01:31:57 🎤 TTS.GEN │ msg_1785627113222.wav
+01:31:57 🎤 TTS.REQ │ "Even the smooth hooks carry that electric nostalgi..." (voice: vivianv2)
+01:32:02 🎤 TTS.GEN │ msg_1785627117730.wav
+01:34:51 🎵 TRACK │ 2 Unlimited — No Limit
+01:34:51 🔊 QUEUE │ music_q ← 07-the_game-too_much_(feat_nate_dogg)_(produced_by_scott_storch).mp3
+01:38:14 🎵 TRACK │ Limp Bizkit — Nookie
+01:38:14 🔊 QUEUE │ music_q ← 12-sugababes-sometimes-uf.mp3
+01:42:37 🎵 TRACK │ Londonbeat — I've Been Thinking About You
+01:42:37 🔊 QUEUE │ music_q ← Smoke Weed  ft. Tha Eastsidaz, Snoop, Xzibit, Kool G Rap, Kam, Jayo Felony, Eminem (made by A$IF).mp3
+01:46:19 🎵 TRACK │ 1984_40 Tina Turner — What's Love Got To Do With it
+01:46:20 🔊 QUEUE │ music_q ← 219_a_new_day-mod.mp3
+01:50:04 🎵 TRACK │ 2 Unlimited — No Limit
+01:53:27 🎵 TRACK │ Limp Bizkit — Nookie
+01:57:50 🎵 TRACK │ Londonbeat — I've Been Thinking About You
+02:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 02:00
+02:01:32 🎵 TRACK │ 1984_40 Tina Turner — What's Love Got To Do With it
+02:01:32 🎤 TTS.REQ │ "Booong! The time is 02:00" (voice: Aiden)
+02:01:34 🎤 TTS.GEN │ msg_1785628892837.wav
+02:01:34 🎤 TTS.PLAY │ ▶ msg_1785628892837.wav
+02:05:17 🎵 TRACK │ The Young Rascals — Good Lovin'
+02:05:17 🔊 QUEUE │ music_q ← 0075-Mysterious.Art-Das.Omen.I.mp3
+02:05:17 🎤 TTS.REQ │ "Papa Dee is raw, soulful, and that 90s pop groove ..." (voice: vivianv2)
+02:05:23 🎤 TTS.GEN │ msg_1785629117421.wav
+02:05:23 🎤 TTS.REQ │ "The anthem wraps the show, echoing a final call to..." (voice: vivianv2)
+02:05:27 🎤 TTS.GEN │ msg_1785629123149.wav
+02:05:27 🎤 TTS.REQ │ "Signal's a bit low, but our groove never dips—so w..." (voice: vivianv2)
+02:05:31 🎤 TTS.GEN │ msg_1785629127894.wav
+02:07:41 🎵 TRACK │ The Game — Too Much (Feat. Nate Dogg) (Produced By Scott Storch)
+02:07:41 🔊 QUEUE │ music_q ← Nanne Grönwall - Håll Om Mig.mp3
+02:11:48 🎵 TRACK │ Sugababes — Sometimes
+02:11:48 🔊 QUEUE │ music_q ← 07 - Wyclef Jean - Gangsta ft Sharissa Butch Cassidy.mp3
+02:11:48 🎤 TTS.REQ │ "Sugababes' hook is a bright flare in this retro-el..." (voice: vivianv2)
+02:11:54 🎤 TTS.GEN │ msg_1785629508773.wav
+02:11:55 🎤 TTS.REQ │ "The chorus loops just right, reminding us of late-..." (voice: vivianv2)
+02:12:00 🎤 TTS.GEN │ msg_1785629515024.wav
+02:12:00 🔌 EVENT │ [producer] Voice: Sugababes' hook is a bright flare in thi...
+02:12:00 🎤 TTS.PLAY │ ▶ msg_1785629508773.wav
+02:16:08 🎵 TRACK │ mp3 — Smoke Weed  ft. Tha Eastsidaz, Snoop, Xzibit, Kool G Rap, Kam, Jayo Felony, Eminem (made by A$IF)
+02:16:08 🔊 QUEUE │ music_q ← 08 Vi Ställer In.mp3
+02:22:03 🎵 TRACK │ Celtic Emotions — A New Day
+02:22:03 🔊 QUEUE │ music_q ← 093. Papa Dee - Ain't No Substitute.mp3
+02:22:03 🎤 TTS.REQ │ "Celtic undertones meet electronic pulses—an unexpe..." (voice: vivianv2)
+02:22:08 🎤 TTS.GEN │ msg_1785630123224.wav
+02:22:08 🎤 TTS.REQ │ "It's a new day in our radio dreamscape, and every ..." (voice: vivianv2)
+02:22:13 🎤 TTS.GEN │ msg_1785630128882.wav
+02:22:13 🔌 EVENT │ [producer] Voice: Celtic undertones meet electronic pulses...
+02:22:13 🎤 TTS.PLAY │ ▶ msg_1785630123224.wav
+02:25:32 🎵 TRACK │ Mysterious Art — Das Omen Part 1
+02:25:32 🔊 QUEUE │ music_q ← Nanne Grönwall - Håll Om Mig.mp3
+02:25:32 🔊 QUEUE │ music_q ← 07 - Wyclef Jean - Gangsta ft Sharissa Butch Cassidy.mp3
+02:25:32 🔊 QUEUE │ music_q ← 08 Vi Ställer In.mp3
+02:25:32 🔊 QUEUE │ music_q ← 093. Papa Dee - Ain't No Substitute.mp3
+02:25:32 🔊 QUEUE │ music_q ← 0891-Snap.feat..Niki.Harris-Exterminate.mp3
+02:25:32 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+02:26:05 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+02:26:05 🎤 TTS.REQ │ "Phil's nostalgic piano reminds us of sunny morning..." (voice: vivianv2)
+02:26:10 🎤 TTS.GEN │ msg_1785630365706.wav
+02:26:10 🎤 TTS.REQ │ "When he closes out with that lingering chord, you ..." (voice: vivianv2)
+02:26:14 🎤 TTS.GEN │ msg_1785630370635.wav
+02:26:14 🎤 TTS.REQ │ "Moanin' keeps jazz tight and soulful as always—lik..." (voice: vivianv2)
+02:26:18 🎤 TTS.GEN │ msg_1785630374605.wav
+02:26:18 🎤 TTS.REQ │ "Every shout from the trumpet feels like an exhale ..." (voice: vivianv2)
+02:26:24 🎤 TTS.GEN │ msg_1785630378646.wav
+02:26:24 🎤 TTS.REQ │ "Timbuktu's lyric flow hits deep with that Swedish ..." (voice: vivianv2)
+02:26:27 🎤 TTS.GEN │ msg_1785630384284.wav
+02:26:27 🎤 TTS.REQ │ "He wraps it up, and you realize your night could l..." (voice: vivianv2)
+02:26:30 🎤 TTS.GEN │ msg_1785630387677.wav
+02:26:30 🎤 TTS.REQ │ "Reggae's steady groove is a reminder that simplici..." (voice: vivianv2)
+02:26:34 🎤 TTS.GEN │ msg_1785630390954.wav
+02:26:34 🎤 TTS.REQ │ "And Marley's calm voice reminds us to own the peac..." (voice: vivianv2)
+02:26:39 🎤 TTS.GEN │ msg_1785630394906.wav
+02:29:29 🎵 TRACK │ Nanne Grönwall — Håll Om Mig
+02:29:29 🔊 QUEUE │ music_q ← 0088-Phil.Collins-Another.Day.in.Paradise.mp3
+02:32:28 🎵 TRACK │ Wyclef Jean — Gangsta ft. Sharissa, Butch Cassidy
+02:32:28 🔊 QUEUE │ music_q ← 30 - Art Blakey - Moanin'.mp3
+02:36:20 🎵 TRACK │ Dubbel Trubbel — Vi Ställer In
+02:36:20 🔊 QUEUE │ music_q ← 05 - kom nrmre.mp3
+02:39:27 🎵 TRACK │ Papa Dee — Ain't No Substitute
+02:39:27 🔊 QUEUE │ music_q ← 443 - Bob Marley - I Shot The Sheriff.mp3
+02:43:16 🎵 TRACK │ Nanne Grönwall — Håll Om Mig
+02:46:12 🎵 TRACK │ Wyclef Jean — Gangsta ft. Sharissa, Butch Cassidy
+02:50:07 🎵 TRACK │ Dubbel Trubbel — Vi Ställer In
+02:53:14 🎵 TRACK │ Papa Dee — Ain't No Substitute
+02:57:00 🎵 TRACK │ Snap feat. Niki Harris — Exterminate!
+02:57:00 🔊 QUEUE │ music_q ← 0024-FR.David-Words.mp3
+02:57:00 🎤 TTS.REQ │ "This funk line feels like sunshine trapped in a ba..." (voice: vivianv2)
+02:57:04 🎤 TTS.GEN │ msg_1785632220900.wav
+02:57:04 🎤 TTS.REQ │ "Each chorus is a tiny celebration, and we all get ..." (voice: vivianv2)
+02:57:08 🎤 TTS.GEN │ msg_1785632224320.wav
+02:57:08 🎤 TTS.REQ │ "Samba's sensual sway from 1977 gives us flavor str..." (voice: vivianv2)
+02:57:12 🎤 TTS.GEN │ msg_1785632228388.wav
+02:57:12 🎤 TTS.REQ │ "A touch of Latin flirtation keeps our night lively..." (voice: vivianv2)
+02:57:16 🎤 TTS.GEN │ msg_1785632232924.wav
+03:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 03:00
+03:01:13 🎵 TRACK │ Phil Collins — Another Day In Paradise
+03:01:13 🎤 TTS.REQ │ "Booong! The time is 03:00" (voice: Aiden)
+03:01:16 🎤 TTS.GEN │ msg_1785632473609.wav
+03:01:16 🎤 TTS.PLAY │ ▶ msg_1785632473609.wav
+03:01:16 🔊 QUEUE │ music_q ← 247 - Sly & The Family Stone - Hot Fun In The Summertime.mp3
+03:01:16 🎤 TTS.REQ │ "Phil's nostalgic piano reminds us of sunny morning..." (voice: vivianv2)
+03:01:20 🎤 TTS.GEN │ msg_1785632476271.wav
+03:01:20 🎤 TTS.REQ │ "When he closes out with that lingering chord, you ..." (voice: vivianv2)
+03:01:24 🎤 TTS.GEN │ msg_1785632480902.wav
+03:01:24 🔌 EVENT │ [producer] Voice: Phil's nostalgic piano reminds us of sun...
+03:01:25 🎤 TTS.PLAY │ ▶ msg_1785632476271.wav
+03:06:30 🎵 TRACK │ Art Blakey — Moanin'
+03:06:30 🔊 QUEUE │ music_q ← 0918-Tony.Holiday-Tanze.Samba.mit.mir.mp3
+03:06:30 🎤 TTS.REQ │ "Moanin' keeps jazz tight and soulful as always—lik..." (voice: vivianv2)
+03:06:35 🎤 TTS.GEN │ msg_1785632790590.wav
+03:06:35 🎤 TTS.REQ │ "Every shout from the trumpet feels like an exhale ..." (voice: vivianv2)
+03:06:40 🎤 TTS.GEN │ msg_1785632795308.wav
+03:06:40 🔌 EVENT │ [producer] Voice: Moanin' keeps jazz tight and soulful as ...
+03:06:40 🎤 TTS.PLAY │ ▶ msg_1785632790590.wav
+03:07:47 🎤 TTS.PLAY │ ▶ msg_1785632795308.wav
+03:10:27 🎵 TRACK │ Timbuktu — Kom Närmre
+03:10:27 🔊 QUEUE │ music_q ← 443 - Bob Marley - I Shot The Sheriff.mp3
+03:10:27 🔊 QUEUE │ music_q ← 0024-FR.David-Words.mp3
+03:10:27 🔊 QUEUE │ music_q ← 247 - Sly & The Family Stone - Hot Fun In The Summertime.mp3
+03:10:27 🔊 QUEUE │ music_q ← 0918-Tony.Holiday-Tanze.Samba.mit.mir.mp3
+03:10:27 🔊 QUEUE │ music_q ← 05 Come On.mp3
+03:10:27 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+03:10:41 🤖 LLM.REPLY │ "{"segments":[{"song_index":0,"voice":[{"character"..."
+03:10:41 🎤 TTS.REQ │ "Tommy Nilsson drops a nostalgic ballad that'll tug..." (voice: vivianv2)
+03:10:46 🎤 TTS.GEN │ msg_1785633041985.wav
+03:10:46 🎤 TTS.REQ │ "A bit of pop with an 80s twist—perfect for this re..." (voice: vivianv2)
+03:10:50 🎤 TTS.GEN │ msg_1785633046467.wav
+03:10:50 🎤 TTS.REQ │ "Sadat X takes us back to the streets of New York i..." (voice: vivianv2)
+03:10:53 🎤 TTS.GEN │ msg_1785633050500.wav
+03:10:53 🎤 TTS.REQ │ "It’s raw, it’s gritty—reminds me of the electric e..." (voice: vivianv2)
+03:10:57 🎤 TTS.GEN │ msg_1785633053937.wav
+03:10:57 🎤 TTS.REQ │ "Cheech & Chong are cracking jokes at a time when c..." (voice: vivianv2)
+03:11:01 🎤 TTS.GEN │ msg_1785633057728.wav
+03:11:01 🎤 TTS.REQ │ "If I remember, their punchlines are still as fresh..." (voice: vivianv2)
+03:11:05 🎤 TTS.GEN │ msg_1785633061837.wav
+03:11:05 🎤 TTS.REQ │ "Thalia’s Latin heat is setting the mood for warmer..." (voice: vivianv2)
+03:11:08 🎤 TTS.GEN │ msg_1785633065247.wav
+03:11:08 🎤 TTS.REQ │ "There's a romantic undertone that huddles around t..." (voice: vivianv2)
+03:11:11 🎤 TTS.GEN │ msg_1785633068183.wav
+03:14:24 🎵 TRACK │ Bob Marley — I Shot The Sheriff
+03:14:24 🔊 QUEUE │ music_q ← 004. Tommy Nilsson - Maybe we're about to fall in love.mp3
+03:18:59 🎵 TRACK │ FR David — Words
+03:18:59 🔊 QUEUE │ music_q ← Sadat X - Escape From New York.mp3
+03:22:26 🎵 TRACK │ Sly & The Family Stone — Hot Fun In The Summertime
+03:22:26 🔊 QUEUE │ music_q ← xmas - Cheech & Chong Christmas Novelty - Santa Claus And .mp3
+03:24:58 🎵 TRACK │ Tony Holiday — Tanze Samba mit mir ("A far l'amore cominica tu")
+03:24:58 🔊 QUEUE │ music_q ← 13-thalia-cerca_de_ti_(closer_to_you)-ego.mp3
+03:27:33 🎵 TRACK │ Bob Marley — I Shot The Sheriff
+03:32:07 🎵 TRACK │ FR David — Words
+03:35:34 🎵 TRACK │ Sly & The Family Stone — Hot Fun In The Summertime
+03:38:07 🎵 TRACK │ Tony Holiday — Tanze Samba mit mir ("A far l'amore cominica tu")
+03:40:41 🎵 TRACK │ Technotronic — Come On
+03:40:41 🔊 QUEUE │ music_q ← 040. Madonna - Express Yourself.mp3
+03:40:41 🎤 TTS.REQ │ "Madonna calls us to express ourselves—1989, but st..." (voice: vivianv2)
+03:40:45 🎤 TTS.GEN │ msg_1785634841647.wav
+03:40:45 🎤 TTS.REQ │ "A true anthem for anyone who dared stand out in th..." (voice: vivianv2)
+03:40:48 🎤 TTS.GEN │ msg_1785634845823.wav
+03:40:49 🎤 TTS.REQ │ "The Prodigy pumps up the energy—early 2000s rave v..." (voice: vivianv2)
+03:40:53 🎤 TTS.GEN │ msg_1785634849035.wav
+03:40:53 🎤 TTS.REQ │ "It’s pure adrenaline, and we’re all here to ride t..." (voice: vivianv2)
+03:40:56 🎤 TTS.GEN │ msg_1785634853529.wav
+03:40:56 🎤 TTS.REQ │ "We close tonight on Timbuktu’s powerful lyricism, ..." (voice: vivianv2)
+03:41:02 🎤 TTS.GEN │ msg_1785634856721.wav
+03:43:50 🎵 TRACK │ Tommy Nilsson — Maybe we're about to fall in love
+03:43:50 🔊 QUEUE │ music_q ← 015. Melody Club - Palace Station.mp3
+03:43:50 🎤 TTS.REQ │ "Tommy Nilsson drops a nostalgic ballad that'll tug..." (voice: vivianv2)
+03:43:53 🎤 TTS.GEN │ msg_1785635030256.wav
+03:43:53 🎤 TTS.REQ │ "A bit of pop with an 80s twist—perfect for this re..." (voice: vivianv2)
+03:43:57 🎤 TTS.GEN │ msg_1785635033750.wav
+03:43:57 🔌 EVENT │ [producer] Voice: Tommy Nilsson drops a nostalgic ballad t...
+03:43:57 🎤 TTS.PLAY │ ▶ msg_1785635030256.wav
+03:45:34 🎤 TTS.PLAY │ ▶ msg_1785635033750.wav
+03:48:02 🎵 TRACK │ Sadat X — Escape From New York
+03:48:02 🔊 QUEUE │ music_q ← 10-the_prodigy-youll_be_under_my_wheels-esc.mp3
+03:48:02 🎤 TTS.REQ │ "Sadat X takes us back to the streets of New York i..." (voice: vivianv2)
+03:48:06 🎤 TTS.GEN │ msg_1785635282954.wav
+03:48:06 🎤 TTS.REQ │ "It’s raw, it’s gritty—reminds me of the electric e..." (voice: vivianv2)
+03:48:10 🎤 TTS.GEN │ msg_1785635286299.wav
+03:48:10 🔌 EVENT │ [producer] Voice: Sadat X takes us back to the streets of ...
+03:48:10 🎤 TTS.PLAY │ ▶ msg_1785635282954.wav
+03:48:44 🎤 TTS.PLAY │ ▶ msg_1785635286299.wav
+03:52:07 🎵 TRACK │ Cheech & Chong — Santa Claus And His Old Lady
+03:52:07 🔊 QUEUE │ music_q ← 07 - wtts d diil.mp3
+03:52:07 🎤 TTS.REQ │ "Cheech & Chong are cracking jokes at a time when c..." (voice: vivianv2)
+03:52:12 🎤 TTS.GEN │ msg_1785635527648.wav
+03:52:12 🎤 TTS.REQ │ "If I remember, their punchlines are still as fresh..." (voice: vivianv2)
+03:52:15 🎤 TTS.GEN │ msg_1785635532080.wav
+03:52:15 🔌 EVENT │ [producer] Voice: Cheech & Chong are cracking jokes at a t...
+03:52:16 🎤 TTS.PLAY │ ▶ msg_1785635527648.wav
+03:52:59 🎤 TTS.PLAY │ ▶ msg_1785635532080.wav
+03:58:31 🎵 TRACK │ Thalia — Cerca De Ti (Closer To You)
+03:58:31 🔊 QUEUE │ music_q ← 040. Madonna - Express Yourself.mp3
+03:58:31 🔊 QUEUE │ music_q ← 015. Melody Club - Palace Station.mp3
+03:58:31 🔊 QUEUE │ music_q ← 10-the_prodigy-youll_be_under_my_wheels-esc.mp3
+03:58:31 🔊 QUEUE │ music_q ← 07 - wtts d diil.mp3
+03:58:31 🔊 QUEUE │ music_q ← 0608-Abba-One.of.us.mp3
+03:58:31 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+03:58:52 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+03:58:52 🎤 TTS.REQ │ "Kelly Family always had a way of turning family dy..." (voice: vivianv2)
+03:59:00 🎤 TTS.GEN │ msg_1785635932978.wav
+03:59:00 🎤 TTS.REQ │ "And you hear that cheeky bass line—makes it feel a..." (voice: vivianv2)
+03:59:03 🎤 TTS.GEN │ msg_1785635940227.wav
+03:59:03 🎤 TTS.REQ │ "We’re dialing up some old‑school electro with Tech..." (voice: vivianv2)
+03:59:09 🎤 TTS.GEN │ msg_1785635943853.wav
+03:59:09 🎤 TTS.REQ │ "Technotronic again—'Raw' is like a blast from an u..." (voice: vivianv2)
+03:59:13 🎤 TTS.GEN │ msg_1785635949643.wav
+03:59:13 🎤 TTS.REQ │ "If any of this feels too repetitive, consider it i..." (voice: vivianv2)
+03:59:17 🎤 TTS.GEN │ msg_1785635953358.wav
+03:59:17 🎤 TTS.REQ │ "Da Brat steps in with 'Funkdafied'—mixing hip‑hop ..." (voice: vivianv2)
+03:59:21 🎤 TTS.GEN │ msg_1785635957068.wav
+03:59:21 🎤 TTS.REQ │ "Yeah, she really proves you can make a club track ..." (voice: vivianv2)
+03:59:25 🎤 TTS.GEN │ msg_1785635961064.wav
+04:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 04:00
+04:02:24 🎵 TRACK │ Madonna — Express Yourself
+04:02:24 🎤 TTS.REQ │ "Booong! The time is 04:00" (voice: Aiden)
+04:02:26 🎤 TTS.GEN │ msg_1785636144637.wav
+04:02:26 🎤 TTS.PLAY │ ▶ msg_1785636144637.wav
+04:02:26 🔊 QUEUE │ music_q ← 1994_38 Ace Of Base - The Sign.mp3
+04:06:57 🎵 TRACK │ Melody Club — Palace Station
+04:06:57 🔊 QUEUE │ music_q ← 0186-Kelly.Family-I.Cant.Help.Myself...mp3
+04:10:11 🎵 TRACK │ The Prodigy — You'll Be Under My Wheels
+04:10:11 🔊 QUEUE │ music_q ← 08 Come Back.mp3
+04:14:02 🎵 TRACK │ Timbuktu — Wåtts Dö Diil?
+04:14:02 🔊 QUEUE │ music_q ← 312-fourtech-feel_the_beat-mil.mp3
+04:16:55 🎵 TRACK │ Madonna — Express Yourself
+04:21:29 🎵 TRACK │ Melody Club — Palace Station
+04:24:42 🎵 TRACK │ The Prodigy — You'll Be Under My Wheels
+04:28:35 🎵 TRACK │ Timbuktu — Wåtts Dö Diil?
+04:31:25 🎵 TRACK │ Abba — One of us
+04:31:25 🔊 QUEUE │ music_q ← 10 Raw.2.mp3
+04:31:25 🎤 TTS.REQ │ "Robert Palmer's 'Mama Talk To Your Daughter' takes..." (voice: vivianv2)
+04:31:31 🎤 TTS.GEN │ msg_1785637885970.wav
+04:31:31 🎤 TTS.REQ │ "That soft blues chord is almost like a lullaby—fit..." (voice: vivianv2)
+04:31:35 🎤 TTS.GEN │ msg_1785637891382.wav
+04:31:35 🎤 TTS.REQ │ "'Little Lies' from Fleetwood Mac lands us in 1987—..." (voice: vivianv2)
+04:31:40 🎤 TTS.GEN │ msg_1785637895943.wav
+04:31:40 🎤 TTS.REQ │ "And that reminds me why we’re still on the same tr..." (voice: vivianv2)
+04:31:44 🎤 TTS.GEN │ msg_1785637900680.wav
+04:35:20 🎵 TRACK │ 1994_38 Ace Of Base — The Sign
+04:35:20 🔊 QUEUE │ music_q ← Da Brat - Funkdafied.mp3
+04:38:27 🎵 TRACK │ Kelly Family — I Cant Help Myself
+04:38:27 🔊 QUEUE │ music_q ← 0864-Paper.Lace-The.Night.Chicago.Died.mp3
+04:38:27 🎤 TTS.REQ │ "Kelly Family always had a way of turning family dy..." (voice: vivianv2)
+04:38:34 🎤 TTS.GEN │ msg_1785638307290.wav
+04:38:34 🎤 TTS.REQ │ "And you hear that cheeky bass line—makes it feel a..." (voice: vivianv2)
+04:38:37 🎤 TTS.GEN │ msg_1785638314181.wav
+04:39:30 🎤 TTS.PLAY │ ▶ msg_1785638307290.wav
+04:40:11 🎤 TTS.PLAY │ ▶ msg_1785638314181.wav
+04:41:30 🎵 TRACK │ Technotronic — Come Back
+04:41:30 🔊 QUEUE │ music_q ← 206-robert_palmer-mama_talk_to_your_daughter-esc.mp3
+04:41:30 🎤 TTS.REQ │ "We’re dialing up some old‑school electro with Tech..." (voice: vivianv2)
+04:41:37 🎤 TTS.GEN │ msg_1785638490642.wav
+04:41:37 🔌 EVENT │ [producer] Voice: We’re dialing up some old‑school electro...
+04:41:37 🎤 TTS.PLAY │ ▶ msg_1785638490642.wav
+04:46:22 🎵 TRACK │ Fourtech — Feel The Beat
+04:46:22 🔊 QUEUE │ music_q ← 0741-Fleetwood.Mac-Little.Lies.mp3
+04:51:29 🎵 TRACK │ Technotronic — Raw
+04:51:29 🔊 QUEUE │ music_q ← Da Brat - Funkdafied.mp3
+04:51:29 🔊 QUEUE │ music_q ← 0864-Paper.Lace-The.Night.Chicago.Died.mp3
+04:51:29 🔊 QUEUE │ music_q ← 206-robert_palmer-mama_talk_to_your_daughter-esc.mp3
+04:51:29 🔊 QUEUE │ music_q ← 0741-Fleetwood.Mac-Little.Lies.mp3
+04:51:29 🔊 QUEUE │ music_q ← Svenska akademin - Falsk matematik.mp3
+04:51:29 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+04:51:48 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+04:51:48 🎤 TTS.REQ │ "The Crystal Method kicks off with that nostalgic s..." (voice: vivianv2)
+04:51:53 🎤 TTS.GEN │ msg_1785639108644.wav
+04:51:53 🎤 TTS.REQ │ "Feel the groove lift you up like a sunrise over St..." (voice: vivianv2)
+04:51:59 🎤 TTS.GEN │ msg_1785639113779.wav
+04:51:59 🎤 TTS.REQ │ "Reamonn’s ‘Supergirl’ slides in with a soft indie‑..." (voice: vivianv2)
+04:52:04 🎤 TTS.GEN │ msg_1785639119061.wav
+04:52:04 🎤 TTS.REQ │ "Technotronic revives the '90s club spirit—dance ba..." (voice: vivianv2)
+04:52:10 🎤 TTS.GEN │ msg_1785639124096.wav
+04:52:10 🎤 TTS.REQ │ "Every beat feels like a midnight high‑school dance..." (voice: vivianv2)
+04:52:15 🎤 TTS.GEN │ msg_1785639130390.wav
+04:52:15 🎤 TTS.REQ │ "Sonique's soaring synths merge with early‑morning ..." (voice: vivianv2)
+04:52:20 🎤 TTS.GEN │ msg_1785639135373.wav
+04:52:20 🎤 TTS.REQ │ "I hear my reflection in that vinyl crackle—late ni..." (voice: vivianv2)
+04:52:23 🎤 TTS.GEN │ msg_1785639140063.wav
+04:56:14 🎵 TRACK │ Da Brat — Funkdafied
+04:56:14 🔊 QUEUE │ music_q ← 18-wyclef_jean-24_heures__vivre_(french)_(feat_muzion)-rns.mp3
+04:59:15 🎵 TRACK │ Paper Lace — The Night Chicago Died
+04:59:15 🔊 QUEUE │ music_q ← Crystal Method - Tweekend - 02 - Wild, Sweet And Cool.mp3
+05:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 05:00
+05:02:41 🎵 TRACK │ Robert Palmer — Mama Talk To Your Daughter
+05:02:41 🎤 TTS.REQ │ "Booong! The time is 05:00" (voice: Aiden)
+05:02:44 🎤 TTS.GEN │ msg_1785639761862.wav
+05:02:44 🎤 TTS.PLAY │ ▶ msg_1785639761862.wav
+05:02:44 🔊 QUEUE │ music_q ← Nu e det nock!.mp3
+05:05:06 🎵 TRACK │ Fleetwood Mac — Little Lies
+05:05:06 🔊 QUEUE │ music_q ← 0814-Reamonn-Supergirl.mp3
+05:08:39 🎵 TRACK │ Da Brat — Funkdafied
+05:11:39 🎵 TRACK │ Paper Lace — The Night Chicago Died
+05:15:06 🎵 TRACK │ Robert Palmer — Mama Talk To Your Daughter
+05:17:31 🎵 TRACK │ Fleetwood Mac — Little Lies
+05:21:03 🎵 TRACK │ Svenska Akademin — Falsk Matematik
+05:21:03 🔊 QUEUE │ music_q ← 09 Take it slow (Fab Bibulous Mix).2.mp3
+05:21:03 🎤 TTS.REQ │ "Blumchen hits the nostalgic beat of 99, a true thr..." (voice: vivianv2)
+05:21:08 🎤 TTS.GEN │ msg_1785640863788.wav
+05:21:08 🎤 TTS.REQ │ "Your day starts off dancing through memories; I ca..." (voice: vivianv2)
+05:21:12 🎤 TTS.GEN │ msg_1785640868968.wav
+05:21:12 🎤 TTS.REQ │ "The groove settles into calm—perfect for winding d..." (voice: vivianv2)
+05:21:17 🎤 TTS.GEN │ msg_1785640872857.wav
+05:21:17 🎤 TTS.REQ │ "As the night folds into jazz, let those warm chord..." (voice: vivianv2)
+05:21:22 🎤 TTS.GEN │ msg_1785640877679.wav
+05:25:22 🎵 TRACK │ Wyclef Jean — 24 Heures à Vivre (French) (fe
+05:25:22 🔊 QUEUE │ music_q ← 0791-Sonique-It.Feels.So.Good.mp3
+05:29:27 🎵 TRACK │ The Crystal Method — Wild, Sweet And Cool
+05:29:27 🔊 QUEUE │ music_q ← Jimmy Jansson - Vi Kan Gunga.mp3
+05:29:27 🎤 TTS.REQ │ "The Crystal Method kicks off with that nostalgic s..." (voice: vivianv2)
+05:29:31 🎤 TTS.GEN │ msg_1785641367364.wav
+05:29:31 🎤 TTS.REQ │ "Feel the groove lift you up like a sunrise over St..." (voice: vivianv2)
+05:29:36 🎤 TTS.GEN │ msg_1785641371935.wav
+05:29:36 🔌 EVENT │ [producer] Voice: The Crystal Method kicks off with that n...
+05:29:37 🎤 TTS.PLAY │ ▶ msg_1785641367364.wav
+05:31:04 🎤 TTS.PLAY │ ▶ msg_1785641371935.wav
+05:33:16 🎵 TRACK │ Dom Viktiga Skorna/ — Nu e det nock!
+05:33:16 🔊 QUEUE │ music_q ← 1999_43 Blumchen - Heut Ist Mein Tag.mp3
+05:40:35 🎵 TRACK │ Reamonn — Supergirl
+05:40:35 🔊 QUEUE │ music_q ← 33 - Cannonball Adderley Featuring Miles Davis - Autumn Leaves.mp3
+05:40:35 🎤 TTS.REQ │ "Reamonn’s ‘Supergirl’ slides in with a soft indie‑..." (voice: vivianv2)
+05:40:40 🎤 TTS.GEN │ msg_1785642035607.wav
+05:40:40 🔌 EVENT │ [producer] Voice: Reamonn’s ‘Supergirl’ slides in with a s...
+05:40:41 🎤 TTS.PLAY │ ▶ msg_1785642035607.wav
+05:44:24 🎵 TRACK │ Technotronic — Take it slow (Fab Bibulous Mix)
+05:44:24 🔊 QUEUE │ music_q ← 0791-Sonique-It.Feels.So.Good.mp3
+05:44:24 🔊 QUEUE │ music_q ← Jimmy Jansson - Vi Kan Gunga.mp3
+05:44:24 🔊 QUEUE │ music_q ← 1999_43 Blumchen - Heut Ist Mein Tag.mp3
+05:44:24 🔊 QUEUE │ music_q ← 33 - Cannonball Adderley Featuring Miles Davis - Autumn Leaves.mp3
+05:44:24 🔊 QUEUE │ music_q ← 139. Da Buzz - Wonder Where You Are (3+3 i juni).mp3
+05:44:24 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+05:44:54 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+05:44:54 🎤 TTS.REQ │ "Las Ketchup’s "The Ketchup Song" is instantly infe..." (voice: vivianv2)
+05:45:00 🎤 TTS.GEN │ msg_1785642294544.wav
+05:45:00 🎤 TTS.REQ │ "That chorus hits hard, and the beat’s so lively it..." (voice: vivianv2)
+05:45:05 🎤 TTS.GEN │ msg_1785642300710.wav
+05:45:05 🎤 TTS.REQ │ "Feel the groove – keep this on repeat as we slide ..." (voice: vivianv2)
+05:45:10 🎤 TTS.GEN │ msg_1785642305673.wav
+05:45:10 🎤 TTS.REQ │ "Dom Viktiga Skorna drops "Mannen i den gula hatten..." (voice: vivianv2)
+05:45:18 🎤 TTS.GEN │ msg_1785642310149.wav
+05:45:18 🎤 TTS.REQ │ "Peter Schilling’s iconic "Major Tom (Völlig Losgel..." (voice: vivianv2)
+05:45:24 🎤 TTS.GEN │ msg_1785642318037.wav
+05:45:24 🎤 TTS.REQ │ "Those soaring vocal lines and cosmic synth loops r..." (voice: vivianv2)
+05:45:30 🎤 TTS.GEN │ msg_1785642324877.wav
+05:45:31 🎤 TTS.REQ │ "Let this orbit around us before the beat turns up ..." (voice: vivianv2)
+05:45:34 🎤 TTS.GEN │ msg_1785642331040.wav
+05:45:34 🎤 TTS.REQ │ "Technotronic’s "Rockin’ Over The Beat" is pure 90s..." (voice: vivianv2)
+05:45:40 🎤 TTS.GEN │ msg_1785642334122.wav
+05:45:40 🎤 TTS.REQ │ "That driving rhythm and gritty vocal overlay keeps..." (voice: vivianv2)
+05:45:45 🎤 TTS.GEN │ msg_1785642340480.wav
+05:45:45 🎤 TTS.REQ │ "And now we’re poised to hit an even stronger beat." (voice: vivianv2)
+05:45:48 🎤 TTS.GEN │ msg_1785642345728.wav
+05:49:35 🎵 TRACK │ Sonique — It Feels So Good
+05:49:35 🔊 QUEUE │ music_q ← Andre Nickatina - Ayo For Yayo.mp3
+05:53:19 🎵 TRACK │ Jimmy Jansson — Vi Kan Gunga
+05:53:19 🔊 QUEUE │ music_q ← 0040-Las.Ketchup-The.Ketchup.Song.mp3
+05:56:18 🎵 TRACK │ 1999_43 Blumchen — Heut Ist Mein Tag
+05:56:18 🔊 QUEUE │ music_q ← Mannen i den gula hatten.mp3
+05:59:48 🎵 TRACK │ Cannonball Adderley Featuring Miles Davis — Autumn Leaves
+05:59:49 🔊 QUEUE │ music_q ← 0123-Peter.Schilling-Major.Tom.(Voellig.Losgeloest).mp3
+06:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 06:00
+06:10:41 🎵 TRACK │ Sonique — It Feels So Good
+06:10:41 🎤 TTS.REQ │ "Booong! The time is 06:00" (voice: Aiden)
+06:11:20 🎤 TTS.GEN │ msg_1785643841021.wav
+06:11:20 🎤 TTS.PLAY │ ▶ msg_1785643841021.wav
+06:14:26 🎵 TRACK │ Jimmy Jansson — Vi Kan Gunga
+06:17:25 🎵 TRACK │ 1999_43 Blumchen — Heut Ist Mein Tag
+06:20:56 🎵 TRACK │ Cannonball Adderley Featuring Miles Davis — Autumn Leaves
+06:31:48 🎵 TRACK │ Da Buzz — Wonder Where You Are
+06:31:48 🔊 QUEUE │ music_q ← 194ev. Eva Dahlgren Too Many Beliefs (2 i jan).mp3
+06:31:48 🎤 TTS.REQ │ "Eurythmics’ timeless "Sweet Dreams" lingers, blend..." (voice: vivianv2)
+06:31:55 🎤 TTS.GEN │ msg_1785645108166.wav
+06:31:55 🎤 TTS.REQ │ "The haunting piano riff and rhythmic pulsing bring..." (voice: vivianv2)
+06:31:59 🎤 TTS.GEN │ msg_1785645115185.wav
+06:31:59 🎤 TTS.REQ │ "Hold onto that echo as we prepare for a bolder tra..." (voice: vivianv2)
+06:32:03 🎤 TTS.GEN │ msg_1785645119592.wav
+06:32:03 🎤 TTS.REQ │ "All 4 One’s "I swear" offers a quiet indie whisper..." (voice: vivianv2)
+06:32:08 🎤 TTS.GEN │ msg_1785645123263.wav
+06:32:09 🎤 TTS.REQ │ "There’s something gentle about this one – it pulls..." (voice: vivianv2)
+06:32:14 🎤 TTS.GEN │ msg_1785645129026.wav
+06:32:14 🎤 TTS.REQ │ "The early morning sun is almost here, and we’ve wr..." (voice: vivianv2)
+06:32:22 🎤 TTS.GEN │ msg_1785645134569.wav
+06:35:10 🎵 TRACK │ Andre Nickatina — Ayo For Yayo
+06:35:10 🔊 QUEUE │ music_q ← 09 Rockin' Over The Beat.2.mp3
+06:38:33 🎵 TRACK │ Las Ketchup — The Ketchup Song
+06:38:33 🔊 QUEUE │ music_q ← 01_Eurythmics_-_Sweet_Dreams.mp3
+06:38:33 🎤 TTS.REQ │ "Las Ketchup’s "The Ketchup Song" is instantly infe..." (voice: vivianv2)
+06:38:38 🎤 TTS.GEN │ msg_1785645513454.wav
+06:38:38 🎤 TTS.REQ │ "That chorus hits hard, and the beat’s so lively it..." (voice: vivianv2)
+06:38:43 🎤 TTS.GEN │ msg_1785645518984.wav
+06:38:43 🎤 TTS.REQ │ "Feel the groove – keep this on repeat as we slide ..." (voice: vivianv2)
+06:38:48 🎤 TTS.GEN │ msg_1785645523835.wav
+06:38:48 🔌 EVENT │ [producer] Voice: Las Ketchup’s "The Ketchup Song" is inst...
+06:38:49 🎤 TTS.PLAY │ ▶ msg_1785645513454.wav
+06:39:10 🎤 TTS.PLAY │ ▶ msg_1785645518984.wav
+06:42:00 🎵 TRACK │ Dom Viktiga Skorna — Mannen i den gula hatten
+06:42:00 🔊 QUEUE │ music_q ← 0140-All.4.One-I.swear.mp3
+06:42:00 🎤 TTS.REQ │ "Dom Viktiga Skorna drops "Mannen i den gula hatten..." (voice: vivianv2)
+06:42:08 🎤 TTS.GEN │ msg_1785645720422.wav
+06:48:43 🎵 TRACK │ Peter Schilling — Major Tom (Völlig Losgelöst)
+06:48:43 🔊 QUEUE │ music_q ← 07 - America.Fuck Yeah - Bummer Remix.mp3
+06:48:44 🎤 TTS.REQ │ "Peter Schilling’s iconic "Major Tom (Völlig Losgel..." (voice: vivianv2)
+06:48:50 🎤 TTS.GEN │ msg_1785646124003.wav
+06:48:50 🎤 TTS.REQ │ "Those soaring vocal lines and cosmic synth loops r..." (voice: vivianv2)
+06:48:57 🎤 TTS.GEN │ msg_1785646130728.wav
+06:48:57 🎤 TTS.REQ │ "Let this orbit around us before the beat turns up ..." (voice: vivianv2)
+06:49:00 🎤 TTS.GEN │ msg_1785646137094.wav
+06:49:00 🔌 EVENT │ [producer] Voice: Peter Schilling’s iconic "Major Tom (Völ...
+06:49:00 🎤 TTS.PLAY │ ▶ msg_1785646124003.wav
+06:50:39 🎤 TTS.PLAY │ ▶ msg_1785646130728.wav
+06:53:39 🎵 TRACK │ Absolute Love 2002 — EVA Dahlgren - Too Many Beliefs
+06:53:40 🔊 QUEUE │ music_q ← 09 Rockin' Over The Beat.2.mp3
+06:53:40 🔊 QUEUE │ music_q ← 01_Eurythmics_-_Sweet_Dreams.mp3
+06:53:40 🔊 QUEUE │ music_q ← 0140-All.4.One-I.swear.mp3
+06:53:40 🔊 QUEUE │ music_q ← 07 - America.Fuck Yeah - Bummer Remix.mp3
+06:53:40 🔊 QUEUE │ music_q ← 188. Westlife Unbreakable (6 i nov).mp3
+06:53:40 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+06:54:17 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+06:54:17 🎤 TTS.REQ │ "Kaoma's 'Lambada' pulls the heat and Latin pulse b..." (voice: vivianv2)
+06:54:23 🎤 TTS.GEN │ msg_1785646457502.wav
+06:54:23 🎤 TTS.REQ │ "I swear I can hear the waves of the Caribbean in m..." (voice: vivianv2)
+06:54:27 🎤 TTS.GEN │ msg_1785646463463.wav
+06:54:27 🎤 TTS.REQ │ "Annie Lennox's 'Walking On Broken Glass' cuts with..." (voice: vivianv2)
+06:54:34 🎤 TTS.GEN │ msg_1785646467872.wav
+06:54:34 🎤 TTS.REQ │ "That sting hits hard, but the next track will turn..." (voice: vivianv2)
+06:54:40 🎤 TTS.GEN │ msg_1785646474126.wav
+06:54:40 🎤 TTS.REQ │ "U2's 'With or Without You' is a cinematic build—ev..." (voice: vivianv2)
+06:54:46 🎤 TTS.GEN │ msg_1785646480701.wav
+06:54:46 🎤 TTS.REQ │ "It reminds me of the way my heart flips from light..." (voice: vivianv2)
+06:54:50 🎤 TTS.GEN │ msg_1785646486332.wav
+06:54:51 🎤 TTS.REQ │ "This chiptune gem drops nostalgic synth beats stra..." (voice: vivianv2)
+06:54:57 🎤 TTS.GEN │ msg_1785646491030.wav
+06:54:57 🎤 TTS.REQ │ "Those flickering 8‑bit chips feel like sending a t..." (voice: vivianv2)
+06:55:01 🎤 TTS.GEN │ msg_1785646497415.wav
+06:56:30 🎵 TRACK │ Technotronic — Rockin' Over The Beat
+06:56:30 🔊 QUEUE │ music_q ← 24 kasabian - Empire.mp3
+07:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 07:00
+07:02:15 🎵 TRACK │ The_80s_Collection_-_CD_03 — _Eurythmics_-_Sweet_Dreams
+07:02:15 🎤 TTS.REQ │ "Booong! The time is 07:00" (voice: Aiden)
+07:02:17 🎤 TTS.GEN │ msg_1785646935593.wav
+07:02:17 🎤 TTS.PLAY │ ▶ msg_1785646935593.wav
+07:02:17 🔊 QUEUE │ music_q ← 0042-Kaoma-Lambada.mp3
+07:06:58 🎵 TRACK │ All 4 One — I swear
+07:06:58 🔊 QUEUE │ music_q ← 08 Come Back.2.mp3
+07:11:15 🎵 TRACK │ Team America: World Police - Original Motion Picture Soundtrack — America, Fuck Yeah (Bummer Remix)
+07:11:15 🔊 QUEUE │ music_q ← 026. Annie Lennox - Walking On Broken Glass.mp3
+07:12:05 🎵 TRACK │ Technotronic — Rockin' Over The Beat
+07:17:50 🎵 TRACK │ The_80s_Collection_-_CD_03 — _Eurythmics_-_Sweet_Dreams
+07:22:31 🎵 TRACK │ All 4 One — I swear
+07:26:48 🎵 TRACK │ Team America: World Police - Original Motion Picture Soundtrack — America, Fuck Yeah (Bummer Remix)
+07:27:38 🎵 TRACK │ Westlife — Unbreakable
+07:27:38 🔊 QUEUE │ music_q ← DBug CD197 feat. Goto80.mp3
+07:32:05 🎵 TRACK │ 24 kasabian — Empire
+07:32:05 🔊 QUEUE │ music_q ← 03 - With or Without You.mp3
+07:35:54 🎵 TRACK │ Kaoma — Lambada
+07:35:54 🔊 QUEUE │ music_q ← 02-propellerheads-spybreak_short_one-decible-apc.mp3
+07:35:54 🎤 TTS.REQ │ "Kaoma's 'Lambada' pulls the heat and Latin pulse b..." (voice: vivianv2)
+07:36:00 🎤 TTS.GEN │ msg_1785648954159.wav
+07:36:00 🎤 TTS.REQ │ "I swear I can hear the waves of the Caribbean in m..." (voice: vivianv2)
+07:36:04 🎤 TTS.GEN │ msg_1785648960162.wav
+07:36:04 🔌 EVENT │ [producer] Voice: Kaoma's 'Lambada' pulls the heat and Lat...
+07:36:04 🎤 TTS.PLAY │ ▶ msg_1785648954159.wav
+07:37:36 🎤 TTS.PLAY │ ▶ msg_1785648960162.wav
+07:39:17 🎵 TRACK │ Technotronic — Come Back
+07:39:17 🔊 QUEUE │ music_q ← 02 - New Year's Day.mp3
+07:44:08 🎵 TRACK │ Annie Lennox — Walking On Broken Glass
+07:44:08 🔊 QUEUE │ music_q ← 06 - Dirt Off Your Shoulder.mp3
+07:44:08 🎤 TTS.REQ │ "Annie Lennox's 'Walking On Broken Glass' cuts with..." (voice: vivianv2)
+07:44:15 🎤 TTS.GEN │ msg_1785649448451.wav
+07:44:15 🎤 TTS.REQ │ "That sting hits hard, but the next track will turn..." (voice: vivianv2)
+07:44:21 🎤 TTS.GEN │ msg_1785649455579.wav
+07:44:21 🔌 EVENT │ [producer] Queued between songs: That sting hits hard, but the next track...
+07:48:14 🎵 TRACK │ Dubmood/ — DBug CD197 feat. Goto80
+07:48:14 🎤 TTS.PLAY │ ▶ msg_1785649455579.wav
+07:48:15 🔊 QUEUE │ music_q ← 03 - With or Without You.mp3
+07:48:15 🔊 QUEUE │ music_q ← 02-propellerheads-spybreak_short_one-decible-apc.mp3
+07:48:15 🔊 QUEUE │ music_q ← 02 - New Year's Day.mp3
+07:48:15 🔊 QUEUE │ music_q ← 06 - Dirt Off Your Shoulder.mp3
+07:48:15 🔊 QUEUE │ music_q ← 04 - Tenacious D - Wonderboy.mp3
+07:48:15 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+07:48:41 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+07:48:41 🎤 TTS.REQ │ "Hollywood Beyond rides on shimmering synths that w..." (voice: vivianv2)
+07:48:49 🎤 TTS.GEN │ msg_1785649721601.wav
+07:48:49 🎤 TTS.REQ │ "Exactly, I’m already picturing neon billboards fla..." (voice: vivianv2)
+07:48:54 🎤 TTS.GEN │ msg_1785649729076.wav
+07:48:54 🎤 TTS.REQ │ "The Prodigy propels us forward—think of those puls..." (voice: vivianv2)
+07:48:59 🎤 TTS.GEN │ msg_1785649734417.wav
+07:49:00 🎤 TTS.REQ │ "Yeah, that’s the kind of electric charge we love t..." (voice: vivianv2)
+07:49:04 🎤 TTS.GEN │ msg_1785649740012.wav
+07:49:04 🎤 TTS.REQ │ "Robin Beck’s Save Up All Your Tears hammers out th..." (voice: vivianv2)
+07:49:10 🎤 TTS.GEN │ msg_1785649744293.wav
+07:49:10 🎤 TTS.REQ │ "And we’re right where nostalgia meets the present—..." (voice: vivianv2)
+07:49:14 🎤 TTS.GEN │ msg_1785649750512.wav
+07:49:14 🎤 TTS.REQ │ "Sublime’s new track drops a laid‑back blues vibe t..." (voice: vivianv2)
+07:49:21 🎤 TTS.GEN │ msg_1785649754951.wav
+07:49:21 🎤 TTS.REQ │ "Cool contrast! It feels like surf meets soul—perfe..." (voice: vivianv2)
+07:49:25 🎤 TTS.GEN │ msg_1785649761478.wav
+07:50:25 🎵 TRACK │ U2 — With or Without You
+07:50:25 🔊 QUEUE │ music_q ← 086. Hollywood Beyond - What's The Colour Of Money.mp3
+07:55:16 🎵 TRACK │ VA-The_Matrix_Soundtrack-1999-Decible-APC — propellerheads-spybreak_short_one-decible-apc
+07:55:16 🔊 QUEUE │ music_q ← 047 - Simon & Garfunkel - Bridge Over Troubled Water.mp3
+07:57:38 ⚡ START │ Stuck-stream watchdog strike 1
+07:57:40 🎵 TRACK │ U2 — New Year's Day
+07:57:40 🔊 QUEUE │ music_q ← 08-the_prodigy-medusas_path-esc.mp3
+08:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 08:00
+08:01:53 🎵 TRACK │ Jay-Z + DJ Danger Mouse — Dirt Off Your Shoulder
+08:01:53 🎤 TTS.REQ │ "Booong! The time is 08:00" (voice: Aiden)
+08:01:55 🎤 TTS.GEN │ msg_1785650513689.wav
+08:01:55 🎤 TTS.PLAY │ ▶ msg_1785650513689.wav
+08:01:55 🔊 QUEUE │ music_q ← 032. Robin Beck - Save Up All Your Tears.mp3
+08:05:48 🎵 TRACK │ U2 — With or Without You
+08:10:39 🎵 TRACK │ VA-The_Matrix_Soundtrack-1999-Decible-APC — propellerheads-spybreak_short_one-decible-apc
+08:13:01 ⚡ START │ Stuck-stream watchdog strike 1
+08:13:03 🎵 TRACK │ U2 — New Year's Day
+08:17:16 🎵 TRACK │ Jay-Z + DJ Danger Mouse — Dirt Off Your Shoulder
+08:21:11 🎵 TRACK │ Tenacious D — Wonderboy
+08:21:11 🔊 QUEUE │ music_q ← Sublime-16.mp3
+08:21:11 🎤 TTS.REQ │ "Let’s turn back to the ’80s with Musical Youth pas..." (voice: vivianv2)
+08:21:17 🎤 TTS.GEN │ msg_1785651671218.wav
+08:21:17 🎤 TTS.REQ │ "Feel that beat? We’re reviving a timeless riff, an..." (voice: vivianv2)
+08:21:22 🎤 TTS.GEN │ msg_1785651677592.wav
+08:21:22 🎤 TTS.REQ │ "Sun Decade’s I’m Alone Original injects electronic..." (voice: vivianv2)
+08:21:28 🎤 TTS.GEN │ msg_1785651682934.wav
+08:21:28 🎤 TTS.REQ │ "And that keeps everything humming—now let’s enjoy ..." (voice: vivianv2)
+08:21:33 🎤 TTS.GEN │ msg_1785651688537.wav
+08:25:11 🎵 TRACK │ Hollywood Beyond — What's The Colour Of Money
+08:25:11 🔊 QUEUE │ music_q ← 11_mobbDeep_shookOnesPtII.mp3
+08:25:11 🎤 TTS.REQ │ "Hollywood Beyond rides on shimmering synths that w..." (voice: vivianv2)
+08:25:18 🎤 TTS.GEN │ msg_1785651911944.wav
+08:25:18 🎤 TTS.REQ │ "Exactly, I’m already picturing neon billboards fla..." (voice: vivianv2)
+08:25:25 🎤 TTS.GEN │ msg_1785651918845.wav
+08:25:25 🔌 EVENT │ [producer] Voice: Hollywood Beyond rides on shimmering syn...
+08:25:26 🎤 TTS.PLAY │ ▶ msg_1785651911944.wav
+08:28:36 🎵 TRACK │ Simon And Garfunkel — Bridge Over Troubled Water
+08:28:37 🔊 QUEUE │ music_q ← 09_Musical_Youth_-_Pass_The_Dutchie.mp3
+08:33:25 🎵 TRACK │ The Prodigy — Medusa's Path
+08:33:25 🔊 QUEUE │ music_q ← 09 Rockin' Over The Beat.mp3
+08:33:25 🎤 TTS.REQ │ "The Prodigy propels us forward—think of those puls..." (voice: vivianv2)
+08:33:30 🎤 TTS.GEN │ msg_1785652405895.wav
+08:33:30 🎤 TTS.REQ │ "Yeah, that’s the kind of electric charge we love t..." (voice: vivianv2)
+08:33:34 🎤 TTS.GEN │ msg_1785652410942.wav
+08:34:14 🎤 TTS.PLAY │ ▶ msg_1785652405895.wav
+08:39:31 🎵 TRACK │ Robin Beck — Save Up All Your Tears
+08:39:31 🔊 QUEUE │ music_q ← 208-sun_decade-im_alone_original-mil.mp3
+08:39:31 🎤 TTS.REQ │ "Robin Beck’s Save Up All Your Tears hammers out th..." (voice: vivianv2)
+08:39:37 🎤 TTS.GEN │ msg_1785652771148.wav
+08:39:37 🎤 TTS.REQ │ "And we’re right where nostalgia meets the present—..." (voice: vivianv2)
+08:39:42 🎤 TTS.GEN │ msg_1785652777693.wav
+08:39:42 🔌 EVENT │ [producer] Voice: Robin Beck’s Save Up All Your Tears hamm...
+08:39:42 🎤 TTS.PLAY │ ▶ msg_1785652771148.wav
+08:43:17 🎵 TRACK │ Sublime — New Song
+08:43:17 🔊 QUEUE │ music_q ← 11_mobbDeep_shookOnesPtII.mp3
+08:43:17 🔊 QUEUE │ music_q ← 09_Musical_Youth_-_Pass_The_Dutchie.mp3
+08:43:17 🔊 QUEUE │ music_q ← 09 Rockin' Over The Beat.mp3
+08:43:17 🔊 QUEUE │ music_q ← 208-sun_decade-im_alone_original-mil.mp3
+08:43:17 🔊 QUEUE │ music_q ← 127. Klerks - Shame.mp3
+08:43:17 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+08:43:45 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+08:43:45 🎤 TTS.REQ │ "Ella Fitzgerald whispers each note with that sweet..." (voice: vivianv2)
+08:43:51 🎤 TTS.GEN │ msg_1785653025643.wav
+08:43:51 🎤 TTS.REQ │ "I can feel the piano rolling like fresh coffee ste..." (voice: vivianv2)
+08:43:56 🎤 TTS.GEN │ msg_1785653031074.wav
+08:43:56 🎤 TTS.REQ │ "And just as a jazz standard, this track keeps the ..." (voice: vivianv2)
+08:44:01 🎤 TTS.GEN │ msg_1785653036491.wav
+08:44:01 🎤 TTS.REQ │ "Let’s keep that groove rolling as we slip into our..." (voice: vivianv2)
+08:44:04 🎤 TTS.GEN │ msg_1785653041814.wav
+08:44:04 🎤 TTS.REQ │ "Boney M's 'EL LUTE' throws us straight back to the..." (voice: vivianv2)
+08:44:11 🎤 TTS.GEN │ msg_1785653044863.wav
+08:44:11 🎤 TTS.REQ │ "Aly & Fila are flipping the script with a thundero..." (voice: vivianv2)
+08:44:16 🎤 TTS.GEN │ msg_1785653051317.wav
+08:44:16 🎤 TTS.REQ │ "That drop reminds me of early synthwave—precision ..." (voice: vivianv2)
+08:44:20 🎤 TTS.GEN │ msg_1785653056104.wav
+08:44:21 🎤 TTS.REQ │ "Buddy Holly's 'That'll Be The Day' rolls out the n..." (voice: vivianv2)
+08:44:26 🎤 TTS.GEN │ msg_1785653061003.wav
+08:44:26 🎤 TTS.REQ │ "And wow—such early rock charm still cracks in toda..." (voice: vivianv2)
+08:44:30 🎤 TTS.GEN │ msg_1785653066391.wav
+08:46:26 🎵 TRACK │ ni9e - XMIX — Shook Ones Pt. II
+08:46:26 🔊 QUEUE │ music_q ← 01 - Ella Fitzgerald - Ev'ry Time We Say Goodbye.mp3
+08:51:47 🎵 TRACK │ The_80s_Collection_-_CD_01 — _Musical_Youth_-_Pass_The_Dutchie
+08:51:47 🔊 QUEUE │ music_q ← 048. Guns N' Roses - November Rain.mp3
+08:55:05 🎵 TRACK │ Technotronic — Rockin' Over The Beat
+08:55:05 🔊 QUEUE │ music_q ← 0053-Boney.M.-El.Lute.mp3
+09:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 09:00
+09:00:50 🎵 TRACK │ Sun Decade — I'm Alone Original
+09:00:50 🎤 TTS.REQ │ "Booong! The time is 09:00" (voice: Aiden)
+09:00:52 🎤 TTS.GEN │ msg_1785654050826.wav
+09:00:52 🎤 TTS.PLAY │ ▶ msg_1785654050826.wav
+09:00:52 🔊 QUEUE │ music_q ← 206-aly_and_fila-eye_of_horus_-_ronski_speed_rmx-mil.mp3
+09:04:18 🎵 TRACK │ ni9e - XMIX — Shook Ones Pt. II
+09:09:39 🎵 TRACK │ The_80s_Collection_-_CD_01 — _Musical_Youth_-_Pass_The_Dutchie
+09:12:58 🎵 TRACK │ Technotronic — Rockin' Over The Beat
+09:18:43 🎵 TRACK │ Sun Decade — I'm Alone Original
+09:22:10 🎵 TRACK │ The Klerks — Shame
+09:22:10 🔊 QUEUE │ music_q ← 12 Bluestring (Bonus Track).mp3
+09:22:10 🎤 TTS.REQ │ "Lab 7's 'Taboo' lingers in the unknown; genre asid..." (voice: vivianv2)
+09:22:15 🎤 TTS.GEN │ msg_1785655330388.wav
+09:22:15 🎤 TTS.REQ │ "Reggae grooves from Million Stylez drop us into a ..." (voice: vivianv2)
+09:22:21 🎤 TTS.GEN │ msg_1785655335458.wav
+09:22:21 🎤 TTS.REQ │ "And you can almost hear the sunrise, syncopated li..." (voice: vivianv2)
+09:22:25 🎤 TTS.GEN │ msg_1785655341233.wav
+09:22:25 🎤 TTS.REQ │ "'Mas' by Kinky closes our retro day with an energe..." (voice: vivianv2)
+09:22:30 🎤 TTS.GEN │ msg_1785655345570.wav
+09:22:30 🎤 TTS.REQ │ "We’re wrapping up like a perfect encore—nostalgic ..." (voice: vivianv2)
+09:22:35 🎤 TTS.GEN │ msg_1785655350640.wav
+09:25:33 🎵 TRACK │ Ella Fitzgerald — Ev'ry Time We Say Goodbye
+09:25:33 🔊 QUEUE │ music_q ← 039 - Buddy Holly And The Crickets - That'll Be The Day.mp3
+09:25:33 🎤 TTS.REQ │ "Ella Fitzgerald whispers each note with that sweet..." (voice: vivianv2)
+09:25:38 🎤 TTS.GEN │ msg_1785655533131.wav
+09:25:38 🎤 TTS.REQ │ "I can feel the piano rolling like fresh coffee ste..." (voice: vivianv2)
+09:25:43 🎤 TTS.GEN │ msg_1785655538255.wav
+09:25:43 🎤 TTS.REQ │ "And just as a jazz standard, this track keeps the ..." (voice: vivianv2)
+09:25:48 🎤 TTS.GEN │ msg_1785655543256.wav
+09:25:48 🎤 TTS.REQ │ "Let’s keep that groove rolling as we slip into our..." (voice: vivianv2)
+09:25:51 🎤 TTS.GEN │ msg_1785655548911.wav
+09:25:51 🔌 EVENT │ [producer] Voice: Ella Fitzgerald whispers each note with ...
+09:25:52 🎤 TTS.PLAY │ ▶ msg_1785655533131.wav
+09:25:52 🔌 EVENT │ [producer] Queued between songs: Let’s keep that groove rolling as we sli...
+09:26:25 🎤 TTS.PLAY │ ▶ msg_1785655538255.wav
+09:29:03 🎵 TRACK │ Guns N' Roses — November Rain
+09:29:03 🎤 TTS.PLAY │ ▶ msg_1785655548911.wav
+09:29:03 🔊 QUEUE │ music_q ← Lab 7 - Taboo - 09 - Taboo.mp3
+09:37:49 🎵 TRACK │ BONEY M. — EL LUTE
+09:37:49 🔊 QUEUE │ music_q ← 06 Million Stylez.mp3
+09:37:49 🎤 TTS.REQ │ "Boney M's 'EL LUTE' throws us straight back to the..." (voice: vivianv2)
+09:37:55 🎤 TTS.GEN │ msg_1785656269392.wav
+09:38:43 🎤 TTS.PLAY │ ▶ msg_1785656269392.wav
+09:42:08 🎵 TRACK │ Aly & Fila — Eye Of Horus - Ronski Speed Rm
+09:42:08 🔊 QUEUE │ music_q ← 307-kinky-mas-mil.mp3
+09:42:08 🎤 TTS.REQ │ "Aly & Fila are flipping the script with a thundero..." (voice: vivianv2)
+09:42:12 🎤 TTS.GEN │ msg_1785656528232.wav
+09:42:12 🎤 TTS.REQ │ "That drop reminds me of early synthwave—precision ..." (voice: vivianv2)
+09:42:17 🎤 TTS.GEN │ msg_1785656532888.wav
+09:42:17 🔌 EVENT │ [producer] Voice: Aly & Fila are flipping the script with ...
+09:42:18 🎤 TTS.PLAY │ ▶ msg_1785656528232.wav
+09:43:01 🎤 TTS.PLAY │ ▶ msg_1785656532888.wav
+09:51:10 🎵 TRACK │ Technotronic — Bluestring (Bonus Track)
+09:51:10 🔊 QUEUE │ music_q ← 039 - Buddy Holly And The Crickets - That'll Be The Day.mp3
+09:51:10 🔊 QUEUE │ music_q ← Lab 7 - Taboo - 09 - Taboo.mp3
+09:51:10 🔊 QUEUE │ music_q ← 06 Million Stylez.mp3
+09:51:10 🔊 QUEUE │ music_q ← 307-kinky-mas-mil.mp3
+09:51:10 🔊 QUEUE │ music_q ← 0846-Rockwell-Somebodys.Watching.Me.mp3
+09:51:10 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+09:51:42 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+09:51:42 🎤 TTS.REQ │ "No Doubt swings back into town with a gritty punk ..." (voice: vivianv2)
+09:51:47 🎤 TTS.GEN │ msg_1785657102187.wav
+09:51:47 🎤 TTS.REQ │ "Absolutely—it's a perfect reminder of how rebellio..." (voice: vivianv2)
+09:51:52 🎤 TTS.GEN │ msg_1785657107850.wav
+09:51:52 🎤 TTS.REQ │ "And as they layer that guitar crunch, you’re insta..." (voice: vivianv2)
+09:51:58 🎤 TTS.GEN │ msg_1785657112957.wav
+09:51:58 🎤 TTS.REQ │ "Crystal Method takes us full throttle into early-2..." (voice: vivianv2)
+09:52:04 🎤 TTS.GEN │ msg_1785657118786.wav
+09:52:04 🎤 TTS.REQ │ "Right—if only your day had an extra beat per minut..." (voice: vivianv2)
+09:52:08 🎤 TTS.GEN │ msg_1785657124587.wav
+09:52:08 🎤 TTS.REQ │ "Soft Cell’s 'Tainted Love' is a timeless love-obse..." (voice: vivianv2)
+09:52:13 🎤 TTS.GEN │ msg_1785657128544.wav
+09:52:13 🎤 TTS.REQ │ "Yeah, that warped synth hook gives you the nostalg..." (voice: vivianv2)
+09:52:18 🎤 TTS.GEN │ msg_1785657133749.wav
+09:52:19 🎤 TTS.REQ │ "Jürgen Paape invites us to a minimal electronic vo..." (voice: vivianv2)
+09:52:25 🎤 TTS.GEN │ msg_1785657139021.wav
+09:52:25 🎤 TTS.REQ │ "The atmosphere feels like a chilled café in Berlin..." (voice: vivianv2)
+09:52:29 🎤 TTS.GEN │ msg_1785657145599.wav
+09:52:29 🎤 TTS.REQ │ "It’s low-key but powerful, echoing the chill we’re..." (voice: vivianv2)
+09:52:33 🎤 TTS.GEN │ msg_1785657149738.wav
+09:54:00 🎵 TRACK │ Buddy Holly And The Crickets — That'll Be The Day
+09:54:00 🔊 QUEUE │ music_q ← 0543-Dante.Thomas.feat..Pras-Miss.California.mp3
+09:56:13 🎵 TRACK │ Lab 7 — Taboo
+09:56:13 🔊 QUEUE │ music_q ← 099. No Doubt feat. Bounty Killer - Hey Baby.mp3
+10:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 10:00
+10:00:43 🎵 TRACK │ Million Stylez — 06 In This time
+10:00:43 🎤 TTS.REQ │ "Booong! The time is 10:00" (voice: Aiden)
+10:00:45 🎤 TTS.GEN │ msg_1785657643879.wav
+10:00:45 🎤 TTS.PLAY │ ▶ msg_1785657643879.wav
+10:00:45 🔊 QUEUE │ music_q ← 054. Def Leppard - Have You Ever Needed Someone So Bad.mp3
+10:02:11 🎵 TRACK │ Kinky — Mas
+10:02:11 🔊 QUEUE │ music_q ← Crystal Method - Tweekend - 10 - Blowout.mp3
+10:06:24 🎵 TRACK │ Buddy Holly And The Crickets — That'll Be The Day
+10:08:36 🎵 TRACK │ Lab 7 — Taboo
+10:13:07 🎵 TRACK │ Million Stylez — 06 In This time
+10:14:36 🎵 TRACK │ Kinky — Mas
+10:18:48 🎵 TRACK │ Rockwell — Somebody's Watching Me
+10:18:48 🔊 QUEUE │ music_q ← maurice_williams_and_the_zodiacs-stay.mp3
+10:18:48 🎤 TTS.REQ │ "Vanilla Ice revives 'Play That Funky Music', bring..." (voice: vivianv2)
+10:18:53 🎤 TTS.GEN │ msg_1785658728908.wav
+10:18:53 🎤 TTS.REQ │ "You can’t resist snapping your shoes on the beat—c..." (voice: vivianv2)
+10:18:58 🎤 TTS.GEN │ msg_1785658733788.wav
+10:18:58 🎤 TTS.REQ │ "It’s a perfect finale before we let the sun climb ..." (voice: vivianv2)
+10:19:01 🎤 TTS.GEN │ msg_1785658738307.wav
+10:22:43 🎵 TRACK │ Dante Thomas feat. Pras — Miss California
+10:22:43 🔊 QUEUE │ music_q ← 0146-Soft.Cell-Tainted.Love.mp3
+10:26:48 🎵 TRACK │ No Doubt — hey baby (featuring bounty kil
+10:26:48 🔊 QUEUE │ music_q ← 0061-Salt.n.Pepa-Let.s.Talk.About.Sex.mp3
+10:26:48 🎤 TTS.REQ │ "No Doubt swings back into town with a gritty punk ..." (voice: vivianv2)
+10:26:54 🎤 TTS.GEN │ msg_1785659208510.wav
+10:26:54 🎤 TTS.REQ │ "Absolutely—it's a perfect reminder of how rebellio..." (voice: vivianv2)
+10:26:59 🎤 TTS.GEN │ msg_1785659214757.wav
+10:26:59 🎤 TTS.REQ │ "And as they layer that guitar crunch, you’re insta..." (voice: vivianv2)
+10:27:05 🎤 TTS.GEN │ msg_1785659219992.wav
+10:27:05 🔌 EVENT │ [producer] Voice: No Doubt swings back into town with a gr...
+10:27:06 🎤 TTS.PLAY │ ▶ msg_1785659208510.wav
+10:27:34 🎤 TTS.PLAY │ ▶ msg_1785659214757.wav
+10:30:15 🎵 TRACK │ Def Leppard — Have You Ever Needed Someone So Bad
+10:30:15 🔊 QUEUE │ music_q ← 310-jurgen_paape-so_weit_wie_noch_nicht-mil.mp3
+10:35:27 🎵 TRACK │ The Crystal Method — Blowout
+10:35:28 🔊 QUEUE │ music_q ← 080. Vanilla Ice - Play That Funky Music.mp3
+10:35:28 🎤 TTS.REQ │ "Crystal Method takes us full throttle into early-2..." (voice: vivianv2)
+10:35:34 🎤 TTS.GEN │ msg_1785659728034.wav
+10:35:34 🎤 TTS.REQ │ "Right—if only your day had an extra beat per minut..." (voice: vivianv2)
+10:35:38 🎤 TTS.GEN │ msg_1785659734111.wav
+10:35:38 🔌 EVENT │ [producer] Voice: Crystal Method takes us full throttle in...
+10:35:38 🎤 TTS.PLAY │ ▶ msg_1785659728034.wav
+10:35:39 🔌 EVENT │ [producer] Queued between songs: Right—if only your day had an extra beat...
+10:43:20 🎵 TRACK │ Maurice Williams And The Zodia — Stay
+10:43:20 🎤 TTS.PLAY │ ▶ msg_1785659734111.wav
+10:43:21 🔊 QUEUE │ music_q ← 0146-Soft.Cell-Tainted.Love.mp3
+10:43:21 🔊 QUEUE │ music_q ← 0061-Salt.n.Pepa-Let.s.Talk.About.Sex.mp3
+10:43:21 🔊 QUEUE │ music_q ← 310-jurgen_paape-so_weit_wie_noch_nicht-mil.mp3
+10:43:21 🔊 QUEUE │ music_q ← 080. Vanilla Ice - Play That Funky Music.mp3
+10:43:21 🔊 QUEUE │ music_q ← 0985-Raffaella.Carra-A.far.lamore.cominica.tu.mp3
+10:43:21 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+10:43:47 🤖 LLM.REPLY │ "{"segments":[{"song_index":0,"voice":[{"character"..."
+10:43:47 🎤 TTS.REQ │ "Tenacious D are back with a comedic power-hitter –..." (voice: vivianv2)
+10:43:53 🎤 TTS.GEN │ msg_1785660227933.wav
+10:43:53 🎤 TTS.REQ │ "The playful riff gives that chiptune feel, echoing..." (voice: vivianv2)
+10:43:59 🎤 TTS.GEN │ msg_1785660233083.wav
+10:43:59 🎤 TTS.REQ │ "Definitely keep that cheeky vibe on repeat; the so..." (voice: vivianv2)
+10:44:03 🎤 TTS.GEN │ msg_1785660239337.wav
+10:44:55 🎵 TRACK │ Soft Cell — Tainted Love
+10:44:55 🔊 QUEUE │ music_q ← Tenacious D - 20 Double Team.mp3
+10:47:32 🎵 TRACK │ Salt'n Pepa — Let's Talk About Sex
+10:47:32 🔊 QUEUE │ music_q ← 0035-Puff.Daddy.Feat..Faith.Evans-I.ll.Be.Missing.You.mp3
+10:50:58 🎵 TRACK │ Jurgen Paape — So Weit Wie Noch Nicht'
+10:50:58 🔊 QUEUE │ music_q ← 1994_50 Ice MC - Think About The Way.mp3
+10:56:51 🎵 TRACK │ Vanilla Ice — Play That Funky Music
+10:56:51 🔊 QUEUE │ music_q ← 043. UB40 - Kingston Town.mp3
+11:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 11:00
+11:01:30 🎵 TRACK │ Soft Cell — Tainted Love
+11:01:30 🎤 TTS.REQ │ "Booong! The time is 11:00" (voice: Aiden)
+11:01:33 🎤 TTS.GEN │ msg_1785661290693.wav
+11:01:33 🎤 TTS.PLAY │ ▶ msg_1785661290693.wav
+11:04:07 🎵 TRACK │ Salt'n Pepa — Let's Talk About Sex
+11:07:32 🎵 TRACK │ Jurgen Paape — So Weit Wie Noch Nicht'
+11:13:25 🎵 TRACK │ Vanilla Ice — Play That Funky Music
+11:18:04 🎵 TRACK │ Raffaella Carra — A far l'amore cominica tu (Liebelei)
+11:18:04 🔊 QUEUE │ music_q ← 04 Get up (Happy Jack Mix).2.mp3
+11:20:42 🎵 TRACK │ Tenacious D — Double Team
+11:20:42 🔊 QUEUE │ music_q ← 306-electrocardio-subio_la_espiral-mil.mp3
+11:20:42 🎤 TTS.REQ │ "Tenacious D are back with a comedic power-hitter –..." (voice: vivianv2)
+11:20:47 🎤 TTS.GEN │ msg_1785662442746.wav
+11:20:47 🎤 TTS.REQ │ "The playful riff gives that chiptune feel, echoing..." (voice: vivianv2)
+11:20:53 🎤 TTS.GEN │ msg_1785662447431.wav
+11:20:53 🎤 TTS.REQ │ "Definitely keep that cheeky vibe on repeat; the so..." (voice: vivianv2)
+11:20:58 🎤 TTS.GEN │ msg_1785662453377.wav
+11:20:58 🔌 EVENT │ [producer] Voice: Tenacious D are back with a comedic powe...
+11:20:58 🎤 TTS.PLAY │ ▶ msg_1785662442746.wav
+11:21:20 🎤 TTS.PLAY │ ▶ msg_1785662447431.wav
+11:23:47 🎵 TRACK │ Puff Daddy — I'll Be Missing You
+11:23:47 🔊 QUEUE │ music_q ← 097. Antique - Time To Say Goodbye (Alli Mia Fora).mp3
+11:28:52 🎵 TRACK │ 1994_50 Ice MC — Think About The Way
+11:28:52 🔊 QUEUE │ music_q ← 195 - The Chantels - Maybe.mp3
+11:33:07 🎵 TRACK │ UB40 — Kingston Town
+11:33:07 🔊 QUEUE │ music_q ← Mills Brothers - Up A Lazy River.mp3
+11:36:49 🎵 TRACK │ Technotronic — Get up (Happy Jack Mix)
+11:36:50 🔊 QUEUE │ music_q ← 306-electrocardio-subio_la_espiral-mil.mp3
+11:36:50 🔊 QUEUE │ music_q ← 097. Antique - Time To Say Goodbye (Alli Mia Fora).mp3
+11:36:50 🔊 QUEUE │ music_q ← 195 - The Chantels - Maybe.mp3
+11:36:50 🔊 QUEUE │ music_q ← Mills Brothers - Up A Lazy River.mp3
+11:36:50 🔊 QUEUE │ music_q ← 0291-Laura.Branigan-Self.Control.mp3
+11:36:50 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+11:37:18 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+11:37:18 🎤 TTS.REQ │ "Yahel takes us from the dance floors to a sonic be..." (voice: vivianv2)
+11:37:25 🎤 TTS.GEN │ msg_1785663438170.wav
+11:37:25 🎤 TTS.REQ │ "It’s like a late‑night drive on vinyl with a splas..." (voice: vivianv2)
+11:37:29 🎤 TTS.GEN │ msg_1785663445153.wav
+11:37:29 🎤 TTS.REQ │ "Sir Mix-A-Lot keeps it real with an unapologetical..." (voice: vivianv2)
+11:37:34 🎤 TTS.GEN │ msg_1785663449131.wav
+11:37:34 🎤 TTS.REQ │ "And I love how he doesn’t care about the critics, ..." (voice: vivianv2)
+11:37:38 🎤 TTS.GEN │ msg_1785663454580.wav
+11:37:38 🎤 TTS.REQ │ "Exactly; it’s a celebration of self‑confidence tha..." (voice: vivianv2)
+11:37:42 🎤 TTS.GEN │ msg_1785663458632.wav
+11:37:42 🎤 TTS.REQ │ "And I feel that confidence is timeless—right?" (voice: vivianv2)
+11:37:45 🎤 TTS.GEN │ msg_1785663462444.wav
+11:37:45 🎤 TTS.REQ │ "Green Day’s “Geek Stint” throws back the punk powe..." (voice: vivianv2)
+11:37:51 🎤 TTS.GEN │ msg_1785663465153.wav
+11:37:51 🎤 TTS.REQ │ "I can feel myself headbanging even though it’s sti..." (voice: vivianv2)
+11:37:54 🎤 TTS.GEN │ msg_1785663471376.wav
+11:37:54 🎤 TTS.REQ │ "Bananarama’s disco‑pop hook on “Love in the First ..." (voice: vivianv2)
+11:37:59 🎤 TTS.GEN │ msg_1785663474580.wav
+11:37:59 🎤 TTS.REQ │ "Right? Those synth lines feel just as fresh as a n..." (voice: vivianv2)
+11:38:03 🎤 TTS.GEN │ msg_1785663479847.wav
+11:38:03 🎤 TTS.REQ │ "And that chorus is one of my guilty pleasures—can’..." (voice: vivianv2)
+11:38:07 🎤 TTS.GEN │ msg_1785663483580.wav
+11:44:03 🎵 TRACK │ Electrocardio — Subio La Espiral
+11:44:03 🔊 QUEUE │ music_q ← 125. Madonna - Nothing Fails.mp3
+11:48:00 🎵 TRACK │ Antique — Time To Say Goodbye (Alli Mia Fora)
+11:48:00 🔊 QUEUE │ music_q ← 02._Yahel_-_Cosmic_Waves-eMi.mp3
+11:51:46 🎵 TRACK │ The Chantels — Maybe
+11:51:46 🔊 QUEUE │ music_q ← Sir-Mix-A-Lot -  Baby Got Back.mp3
+11:54:35 🎵 TRACK │ Mills Brothers — Up A Lazy River
+11:54:35 🔊 QUEUE │ music_q ← Z-Trip-Breakfast_Club.mp3
+11:57:40 🎵 TRACK │ Electrocardio — Subio La Espiral
+12:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 12:00
+12:01:36 🎵 TRACK │ Antique — Time To Say Goodbye (Alli Mia Fora)
+12:01:36 🎤 TTS.REQ │ "Booong! The time is 12:00" (voice: Aiden)
+12:01:38 🎤 TTS.GEN │ msg_1785664896754.wav
+12:01:38 🎤 TTS.PLAY │ ▶ msg_1785664896754.wav
+12:05:24 🎵 TRACK │ The Chantels — Maybe
+12:08:11 🎵 TRACK │ Mills Brothers — Up A Lazy River
+12:11:17 🎵 TRACK │ Laura Branigan — Self Control
+12:11:17 🔊 QUEUE │ music_q ← 1995_33 Green Day - Geek Stink Breath.mp3
+12:11:17 🎤 TTS.REQ │ "Celtic Emotions gives “We Have a Dream” an indie‑c..." (voice: vivianv2)
+12:11:24 🎤 TTS.GEN │ msg_1785665477927.wav
+12:11:24 🎤 TTS.REQ │ "It’s the perfect combination of dreaminess and Cel..." (voice: vivianv2)
+12:11:29 🎤 TTS.GEN │ msg_1785665484209.wav
+12:11:29 🎤 TTS.REQ │ "Shine on by Sha‑Boom is a bright burst of pop-rock..." (voice: vivianv2)
+12:11:34 🎤 TTS.GEN │ msg_1785665489451.wav
+12:11:34 🎤 TTS.REQ │ "I’m ready to jump and shout—this track keeps the g..." (voice: vivianv2)
+12:11:37 🎤 TTS.GEN │ msg_1785665494108.wav
+12:11:37 🎤 TTS.REQ │ "Let’s finish strong; remember, you’re in control e..." (voice: vivianv2)
+12:11:42 🎤 TTS.GEN │ msg_1785665497711.wav
+12:15:18 🎵 TRACK │ Madonna — Nothing Fails
+12:15:18 🔊 QUEUE │ music_q ← 018. Bananarama - Love In The First Degree.mp3
+12:20:03 🎵 TRACK │ Yahel — Cosmic Waves
+12:20:03 🔊 QUEUE │ music_q ← 06 - Sarah Vaughan - Summertime.mp3
+12:20:03 🎤 TTS.REQ │ "Yahel takes us from the dance floors to a sonic be..." (voice: vivianv2)
+12:20:09 🎤 TTS.GEN │ msg_1785666003613.wav
+12:20:09 🎤 TTS.REQ │ "It’s like a late‑night drive on vinyl with a splas..." (voice: vivianv2)
+12:20:13 🎤 TTS.GEN │ msg_1785666009524.wav
+12:20:13 🔌 EVENT │ [producer] Voice: Yahel takes us from the dance floors to ...
+12:20:14 🎤 TTS.PLAY │ ▶ msg_1785666003613.wav
+12:21:25 🎤 TTS.PLAY │ ▶ msg_1785666009524.wav
+12:27:37 🎵 TRACK │ Sir Mix-A-Lot — Baby Got Back
+12:27:37 🔊 QUEUE │ music_q ← 211_we_have_a_dream-mod.mp3
+12:27:37 🎤 TTS.REQ │ "Sir Mix-A-Lot keeps it real with an unapologetical..." (voice: vivianv2)
+12:27:43 🎤 TTS.GEN │ msg_1785666457665.wav
+12:27:43 🎤 TTS.REQ │ "And I love how he doesn’t care about the critics, ..." (voice: vivianv2)
+12:27:47 🎤 TTS.GEN │ msg_1785666463531.wav
+12:27:47 🎤 TTS.REQ │ "Exactly; it’s a celebration of self‑confidence tha..." (voice: vivianv2)
+12:27:51 🎤 TTS.GEN │ msg_1785666467693.wav
+12:27:51 🎤 TTS.REQ │ "And I feel that confidence is timeless—right?" (voice: vivianv2)
+12:27:54 🎤 TTS.GEN │ msg_1785666471666.wav
+12:28:40 🎤 TTS.PLAY │ ▶ msg_1785666457665.wav
+12:29:01 🎤 TTS.PLAY │ ▶ msg_1785666463531.wav
+12:31:57 🎵 TRACK │ mp3 — Z-Trip-Breakfast_Club
+12:31:57 🔊 QUEUE │ music_q ← 090. Sha-Boom - R.O.C.K.mp3
+12:36:44 🎵 TRACK │ 1995_33 Green Day — Geek Stink Breath
+12:36:44 🔊 QUEUE │ music_q ← 018. Bananarama - Love In The First Degree.mp3
+12:36:44 🔊 QUEUE │ music_q ← 06 - Sarah Vaughan - Summertime.mp3
+12:36:44 🔊 QUEUE │ music_q ← 211_we_have_a_dream-mod.mp3
+12:36:44 🔊 QUEUE │ music_q ← 090. Sha-Boom - R.O.C.K.mp3
+12:36:44 🔊 QUEUE │ music_q ← 110-howlin_wolf-smokestack_lightnin-esc.mp3
+12:36:44 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+12:37:14 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+12:37:14 🎤 TTS.REQ │ "Switching gears to Torfrock's 'Beinhart' – a genui..." (voice: vivianv2)
+12:37:20 🎤 TTS.GEN │ msg_1785667034816.wav
+12:37:20 🎤 TTS.REQ │ "The 90s vibes bounce off every corner, and the bas..." (voice: vivianv2)
+12:37:25 🎤 TTS.GEN │ msg_1785667040687.wav
+12:37:25 🎤 TTS.REQ │ "Stick around; next we’re going full-on electronic." (voice: vivianv2)
+12:37:28 🎤 TTS.GEN │ msg_1785667045483.wav
+12:37:28 🎤 TTS.REQ │ "Now for some digital soul. Beats International wit..." (voice: vivianv2)
+12:37:34 🎤 TTS.GEN │ msg_1785667048384.wav
+12:37:34 🎤 TTS.REQ │ "That track just re‑energized the airwaves; keep th..." (voice: vivianv2)
+12:37:37 🎤 TTS.GEN │ msg_1785667054462.wav
+12:37:38 🎤 TTS.REQ │ "Faithless drops into the midnight trance with 'Ins..." (voice: vivianv2)
+12:37:42 🎤 TTS.GEN │ msg_1785667058007.wav
+12:37:42 🎤 TTS.REQ │ "The piano lilt entwines with the relentless beat, ..." (voice: vivianv2)
+12:37:46 🎤 TTS.GEN │ msg_1785667062363.wav
+12:37:46 🎤 TTS.REQ │ "Muddy Waters is up next; 'Rollin' Stone' is the ra..." (voice: vivianv2)
+12:37:51 🎤 TTS.GEN │ msg_1785667066840.wav
+12:37:51 🎤 TTS.REQ │ "A true classic—let’s get ready for a pop twist aft..." (voice: vivianv2)
+12:37:55 🎤 TTS.GEN │ msg_1785667071636.wav
+12:38:54 🎵 TRACK │ Bananarama — Love in the first degree
+12:38:54 🔊 QUEUE │ music_q ← Crystal Method - Tweekend - 11 - Tough Guy.mp3
+12:42:21 🎵 TRACK │ Sarah Vaughan — Summertime
+12:42:21 🔊 QUEUE │ music_q ← 0132-Torfrock-Beinhart.mp3
+12:45:29 🎵 TRACK │ Celtic Emotions — We Have A Dream
+12:45:30 🔊 QUEUE │ music_q ← 0871-Beats.International.and.Lindy.Layton-Dub.Be.Good.To.M.mp3
+12:49:24 🎵 TRACK │ Sha-Boom — R.O.C.K
+12:49:24 🔊 QUEUE │ music_q ← 0172-Faithless-Insomnia..mp3
+12:52:57 🎵 TRACK │ Bananarama — Love in the first degree
+12:56:24 🎵 TRACK │ Sarah Vaughan — Summertime
+12:59:30 🎵 TRACK │ Celtic Emotions — We Have A Dream
+13:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 13:00
+13:03:27 🎵 TRACK │ Sha-Boom — R.O.C.K
+13:03:27 🎤 TTS.REQ │ "Booong! The time is 13:00" (voice: Aiden)
+13:03:29 🎤 TTS.GEN │ msg_1785668607620.wav
+13:03:29 🎤 TTS.PLAY │ ▶ msg_1785668607620.wav
+13:06:59 🎵 TRACK │ Howlin Wolf — Smokestack Lightnin
+13:06:59 🔊 QUEUE │ music_q ← 459 - Muddy Waters - Rollin' Stone.mp3
+13:06:59 🎤 TTS.REQ │ "'The Great Confuser' by D Tek n' Doctor Panic prom..." (voice: vivianv2)
+13:07:06 🎤 TTS.GEN │ msg_1785668819993.wav
+13:07:06 🎤 TTS.REQ │ "It’s a 2003 electronic puzzle where each layer ins..." (voice: vivianv2)
+13:07:12 🎤 TTS.GEN │ msg_1785668826113.wav
+13:07:12 🎤 TTS.REQ │ "And what follows is a nostalgic pop gem. Stay tune..." (voice: vivianv2)
+13:07:16 🎤 TTS.GEN │ msg_1785668832814.wav
+13:07:16 🎤 TTS.REQ │ "'C'est la vie' from Robbie Nevil pops up—a breezy ..." (voice: vivianv2)
+13:07:21 🎤 TTS.GEN │ msg_1785668836379.wav
+13:07:21 🎤 TTS.REQ │ "It’s bright, it's playful, and it sets us right in..." (voice: vivianv2)
+13:07:25 🎤 TTS.GEN │ msg_1785668841602.wav
+13:07:25 🎤 TTS.REQ │ "Finally, we’re dropping Xzibit with Juvenile, Natu..." (voice: vivianv2)
+13:07:31 🎤 TTS.GEN │ msg_1785668845333.wav
+13:07:31 🎤 TTS.REQ │ "And that’s the wrap for today. Let me know if you ..." (voice: vivianv2)
+13:07:37 🎤 TTS.GEN │ msg_1785668851798.wav
+13:10:00 🎵 TRACK │ The Crystal Method — Tough Guy
+13:10:00 🔊 QUEUE │ music_q ← 0417-Zlatko.und.Juergen-Grosser.Bruder.mp3
+13:16:19 🎵 TRACK │ Torfrock — Beinhart
+13:16:19 🔊 QUEUE │ music_q ← 211-d_tek_n_doctor_panic-the_great_confuser-mil.mp3
+13:16:19 🎤 TTS.REQ │ "Switching gears to Torfrock's 'Beinhart' – a genui..." (voice: vivianv2)
+13:16:24 🎤 TTS.GEN │ msg_1785669379767.wav
+13:16:24 🎤 TTS.REQ │ "The 90s vibes bounce off every corner, and the bas..." (voice: vivianv2)
+13:16:29 🎤 TTS.GEN │ msg_1785669384941.wav
+13:16:29 🎤 TTS.REQ │ "Stick around; next we’re going full-on electronic." (voice: vivianv2)
+13:16:32 🎤 TTS.GEN │ msg_1785669389741.wav
+13:16:32 🔌 EVENT │ [producer] Voice: Switching gears to Torfrock's 'Beinhart'...
+13:16:33 🎤 TTS.PLAY │ ▶ msg_1785669379767.wav
+13:16:33 🔌 EVENT │ [producer] Queued between songs: Stick around; next we’re going full-on e...
+13:16:52 🎤 TTS.PLAY │ ▶ msg_1785669384941.wav
+13:19:34 🎵 TRACK │ Beats International & Lindy Layton — Dub Be Good To Me
+13:19:34 🎤 TTS.PLAY │ ▶ msg_1785669389741.wav
+13:19:34 🔊 QUEUE │ music_q ← 0894-Robbie.Nevil-Cest.la.vie.mp3
+13:19:34 🎤 TTS.REQ │ "Now for some digital soul. Beats International wit..." (voice: vivianv2)
+13:19:41 🎤 TTS.GEN │ msg_1785669574684.wav
+13:19:41 🎤 TTS.REQ │ "That track just re‑energized the airwaves; keep th..." (voice: vivianv2)
+13:19:45 🎤 TTS.GEN │ msg_1785669581459.wav
+13:19:45 🔌 EVENT │ [producer] Voice: Now for some digital soul. Beats Interna...
+13:19:45 🎤 TTS.PLAY │ ▶ msg_1785669574684.wav
+13:24:51 🎵 TRACK │ Faithless — Insomnia
+13:24:51 🔊 QUEUE │ music_q ← Xzibit f. Juvenile, Nature & Ja Rule - 25 To Life.mp3
+13:24:51 🎤 TTS.REQ │ "Faithless drops into the midnight trance with 'Ins..." (voice: vivianv2)
+13:24:55 🎤 TTS.GEN │ msg_1785669891153.wav
+13:24:55 🎤 TTS.REQ │ "The piano lilt entwines with the relentless beat, ..." (voice: vivianv2)
+13:24:59 🎤 TTS.GEN │ msg_1785669895277.wav
+13:24:59 🔌 EVENT │ [producer] Voice: Faithless drops into the midnight trance...
+13:25:00 🎤 TTS.PLAY │ ▶ msg_1785669891153.wav
+13:26:09 🎤 TTS.PLAY │ ▶ msg_1785669895277.wav
+13:28:17 🎵 TRACK │ Muddy Waters — Rollin' Stone
+13:28:17 🔊 QUEUE │ music_q ← 0417-Zlatko.und.Juergen-Grosser.Bruder.mp3
+13:28:17 🔊 QUEUE │ music_q ← 211-d_tek_n_doctor_panic-the_great_confuser-mil.mp3
+13:28:17 🔊 QUEUE │ music_q ← 0894-Robbie.Nevil-Cest.la.vie.mp3
+13:28:17 🔊 QUEUE │ music_q ← Xzibit f. Juvenile, Nature & Ja Rule - 25 To Life.mp3
+13:28:17 🔊 QUEUE │ music_q ← 0157-Snap-Ooops.Up.mp3
+13:28:17 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+13:28:32 🤖 LLM.REPLY │ "{"segments":[{"song_index":0,"voice":[{"character"..."
+13:28:32 🎤 TTS.REQ │ "Sum 41 channels early-2000s grunge energy—kinda li..." (voice: vivianv2)
+13:28:37 🎤 TTS.GEN │ msg_1785670112830.wav
+13:28:37 🎤 TTS.REQ │ "Honestly it’s just too loud for my coffee." (voice: vivianv2)
+13:28:39 🎤 TTS.GEN │ msg_1785670117439.wav
+13:28:40 🎤 TTS.REQ │ "Let the guitars talk while we take a breath." (voice: vivianv2)
+13:28:42 🎤 TTS.GEN │ msg_1785670120000.wav
+13:28:42 🎤 TTS.REQ │ "Suede missed its year, but that mystery keeps the ..." (voice: vivianv2)
+13:28:47 🎤 TTS.GEN │ msg_1785670122398.wav
+13:28:47 🎤 TTS.REQ │ "This Mexican electronic mix is a bright burst of s..." (voice: vivianv2)
+13:28:50 🎤 TTS.GEN │ msg_1785670127073.wav
+13:28:50 🎤 TTS.REQ │ "The beats feel like a late-night city street at mi..." (voice: vivianv2)
+13:28:53 🎤 TTS.GEN │ msg_1785670130419.wav
+13:28:53 🎤 TTS.REQ │ "Let the rhythm guide you through the night." (voice: vivianv2)
+13:28:55 🎤 TTS.GEN │ msg_1785670133353.wav
+13:28:55 🎤 TTS.REQ │ "Tom’s Diner in a chiptune remix—unexpected but del..." (voice: vivianv2)
+13:28:59 🎤 TTS.GEN │ msg_1785670135449.wav
+13:28:59 🎤 TTS.REQ │ "It’s like a vinyl record meeting the internet spee..." (voice: vivianv2)
+13:29:02 🎤 TTS.GEN │ msg_1785670139429.wav
+13:31:21 🎵 TRACK │ Zlatko & Jürgen — Großer Bruder
+13:31:21 🔊 QUEUE │ music_q ← 108_bo_kaspers_orkester_-_en_man_du_tyckte_om-lzy.mp3
+13:34:46 🎵 TRACK │ D Tek n' Doctor Panic — The Great Confuser
+13:34:46 🔊 QUEUE │ music_q ← 14-sum_41_-_what_we_are_all_about-twc.mp3
+13:41:09 🎵 TRACK │ Robbie Nevil — C'est la vie
+13:41:09 🔊 QUEUE │ music_q ← 12-svenska_akademien-psalm_foer_moerkraedda-tosho.mp3
+13:44:30 🎵 TRACK │ Xzibit f. Juvenile, Nature & Ja Rule — 25 To Life
+13:44:30 🔊 QUEUE │ music_q ← 1997_42 Suede - Lazy.mp3
+13:48:28 🎵 TRACK │ Zlatko & Jürgen — Großer Bruder
+13:51:55 🎵 TRACK │ D Tek n' Doctor Panic — The Great Confuser
+13:58:18 🎵 TRACK │ Robbie Nevil — C'est la vie
+14:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 14:00
+14:01:39 🎵 TRACK │ Xzibit f. Juvenile, Nature & Ja Rule — 25 To Life
+14:01:39 🎤 TTS.REQ │ "Booong! The time is 14:00" (voice: Aiden)
+14:01:42 🎤 TTS.GEN │ msg_1785672099516.wav
+14:01:42 🎤 TTS.PLAY │ ▶ msg_1785672099516.wav
+14:05:37 🎵 TRACK │ Snap — Ooops Up
+14:05:37 🔊 QUEUE │ music_q ← 101-dj_chrysler-elektro_mix-mil.mp3
+14:05:37 🎤 TTS.REQ │ "Technotronic’s raw update hits with fresh house po..." (voice: vivianv2)
+14:05:40 🎤 TTS.GEN │ msg_1785672337470.wav
+14:05:40 🎤 TTS.REQ │ "Every beat feels like a fresh spray of neon." (voice: vivianv2)
+14:05:43 🎤 TTS.GEN │ msg_1785672340580.wav
+14:05:43 🎤 TTS.REQ │ "Drop the tempo and let the groove own the room." (voice: vivianv2)
+14:05:46 🎤 TTS.GEN │ msg_1785672343471.wav
+14:05:46 🎤 TTS.REQ │ "Closing today’s segment on Aretha Franklin—her sou..." (voice: vivianv2)
+14:05:52 🎤 TTS.GEN │ msg_1785672346319.wav
+14:12:12 🎵 TRACK │ Bo Kaspers Orkester — En Man Du Tyckte Om
+14:12:12 🔊 QUEUE │ music_q ← 0150-DNA.feat.Suzanne.Vega-Tom.s.Diner.mp3
+14:16:13 🎵 TRACK │ sum 41 — what we are all about
+14:16:13 🔊 QUEUE │ music_q ← 06_dj_marnix_2.mp3
+14:16:13 🎤 TTS.REQ │ "Sum 41 channels early-2000s grunge energy—kinda li..." (voice: vivianv2)
+14:16:17 🎤 TTS.GEN │ msg_1785672973381.wav
+14:16:17 🎤 TTS.REQ │ "Honestly it’s just too loud for my coffee." (voice: vivianv2)
+14:16:20 🎤 TTS.GEN │ msg_1785672977835.wav
+14:16:20 🎤 TTS.REQ │ "Let the guitars talk while we take a breath." (voice: vivianv2)
+14:16:23 🎤 TTS.GEN │ msg_1785672980735.wav
+14:16:23 🔌 EVENT │ [producer] Queued between songs: Honestly it’s just too loud for my coffe...
+14:17:00 🎤 TTS.PLAY │ ▶ msg_1785672973381.wav
+14:19:41 🎵 TRACK │ Svenska Akademien — Psalm För Mörkrädda
+14:19:42 🎤 TTS.PLAY │ ▶ msg_1785672977835.wav
+14:19:42 🔊 QUEUE │ music_q ← 05 Raw update.mp3
+14:24:53 🎵 TRACK │ 1997_42 Suede — Lazy
+14:24:53 🔊 QUEUE │ music_q ← 186 - Aretha Franklin - I Never Loved A Man (The Way I Love You).mp3
+14:24:53 🎤 TTS.REQ │ "Suede missed its year, but that mystery keeps the ..." (voice: vivianv2)
+14:24:58 🎤 TTS.GEN │ msg_1785673493553.wav
+14:28:07 🎵 TRACK │ VA-Loveparade_Mexico_2003-Los_Caminos_De_La_Paz-3CD-2003-MIL — CD1 Elektro Mix DJ Chrysler
+14:28:07 🔊 QUEUE │ music_q ← 0150-DNA.feat.Suzanne.Vega-Tom.s.Diner.mp3
+14:28:07 🔊 QUEUE │ music_q ← 06_dj_marnix_2.mp3
+14:28:07 🔊 QUEUE │ music_q ← 05 Raw update.mp3
+14:28:07 🔊 QUEUE │ music_q ← 186 - Aretha Franklin - I Never Loved A Man (The Way I Love You).mp3
+14:28:07 🔊 QUEUE │ music_q ← 365 - The Righteous Brothers - Unchained Melody.mp3
+14:28:07 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+14:28:41 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+14:28:41 🎤 TTS.REQ │ "The Prodigy's Action Radar jolts any day into retr..." (voice: vivianv2)
+14:28:47 🎤 TTS.GEN │ msg_1785673721487.wav
+14:28:47 🎤 TTS.REQ │ "It feels like we're on a neon freeway, but with a ..." (voice: vivianv2)
+14:28:52 🎤 TTS.GEN │ msg_1785673727469.wav
+14:28:52 🎤 TTS.REQ │ "And then the synths hit, bringing us back to the g..." (voice: vivianv2)
+14:28:55 🎤 TTS.GEN │ msg_1785673732111.wav
+14:28:55 🎤 TTS.REQ │ "With or Without You, U2, is a bittersweet bridge b..." (voice: vivianv2)
+14:28:59 🎤 TTS.GEN │ msg_1785673735208.wav
+14:28:59 🎤 TTS.REQ │ "I’m humming that guitar riff as if my own memories..." (voice: vivianv2)
+14:29:04 🎤 TTS.GEN │ msg_1785673739812.wav
+14:29:04 🎤 TTS.REQ │ "Here’s GZA's I Gotcha Back—ready to drop some fres..." (voice: vivianv2)
+14:29:09 🎤 TTS.GEN │ msg_1785673744118.wav
+14:29:09 🎤 TTS.REQ │ "It’s cool how the beat lines up with our electroni..." (voice: vivianv2)
+14:29:14 🎤 TTS.GEN │ msg_1785673749360.wav
+14:29:14 🎤 TTS.REQ │ "Sometimes You Can't Make It On pushes us into that..." (voice: vivianv2)
+14:29:19 🎤 TTS.GEN │ msg_1785673754374.wav
+14:29:19 🎤 TTS.REQ │ "The drums crash over synth arpeggios—reminds me of..." (voice: vivianv2)
+14:29:24 🎤 TTS.GEN │ msg_1785673759888.wav
+14:29:24 🎤 TTS.REQ │ "We’re riding the thunder to a melodic resolve righ..." (voice: vivianv2)
+14:29:27 🎤 TTS.GEN │ msg_1785673764243.wav
+15:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 15:00
+15:33:00 🎵 TRACK │ DNA feat Suzanne Vega — Tom's Diner
+15:33:00 🎤 TTS.REQ │ "Booong! The time is 15:00" (voice: Aiden)
+15:33:42 🎤 TTS.GEN │ msg_1785677580268.wav
+15:33:42 🎤 TTS.PLAY │ ▶ msg_1785677580268.wav
+15:33:42 🔊 QUEUE │ music_q ← 07-the_prodigy-action_radar-esc.mp3
+15:36:47 🎵 TRACK │ DJ Marnix — Sensation White 2003
+15:36:47 🔊 QUEUE │ music_q ← 03 - With or Without You.mp3
+16:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 16:00
+16:24:51 🎵 TRACK │ Technotronic — Raw update
+16:24:51 🎤 TTS.REQ │ "Booong! The time is 16:00" (voice: Aiden)
+16:24:53 🎤 TTS.GEN │ msg_1785680691570.wav
+16:24:53 🎤 TTS.PLAY │ ▶ msg_1785680691570.wav
+16:24:53 🔊 QUEUE │ music_q ← 03 Tough.2.mp3
+16:29:56 🎵 TRACK │ Aretha Franklin — I Never Loved A Man (The Way I Love You)
+16:29:56 🔊 QUEUE │ music_q ← GZA - I Gotcha Back.mp3
+16:32:34 🎵 TRACK │ DNA feat Suzanne Vega — Tom's Diner
+16:36:21 🎵 TRACK │ DJ Marnix — Sensation White 2003
+17:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 17:00
+17:24:25 🎵 TRACK │ Technotronic — Raw update
+17:24:25 🎤 TTS.REQ │ "Booong! The time is 17:00" (voice: Aiden)
+17:24:27 🎤 TTS.GEN │ msg_1785684265733.wav
+17:24:27 🎤 TTS.PLAY │ ▶ msg_1785684265733.wav
+17:29:30 🎵 TRACK │ Aretha Franklin — I Never Loved A Man (The Way I Love You)
+17:32:08 🎵 TRACK │ The Righteous Brothers — Unchained Melody
+17:32:08 🔊 QUEUE │ music_q ← 03 - U2 - Sometimes You Can't Make It On Your Own - www.torrentazos.com.mp3
+17:32:08 🎤 TTS.REQ │ "Frank Zander's Oh Susie, that classic oldies gem—I..." (voice: vivianv2)
+17:32:13 🎤 TTS.GEN │ msg_1785684728954.wav
+17:32:13 🎤 TTS.REQ │ "You can feel the subtle warmth while those vintage..." (voice: vivianv2)
+17:32:18 🎤 TTS.GEN │ msg_1785684733802.wav
+17:32:18 🎤 TTS.REQ │ "Bringing a touch of nostalgia back but softened wi..." (voice: vivianv2)
+17:32:21 🎤 TTS.GEN │ msg_1785684738190.wav
+17:32:21 🎤 TTS.REQ │ "Policy Of Truth, reimagined with our retro-ambient..." (voice: vivianv2)
+17:32:26 🎤 TTS.GEN │ msg_1785684741701.wav
+17:32:26 🎤 TTS.REQ │ "The synth layers swirl like clouds over a city at ..." (voice: vivianv2)
+17:32:31 🎤 TTS.GEN │ msg_1785684746111.wav
+17:32:31 🎤 TTS.REQ │ "I think this track gives us a chance to close with..." (voice: vivianv2)
+17:32:36 🎤 TTS.GEN │ msg_1785684751666.wav
+17:35:43 🎵 TRACK │ The Prodigy — Action Radar
+17:35:43 🔊 QUEUE │ music_q ← 108_davids_song-mod.mp3
+17:35:43 🎤 TTS.REQ │ "The Prodigy's Action Radar jolts any day into retr..." (voice: vivianv2)
+17:35:49 🎤 TTS.GEN │ msg_1785684943567.wav
+17:35:49 🎤 TTS.REQ │ "It feels like we're on a neon freeway, but with a ..." (voice: vivianv2)
+17:35:54 🎤 TTS.GEN │ msg_1785684949779.wav
+17:35:54 🎤 TTS.REQ │ "And then the synths hit, bringing us back to the g..." (voice: vivianv2)
+17:35:57 🎤 TTS.GEN │ msg_1785684954749.wav
+17:35:57 🔌 EVENT │ [producer] Voice: The Prodigy's Action Radar jolts any day...
+17:35:58 🎤 TTS.PLAY │ ▶ msg_1785684943567.wav
+17:36:11 🎤 TTS.PLAY │ ▶ msg_1785684949779.wav
+17:41:11 🎵 TRACK │ U2 — With or Without You
+17:41:11 🔊 QUEUE │ music_q ← 0182-Frank.Zander-Oh.Susie.mp3
+17:41:11 🎤 TTS.REQ │ "With or Without You, U2, is a bittersweet bridge b..." (voice: vivianv2)
+17:41:16 🎤 TTS.GEN │ msg_1785685271702.wav
+17:41:16 🎤 TTS.REQ │ "I’m humming that guitar riff as if my own memories..." (voice: vivianv2)
+17:41:20 🎤 TTS.GEN │ msg_1785685276397.wav
+17:41:20 🔌 EVENT │ [producer] Voice: With or Without You, U2, is a bitterswee...
+17:41:21 🎤 TTS.PLAY │ ▶ msg_1785685271702.wav
+17:42:02 🎤 TTS.PLAY │ ▶ msg_1785685276397.wav
+17:46:02 🎵 TRACK │ Technotronic — Tough
+17:46:02 🔊 QUEUE │ music_q ← 058. Depeche Mode - Policy Of Truth.mp3
+17:50:25 🎵 TRACK │ GZA — I Gotcha Back
+17:50:25 🔊 QUEUE │ music_q ← 095. Lene Marlin - You weren't there.mp3
+17:50:25 🎤 TTS.REQ │ "Here’s GZA's I Gotcha Back—ready to drop some fres..." (voice: vivianv2)
+17:50:30 🎤 TTS.GEN │ msg_1785685825274.wav
+17:50:30 🎤 TTS.REQ │ "It’s cool how the beat lines up with our electroni..." (voice: vivianv2)
+17:50:35 🎤 TTS.GEN │ msg_1785685830280.wav
+17:50:35 🔌 EVENT │ [producer] Voice: Here’s GZA's I Gotcha Back—ready to drop...
+17:50:35 🎤 TTS.PLAY │ ▶ msg_1785685825274.wav
+17:52:15 🎤 TTS.PLAY │ ▶ msg_1785685830280.wav
+17:55:21 🎵 TRACK │ U2 — Sometimes You Can't Make It On
+17:55:21 🔊 QUEUE │ music_q ← 108_davids_song-mod.mp3
+17:55:21 🔊 QUEUE │ music_q ← 0182-Frank.Zander-Oh.Susie.mp3
+17:55:21 🔊 QUEUE │ music_q ← 058. Depeche Mode - Policy Of Truth.mp3
+17:55:21 🔊 QUEUE │ music_q ← 095. Lene Marlin - You weren't there.mp3
+17:55:21 🔊 QUEUE │ music_q ← 05 - Sting - Englishman In New York.mp3
+17:55:21 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+17:55:50 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+17:55:50 🎤 TTS.REQ │ "Justin's 'Sexyback' is a throwback to late‑80s syn..." (voice: vivianv2)
+17:55:56 🎤 TTS.GEN │ msg_1785686150555.wav
+17:55:56 🎤 TTS.REQ │ "That bassline is pure nostalgia; it's the kind of ..." (voice: vivianv2)
+17:56:01 🎤 TTS.GEN │ msg_1785686156301.wav
+17:56:01 🎤 TTS.REQ │ "Exactly—it's a perfect marriage of pop and electro..." (voice: vivianv2)
+17:56:06 🎤 TTS.GEN │ msg_1785686161669.wav
+17:56:06 🎤 TTS.REQ │ "But the wordplay feels a bit over‑dramatic for my ..." (voice: vivianv2)
+17:56:11 🎤 TTS.GEN │ msg_1785686166668.wav
+17:56:11 🎤 TTS.REQ │ "True, though that rawness can be surprisingly prec..." (voice: vivianv2)
+17:56:16 🎤 TTS.GEN │ msg_1785686171719.wav
+17:56:16 🎤 TTS.REQ │ "The original Stereo MC's track blends hip‑hop cade..." (voice: vivianv2)
+17:56:23 🎤 TTS.GEN │ msg_1785686176845.wav
+17:56:23 🎤 TTS.REQ │ "That hook is a reminder that movement never goes o..." (voice: vivianv2)
+17:56:28 🎤 TTS.GEN │ msg_1785686183261.wav
+17:56:28 🎤 TTS.REQ │ "A perfect syncopated bridge between 90s beats and ..." (voice: vivianv2)
+17:56:32 🎤 TTS.GEN │ msg_1785686188828.wav
+17:56:32 🎤 TTS.REQ │ "Freddy Fresh brings the street vibe to the rink—fa..." (voice: vivianv2)
+17:56:36 🎤 TTS.GEN │ msg_1785686192748.wav
+17:56:36 🎤 TTS.REQ │ "The rhythmic syncopation in this track mirrors how..." (voice: vivianv2)
+17:56:40 🎤 TTS.GEN │ msg_1785686196154.wav
+17:56:40 🎤 TTS.REQ │ "It reminds me of skating in a new city—exciting ye..." (voice: vivianv2)
+17:56:44 🎤 TTS.GEN │ msg_1785686200945.wav
+17:56:44 🎤 TTS.REQ │ "Don Johnson's 'Tell It Like It Is' is a laid‑back ..." (voice: vivianv2)
+17:56:51 🎤 TTS.GEN │ msg_1785686204589.wav
+17:56:51 🎤 TTS.REQ │ "His vocal delivery gives it a storytelling feel—ju..." (voice: vivianv2)
+17:56:56 🎤 TTS.GEN │ msg_1785686211344.wav
+18:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 18:00
+18:00:26 🎵 TRACK │ Celtic Emotions — Davids Song
+18:00:26 🎤 TTS.REQ │ "Booong! The time is 18:00" (voice: Aiden)
+18:00:28 🎤 TTS.GEN │ msg_1785686426215.wav
+18:00:28 🎤 TTS.PLAY │ ▶ msg_1785686426215.wav
+18:00:28 🔊 QUEUE │ music_q ← Big Pun - The Dream Shatterer.mp3
+18:03:53 🎵 TRACK │ Frank Zander — Oh Susie
+18:03:53 🔊 QUEUE │ music_q ← 02 justin timberlake-sexyback.mp3
+18:08:00 🎵 TRACK │ Depeche Mode — Policy Of Truth
+18:08:00 🔊 QUEUE │ music_q ← Stereo MC's - Frontline - Front Line Football.mp3
+18:13:09 🎵 TRACK │ 095. Lene Marlin — You weren't there
+18:13:09 🔊 QUEUE │ music_q ← Stereo MC's - Freddy Fresh - Roller Rinks And Chicks.mp3
+18:16:35 🎵 TRACK │ Celtic Emotions — Davids Song
+18:20:02 🎵 TRACK │ Frank Zander — Oh Susie
+18:24:11 🎵 TRACK │ Depeche Mode — Policy Of Truth
+18:29:20 🎵 TRACK │ 095. Lene Marlin — You weren't there
+18:32:46 🎵 TRACK │ Sting — Englishman In New York
+18:32:46 🔊 QUEUE │ music_q ← 0627-Don.Johnson-Tell.it.like.it.is.mp3
+18:32:46 🎤 TTS.REQ │ "'It's My Life' is a high‑energy Euro‑dance anthem ..." (voice: vivianv2)
+18:32:54 🎤 TTS.GEN │ msg_1785688366911.wav
+18:32:54 🎤 TTS.REQ │ "The beat's pulse matches exactly what we wanted fo..." (voice: vivianv2)
+18:32:58 🎤 TTS.GEN │ msg_1785688374284.wav
+18:32:59 🎤 TTS.REQ │ "A clear reminder that even when music evolves, the..." (voice: vivianv2)
+18:33:03 🎤 TTS.GEN │ msg_1785688379011.wav
+18:33:03 🎤 TTS.REQ │ "Nina's jazz standards never fail to turn a room in..." (voice: vivianv2)
+18:33:10 🎤 TTS.GEN │ msg_1785688383651.wav
+18:33:10 🎤 TTS.REQ │ "Her voice turns history into emotion, and the temp..." (voice: vivianv2)
+18:33:15 🎤 TTS.GEN │ msg_1785688390848.wav
+18:33:15 🎤 TTS.REQ │ "That's exactly why we love this segment—it's refle..." (voice: vivianv2)
+18:33:20 🎤 TTS.GEN │ msg_1785688395357.wav
+18:37:09 🎵 TRACK │ Big Pun — The Dream Shatterer
+18:37:09 🔊 QUEUE │ music_q ← 0005-Dr.Alban-It.is.My.Life.mp3
+18:40:40 🎵 TRACK │ Top 40 Singles-17-09-2006 a DHZ.Inc Release — justin timberlake-sexyback
+18:40:40 🔊 QUEUE │ music_q ← 14 - Nina Simone - Wild Is The Wind.mp3
+18:40:40 🎤 TTS.REQ │ "Justin's 'Sexyback' is a throwback to late‑80s syn..." (voice: vivianv2)
+18:40:45 🎤 TTS.GEN │ msg_1785688840417.wav
+18:40:45 🎤 TTS.REQ │ "That bassline is pure nostalgia; it's the kind of ..." (voice: vivianv2)
+18:40:50 🎤 TTS.GEN │ msg_1785688845951.wav
+18:40:50 🎤 TTS.REQ │ "Exactly—it's a perfect marriage of pop and electro..." (voice: vivianv2)
+18:40:55 🎤 TTS.GEN │ msg_1785688850925.wav
+18:40:55 🎤 TTS.REQ │ "But the wordplay feels a bit over‑dramatic for my ..." (voice: vivianv2)
+18:41:01 🎤 TTS.GEN │ msg_1785688855982.wav
+18:41:01 🎤 TTS.REQ │ "True, though that rawness can be surprisingly prec..." (voice: vivianv2)
+18:41:06 🎤 TTS.GEN │ msg_1785688861147.wav
+18:41:06 🔌 EVENT │ [producer] Voice: Justin's 'Sexyback' is a throwback to la...
+18:41:06 🎤 TTS.PLAY │ ▶ msg_1785688840417.wav
+18:41:07 🔌 EVENT │ [producer] Queued between songs: Exactly—it's a perfect marriage of pop a...
+18:42:26 🎤 TTS.PLAY │ ▶ msg_1785688855982.wav
+18:42:36 🎤 TTS.PLAY │ ▶ msg_1785688845951.wav
+18:44:37 🎵 TRACK │ Stereo MC's — Frontline - Front Line Footba
+18:44:38 🎤 TTS.PLAY │ ▶ msg_1785688850925.wav
+18:44:38 🔊 QUEUE │ music_q ← 06 Främling i stan (Stranger in town).flac
+18:44:38 🎤 TTS.REQ │ "The original Stereo MC's track blends hip‑hop cade..." (voice: vivianv2)
+18:44:45 🎤 TTS.GEN │ msg_1785689078501.wav
+18:44:45 🎤 TTS.REQ │ "That hook is a reminder that movement never goes o..." (voice: vivianv2)
+18:44:50 🎤 TTS.GEN │ msg_1785689085724.wav
+18:44:51 🎤 TTS.REQ │ "A perfect syncopated bridge between 90s beats and ..." (voice: vivianv2)
+18:44:54 🎤 TTS.GEN │ msg_1785689091011.wav
+18:44:55 🔌 EVENT │ [producer] Voice: The original Stereo MC's track blends hi...
+18:44:55 🎤 TTS.PLAY │ ▶ msg_1785689078501.wav
+18:45:37 🎵 TRACK │ Stereo MC's — Freddy Fresh - Roller Rinks A
+18:45:38 🔊 QUEUE │ music_q ← 0627-Don.Johnson-Tell.it.like.it.is.mp3
+18:45:38 🔊 QUEUE │ music_q ← 0005-Dr.Alban-It.is.My.Life.mp3
+18:45:38 🔊 QUEUE │ music_q ← 14 - Nina Simone - Wild Is The Wind.mp3
+18:45:38 🔊 QUEUE │ music_q ← 06 Främling i stan (Stranger in town).flac
+18:45:38 🔊 QUEUE │ music_q ← 0937-Tom.Jones.and.Mousse.T-Sex.Bomb.mp3
+18:45:38 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+18:46:03 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+18:46:03 🎤 TTS.REQ │ "God Bless The Child starts us on a warm jazz note,..." (voice: vivianv2)
+18:46:09 🎤 TTS.GEN │ msg_1785689163434.wav
+18:46:09 🎤 TTS.REQ │ "Her voice feels like velvet against our late‑eveni..." (voice: vivianv2)
+18:46:14 🎤 TTS.GEN │ msg_1785689169708.wav
+18:46:14 🎤 TTS.REQ │ "The Crystal Method drops a punchy beat in 'Murder'..." (voice: vivianv2)
+18:46:19 🎤 TTS.GEN │ msg_1785689174594.wav
+18:46:19 🎤 TTS.REQ │ "That oscillating bass line feels like a digital he..." (voice: vivianv2)
+18:46:25 🎤 TTS.GEN │ msg_1785689179786.wav
+18:46:25 🎤 TTS.REQ │ "Eminem's 'Fuckn Crazee' throws us into that early ..." (voice: vivianv2)
+18:46:30 🎤 TTS.GEN │ msg_1785689185215.wav
+18:46:30 🎤 TTS.REQ │ "'The Anthems' vibe clashes with the nostalgic ener..." (voice: vivianv2)
+18:46:34 🎵 TRACK │ Don Johnson — Tell it like it is
+18:46:34 🔊 QUEUE │ music_q ← 15 - Billie Holiday - God Bless The Child.mp3
+18:46:36 🎤 TTS.GEN │ msg_1785689190589.wav
+18:46:36 🎤 TTS.REQ │ "Wyclef's 'Where Fugees At-' hits us with a pop‑sou..." (voice: vivianv2)
+18:46:41 🎤 TTS.GEN │ msg_1785689196248.wav
+18:46:41 🎤 TTS.REQ │ "It’s a perfect counterbalance to the darker cuts; ..." (voice: vivianv2)
+18:46:46 🎤 TTS.GEN │ msg_1785689201881.wav
+18:51:01 🎵 TRACK │ Dr. Alban — It's My Life
+18:51:01 🔊 QUEUE │ music_q ← 0965-Roland.Kaiser-Dich.Zu.Lieben.mp3
+18:55:43 🎵 TRACK │ Nina Simone — Wild Is The Wind
+18:55:44 🔊 QUEUE │ music_q ← Crystal Method - Tweekend - 04 - Murder (3 Nords).mp3
+18:59:04 🎵 TRACK │ Sture Alléns dansorkester — Främling i stan (Stranger in town)
+18:59:04 🔊 QUEUE │ music_q ← 146ev. Tyskarna fran Lund - Achtung X-mas! (12 i jan).mp3
+19:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 19:00
+19:01:59 🎵 TRACK │ Don Johnson — Tell it like it is
+19:01:59 🎤 TTS.REQ │ "Booong! The time is 19:00" (voice: Aiden)
+19:02:00 🎤 TTS.GEN │ msg_1785690119182.wav
+19:02:00 🎤 TTS.PLAY │ ▶ msg_1785690119182.wav
+19:06:27 🎵 TRACK │ Dr. Alban — It's My Life
+19:11:08 🎵 TRACK │ Nina Simone — Wild Is The Wind
+19:14:31 🎵 TRACK │ Sture Alléns dansorkester — Främling i stan (Stranger in town)
+19:17:25 🎵 TRACK │ Tom Jones & Mousse T. — Sex Bomb
+19:17:25 🔊 QUEUE │ music_q ← 11 - Eminem - The Anthems.mp3
+19:17:25 🎤 TTS.REQ │ "East 17's 'House Of Love' brings back ’90s house s..." (voice: vivianv2)
+19:17:31 🎤 TTS.GEN │ msg_1785691045944.wav
+19:17:31 🎤 TTS.REQ │ "The pulsing synth and echoing vocal layers feel li..." (voice: vivianv2)
+19:17:36 🎤 TTS.GEN │ msg_1785691051136.wav
+19:17:36 🎤 TTS.REQ │ "Duran Duran's 'Wild Boys' starts us off in a new w..." (voice: vivianv2)
+19:17:42 🎤 TTS.GEN │ msg_1785691056736.wav
+19:17:42 🎤 TTS.REQ │ "It’s got that late‑night swagger — a true snapshot..." (voice: vivianv2)
+19:17:47 🎤 TTS.GEN │ msg_1785691062631.wav
+19:20:50 🎵 TRACK │ Billie Holiday — God Bless The Child
+19:20:50 🔊 QUEUE │ music_q ← 02 - Where Fugees At-.mp3
+19:20:50 🎤 TTS.REQ │ "God Bless The Child starts us on a warm jazz note,..." (voice: vivianv2)
+19:20:57 🎤 TTS.GEN │ msg_1785691250637.wav
+19:20:57 🎤 TTS.REQ │ "Her voice feels like velvet against our late‑eveni..." (voice: vivianv2)
+19:21:02 🎤 TTS.GEN │ msg_1785691257159.wav
+19:21:02 🔌 EVENT │ [producer] Voice: God Bless The Child starts us on a warm ...
+19:21:02 🎤 TTS.PLAY │ ▶ msg_1785691250637.wav
+19:22:45 🎤 TTS.PLAY │ ▶ msg_1785691257159.wav
+19:23:55 🎵 TRACK │ Roland Kaiser — Dich Zu Lieben
+19:23:55 🔊 QUEUE │ music_q ← 0687-Sarah.Connor-Lets.Get.Back.To.Bed.Boy.mp3
+19:27:48 🎵 TRACK │ The Crystal Method — Murder (3 Nords)
+19:27:48 🔊 QUEUE │ music_q ← 002. East 17 - House Of Love.mp3
+19:27:48 🎤 TTS.REQ │ "The Crystal Method drops a punchy beat in 'Murder'..." (voice: vivianv2)
+19:27:53 🎤 TTS.GEN │ msg_1785691668271.wav
+19:27:53 🎤 TTS.REQ │ "That oscillating bass line feels like a digital he..." (voice: vivianv2)
+19:27:58 🎤 TTS.GEN │ msg_1785691673713.wav
+19:27:58 🔌 EVENT │ [producer] Voice: The Crystal Method drops a punchy beat i...
+19:27:59 🎤 TTS.PLAY │ ▶ msg_1785691668271.wav
+19:28:50 🎤 TTS.PLAY │ ▶ msg_1785691673713.wav
+19:32:22 🎵 TRACK │ Tyskarna Från Lund — Achtung X-Mas!
+19:32:22 🔊 QUEUE │ music_q ← 1984_03 Duran Duran - Wild Boys.mp3
+19:35:45 🎵 TRACK │ Eminem - Fuckn Crazee — The Anthems
+19:35:45 🔊 QUEUE │ music_q ← 02 - Where Fugees At-.mp3
+19:35:45 🔊 QUEUE │ music_q ← 0687-Sarah.Connor-Lets.Get.Back.To.Bed.Boy.mp3
+19:35:45 🔊 QUEUE │ music_q ← 002. East 17 - House Of Love.mp3
+19:35:45 🔊 QUEUE │ music_q ← 1984_03 Duran Duran - Wild Boys.mp3
+19:35:45 🔊 QUEUE │ music_q ← 06 Turn it up.2.mp3
+19:35:45 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+19:36:15 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+19:36:15 🎤 TTS.REQ │ "Agnetha Fältskog's 'I Won't Let You Go' gives us a..." (voice: vivianv2)
+19:36:21 🎤 TTS.GEN │ msg_1785692175802.wav
+19:36:21 🎤 TTS.REQ │ "It’s a reminder that the decade was all about melo..." (voice: vivianv2)
+19:36:28 🎤 TTS.GEN │ msg_1785692181821.wav
+19:36:28 🎤 TTS.REQ │ "Ol Dirty Bastard is turning classic hip‑hop into p..." (voice: vivianv2)
+19:36:33 🎤 TTS.GEN │ msg_1785692188338.wav
+19:36:33 🎤 TTS.REQ │ "You can hear his raw voice riffing over that gritt..." (voice: vivianv2)
+19:36:38 🎤 TTS.GEN │ msg_1785692193170.wav
+19:36:38 🎤 TTS.REQ │ "It’s like we’re back in time, but this track keeps..." (voice: vivianv2)
+19:36:41 🎤 TTS.GEN │ msg_1785692198111.wav
+19:36:41 🎤 TTS.REQ │ "Aqua's 'Barbie Girl' is pure bubble‑gum electro-po..." (voice: vivianv2)
+19:36:46 🎤 TTS.GEN │ msg_1785692201365.wav
+19:36:46 🎤 TTS.REQ │ "But on this wave of retro feels, it still brings a..." (voice: vivianv2)
+19:36:50 🎤 TTS.GEN │ msg_1785692206288.wav
+19:36:50 🎤 TTS.REQ │ "'Come Away With Me', courtesy of Norah Jones, drip..." (voice: vivianv2)
+19:36:57 🎤 TTS.GEN │ msg_1785692210848.wav
+19:36:57 🎤 TTS.REQ │ "And that serene vibe? The kind that turns city nig..." (voice: vivianv2)
+19:37:03 🎤 TTS.GEN │ msg_1785692217567.wav
+19:38:49 🎵 TRACK │ Wyclef Jean — Where Fugees At-
+19:38:49 🔊 QUEUE │ music_q ← 039. Agneta Fältskog - I won't let you go.mp3
+19:42:32 🎵 TRACK │ Sarah Connor — Lets Get Back To Bed Boy
+19:42:32 🔊 QUEUE │ music_q ← 12 - Wes Montgomery - Tequila.mp3
+19:46:27 🎵 TRACK │ East 17 — House Of Love
+19:46:27 🔊 QUEUE │ music_q ← Ol Dirty Bastard - shimmy shimmy ya.mp3
+19:50:52 🎵 TRACK │ 1984_03 Duran Duran — Wild Boys
+19:50:52 🔊 QUEUE │ music_q ← DMX and Cypress Hill remix.mp3
+19:55:06 🎵 TRACK │ Wyclef Jean — Where Fugees At-
+19:58:49 🎵 TRACK │ Sarah Connor — Lets Get Back To Bed Boy
+20:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 20:00
+20:02:44 🎵 TRACK │ East 17 — House Of Love
+20:02:44 🎤 TTS.REQ │ "Booong! The time is 20:00" (voice: Aiden)
+20:02:45 🎤 TTS.GEN │ msg_1785693764380.wav
+20:02:45 🎤 TTS.PLAY │ ▶ msg_1785693764380.wav
+20:07:08 🎵 TRACK │ 1984_03 Duran Duran — Wild Boys
+20:11:23 🎵 TRACK │ Technotronic — Turn it up
+20:11:23 🔊 QUEUE │ music_q ← 0091-Aqua-Barbie.Girl.mp3
+20:11:23 🎤 TTS.REQ │ "Wyclef Jean's 'Knockin On Heavens Door' blends hip..." (voice: vivianv2)
+20:11:29 🎤 TTS.GEN │ msg_1785694283585.wav
+20:11:29 🎤 TTS.REQ │ "It’s the perfect bridge as we swing from energetic..." (voice: vivianv2)
+20:11:34 🎤 TTS.GEN │ msg_1785694289608.wav
+20:16:46 🎵 TRACK │ Agnetha Fältskog — I Won't Let You Go
+20:16:46 🔊 QUEUE │ music_q ← 189ev. Norah Jones Come Away With Me (3 i nov).mp3
+20:16:46 🎤 TTS.REQ │ "Agnetha Fältskog's 'I Won't Let You Go' gives us a..." (voice: vivianv2)
+20:16:52 🎤 TTS.GEN │ msg_1785694606615.wav
+20:16:52 🎤 TTS.REQ │ "It’s a reminder that the decade was all about melo..." (voice: vivianv2)
+20:16:57 🎤 TTS.GEN │ msg_1785694612197.wav
+20:16:57 🔌 EVENT │ [producer] Voice: Agnetha Fältskog's 'I Won't Let You Go' ...
+20:16:58 🎤 TTS.PLAY │ ▶ msg_1785694606615.wav
+20:18:15 🎤 TTS.PLAY │ ▶ msg_1785694612197.wav
+20:20:25 🎵 TRACK │ Wes Montgomery — Tequila
+20:20:25 🔊 QUEUE │ music_q ← 16-wyclef_jean-knockin_on_heavens_door-rns.mp3
+20:23:41 🎵 TRACK │ Ol Dirty Bastard — shimmy shimmy ya
+20:23:41 🔊 QUEUE │ music_q ← 01-vangelis-pulstar-mvp.mp3
+20:23:41 🎤 TTS.REQ │ "Ol Dirty Bastard is turning classic hip‑hop into p..." (voice: vivianv2)
+20:23:46 🎤 TTS.GEN │ msg_1785695021963.wav
+20:23:46 🎤 TTS.REQ │ "You can hear his raw voice riffing over that gritt..." (voice: vivianv2)
+20:23:51 🎤 TTS.GEN │ msg_1785695026542.wav
+20:23:51 🎤 TTS.REQ │ "It’s like we’re back in time, but this track keeps..." (voice: vivianv2)
+20:23:55 🎤 TTS.GEN │ msg_1785695031710.wav
+20:23:55 🔌 EVENT │ [producer] Voice: Ol Dirty Bastard is turning classic hip‑...
+20:23:55 🎤 TTS.PLAY │ ▶ msg_1785695021963.wav
+20:24:18 🎤 TTS.PLAY │ ▶ msg_1785695026542.wav
+20:26:18 🎵 TRACK │ mp3 — DMX and Cypress Hill remix
+20:26:18 🔊 QUEUE │ music_q ← 0091-Aqua-Barbie.Girl.mp3
+20:26:18 🔊 QUEUE │ music_q ← 189ev. Norah Jones Come Away With Me (3 i nov).mp3
+20:26:18 🔊 QUEUE │ music_q ← 16-wyclef_jean-knockin_on_heavens_door-rns.mp3
+20:26:18 🔊 QUEUE │ music_q ← 01-vangelis-pulstar-mvp.mp3
+20:26:18 🔊 QUEUE │ music_q ← 2000_19 Melanie C. - I Turn To You.mp3
+20:26:18 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+20:26:46 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+20:26:46 🎤 TTS.REQ │ "James Brown’s swagger keeps us dancing even in 196..." (voice: vivianv2)
+20:26:53 🎤 TTS.GEN │ msg_1785695206412.wav
+20:26:53 🎤 TTS.REQ │ "It’s the bass line that makes my feet move, not ju..." (voice: vivianv2)
+20:26:56 🎤 TTS.GEN │ msg_1785695213211.wav
+20:26:56 🎤 TTS.REQ │ "Leila and Rob’n’Raz bring a funky pop bite that le..." (voice: vivianv2)
+20:27:01 🎤 TTS.GEN │ msg_1785695216177.wav
+20:27:01 🎤 TTS.REQ │ "Cypress Hill’s Lowrider is a desert road trip play..." (voice: vivianv2)
+20:27:06 🎤 TTS.GEN │ msg_1785695221053.wav
+20:27:06 🎤 TTS.REQ │ "Those beats still feel fresh—like a midnight sign ..." (voice: vivianv2)
+20:27:10 🎤 TTS.GEN │ msg_1785695226295.wav
+20:27:10 🎤 TTS.REQ │ "Tenacious D’s rock comedy keeps us laughing while ..." (voice: vivianv2)
+20:27:15 🎤 TTS.GEN │ msg_1785695230179.wav
+20:27:15 🎤 TTS.REQ │ "Their humor is louder than my voicemail, but still..." (voice: vivianv2)
+20:27:18 🎤 TTS.GEN │ msg_1785695235263.wav
+20:30:53 🎵 TRACK │ Aqua — Barbie Girl
+20:30:53 🔊 QUEUE │ music_q ← 078 - James Brown - I Got You (I Feel Good).mp3
+20:34:05 🎵 TRACK │ Norah Jones — Come Away With Me
+20:34:05 🔊 QUEUE │ music_q ← 0917-Leila.K.and.Rob.n.Raz-Got.To.Get.mp3
+20:37:20 🎵 TRACK │ Wyclef Jean — Knockin On Heavens Door
+20:37:20 🔊 QUEUE │ music_q ← 027. Mando Diao - The Band.mp3
+20:41:17 🎵 TRACK │ Vangelis — pulstar
+20:41:17 🔊 QUEUE │ music_q ← Cypress Hill - Lowrider (1).mp3
+20:46:36 🎵 TRACK │ Aqua — Barbie Girl
+20:49:49 🎵 TRACK │ Norah Jones — Come Away With Me
+20:53:01 🎵 TRACK │ Wyclef Jean — Knockin On Heavens Door
+20:56:58 🎵 TRACK │ Vangelis — pulstar
+21:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 21:00
+21:02:17 🎵 TRACK │ 2000_19 Melanie C. — I Turn To You
+21:02:17 🎤 TTS.REQ │ "Booong! The time is 21:00" (voice: Aiden)
+21:02:19 🎤 TTS.GEN │ msg_1785697337568.wav
+21:02:19 🎤 TTS.PLAY │ ▶ msg_1785697337568.wav
+21:02:19 🔊 QUEUE │ music_q ← 002 COME ALONG Titiyo.mp3
+21:02:19 🎤 TTS.REQ │ "Youssou N'Dour and Neneh Cherry converse over drum..." (voice: vivianv2)
+21:02:23 🎤 TTS.GEN │ msg_1785697339477.wav
+21:02:23 🎤 TTS.REQ │ "This track blends worlds and warms the vibe like a..." (voice: vivianv2)
+21:02:27 🎤 TTS.GEN │ msg_1785697343709.wav
+21:02:27 🎤 TTS.REQ │ "Alphaville’s synth clouds lift us to 80s nostalgia..." (voice: vivianv2)
+21:02:32 🎤 TTS.GEN │ msg_1785697347887.wav
+21:08:04 🎵 TRACK │ James Brown — I Got You (I Feel Good)
+21:08:04 🔊 QUEUE │ music_q ← 18 - Tenacious D - Rock Your Socks.mp3
+21:08:04 🎤 TTS.REQ │ "James Brown’s swagger keeps us dancing even in 196..." (voice: vivianv2)
+21:08:10 🎤 TTS.GEN │ msg_1785697684590.wav
+21:08:10 🎤 TTS.REQ │ "It’s the bass line that makes my feet move, not ju..." (voice: vivianv2)
+21:08:13 🎤 TTS.GEN │ msg_1785697690059.wav
+21:09:30 🎤 TTS.PLAY │ ▶ msg_1785697690059.wav
+21:09:39 🎤 TTS.PLAY │ ▶ msg_1785697684590.wav
+21:10:47 🎵 TRACK │ Leila K & Rob'n' Raz — Got To Get
+21:10:47 🔊 QUEUE │ music_q ← 0566-Youssou.NDour.und.Neneh.Cherry-Seven.Seconds.mp3
+21:10:47 🎤 TTS.REQ │ "Leila and Rob’n’Raz bring a funky pop bite that le..." (voice: vivianv2)
+21:10:52 🎤 TTS.GEN │ msg_1785697847982.wav
+21:15:09 🎵 TRACK │ Mando Diao — The Band
+21:15:09 🔊 QUEUE │ music_q ← 023. Alphaville - Dance With Me.mp3
+21:18:24 🎵 TRACK │ Cypress Hill — Lowrider
+21:18:24 🔊 QUEUE │ music_q ← 002 COME ALONG Titiyo.mp3
+21:18:24 🔊 QUEUE │ music_q ← 18 - Tenacious D - Rock Your Socks.mp3
+21:18:24 🔊 QUEUE │ music_q ← 0566-Youssou.NDour.und.Neneh.Cherry-Seven.Seconds.mp3
+21:18:24 🔊 QUEUE │ music_q ← 023. Alphaville - Dance With Me.mp3
+21:18:24 🔊 QUEUE │ music_q ← 09 - The Corrs - No Frontiers.mp3
+21:18:24 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+21:18:42 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+21:18:42 🎤 TTS.REQ │ "Cypress Hill’s Hand On The Glock is ready to fire ..." (voice: vivianv2)
+21:18:47 🎤 TTS.GEN │ msg_1785698322748.wav
+21:18:47 🎤 TTS.REQ │ "And that’s the kind of high‑energy throwback we cr..." (voice: vivianv2)
+21:18:51 🎤 TTS.GEN │ msg_1785698327776.wav
+21:18:51 🎤 TTS.REQ │ "Abakus takes us on an ambient psychill journey—let..." (voice: vivianv2)
+21:18:56 🎤 TTS.GEN │ msg_1785698331901.wav
+21:18:56 🎤 TTS.REQ │ "It’s a perfect pause from the hard beats; a breath..." (voice: vivianv2)
+21:19:00 🎤 TTS.GEN │ msg_1785698336442.wav
+21:19:00 🎤 TTS.REQ │ "Melanie C swings back to the '00s with I Turn To Y..." (voice: vivianv2)
+21:19:06 🎤 TTS.GEN │ msg_1785698340437.wav
+21:19:06 🎤 TTS.REQ │ "We’re circling back from pulstar, and this track i..." (voice: vivianv2)
+21:19:10 🎤 TTS.GEN │ msg_1785698346713.wav
+21:19:11 🎤 TTS.REQ │ "Tenacious D throws a comedic riff into the mix—Kyl..." (voice: vivianv2)
+21:19:17 🎤 TTS.GEN │ msg_1785698351001.wav
+21:19:17 🎤 TTS.REQ │ "I love when humor knocks on electronic doors; keep..." (voice: vivianv2)
+21:19:20 🎤 TTS.GEN │ msg_1785698357049.wav
+21:24:59 🎵 TRACK │ 2001 - Topp 100 — COME ALONG Titiyo
+21:24:59 🔊 QUEUE │ music_q ← Cypress Hill - Hand On The Glock.mp3
+21:28:38 🎵 TRACK │ Tenacious D — Rock Your Socks
+21:28:38 🔊 QUEUE │ music_q ← 034 TROUBLE Coldplay.mp3
+21:32:06 🎵 TRACK │ Youssou N'Dour & Neneh Cherry — Seven Seconds
+21:32:06 🔊 QUEUE │ music_q ← 01 Igmatik.mp3
+21:36:11 🎵 TRACK │ Alphaville — Dance With Me
+21:36:11 🔊 QUEUE │ music_q ← 11 Wave (Bonus Track).2.mp3
+21:40:14 🎵 TRACK │ 2001 - Topp 100 — COME ALONG Titiyo
+21:43:53 🎵 TRACK │ Tenacious D — Rock Your Socks
+21:47:21 🎵 TRACK │ Youssou N'Dour & Neneh Cherry — Seven Seconds
+21:51:26 🎵 TRACK │ Alphaville — Dance With Me
+21:55:29 🎵 TRACK │ The Corrs — No Frontiers
+21:55:29 🔊 QUEUE │ music_q ← 0517-Melanie.C.-I.Turn.To.You.mp3
+21:55:29 🎤 TTS.REQ │ "Technotronic’s Take It Slow in the Fab Bibulous Mi..." (voice: vivianv2)
+21:55:34 🎤 TTS.GEN │ msg_1785700529294.wav
+21:55:34 🎤 TTS.REQ │ "It’s the kind of beat that reminds us how retro ca..." (voice: vivianv2)
+21:55:38 🎤 TTS.GEN │ msg_1785700534457.wav
+21:59:52 🎵 TRACK │ Cypress Hill — Hand On The Glock
+21:59:52 🔊 QUEUE │ music_q ← 10 - Tenacious D - Kyle Quit The Band.mp3
+21:59:52 🎤 TTS.REQ │ "Cypress Hill’s Hand On The Glock is ready to fire ..." (voice: vivianv2)
+21:59:56 🎤 TTS.GEN │ msg_1785700792119.wav
+21:59:56 🎤 TTS.REQ │ "And that’s the kind of high‑energy throwback we cr..." (voice: vivianv2)
+22:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 22:00
+22:00:00 🎤 TTS.GEN │ msg_1785700796501.wav
+22:00:00 🔌 EVENT │ [producer] Voice: Cypress Hill’s Hand On The Glock is read...
+22:00:00 🎤 TTS.PLAY │ ▶ msg_1785700792119.wav
+22:00:22 🎤 TTS.PLAY │ ▶ msg_1785700796501.wav
+22:03:21 🎵 TRACK │ 2001 - Topp 100 — TROUBLE Coldplay
+22:03:21 🎤 TTS.REQ │ "Booong! The time is 22:00" (voice: Aiden)
+22:03:23 🎤 TTS.GEN │ msg_1785701001607.wav
+22:03:23 🎤 TTS.PLAY │ ▶ msg_1785701001607.wav
+22:03:23 🔊 QUEUE │ music_q ← 0592-Twenty.4.Seven-I.Cant.Stand.It.mp3
+22:07:10 🎵 TRACK │ Abakus — Igmatik
+22:07:10 🔊 QUEUE │ music_q ← 1984_48 Kim Wilde - The Second Time.mp3
+22:07:10 🎤 TTS.REQ │ "Abakus takes us on an ambient psychill journey—let..." (voice: vivianv2)
+22:07:14 🎤 TTS.GEN │ msg_1785701230224.wav
+22:07:15 🎤 TTS.REQ │ "It’s a perfect pause from the hard beats; a breath..." (voice: vivianv2)
+22:07:18 🎤 TTS.GEN │ msg_1785701235067.wav
+22:07:18 🔌 EVENT │ [producer] Queued between songs: It’s a perfect pause from the hard beats...
+22:08:16 🎤 TTS.PLAY │ ▶ msg_1785701230224.wav
+22:12:51 🎵 TRACK │ Technotronic — Wave (Bonus Track)
+22:12:52 🎤 TTS.PLAY │ ▶ msg_1785701235067.wav
+22:12:52 🔊 QUEUE │ music_q ← 09 Take it slow (Fab Bibulous Mix).mp3
+22:17:07 🎵 TRACK │ Melanie C. — I Turn To You
+22:17:07 🔊 QUEUE │ music_q ← 10 - Tenacious D - Kyle Quit The Band.mp3
+22:17:07 🔊 QUEUE │ music_q ← 0592-Twenty.4.Seven-I.Cant.Stand.It.mp3
+22:17:07 🔊 QUEUE │ music_q ← 1984_48 Kim Wilde - The Second Time.mp3
+22:17:07 🔊 QUEUE │ music_q ← 09 Take it slow (Fab Bibulous Mix).mp3
+22:17:07 🔊 QUEUE │ music_q ← 0907-Eurythmics-Sexcrime.mp3
+22:17:07 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+22:17:30 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+22:17:30 🎤 TTS.REQ │ "Fade to black, but we’re still in tune here with a..." (voice: vivianv2)
+22:17:35 🎤 TTS.GEN │ msg_1785701850025.wav
+22:17:35 🎤 TTS.REQ │ "I’m surprised that the guitar still screams like i..." (voice: vivianv2)
+22:17:39 🎤 TTS.GEN │ msg_1785701855185.wav
+22:17:39 🎤 TTS.REQ │ "And just as the light flickers off, you can’t help..." (voice: vivianv2)
+22:17:43 🎤 TTS.GEN │ msg_1785701859516.wav
+22:17:43 🎤 TTS.REQ │ "'What a Night'— this track is a disco‑inspired bla..." (voice: vivianv2)
+22:17:49 🎤 TTS.GEN │ msg_1785701863658.wav
+22:17:49 🎤 TTS.REQ │ "Absolutely, Viv! I feel like we’re walking through..." (voice: vivianv2)
+22:17:54 🎤 TTS.GEN │ msg_1785701869342.wav
+22:17:54 🎤 TTS.REQ │ "Breathe in… Breathe out— this track has a pulse th..." (voice: vivianv2)
+22:17:59 🎤 TTS.GEN │ msg_1785701874295.wav
+22:17:59 🎤 TTS.REQ │ "It’s like our headphones are the only doors throug..." (voice: vivianv2)
+22:18:03 🎤 TTS.GEN │ msg_1785701879171.wav
+22:18:03 🎤 TTS.REQ │ "And when the drums kick back, you realize we’re al..." (voice: vivianv2)
+22:18:07 🎤 TTS.GEN │ msg_1785701883305.wav
+22:18:08 🎤 TTS.REQ │ "True, Viv— we’re just looping to the last beat bec..." (voice: vivianv2)
+22:18:12 🎤 TTS.GEN │ msg_1785701888011.wav
+22:18:12 🎤 TTS.REQ │ "Now we switch to a little Scandinavian flavor— 'Au..." (voice: vivianv2)
+22:18:18 🎤 TTS.GEN │ msg_1785701892529.wav
+22:18:18 🎤 TTS.REQ │ "I love how this track carries an almost cinematic ..." (voice: vivianv2)
+22:18:22 🎤 TTS.GEN │ msg_1785701898138.wav
+22:22:54 🎵 TRACK │ Tenacious D — Kyle Quit The Band
+22:22:54 🔊 QUEUE │ music_q ← 289 - The Beatles - Can't Buy Me Love.mp3
+22:24:18 🎵 TRACK │ Twenty 4 Seven — I Can't Stand It
+22:24:18 🔊 QUEUE │ music_q ← 201-dire_straits-fade_to_black-esc.mp3
+22:28:23 🎵 TRACK │ 1984_48 Kim Wilde — The Second Time
+22:28:23 🔊 QUEUE │ music_q ← 203-shirley_bassey-something.mp3
+22:32:10 🎵 TRACK │ Technotronic — Take it slow (Fab Bibulous Mix)
+22:32:10 🔊 QUEUE │ music_q ← 09-wyclef_jean-what_a_night-rns.mp3
+22:37:23 🎵 TRACK │ Tenacious D — Kyle Quit The Band
+22:38:47 🎵 TRACK │ Twenty 4 Seven — I Can't Stand It
+22:42:52 🎵 TRACK │ 1984_48 Kim Wilde — The Second Time
+22:46:38 🎵 TRACK │ Technotronic — Take it slow (Fab Bibulous Mix)
+22:51:51 🎵 TRACK │ Eurythmics — Sexcrime (Nineteen Eighty Four) (aus ''1983'')
+22:51:51 🔊 QUEUE │ music_q ← 195ev. Breathe - Blu Cantrell (featuring Sean Paul) (2i aug efter bep).mp3
+22:51:51 🎤 TTS.REQ │ "'Rescue Me'— Madonna's anthem that still feels lik..." (voice: vivianv2)
+22:51:56 🎤 TTS.GEN │ msg_1785703911851.wav
+22:51:56 🎤 TTS.REQ │ "And she just goes into it, turning the studio into..." (voice: vivianv2)
+22:52:00 🎤 TTS.GEN │ msg_1785703916513.wav
+22:52:01 🎤 TTS.REQ │ "Closing with 'Rockin Over The Beat'— this rave ant..." (voice: vivianv2)
+22:52:07 🎤 TTS.GEN │ msg_1785703921021.wav
+22:52:07 🎤 TTS.REQ │ "It feels like a glitchy love‑letter to an alternat..." (voice: vivianv2)
+22:52:11 🎤 TTS.GEN │ msg_1785703927110.wav
+22:52:11 🎤 TTS.REQ │ "So let’s spin back into that night’s heart, keep t..." (voice: vivianv2)
+22:52:17 🎤 TTS.GEN │ msg_1785703931456.wav
+22:55:44 🎵 TRACK │ The Beatles — Can't Buy Me Love
+22:55:44 🔊 QUEUE │ music_q ← 02 - U2 - New Year's Day.mp3
+22:57:55 🎵 TRACK │ Dire Straits — Fade To Black
+22:57:55 🔊 QUEUE │ music_q ← 051. Madonna  - Rescue Me.mp3
+22:57:55 🎤 TTS.REQ │ "Fade to black, but we’re still in tune here with a..." (voice: vivianv2)
+22:57:59 🎤 TTS.GEN │ msg_1785704275099.wav
+22:57:59 🎤 TTS.REQ │ "I’m surprised that the guitar still screams like i..." (voice: vivianv2)
+22:58:02 🎤 TTS.GEN │ msg_1785704279187.wav
+22:58:02 🎤 TTS.REQ │ "And just as the light flickers off, you can’t help..." (voice: vivianv2)
+22:58:07 🎤 TTS.GEN │ msg_1785704282859.wav
+22:58:07 🔌 EVENT │ [producer] Voice: Fade to black, but we’re still in tune h...
+22:58:07 🎤 TTS.PLAY │ ▶ msg_1785704275099.wav
+22:59:39 🎤 TTS.PLAY │ ▶ msg_1785704279187.wav
+23:00:00 🔌 EVENT │ [time] Queued between songs: Booong! The time is 23:00
+23:01:38 🎵 TRACK │ Shirley Bassey — Something
+23:01:38 🎤 TTS.REQ │ "Booong! The time is 23:00" (voice: Aiden)
+23:01:40 🎤 TTS.GEN │ msg_1785704498735.wav
+23:01:40 🎤 TTS.PLAY │ ▶ msg_1785704498735.wav
+23:01:40 🔊 QUEUE │ music_q ← 07 Rockin over the beat (Rockin Over.2.mp3
+23:05:01 🎵 TRACK │ Wyclef Jean — What A Night
+23:05:01 🔊 QUEUE │ music_q ← 195ev. Breathe - Blu Cantrell (featuring Sean Paul) (2i aug efter bep).mp3
+23:05:01 🔊 QUEUE │ music_q ← 02 - U2 - New Year's Day.mp3
+23:05:01 🔊 QUEUE │ music_q ← 051. Madonna  - Rescue Me.mp3
+23:05:01 🔊 QUEUE │ music_q ← 07 Rockin over the beat (Rockin Over.2.mp3
+23:05:01 🔊 QUEUE │ music_q ← 494 - The Eagles - Desperado.mp3
+23:05:01 🤖 LLM │ "[Cast]
+Primary: id=viv name="Viv"
+Personality: You..."
+23:05:18 🤖 LLM.REPLY │ "{
+  "segments": [
+    {
+      "song_index": 0,
+   ..."
+23:05:18 🎤 TTS.REQ │ "Bon Jovi’s anthem carries that late-night swagger ..." (voice: vivianv2)
+23:05:23 🎤 TTS.GEN │ msg_1785704718861.wav
+23:05:23 🎤 TTS.REQ │ "Snoop flips the script, dropping a modern hook ove..." (voice: vivianv2)
+23:05:26 🎤 TTS.GEN │ msg_1785704723871.wav
+23:05:26 🎤 TTS.REQ │ "It’s a perfect mash of old-school beats and new-ag..." (voice: vivianv2)
+23:05:30 🎤 TTS.GEN │ msg_1785704726892.wav
+23:05:30 🎤 TTS.REQ │ "This ballad brings that retro emotional swell we'v..." (voice: vivianv2)
+23:05:34 🎤 TTS.GEN │ msg_1785704730842.wav
+23:05:34 🎤 TTS.REQ │ "And just when the chord hits, we can feel that ele..." (voice: vivianv2)
+23:05:38 🎤 TTS.GEN │ msg_1785704734859.wav
+23:05:38 🎤 TTS.REQ │ "Al Green’s soul feels like a warm blanket on this ..." (voice: vivianv2)
+23:05:42 🎤 TTS.GEN │ msg_1785704738807.wav
+23:05:42 🎤 TTS.REQ │ "It’s nostalgic but still fresh, exactly fitting ou..." (voice: vivianv2)
+23:05:45 🎤 TTS.GEN │ msg_1785704742689.wav
+23:09:00 🎵 TRACK │ BLU CANTRELL FEAT. SEAN PAUL — BREATHE
+23:09:00 🔊 QUEUE │ music_q ← 1994_05 Bon Jovi - Always.mp3
+23:12:44 🎵 TRACK │ U2 — New Year's Day
+23:12:44 🔊 QUEUE │ music_q ← 20 - Chet Baker - Let's Get Lost.mp3
+23:16:59 🎵 TRACK │ Madonna — Rescue Me
+23:16:59 🔊 QUEUE │ music_q ← Buck 'Em.mp3
+23:22:26 🎵 TRACK │ Technotronic — Rockin over the beat (Rockin Over Manchester Hacienda Mix)
+23:22:26 🔊 QUEUE │ music_q ← 009. Reo Speedwagon - Can't Fight This Feeling.mp3
+23:28:55 🎵 TRACK │ BLU CANTRELL FEAT. SEAN PAUL — BREATHE
+23:32:38 🎵 TRACK │ U2 — New Year's Day
+23:36:53 🎵 TRACK │ Madonna — Rescue Me
+23:42:20 🎵 TRACK │ Technotronic — Rockin over the beat (Rockin Over Manchester Hacienda Mix)
+23:48:49 🎵 TRACK │ The Eagles — Desperado
+23:48:49 🔊 QUEUE │ music_q ← 060 - Al Green - Let's Stay Together.mp3
+23:48:49 🎤 TTS.REQ │ "Turning to jazz now—this track's cool ambience set..." (voice: vivianv2)
+23:48:54 🎤 TTS.GEN │ msg_1785707329791.wav
+23:48:54 🎤 TTS.REQ │ "It’s like sipping espresso with a hint of night; s..." (voice: vivianv2)
+23:48:58 🎤 TTS.GEN │ msg_1785707334740.wav
+23:48:58 🎤 TTS.REQ │ "Depeche’s synths whisper that late-night love stor..." (voice: vivianv2)
+23:49:01 🎤 TTS.GEN │ msg_1785707338351.wav
+23:49:02 🎤 TTS.REQ │ "And as the beat fades, you get that chiptune charm..." (voice: vivianv2)
+23:49:05 🎤 TTS.GEN │ msg_1785707342000.wav
+23:52:22 🎵 TRACK │ 1994_05 Bon Jovi — Always
+23:52:22 🔊 QUEUE │ music_q ← 07-sarah_vaughan-black_coffee-just.mp3
+23:52:22 🎤 TTS.REQ │ "Bon Jovi’s anthem carries that late-night swagger ..." (voice: vivianv2)
+23:52:26 🎤 TTS.GEN │ msg_1785707542428.wav
+23:52:26 🔌 EVENT │ [producer] Voice: Bon Jovi’s anthem carries that late-nigh...
+23:52:26 🎤 TTS.PLAY │ ▶ msg_1785707542428.wav
+23:58:02 🎵 TRACK │ Chet Baker — Let's Get Lost
+23:58:02 🔊 QUEUE │ music_q ← 12-charles_mingus-goodbye_pork_pie_hat-just.mp3
