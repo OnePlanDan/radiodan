@@ -144,6 +144,30 @@ class STTConfig:
 
 
 @dataclass
+class GreeterConfig:
+    """Greeting listeners when they connect, and the daily bulletin.
+
+    The station effectively has one listener; greeting them by name is a
+    feature, not a bug. `news_show` must be in audiosegment.owned_shows or no
+    bulletin is ever ordered.
+    """
+    enabled: bool = True
+    listener_name: str = ""
+    # Presence poll. The tracker's 60s sampling is for history; a greeting two
+    # songs late is not a greeting, hence the separate faster poll.
+    poll_interval: float = 10.0
+    # Stop/start in a car should not produce a greeting per traffic light.
+    cooldown_seconds: float = 180.0
+    # After a bridge restart mid-listen, do not re-greet the same session.
+    boot_grace_seconds: float = 900.0
+    speaker: str = ""      # empty = station default voice
+    instruct: str = "Bright, warm, genuinely delighted — greeting a dear friend who just walked in"
+    news_show: str = ""
+    news_hour: int = 6     # order the day's bulletin from this local hour on
+    first_connect_episode: bool = True
+
+
+@dataclass
 class OllamaConfig:
     endpoint: str = "http://localhost:11434/v1/chat/completions"
     model: str = "gpt-oss:20b"
@@ -181,6 +205,7 @@ class Config:
     audio: AudioConfig = field(default_factory=AudioConfig)
     telegram: TelegramConfig = field(default_factory=TelegramConfig)
     ai: AIConfig = field(default_factory=AIConfig)
+    greeter: GreeterConfig = field(default_factory=GreeterConfig)
     plugins: dict = field(default_factory=dict)
 
     @classmethod
@@ -323,6 +348,23 @@ class Config:
             allowed_users=allowed_users,
         )
 
+        greeter_cfg = yaml_config.get("greeter", {}) or {}
+        greeter = GreeterConfig(
+            enabled=bool(greeter_cfg.get("enabled", True)),
+            listener_name=str(greeter_cfg.get("listener_name", "")),
+            poll_interval=float(greeter_cfg.get("poll_interval", 10.0)),
+            cooldown_seconds=float(greeter_cfg.get("cooldown_seconds", 180.0)),
+            boot_grace_seconds=float(greeter_cfg.get("boot_grace_seconds", 900.0)),
+            speaker=str(greeter_cfg.get("speaker", "")),
+            instruct=str(greeter_cfg.get(
+                "instruct",
+                "Bright, warm, genuinely delighted — greeting a dear friend who just walked in",
+            )),
+            news_show=str(greeter_cfg.get("news_show", "")),
+            news_hour=int(greeter_cfg.get("news_hour", 6)),
+            first_connect_episode=bool(greeter_cfg.get("first_connect_episode", True)),
+        )
+
         # Plugin configs
         plugins = yaml_config.get("plugins", {})
 
@@ -340,6 +382,7 @@ class Config:
             ),
             telegram=telegram,
             ai=AIConfig(ollama=ollama),
+            greeter=greeter,
             plugins=plugins,
         )
 

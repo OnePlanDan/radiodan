@@ -70,6 +70,8 @@ class WebServer:
         voice_watchdog: object | None = None,
         listener_tracker: object | None = None,
         commissions: object | None = None,
+        greeter: object | None = None,
+        station_stats: object | None = None,
         host: str = "0.0.0.0",
         port: int = 49997,
     ):
@@ -96,6 +98,8 @@ class WebServer:
         self.app["voice_watchdog"] = voice_watchdog
         self.app["listener_tracker"] = listener_tracker
         self.app["commissions"] = commissions
+        self.app["greeter"] = greeter
+        self.app["station_stats"] = station_stats
         if event_store is not None:
             self.app["event_store"] = event_store
         if project_root is not None:
@@ -115,6 +119,8 @@ class WebServer:
         from bridge.web.routes.llm import routes as llm_routes
         from bridge.web.routes.producer import routes as producer_routes
         from bridge.web.routes.programmes import routes as programme_routes
+        from bridge.web.routes.greeter import routes as greeter_routes
+        from bridge.web.routes.now import routes as now_routes
         from bridge.web.routes.index import routes as index_routes
 
         self.app.router.add_routes(status_routes)
@@ -127,6 +133,8 @@ class WebServer:
         self.app.router.add_routes(llm_routes)
         self.app.router.add_routes(producer_routes)
         self.app.router.add_routes(programme_routes)
+        self.app.router.add_routes(greeter_routes)
+        self.app.router.add_routes(now_routes)
         # Last: the index reads the finished route table to describe itself.
         self.app.router.add_routes(index_routes)
 

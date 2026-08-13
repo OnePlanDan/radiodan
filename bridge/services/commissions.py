@@ -312,6 +312,21 @@ class CommissionService:
         rows = await self._rows("WHERE job_id = ?", (job_id,))
         return rows[0] if rows else None
 
+    async def latest_for_show(self, show: str, since_ts: float | None = None):
+        """Most recent commission for a show, optionally only from `since_ts` on.
+
+        This is how "has today's bulletin been ordered yet" is answered — the
+        commissions table is the source of truth, so a bridge restart cannot
+        double-order the day's episode.
+        """
+        where = "WHERE show = ?"
+        params: list = [show]
+        if since_ts is not None:
+            where += " AND requested_at >= ?"
+            params.append(since_ts)
+        rows = await self._rows(where + " ORDER BY requested_at DESC LIMIT 1", tuple(params))
+        return rows[0] if rows else None
+
     async def recent(self, limit: int = 20) -> list:
         return await self._rows("ORDER BY requested_at DESC LIMIT ?", (limit,))
 

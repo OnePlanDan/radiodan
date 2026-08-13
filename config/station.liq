@@ -163,6 +163,9 @@ radio = fallback(track_sensitive=false, [radio, blank()])
 # OUTPUT
 # =============================================================================
 
+# Mount headers travel as icy-name / icy-description / icy-genre / icy-url —
+# these are what a player (VLC media info) shows for the station itself, as
+# opposed to StreamTitle which changes per track.
 output.icecast(
   %mp3(bitrate=128),
   host="icecast",
@@ -170,8 +173,9 @@ output.icecast(
   password=icecast_password,
   mount="/stream",
   name=station_name,
-  description="Ambient AI work companion",
-  genre="Ambient",
+  description="AI radio from Gothenburg — music, daily news with June Ferry, and late-night strangeness",
+  genre="Eclectic",
+  url="https://github.com/OnePlanDan/radiodan-agent",
   radio
 )
 

@@ -31,6 +31,8 @@ from bridge.audio.loudness import LoudnessScanner
 from bridge.audio.listener_tracker import ListenerTracker
 from bridge.services.audiosegment import AudioSegmentClient
 from bridge.services.commissions import CommissionService
+from bridge.services.greeter import GreeterService
+from bridge.services.station_stats import StationStats
 from bridge.plugins import load_plugin_instances
 from bridge.web.server import WebServer
 from bridge.booth import booth
@@ -213,6 +215,9 @@ async def main() -> None:
     )
     logger.info(f"Playlist planner configured (music_dir: {music_dir}, lookahead: {config.audio.playlist.lookahead})")
 
+    # Station statistics — read-only reporter used by /api/stats and greetings.
+    station_stats = StationStats(db_path=db_path, music_dir=music_dir)
+
     # Resolve watchdog fallback track path (absolute or relative to music_dir)
     fallback_path: Path | None = None
     raw_fallback = config.audio.watchdog.fallback_track_path
@@ -245,6 +250,32 @@ async def main() -> None:
     # Create voice scheduler (central voice timing engine)
     voice_scheduler = VoiceScheduler(tts_service, mixer, stream_context)
     logger.info("Voice scheduler configured")
+
+    # Greeter — notices a listener connecting, greets them, and runs the daily
+    # bulletin (ordered every day whether anyone listens; aired on the day's
+    # first connection).
+    greeter = GreeterService(
+        tracker=listener_tracker,
+        tts_service=tts_service,
+        mixer=mixer,
+        voice_scheduler=voice_scheduler,
+        planner=playlist_planner,
+        stream_context=stream_context,
+        db_path=db_path,
+        commissions=commissions,
+        stats=station_stats,
+        enabled=config.greeter.enabled,
+        listener_name=config.greeter.listener_name,
+        poll_interval=config.greeter.poll_interval,
+        cooldown_seconds=config.greeter.cooldown_seconds,
+        boot_grace_seconds=config.greeter.boot_grace_seconds,
+        speaker=config.greeter.speaker,
+        instruct=config.greeter.instruct,
+        news_show=config.greeter.news_show,
+        news_hour=config.greeter.news_hour,
+        first_connect_episode=config.greeter.first_connect_episode,
+        location=config.audio.audiosegment.location,
+    )
 
     # Wire event store into services for timeline instrumentation
     stream_context.set_event_store(event_store)
@@ -309,6 +340,8 @@ async def main() -> None:
         voice_watchdog=voice_watchdog,
         listener_tracker=listener_tracker,
         commissions=commissions,
+        greeter=greeter,
+        station_stats=station_stats,
     )
 
     # Set up graceful shutdown
@@ -350,6 +383,7 @@ async def main() -> None:
         await voice_scheduler.start()
         await voice_watchdog.start()
         await listener_tracker.start()
+        await station_stats.start()
         if commissions is not None:
             await segment_client.start()
             await commissions.start()
@@ -358,6 +392,8 @@ async def main() -> None:
                     f"AudioSegment unreachable at {config.audio.audiosegment.base_url} — "
                     "commissions will retry; music is unaffected"
                 )
+        # After commissions: the greeter orders and airs the daily bulletin.
+        await greeter.start()
 
         # Wire feedback loop: track changes drive playlist advancement
         stream_context.on("track_changed", playlist_planner.advance)
@@ -422,7 +458,9 @@ async def main() -> None:
                 except Exception:
                     logger.exception(f"Failed to stop plugin: {plugin.instance_id}")
             await voice_watchdog.stop()
+            await greeter.stop()
             await listener_tracker.stop()
+            await station_stats.stop()
             if commissions is not None:
                 await commissions.stop()
                 await segment_client.stop()

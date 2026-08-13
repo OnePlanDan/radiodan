@@ -78,6 +78,12 @@ _BODY_FIELDS: dict[str, dict] = {
             "lane": "repeatable lane filter, e.g. lane=producer&lane=time",
         },
     },
+    "POST /api/greeter/test": {
+        "fields": {
+            "first_of_day": "bool; also run the day's-first flow (breaks the song, airs the bulletin)",
+        },
+        "notes": "Fires a real greeting on air, ignoring the arrival cooldown.",
+    },
 }
 
 
@@ -147,6 +153,10 @@ async def api_index(request: web.Request) -> web.Response:
         "programmes": "GET /api/programmes",
         "commission_an_episode": "POST /api/programmes",
         "put_an_episode_on_air": "POST /api/programmes/{job_id}/air",
+        "greeter": "GET /api/greeter",
+        "station_stats": "GET /api/stats",
+        "now_playing_page": "GET /now (human-friendly, with album art)",
+        "album_art": "GET /api/nowplaying/art",
     }
 
     return web.json_response({

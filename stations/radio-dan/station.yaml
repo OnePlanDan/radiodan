@@ -128,6 +128,20 @@ audio:
   stt:
     endpoint: http://localhost:5000/v1/audio/transcriptions
 
+# Greeting listeners on arrival + the daily bulletin.
+# The station has exactly one regular listener; greeting him by name is the point.
+greeter:
+  enabled: true
+  listener_name: Dan
+  poll_interval: 10          # seconds between presence checks (tracker keeps its own 60s history)
+  cooldown_seconds: 180      # stop/start at a traffic light ≠ two arrivals
+  boot_grace_seconds: 900    # bridge restart mid-listen must not re-greet
+  speaker: ""                # station default voice
+  instruct: "Bright, warm, genuinely delighted — greeting a dear friend who just walked in"
+  news_show: radiodan-morning
+  news_hour: 6               # order the day's bulletin from 06:00 local, listener or not
+  first_connect_episode: true  # first arrival of the day: break the song, air the bulletin
+
 ollama:
   endpoint: http://localhost:11434/v1/chat/completions
   model: gpt-oss:20b

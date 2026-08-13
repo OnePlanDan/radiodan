@@ -34,8 +34,9 @@
         <mount-name>/stream</mount-name>
         <public>0</public>
         <stream-name>__STATION_NAME__</stream-name>
-        <stream-description>Ambient AI work companion</stream-description>
-        <genre>Ambient/Electronic</genre>
+        <stream-description>AI radio from Gothenburg — music, daily news with June Ferry, and late-night strangeness</stream-description>
+        <genre>Eclectic</genre>
+        <stream-url>https://github.com/OnePlanDan/radiodan-agent</stream-url>
     </mount>
 
     <fileserve>1</fileserve>
