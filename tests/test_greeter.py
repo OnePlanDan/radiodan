@@ -86,9 +86,11 @@ class FakePlanner:
 class FakeStreamContext:
     def __init__(self):
         self.skips_notified = 0
+        self.skip_sources: list[str] = []
 
-    async def notify_skip(self):
+    async def notify_skip(self, source="listener"):
         self.skips_notified += 1
+        self.skip_sources.append(source)
 
 
 class FakeCommissions:
@@ -329,6 +331,10 @@ async def test_first_of_day_with_a_ready_bulletin_breaks_the_song(greeter):
     assert item["title"] == "The Day So Far"
     assert greeter.mixer.skips == 1, "the current song is broken"
     assert greeter.stream_context.skips_notified == 1
+    assert greeter.stream_context.skip_sources == ["system"], (
+        "a scripted break must not read as the listener rejecting a song — "
+        "the DJ reacting to it races its own track against the bulletin"
+    )
     assert greeter.commissions.aired == [row["job_id"]]
 
 
@@ -444,6 +450,33 @@ async def test_landed_bulletin_waits_for_a_listener(greeter):
     await greeter.tick()
 
     assert greeter.planner.inserted == [], "an empty room gets no bulletin"
+
+
+# =====================================================================
+# SKIP ATTRIBUTION
+# =====================================================================
+
+async def test_system_skip_is_not_announced_to_the_dj(monkeypatch):
+    """Only a listener's skip emits the "skip" event. The DJ reacting to the
+    greeter's own scripted break inserted a reaction track at position 0 and
+    raced the bulletin it was breaking for (live, 2026-08-14)."""
+    from bridge.audio.stream_context import StreamContext
+
+    ctx = StreamContext(mixer=object())
+    async def _no_poll():
+        pass
+    monkeypatch.setattr(ctx, "_poll_once", _no_poll)
+
+    heard = []
+    async def on_skip(track):
+        heard.append(track)
+    ctx.on("skip", on_skip)
+
+    await ctx.notify_skip(source="system")
+    assert heard == [], "a scripted break is not the listener's taste"
+
+    await ctx.notify_skip()  # default: a real listener skip
+    assert len(heard) == 1
 
 
 # =====================================================================

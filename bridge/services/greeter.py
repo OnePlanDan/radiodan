@@ -450,7 +450,9 @@ class GreeterService:
                     logger.error("Planner refused the bulletin — leaving it ready")
                     return
                 await self.mixer.next_track()
-                await self.stream_context.notify_skip()
+                # A system skip: the DJ must not react as if the listener
+                # rejected a song, or its reaction track races the bulletin.
+                await self.stream_context.notify_skip(source="system")
                 await self.commissions.mark_aired(job_id)
                 await self._log(BULLETIN_AIR, f"{item.get('title')} ({job_id[:8]})")
                 logger.info(f"Broke the song for today's bulletin: {item.get('title')}")

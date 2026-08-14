@@ -354,9 +354,18 @@ class StreamContext:
         # Reset filename tracker so the next playing track triggers track_changed
         self._last_filename = ""
 
-    async def notify_skip(self) -> None:
-        """Force an immediate poll after a skip, so events transition instantly."""
-        await self._emit("skip", self.current_track or {})
+    async def notify_skip(self, source: str = "listener") -> None:
+        """Force an immediate poll after a skip, so events transition instantly.
+
+        `source` says who skipped. Only a listener's skip is emitted as a
+        "skip" event — that event exists so the DJ can react to a human
+        rejecting a song. A system skip (the greeter breaking a song for the
+        bulletin) must not read as taste: reacting to it made the producer
+        insert its own track at position 0, racing the very episode the skip
+        was for (seen live 2026-08-14 09:40:30 — France Gall beat June Ferry).
+        """
+        if source == "listener":
+            await self._emit("skip", self.current_track or {})
         if self._planner:
             self._planner.notify_skip()
         await self._poll_once()
