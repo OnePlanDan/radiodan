@@ -134,7 +134,7 @@ greeter:
   enabled: true
   listener_name: Dan
   poll_interval: 10          # seconds between presence checks (tracker keeps its own 60s history)
-  cooldown_seconds: 180      # stop/start at a traffic light ≠ two arrivals
+  cooldown_seconds: 600      # stop/start within 10 min ≠ two arrivals
   boot_grace_seconds: 900    # bridge restart mid-listen must not re-greet
   speaker: ""                # station default voice
   instruct: "Bright, warm, genuinely delighted — greeting a dear friend who just walked in"

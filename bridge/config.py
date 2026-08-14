@@ -157,7 +157,7 @@ class GreeterConfig:
     # songs late is not a greeting, hence the separate faster poll.
     poll_interval: float = 10.0
     # Stop/start in a car should not produce a greeting per traffic light.
-    cooldown_seconds: float = 180.0
+    cooldown_seconds: float = 600.0
     # After a bridge restart mid-listen, do not re-greet the same session.
     boot_grace_seconds: float = 900.0
     speaker: str = ""      # empty = station default voice
@@ -353,7 +353,7 @@ class Config:
             enabled=bool(greeter_cfg.get("enabled", True)),
             listener_name=str(greeter_cfg.get("listener_name", "")),
             poll_interval=float(greeter_cfg.get("poll_interval", 10.0)),
-            cooldown_seconds=float(greeter_cfg.get("cooldown_seconds", 180.0)),
+            cooldown_seconds=float(greeter_cfg.get("cooldown_seconds", 600.0)),
             boot_grace_seconds=float(greeter_cfg.get("boot_grace_seconds", 900.0)),
             speaker=str(greeter_cfg.get("speaker", "")),
             instruct=str(greeter_cfg.get(
