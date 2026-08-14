@@ -40,7 +40,17 @@ CREATE TABLE IF NOT EXISTS greeter_log (
     note       TEXT
 );
 CREATE INDEX IF NOT EXISTS idx_greeter_log_kind ON greeter_log(kind, greeted_at);
+CREATE TABLE IF NOT EXISTS player_presence (
+    name       TEXT NOT NULL,
+    device     TEXT NOT NULL DEFAULT '',
+    first_seen REAL NOT NULL,
+    last_seen  REAL NOT NULL,
+    PRIMARY KEY (name, device)
+);
 """
+
+# A presence heartbeat this fresh means that person is the one connecting now.
+_PRESENCE_FRESH_SECONDS = 120.0
 
 # greeter_log kinds
 ARRIVAL = "arrival"            # a greeting went to air
@@ -97,6 +107,7 @@ def build_greeting(
     bulletin: dict,
     fun_fact: str | None,
     hour: int | None = None,
+    device: str | None = None,
 ) -> str:
     """Compose the spoken greeting. Pure function so tests can read the words.
 
@@ -119,6 +130,9 @@ def build_greeting(
             f"Well well, good {part}{name}! You're back — I'm genuinely delighted.",
         ]
     parts = [random.choice(openers)]
+
+    if device:
+        parts.append(f"On the {device} tonight, I see.")
 
     if gap_seconds is not None:
         gap = _humanize_gap(gap_seconds)
@@ -306,12 +320,20 @@ class GreeterService:
             bulletin = await self._bulletin_state(order_if_missing=True)
         fact = await self._fun_fact(gap)
 
+        # The player page identifies its listener; a fresh heartbeat beats the
+        # configured default name, and we get to mention the device.
+        name, device = self.listener_name, None
+        who = await self.freshest_presence()
+        if who:
+            name, device = who["name"], (who["device"] or None)
+
         text = build_greeting(
-            listener_name=self.listener_name,
+            listener_name=name,
             gap_seconds=gap,
             first_of_day=first,
             bulletin=bulletin,
             fun_fact=fact,
+            device=device,
         )
 
         try:
@@ -593,6 +615,39 @@ class GreeterService:
             (time.time(), kind, note),
         )
         await self._db.commit()
+
+    # =====================================================================
+    # NAMED PRESENCE (from the player page)
+    # =====================================================================
+
+    async def note_presence(self, name: str, device: str = "") -> None:
+        """The player page says who is listening. Icecast counts; this names."""
+        now = time.time()
+        await self._db.execute(
+            "INSERT INTO player_presence (name, device, first_seen, last_seen) "
+            "VALUES (?, ?, ?, ?) "
+            "ON CONFLICT(name, device) DO UPDATE SET last_seen = excluded.last_seen",
+            (name.strip()[:40], device.strip()[:40], now, now),
+        )
+        await self._db.commit()
+
+    async def freshest_presence(self, window: float = _PRESENCE_FRESH_SECONDS):
+        """Who most recently identified themselves, if anyone did just now."""
+        async with self._db.execute(
+            "SELECT name, device, last_seen FROM player_presence "
+            "WHERE last_seen >= ? ORDER BY last_seen DESC LIMIT 1",
+            (time.time() - window,),
+        ) as cursor:
+            row = await cursor.fetchone()
+        return dict(row) if row else None
+
+    async def known_listeners(self, limit: int = 20) -> list:
+        async with self._db.execute(
+            "SELECT name, device, first_seen, last_seen FROM player_presence "
+            "ORDER BY last_seen DESC LIMIT ?",
+            (limit,),
+        ) as cursor:
+            return [dict(row) async for row in cursor]
 
     async def recent(self, limit: int = 10) -> list:
         async with self._db.execute(

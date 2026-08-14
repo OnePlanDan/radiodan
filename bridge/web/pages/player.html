@@ -1,0 +1,392 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0c0d10">
+<title>Radio Dan</title>
+<style>
+  :root { color-scheme: dark;
+    --bg:#0c0d10; --panel:#14161c; --line:#242833; --ink:#e8e6e0; --dim:#9aa0ab;
+    --faint:#5c6270; --accent:#e8b04b; --good:#7bd88f; --warn:#e06c75; }
+  * { box-sizing:border-box; -webkit-tap-highlight-color:transparent; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font-family:system-ui,-apple-system,sans-serif; line-height:1.45;
+         padding-bottom:2rem; }
+  .wrap { max-width:520px; margin:0 auto; padding:0 1rem; }
+
+  header { display:flex; align-items:center; justify-content:space-between;
+           padding:1rem 0 .4rem; }
+  .brand { letter-spacing:.28em; text-transform:uppercase; font-size:.85rem;
+           color:var(--dim); display:flex; align-items:center; gap:.5rem; }
+  .dot { width:8px; height:8px; border-radius:50%; background:#333; }
+  .dot.live { background:var(--good); box-shadow:0 0 8px var(--good); }
+  #whoami { font-size:.8rem; color:var(--faint); border:1px solid var(--line);
+            border-radius:99px; padding:.25rem .7rem; cursor:pointer; background:none;
+            color:var(--dim); font-family:inherit; }
+
+  .hero { text-align:center; padding:.5rem 0 0; }
+  .artwrap { position:relative; width:min(70vw,300px); margin:0 auto; }
+  #art { width:100%; aspect-ratio:1; border-radius:16px; object-fit:cover;
+         background:linear-gradient(135deg,#181a22,#101218);
+         box-shadow:0 14px 50px rgba(0,0,0,.55); }
+  #bigplay { position:absolute; inset:0; margin:auto; width:84px; height:84px;
+             border-radius:50%; border:0; cursor:pointer; font-size:2rem;
+             background:rgba(12,13,16,.75); color:var(--accent);
+             backdrop-filter:blur(4px); display:flex; align-items:center;
+             justify-content:center; transition:opacity .2s; }
+  #bigplay.playing { opacity:0; } .artwrap:hover #bigplay.playing,
+  #bigplay.playing:focus { opacity:1; }
+  h1 { font-size:1.25rem; margin:.9rem 0 .1rem; }
+  #artist { color:var(--dim); margin:0; }
+  #meta { color:var(--faint); font-size:.82rem; margin:.25rem 0 0; min-height:1.2em; }
+
+  .row { display:flex; gap:.6rem; justify-content:center; align-items:center;
+         padding:.9rem 0 .3rem; }
+  .act { flex:0 0 auto; border:1px solid var(--line); background:var(--panel);
+         color:var(--ink); border-radius:12px; padding:.6rem 1rem; font:inherit;
+         cursor:pointer; }
+  .act:active { transform:scale(.97); }
+  #vol { flex:1; max-width:130px; accent-color:var(--accent); }
+
+  .card { background:var(--panel); border:1px solid var(--line); border-radius:14px;
+          padding:.9rem 1rem; margin:.8rem 0; }
+  .card h2 { margin:0; font-size:.95rem; color:var(--accent); cursor:pointer;
+             display:flex; justify-content:space-between; align-items:center;
+             user-select:none; }
+  .card h2::after { content:"▾"; color:var(--faint); transition:transform .2s; }
+  .card.closed h2::after { transform:rotate(-90deg); }
+  .card .body { margin-top:.7rem; }
+  .card.closed .body { display:none; }
+
+  textarea, input[type=text] { width:100%; background:#0f1116; color:var(--ink);
+    border:1px solid var(--line); border-radius:10px; padding:.55rem .7rem;
+    font:inherit; }
+  textarea { min-height:3.2rem; resize:vertical; }
+  .btn { background:var(--accent); border:0; color:#141005; font:inherit;
+         font-weight:700; border-radius:10px; padding:.55rem 1.1rem; cursor:pointer; }
+  .btn.ghost { background:none; border:1px solid var(--line); color:var(--dim); }
+  .chips { display:flex; flex-wrap:wrap; gap:.45rem; }
+  .chip { border:1px solid var(--line); background:#0f1116; color:var(--dim);
+          border-radius:99px; padding:.35rem .8rem; font:inherit; font-size:.85rem;
+          cursor:pointer; }
+  .chip:active { border-color:var(--accent); color:var(--accent); }
+  .qitem { display:flex; gap:.6rem; padding:.3rem 0; color:var(--dim);
+           font-size:.9rem; border-bottom:1px dashed #1c2029; }
+  .qitem:last-child { border-bottom:0; }
+  .qitem .n { color:var(--faint); min-width:1.2em; }
+  .stats { display:grid; grid-template-columns:1fr 1fr; gap:.5rem .8rem; }
+  .stat b { display:block; font-size:1.05rem; }
+  .stat span { color:var(--faint); font-size:.75rem; }
+  .bubble { background:#0f1116; border:1px solid var(--line); border-radius:10px;
+            padding:.5rem .7rem; margin-top:.6rem; font-size:.88rem; color:var(--dim); }
+  .bubble b { color:var(--ink); }
+
+  #toast { position:fixed; bottom:1.2rem; left:50%; transform:translateX(-50%);
+           background:#1c1f27; border:1px solid var(--line); color:var(--ink);
+           border-radius:12px; padding:.6rem 1.1rem; font-size:.9rem; opacity:0;
+           transition:opacity .25s; pointer-events:none; max-width:88vw; z-index:9; }
+  #toast.show { opacity:1; }
+
+  dialog { background:var(--panel); color:var(--ink); border:1px solid var(--line);
+           border-radius:14px; padding:1.2rem; max-width:320px; }
+  dialog::backdrop { background:rgba(0,0,0,.6); }
+  dialog label { display:block; color:var(--dim); font-size:.85rem; margin:.6rem 0 .2rem; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand"><span class="dot" id="livedot"></span> Radio Dan</div>
+    <button id="whoami">who's listening?</button>
+  </header>
+
+  <div class="hero">
+    <div class="artwrap">
+      <img id="art" alt="">
+      <button id="bigplay" aria-label="play">▶</button>
+    </div>
+    <h1 id="title">–</h1>
+    <p id="artist"></p>
+    <p id="meta"></p>
+  </div>
+
+  <div class="row">
+    <button class="act" id="star" title="star this song">★ star</button>
+    <button class="act" id="skip" title="skip this song">⏭ skip</button>
+    <input type="range" id="vol" min="0" max="1" step="0.02" value="1" title="volume">
+  </div>
+
+  <div class="card closed" id="card-talk">
+    <h2>Talk to the station</h2>
+    <div class="body">
+      <textarea id="chatmsg" placeholder="Say something — the DJ answers on air"></textarea>
+      <div class="row" style="justify-content:flex-start; padding:.5rem 0 0">
+        <button class="btn" id="chatsend">Send</button>
+        <button class="btn ghost" id="mic">🎙 hold to talk</button>
+      </div>
+      <div id="chatlog"></div>
+    </div>
+  </div>
+
+  <div class="card closed" id="card-vibe">
+    <h2>Change the vibe</h2>
+    <div class="body">
+      <div class="chips" id="genres"></div>
+      <div class="row" style="padding:.6rem 0 0">
+        <input type="text" id="seedtext" placeholder="or describe it: 'rainy 3am jazz'">
+        <button class="btn" id="seedsend">Go</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="card closed" id="card-shows">
+    <h2>Shows</h2>
+    <div class="body">
+      <div class="row" style="justify-content:flex-start">
+        <button class="btn ghost" id="bulletin">▶ Today's bulletin</button>
+        <button class="btn ghost" id="summon">⚡ Summon Bad Signal</button>
+      </div>
+      <div class="bubble" id="showsnote" style="display:none"></div>
+    </div>
+  </div>
+
+  <div class="card closed" id="card-queue">
+    <h2>Coming up</h2>
+    <div class="body" id="queue"></div>
+  </div>
+
+  <div class="card closed" id="card-stats">
+    <h2>Station</h2>
+    <div class="body stats" id="stats"></div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<dialog id="iddialog">
+  <b>Who's listening?</b>
+  <label>Name</label><input type="text" id="idname" placeholder="Dan">
+  <label>Device</label><input type="text" id="iddevice" placeholder="phone / office / car">
+  <div class="row" style="justify-content:flex-end; padding:.9rem 0 0">
+    <button class="btn" id="idsave">That's me</button>
+  </div>
+</dialog>
+
+<script>
+const $ = id => document.getElementById(id);
+const streamUrl = () => `http://${location.hostname}:49996/stream?t=${Date.now()}`;
+const audio = new Audio();
+audio.preload = "none";
+let playing = false, lastFile = null;
+
+function toast(msg, ms=2600) {
+  $('toast').textContent = msg; $('toast').classList.add('show');
+  clearTimeout(toast._t); toast._t = setTimeout(() => $('toast').classList.remove('show'), ms);
+}
+async function api(path, opts) {
+  const r = await fetch(path, opts);
+  const data = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(data.error || r.statusText);
+  return data;
+}
+
+/* ---------- identity ---------- */
+const who = {
+  get name()   { return localStorage.getItem('rd_name') || ''; },
+  get device() { return localStorage.getItem('rd_device') || ''; },
+};
+function renderWho() {
+  $('whoami').textContent = who.name ? `${who.name} · ${who.device || '?'}` : "who's listening?";
+}
+$('whoami').onclick = () => { $('idname').value = who.name; $('iddevice').value = who.device; $('iddialog').showModal(); };
+$('idsave').onclick = () => {
+  localStorage.setItem('rd_name', $('idname').value.trim());
+  localStorage.setItem('rd_device', $('iddevice').value.trim());
+  $('iddialog').close(); renderWho(); heartbeat();
+};
+async function heartbeat() {
+  if (!who.name) return;
+  try { await api('/api/presence', {method:'POST', headers:{'Content-Type':'application/json'},
+        body: JSON.stringify({name: who.name, device: who.device})}); } catch(e) {}
+}
+setInterval(() => { if (playing) heartbeat(); }, 30000);
+renderWho();
+if (!who.name) setTimeout(() => $('iddialog').showModal(), 800);
+
+/* ---------- play / pause (always live edge) ---------- */
+function setPlaying(on) {
+  playing = on;
+  $('bigplay').textContent = on ? '❚❚' : '▶';
+  $('bigplay').classList.toggle('playing', on);
+  $('livedot').classList.toggle('live', on);
+}
+$('bigplay').onclick = () => {
+  if (playing) { audio.pause(); audio.src = ''; setPlaying(false); return; }
+  heartbeat();                      // identify BEFORE the greeter sees us arrive
+  audio.src = streamUrl();
+  audio.play().then(() => setPlaying(true))
+    .catch(e => toast('Could not start stream: ' + e.message));
+};
+audio.onerror = () => { if (playing) { setPlaying(false); toast('Stream dropped'); } };
+$('vol').oninput = () => audio.volume = parseFloat($('vol').value);
+
+/* ---------- now playing ---------- */
+async function refreshStatus() {
+  try {
+    const s = await api('/api/status');
+    const t = s.now_playing || {};
+    $('title').textContent = t.title || 'Radio Dan';
+    $('artist').textContent = t.artist || '';
+    $('meta').textContent = [t.album, t.year, t.genre].filter(Boolean).join(' · ');
+    if (t.filename !== lastFile) {
+      lastFile = t.filename;
+      $('art').src = '/api/nowplaying/art?f=' + encodeURIComponent(t.filename || '') + '&t=' + Date.now();
+      $('art').onerror = () => $('art').removeAttribute('src');
+    }
+    if ('mediaSession' in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: t.title || 'Radio Dan', artist: t.artist || '',
+        album: 'Radio Dan', artwork: [{src: $('art').src || ''}]});
+    }
+  } catch (e) {}
+}
+setInterval(refreshStatus, 5000); refreshStatus();
+
+/* ---------- actions ---------- */
+$('star').onclick = async () => {
+  try { const r = await api('/api/playback/star', {method:'POST'});
+        toast(`★ starred — ${r.artist} gets remembered`); }
+  catch (e) { toast('star failed: ' + e.message); }
+};
+$('skip').onclick = async () => {
+  try { await api('/api/playback/skip', {method:'POST'}); toast('⏭ skipped — the DJ noticed'); }
+  catch (e) { toast('skip failed: ' + e.message); }
+};
+
+/* ---------- talk ---------- */
+$('chatsend').onclick = async () => {
+  const msg = $('chatmsg').value.trim();
+  if (!msg) return;
+  $('chatsend').disabled = true; toast('sending to the booth…');
+  try {
+    const r = await api('/api/playback/chat', {method:'POST',
+      headers:{'Content-Type':'application/json'}, body: JSON.stringify({message: msg})});
+    $('chatlog').insertAdjacentHTML('afterbegin',
+      `<div class="bubble"><b>you:</b> ${msg}<br><b>on air:</b> ${r.response}</div>`);
+    $('chatmsg').value = '';
+  } catch (e) { toast('failed: ' + e.message); }
+  $('chatsend').disabled = false;
+};
+
+let rec = null;
+$('mic').onpointerdown = async () => {
+  if (!navigator.mediaDevices?.getUserMedia) { toast('Mic needs https — coming later'); return; }
+  try {
+    const stream = await navigator.mediaDevices.getUserMedia({audio: true});
+    rec = new MediaRecorder(stream);
+    const chunks = [];
+    rec.ondataavailable = e => chunks.push(e.data);
+    rec.onstop = async () => {
+      stream.getTracks().forEach(t => t.stop());
+      const blob = new Blob(chunks, {type: rec.mimeType});
+      const fd = new FormData(); fd.append('audio', blob, 'msg.webm');
+      toast('transcribing…');
+      try {
+        const r = await api('/api/player/voice', {method:'POST', body: fd});
+        if (r.ok) $('chatlog').insertAdjacentHTML('afterbegin',
+          `<div class="bubble"><b>heard:</b> ${r.heard}<br><b>on air:</b> ${r.response}</div>`);
+        else toast(r.reason || 'heard nothing');
+      } catch (e) { toast('voice failed: ' + e.message); }
+    };
+    rec.start(); toast('listening — release to send');
+  } catch (e) { toast('mic blocked: ' + e.message); }
+};
+$('mic').onpointerup = () => { if (rec && rec.state === 'recording') rec.stop(); };
+
+/* ---------- vibe ---------- */
+const GENRES = ['hip-hop','rock','soul','funk','jazz','pop','dance','reggae','indie','blues'];
+$('genres').innerHTML = GENRES.map(g => `<button class="chip" data-g="${g}">${g}</button>`).join('');
+$('genres').onclick = async e => {
+  const g = e.target.dataset?.g; if (!g) return;
+  toast(`asking the producer for ${g}…`, 6000);
+  try {
+    const r = await api('/api/producer/seed?wait=15', {method:'POST',
+      headers:{'Content-Type':'application/json'}, body: JSON.stringify({genre: g})});
+    toast(r.applied ? `${g} is live — new tracks queuing` : `${g} pending…`);
+  } catch (e) { toast('seed failed: ' + e.message); }
+};
+$('seedsend').onclick = async () => {
+  const t = $('seedtext').value.trim(); if (!t) return;
+  toast('interpreting…', 8000);
+  try {
+    const r = await api('/api/producer/seed?wait=20', {method:'POST',
+      headers:{'Content-Type':'application/json'}, body: JSON.stringify({text: t})});
+    toast(r.applied ? 'vibe applied' : 'pending…'); $('seedtext').value = '';
+  } catch (e) { toast('failed: ' + e.message); }
+};
+
+/* ---------- shows ---------- */
+function shownote(msg) { const n = $('showsnote'); n.textContent = msg; n.style.display = 'block'; }
+$('bulletin').onclick = async () => {
+  try {
+    const p = await api('/api/programmes?limit=10');
+    const today = new Date().toDateString();
+    const rows = p.commissions.filter(c => c.show === 'radiodan-morning');
+    const ready = rows.find(c => c.state === 'ready');
+    const aired = rows.find(c => c.state === 'aired' &&
+        new Date(c.aired_at * 1000).toDateString() === today);
+    if (ready) {
+      await api(`/api/programmes/${ready.job_id}/air`, {method:'POST',
+        headers:{'Content-Type':'application/json'}, body: '{"position": 0}'});
+      shownote(`"${ready.title}" queued next.`);
+    } else if (aired) {
+      shownote(`Today's bulletin ("${aired.title}") already aired at ` +
+        new Date(aired.aired_at * 1000).toLocaleTimeString().slice(0,5) +
+        `. Tomorrow's arrives at 06:00.`);
+    } else shownote('No bulletin ready — one is ordered daily at 06:00.');
+  } catch (e) { shownote('failed: ' + e.message); }
+};
+$('summon').onclick = async () => {
+  try {
+    const r = await api('/api/player/summon', {method:'POST'});
+    if (r.status === 'on_air') shownote(`⚡ "${r.title}" — breaking in now.`);
+    else if (r.status === 'building') shownote(`Episode in production — ~${r.eta_minutes} min. It airs when it lands.`);
+    else shownote(r.note || r.status);
+  } catch (e) { shownote('failed: ' + e.message); }
+};
+
+/* ---------- queue + stats ---------- */
+async function refreshQueue() {
+  try {
+    const q = await api('/api/queue');
+    const items = (q.queue || q.upcoming || []).slice(0, 6);
+    $('queue').innerHTML = items.map((t, i) =>
+      `<div class="qitem"><span class="n">${i + 1}</span><span>${t.artist || '?'} — ${t.title || '?'}</span></div>`
+    ).join('') || '<div class="qitem">queue is being planned…</div>';
+  } catch (e) {}
+}
+async function refreshStats() {
+  try {
+    const s = await api('/api/stats');
+    const rows = [
+      [s.songs_played_today, 'songs today'],
+      [s.listener_minutes_today, 'minutes listened today'],
+      [s.library_tracks, 'tracks in the library'],
+      [s.bulletins_aired, 'episodes aired'],
+      [s.disk_free_gb, 'GB free'],
+      [Math.round(s.uptime_hours * 10) / 10, 'hours up'],
+    ];
+    $('stats').innerHTML = rows.filter(r => r[0] != null)
+      .map(r => `<div class="stat"><b>${r[0]}</b><span>${r[1]}</span></div>`).join('');
+  } catch (e) {}
+}
+setInterval(refreshQueue, 15000); refreshQueue();
+setInterval(refreshStats, 30000); refreshStats();
+
+/* ---------- collapsible cards ---------- */
+document.querySelectorAll('.card h2').forEach(h =>
+  h.onclick = () => h.parentElement.classList.toggle('closed'));
+</script>
+</body>
+</html>
