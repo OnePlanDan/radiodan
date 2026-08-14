@@ -409,7 +409,112 @@
 </section>
 
 <section>
-  <h2>8 · Anything else</h2>
+  <h2>8 · The player — Radio Dan's own front door</h2>
+  <p class="lead">Right now you listen through VLC, which makes you an anonymous number in Icecast.
+     A station web page with its own player changes the physics: the page <b>knows who you are</b>,
+     so greetings become certain instead of inferred, and every listener action — star, skip,
+     request, talk back — can reach the DJs. Most buttons below already have working APIs;
+     the page is mostly wiring them to glass.</p>
+
+  <fieldset>
+    <span class="qlabel">Do you want it?</span>
+    <label class="opt"><input type="radio" name="player_want" value="yes_primary" checked>
+      <span>Yes — make it the primary way to listen <span class="rec">recommended</span></span></label>
+    <label class="opt"><input type="radio" name="player_want" value="yes_alongside">
+      <span>Yes, but VLC/plain stream stays equal</span></label>
+    <label class="opt"><input type="radio" name="player_want" value="later">
+      <span>Interesting, but after Bad Signal ships</span></label>
+  </fieldset>
+
+  <fieldset>
+    <span class="qlabel">Where it must work (tick all)</span>
+    <label class="opt"><input type="checkbox" name="player_platforms" value="phone" checked>
+      <span>Phone browser, installable as an app (PWA) <span class="rec">recommended</span>
+      <span class="d">Home-screen icon, full screen, survives screen lock with Media Session controls (play/pause + track info on the lock screen).</span></span></label>
+    <label class="opt"><input type="checkbox" name="player_platforms" value="desktop" checked>
+      <span>Desktop browser</span></label>
+    <label class="opt"><input type="checkbox" name="player_platforms" value="tablet">
+      <span>A tablet as a kitchen/desk radio (always-on display mode)</span></label>
+    <label class="opt"><input type="checkbox" name="player_platforms" value="car">
+      <span>Car <span class="d">Honest note: in-browser lock-screen controls work over Bluetooth audio; a real Android Auto app is a much bigger lift and I'd advise against it for now.</span></span></label>
+  </fieldset>
+
+  <fieldset>
+    <span class="qlabel">Identity — the whole point</span>
+    <label class="opt"><input type="radio" name="player_identity" value="named_device" checked>
+      <span>The page identifies you ("Dan — phone", "Dan — office") <span class="rec">recommended</span>
+      <span class="d">Greeter stops guessing from listener counts: it knows it's you, which device, and your personal listening history. Guests can type a name and get greeted as themselves.</span></span></label>
+    <label class="opt"><input type="radio" name="player_identity" value="anonymous">
+      <span>Stay anonymous — count listeners like today</span></label>
+  </fieldset>
+
+  <fieldset>
+    <span class="qlabel">What's on the page (tick all you want; ✓ = API already exists)</span>
+    <label class="opt"><input type="checkbox" name="player_features" value="now_playing" checked>
+      <span>Now playing + album art + tonight's history ✓ <span class="rec">recommended</span></span></label>
+    <label class="opt"><input type="checkbox" name="player_features" value="star" checked>
+      <span>Star button ✓ <span class="rec">recommended</span> <span class="d">Already feeds song selection; with the form's trigger, the DJs react to what you star.</span></span></label>
+    <label class="opt"><input type="checkbox" name="player_features" value="skip" checked>
+      <span>Skip button ✓ <span class="rec">recommended</span> <span class="d">Properly attributed to you now — the DJs may grumble.</span></span></label>
+    <label class="opt"><input type="checkbox" name="player_features" value="request">
+      <span>Request a song — search the 7,702-track library, queue it ✓</span></label>
+    <label class="opt"><input type="checkbox" name="player_features" value="vibe" checked>
+      <span>Change the vibe — genre/mood buttons driving the seed ✓ <span class="rec">recommended</span></span></label>
+    <label class="opt"><input type="checkbox" name="player_features" value="chat" checked>
+      <span>Message the DJ — type a line, the host answers <b>on air</b> ✓ <span class="rec">recommended</span></span></label>
+    <label class="opt"><input type="checkbox" name="player_features" value="voice_chat">
+      <span>Talk with your voice — mic → transcription → the host answers on air ✓ (STT service exists)</span></label>
+    <label class="opt"><input type="checkbox" name="player_features" value="bulletin_now" checked>
+      <span>"Play today's bulletin now" button ✓ <span class="rec">recommended</span></span></label>
+    <label class="opt"><input type="checkbox" name="player_features" value="summon_badsignal">
+      <span>Summon Bad Signal — the ambush button</span></label>
+    <label class="opt"><input type="checkbox" name="player_features" value="queue_view">
+      <span>See what's coming up ✓</span></label>
+    <label class="opt"><input type="checkbox" name="player_features" value="stats" checked>
+      <span>Live station stats panel ✓</span></label>
+    <label class="opt"><input type="checkbox" name="player_features" value="portraits">
+      <span>Faces for the station — generated portraits of June, Duke, Nyx and brand logos on the page
+      <span class="d">AudioSegment already does cover art per episode; same trick gives the station a visual world.</span></span></label>
+  </fieldset>
+
+  <div class="qlabel">Lean-back ↔ dashboard</div>
+  <div class="hint">Radio's magic is that it happens to you. How much control should be visible before it stops being radio?</div>
+  <div class="slider">
+    <input type="range" name="player_leanback" min="0" max="100" value="30"
+           oninput="this.nextElementSibling.value=this.value+'% dashboard'">
+    <output>30% dashboard</output>
+    <div class="ends"><span>just a play button</span><span>mission control</span></div>
+  </div>
+
+  <div class="qlabel">How loudly do the DJs acknowledge your actions?</div>
+  <div class="slider">
+    <input type="range" name="player_acknowledgement" min="0" max="100" value="40"
+           oninput="this.nextElementSibling.value=this.value+'%'">
+    <output>40%</output>
+    <div class="ends"><span>silently noted</span><span>every tap gets a comment</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>9 · The writing engine</h2>
+  <p class="lead">The producer can now script episodes <b>fully locally</b> (Ollama on artemis) —
+     zero subscription spend, unlimited volume, but slower (10–20 min of scripting per episode)
+     and a 27B model instead of a frontier one. A quality test is running; judge with your ears.</p>
+  <fieldset>
+    <label class="opt"><input type="radio" name="engine" value="frontier_all">
+      <span>Frontier for everything — best scripts, costs subscription budget</span></label>
+    <label class="opt"><input type="radio" name="engine" value="local_badsignal" checked>
+      <span>Local for Bad Signal, frontier for June <span class="rec">my suggestion</span>
+      <span class="d">Chaos radio is forgiving of a smaller writer; the news bulletin trades on precision. And unlimited free episodes suits a nightly show.</span></span></label>
+    <label class="opt"><input type="radio" name="engine" value="local_all">
+      <span>Local for everything — full independence</span></label>
+    <label class="opt"><input type="radio" name="engine" value="decide_after_test">
+      <span>I'll decide after hearing the local test episode</span></label>
+  </fieldset>
+</section>
+
+<section>
+  <h2>10 · Anything else</h2>
   <textarea name="freetext" placeholder="Anything the sliders can't say — references, GTA stations you loved (VCPR? Chatterbox FM? WCTR?), lines they'd say, hard no-gos…" style="min-height:7rem"></textarea>
 </section>
 
