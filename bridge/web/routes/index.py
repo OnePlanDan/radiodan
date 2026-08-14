@@ -155,6 +155,7 @@ async def api_index(request: web.Request) -> web.Response:
         "put_an_episode_on_air": "POST /api/programmes/{job_id}/air",
         "greeter": "GET /api/greeter",
         "station_stats": "GET /api/stats",
+        "design_brief_gta": "GET /design/gta (form for the owner)",
         "now_playing_page": "GET /now (human-friendly, with album art)",
         "album_art": "GET /api/nowplaying/art",
     }

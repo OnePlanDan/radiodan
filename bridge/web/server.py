@@ -121,6 +121,7 @@ class WebServer:
         from bridge.web.routes.programmes import routes as programme_routes
         from bridge.web.routes.greeter import routes as greeter_routes
         from bridge.web.routes.now import routes as now_routes
+        from bridge.web.routes.design import routes as design_routes
         from bridge.web.routes.index import routes as index_routes
 
         self.app.router.add_routes(status_routes)
@@ -135,6 +136,7 @@ class WebServer:
         self.app.router.add_routes(programme_routes)
         self.app.router.add_routes(greeter_routes)
         self.app.router.add_routes(now_routes)
+        self.app.router.add_routes(design_routes)
         # Last: the index reads the finished route table to describe itself.
         self.app.router.add_routes(index_routes)
 

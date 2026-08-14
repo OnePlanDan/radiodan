@@ -1,0 +1,488 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Bad Signal After Dark — Design Brief</title>
+<style>
+  :root { color-scheme: dark;
+    --bg:#0c0d10; --panel:#14161c; --line:#242833; --ink:#e8e6e0; --dim:#9aa0ab;
+    --faint:#5c6270; --accent:#e8b04b; --accent2:#7bd88f; --warn:#e06c75; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font-family:system-ui,-apple-system,sans-serif; line-height:1.5; }
+  main { max-width:760px; margin:0 auto; padding:1.2rem 1rem 6rem; }
+  header.top { text-align:center; padding:2.2rem 1rem 0.5rem; }
+  header.top .kicker { color:var(--faint); letter-spacing:.3em; text-transform:uppercase; font-size:.75rem; }
+  header.top h1 { margin:.3rem 0 .2rem; font-size:1.7rem; }
+  header.top p { color:var(--dim); margin:.2rem auto; max-width:620px; }
+  section { background:var(--panel); border:1px solid var(--line); border-radius:12px;
+            padding:1.1rem 1.2rem; margin:1.1rem 0; }
+  section > h2 { margin:.1rem 0 .2rem; font-size:1.15rem; color:var(--accent); }
+  section > p.lead { color:var(--dim); margin:.2rem 0 .8rem; font-size:.92rem; }
+  fieldset { border:0; padding:0; margin:0 0 1rem; }
+  legend, .qlabel { font-weight:600; margin:.6rem 0 .25rem; display:block; }
+  .hint { color:var(--faint); font-size:.82rem; margin:.1rem 0 .4rem; }
+  .rec { color:var(--accent2); font-size:.78rem; border:1px solid var(--accent2);
+         border-radius:99px; padding:0 .5em; margin-left:.4em; white-space:nowrap; }
+  label.opt { display:flex; gap:.55rem; align-items:flex-start; padding:.3rem 0; cursor:pointer; }
+  label.opt input { margin-top:.25rem; accent-color:var(--accent); }
+  label.opt .d { color:var(--faint); font-size:.82rem; display:block; }
+  input[type=text], textarea, select {
+    width:100%; background:#0f1116; color:var(--ink); border:1px solid var(--line);
+    border-radius:8px; padding:.55rem .7rem; font:inherit; }
+  textarea { min-height:5.5rem; resize:vertical; }
+  .slider { display:grid; grid-template-columns:1fr; gap:.15rem; margin:.3rem 0 .9rem; }
+  .slider input[type=range] { width:100%; accent-color:var(--accent); }
+  .slider .ends { display:flex; justify-content:space-between; color:var(--faint); font-size:.78rem; }
+  .slider output { color:var(--accent); font-size:.85rem; text-align:center; }
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:.2rem .9rem; }
+  @media (max-width:560px){ .grid2 { grid-template-columns:1fr; } }
+  .delta { border-left:3px solid var(--accent); }
+  .delta ul { margin:.4rem 0 .2rem; padding-left:1.2rem; color:var(--dim); }
+  .delta li b { color:var(--ink); }
+  .trait { display:flex; gap:.55rem; align-items:flex-start; padding:.28rem 0;
+           border-bottom:1px dashed #1c2029; }
+  .trait:last-child { border-bottom:0; }
+  .trait input { margin-top:.25rem; accent-color:var(--accent); }
+  .trait .k { color:var(--faint); font-size:.75rem; }
+  .cost { background:#1a1710; border:1px solid #3a3012;
+          border-radius:8px; padding:.5rem .7rem; color:#cbb27a; font-size:.83rem; margin:.4rem 0; }
+  .submitbar { position:fixed; bottom:0; left:0; right:0; background:rgba(12,13,16,.92);
+               backdrop-filter:blur(6px); border-top:1px solid var(--line); padding:.7rem 1rem;
+               display:flex; gap:.8rem; align-items:center; justify-content:center; }
+  .submitbar button { background:var(--accent); color:#141005; font:inherit; font-weight:700;
+               border:0; border-radius:10px; padding:.7rem 1.6rem; cursor:pointer; }
+  .submitbar .st { color:var(--faint); font-size:.82rem; }
+  .ok { color:var(--accent2); }
+  .err { color:var(--warn); }
+  .voicegroup { color:var(--faint); font-style:italic; }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="kicker">Radio Dan · design brief</div>
+  <h1>Bad Signal After Dark</h1>
+  <p>Everything I need from you to take the GTA-style station from scaffold to on-air.
+     Every field is optional — answer what you can, hit <b>Send to the station</b> whenever.
+     Your answers land on the station and I pick them up from there.
+     Defaults and pre-ticked boxes are my recommendations; change anything.</p>
+</header>
+<main>
+
+<section class="delta">
+  <h2>Where we actually are</h2>
+  <ul>
+    <li><b>Exists:</b> the show is registered and commissionable — bible (two hosts, no supervision,
+        "may not be strictly authorised"), 12 traits, commercial format written in
+        (fake sponsor, real-time undermining, too-fast disclaimer).</li>
+    <li><b>Exists:</b> the pipeline — brief in, mastered episode out ~20–35 min later, aired like a song.
+        June Ferry's show runs on it daily.</li>
+    <li><b>Missing:</b> voices. Duke sits on <code>carlin</code> (= Bob), Nyx on <code>lani</code> (= old Lani).
+        Two characters sharing a voice with existing hosts breaks the fiction — this is the blocker.</li>
+    <li><b>Missing:</b> a schedule, event triggers, commercial policy, and your taste on every dial below.</li>
+    <li><b>Episodes so far:</b> zero. This form is the green light spec.</li>
+  </ul>
+</section>
+
+<form id="f">
+
+<section>
+  <h2>1 · What is it, and when does it air</h2>
+  <fieldset>
+    <span class="qlabel">The shape of the thing</span>
+    <label class="opt"><input type="radio" name="shape" value="flagship_show" checked>
+      <span>The late-night <b>show</b> on Radio Dan <span class="rec">recommended</span>
+      <span class="d">15–20 min blocks between songs, like June's bulletin but nocturnal and unhinged. Cheapest path to wonderful.</span></span></label>
+    <label class="opt"><input type="radio" name="shape" value="takeover">
+      <span>A <b>station takeover</b>
+      <span class="d">For a window of the night, Duke &amp; Nyx own everything: station IDs, commercials between songs, comments on the music. More build cost, more magic.</span></span></label>
+    <label class="opt"><input type="radio" name="shape" value="show_then_takeover">
+      <span>Start as a show, grow into takeovers once it's proven</span></label>
+  </fieldset>
+
+  <fieldset>
+    <span class="qlabel">When may it air (tick all that apply)</span>
+    <label class="opt"><input type="checkbox" name="air_windows" value="late_night" checked>
+      <span>Late night, 22:00–03:00 <span class="rec">recommended</span></span></label>
+    <label class="opt"><input type="checkbox" name="air_windows" value="weekend_emphasis" checked>
+      <span>Friday/Saturday emphasis <span class="rec">recommended</span></span></label>
+    <label class="opt"><input type="checkbox" name="air_windows" value="listener_present_night">
+      <span>Only when someone is actually listening at night</span></label>
+    <label class="opt"><input type="checkbox" name="air_windows" value="ambush">
+      <span>Random ambush at any hour ("the transmitter acts up")</span></label>
+    <label class="opt"><input type="checkbox" name="air_windows" value="manual_only">
+      <span>Manual only — airs when you or I say so</span></label>
+  </fieldset>
+
+  <div class="qlabel">Episode length</div>
+  <div class="hint">Build cost ≈ 13 + 1.04 × minutes. A 15-min episode ≈ 29 min build (~1.9× realtime).
+      Short is the expensive shape: 5 min costs ~3.6× realtime.</div>
+  <div class="slider">
+    <input type="range" name="episode_minutes" min="5" max="25" step="1" value="15"
+           oninput="this.nextElementSibling.value=this.value+' minutes'">
+    <output>15 minutes</output>
+    <div class="ends"><span>5 min</span><span>25 min</span></div>
+  </div>
+
+  <div class="qlabel">How often</div>
+  <div class="slider">
+    <input type="range" name="episodes_per_week" min="1" max="7" step="1" value="3"
+           oninput="this.nextElementSibling.value=this.value+' per week'">
+    <output>3 per week</output>
+    <div class="ends"><span>weekly</span><span>nightly</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>2 · The two hosts</h2>
+  <p class="lead">Current cast, written and trait-loaded. Rename or recast anything —
+     names propagate everywhere before episode 1 airs, like the June rename did.</p>
+
+  <div class="grid2">
+    <div>
+      <span class="qlabel">Host 1 name</span>
+      <input type="text" name="host1_name" value="Duke Mallory">
+    </div>
+    <div>
+      <span class="qlabel">Host 2 name</span>
+      <input type="text" name="host2_name" value="Nyx">
+    </div>
+  </div>
+
+  <span class="qlabel">Host 1 — who he is</span>
+  <textarea name="host1_persona">Sixties. Was a real broadcaster once and refers to that era constantly without ever giving a checkable detail. Gravelled, wired, permanently mid-rant. Believes several contradictory things at full volume; takes personal offence at inanimate systems (parking meters, the weather, the station's own automation, the concept of Tuesday). Every rant hides one genuinely sharp observation, which he immediately ruins. Swears the way other people breathe. Enormously fond of Nyx, expressed exclusively through insult.</textarea>
+
+  <span class="qlabel">Host 2 — who she is</span>
+  <textarea name="host2_persona">Thirties. Cooler, faster, deadpan. Arrived at the station under circumstances she describes differently every time. Doesn't calm Duke down — finds the load-bearing beam of whatever he says and pulls it. Reads the legal disclaimers at speed, with obvious relish. Sounds amused and slightly dangerous. Keeps a running tally of Duke's contradictions and produces it at the worst possible moment. Would fight anyone who touched him.</textarea>
+
+  <fieldset>
+    <span class="qlabel">Host 1 voice — the actual blocker</span>
+    <div class="hint">Voices marked "in use" would collide with an existing character on your station.
+       nolwazi is retired by your decree. A cloned voice on Chatterbox is the properly distinct option — you make it, I recast.</div>
+    <select name="host1_voice">
+      <optgroup label="Qwen (local box) — free">
+        <option value="Dylan" selected>Dylan ★ my pick for Duke</option>
+        <option value="Ryan">Ryan</option>
+        <option value="Uncle_Fu">Uncle_Fu</option>
+      </optgroup>
+      <optgroup label="Chatterbox — free">
+        <option value="testvoice">testvoice (character unknown — I'd audition it)</option>
+      </optgroup>
+      <optgroup label="In use elsewhere (collision)">
+        <option value="carlin">carlin — currently Duke, but it's Bob's voice</option>
+        <option value="Eric">Eric — Bob</option>
+        <option value="snoop">snoop — Snoop</option>
+      </optgroup>
+      <optgroup label="Your move">
+        <option value="CLONE_NEW">I'll clone a new voice on Chatterbox for him</option>
+      </optgroup>
+    </select>
+    <input type="text" name="host1_clone_notes" placeholder="If cloning: what should he sound like / voice name you'll give it" style="margin-top:.4rem">
+  </fieldset>
+
+  <fieldset>
+    <span class="qlabel">Host 2 voice</span>
+    <select name="host2_voice">
+      <optgroup label="Qwen (local box) — free">
+        <option value="Sohee" selected>Sohee ★ my pick for Nyx</option>
+        <option value="Serena">Serena</option>
+        <option value="Ono_Anna">Ono_Anna</option>
+        <option value="Vivian">Vivian (Qwen's — not Viv's Chatterbox voice)</option>
+      </optgroup>
+      <optgroup label="Chatterbox — free-ish">
+        <option value="laniv2">laniv2 (same voice family as Lani — mild collision)</option>
+        <option value="vivian">vivian (family of Viv's voice — mild collision)</option>
+      </optgroup>
+      <optgroup label="In use elsewhere (collision)">
+        <option value="lani">lani — currently Nyx, but it's v1 Lani's voice</option>
+        <option value="female_podcast">female_podcast — June Ferry</option>
+      </optgroup>
+      <optgroup label="Your move">
+        <option value="CLONE_NEW">I'll clone a new voice on Chatterbox for her</option>
+      </optgroup>
+    </select>
+    <input type="text" name="host2_clone_notes" placeholder="If cloning: what should she sound like / voice name you'll give it" style="margin-top:.4rem">
+  </fieldset>
+
+  <div class="qlabel">The dynamic between them</div>
+  <div class="slider">
+    <input type="range" name="antagonism" min="0" max="100" value="65"
+           oninput="this.nextElementSibling.value=this.value+'% needle'">
+    <output>65% needle</output>
+    <div class="ends"><span>warm co-hosts</span><span>constant needle</span></div>
+  </div>
+  <div class="slider">
+    <input type="range" name="who_leads" min="0" max="100" value="60"
+           oninput="this.nextElementSibling.value=this.value+'% Duke-led'">
+    <output>60% Duke-led</output>
+    <div class="ends"><span>Nyx drives</span><span>Duke drives</span></div>
+  </div>
+  <div class="slider">
+    <input type="range" name="chaos" min="0" max="100" value="65"
+           oninput="this.nextElementSibling.value=this.value+'% chaos'">
+    <output>65% chaos</output>
+    <div class="ends"><span>tight radio craft</span><span>threads abandoned mid-sentence</span></div>
+  </div>
+  <div class="qlabel">Language</div>
+  <div class="slider">
+    <input type="range" name="profanity" min="0" max="100" value="80"
+           oninput="this.nextElementSibling.value=this.value+'%'">
+    <output>80%</output>
+    <div class="ends"><span>clean</span><span>full GTA, uncensored</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>3 · The traits they arrive with</h2>
+  <p class="lead">Already loaded on the show — the engine surfaces them on rarity/cooldown.
+     Untick to drop; add wishes below.</p>
+  <div id="traits">
+    <label class="trait"><input type="checkbox" name="keep_traits" value="duke-inanimate-grudge" checked><span>Duke takes personal offence at an inanimate object or system and will not let it go <span class="k">common</span></span></label>
+    <label class="trait"><input type="checkbox" name="keep_traits" value="duke-real-station-era" checked><span>Duke references his days at a real station without a single checkable detail <span class="k">common</span></span></label>
+    <label class="trait"><input type="checkbox" name="keep_traits" value="duke-buried-insight" checked><span>Duke makes one genuinely sharp observation and immediately ruins it <span class="k">uncommon</span></span></label>
+    <label class="trait"><input type="checkbox" name="keep_traits" value="duke-automation-sentient" checked><span>Duke insists the station's automation is sentient and has it in for him <span class="k">uncommon</span></span></label>
+    <label class="trait"><input type="checkbox" name="keep_traits" value="duke-guardian-affection" checked><span>Under the insults Duke makes it briefly, unmistakably clear he would defend Nyx <span class="k">guardian</span></span></label>
+    <label class="trait"><input type="checkbox" name="keep_traits" value="nyx-literal-escalation" checked><span>Nyx escalates by taking Duke completely literally and following it to the end <span class="k">common</span></span></label>
+    <label class="trait"><input type="checkbox" name="keep_traits" value="nyx-disclaimer-relish" checked><span>Nyx reads the legal disclaimer far too fast and clearly enjoys it <span class="k">common</span></span></label>
+    <label class="trait"><input type="checkbox" name="keep_traits" value="nyx-contradiction-ledger" checked><span>Nyx produces a running tally of Duke's contradictions at the worst moment <span class="k">uncommon</span></span></label>
+    <label class="trait"><input type="checkbox" name="keep_traits" value="nyx-origin-story" checked><span>Nyx gives a completely different account of how she got here than last time <span class="k">rare</span></span></label>
+    <label class="trait"><input type="checkbox" name="keep_traits" value="nyx-guardian-affection" checked><span>Nyx drops the deadpan for one line and is sincerely kind to Duke <span class="k">guardian</span></span></label>
+    <label class="trait"><input type="checkbox" name="keep_traits" value="both-abandoned-thread" checked><span>A promising thread is abandoned mid-sentence and never returned to <span class="k">common</span></span></label>
+    <label class="trait"><input type="checkbox" name="keep_traits" value="both-june-rumour" checked><span>The morning presenter June is discussed as though she may not be real <span class="k">rare</span></span></label>
+  </div>
+  <span class="qlabel" style="margin-top:.8rem">Traits you want added</span>
+  <textarea name="new_traits" placeholder="One per line — e.g. 'Duke has a nemesis at a rival station he refuses to name'"></textarea>
+</section>
+
+<section>
+  <h2>4 · Commercials</h2>
+  <div class="qlabel">Per episode</div>
+  <div class="slider">
+    <input type="range" name="ads_per_episode" min="0" max="5" value="2"
+           oninput="this.nextElementSibling.value=this.value+' per episode'">
+    <output>2 per episode</output>
+    <div class="ends"><span>none</span><span>wall-to-wall</span></div>
+  </div>
+  <fieldset>
+    <span class="qlabel">Flavours (tick all you want in rotation)</span>
+    <label class="opt"><input type="checkbox" name="ad_flavours" value="absurd_products" checked>
+      <span>Absurd products pitched with total conviction <span class="rec">recommended</span></span></label>
+    <label class="opt"><input type="checkbox" name="ad_flavours" value="ominous_megacorp" checked>
+      <span>One ominous megacorp that makes everything and explains nothing <span class="rec">recommended</span></span></label>
+    <label class="opt"><input type="checkbox" name="ad_flavours" value="surreal_local" checked>
+      <span>Surreal local Gothenburg businesses <span class="rec">recommended</span></span></label>
+    <label class="opt"><input type="checkbox" name="ad_flavours" value="fake_psa">
+      <span>Deranged public-service announcements</span></label>
+    <label class="opt"><input type="checkbox" name="ad_flavours" value="infomercial">
+      <span>Escalating infomercials (multi-part within one episode)</span></label>
+  </fieldset>
+  <fieldset>
+    <span class="qlabel">Brand continuity</span>
+    <label class="opt"><input type="radio" name="brand_continuity" value="recurring" checked>
+      <span>Recurring fictional brands that build lore across episodes <span class="rec">recommended</span>
+      <span class="d">Brands become debts in the ledger — a phone number that was "clearly wrong" in episode 2 gets called in episode 9.</span></span></label>
+    <label class="opt"><input type="radio" name="brand_continuity" value="oneshot">
+      <span>Fresh nonsense every episode, no continuity</span></label>
+  </fieldset>
+  <span class="qlabel">Brand seeds (optional — or leave it to the show)</span>
+  <textarea name="brand_seeds" placeholder="One per line — e.g. 'Glottco — household everything, slogan keeps changing mid-ad'"></textarea>
+  <fieldset>
+    <span class="qlabel">Standalone spots between songs (outside episodes)</span>
+    <div class="cost">Cost honesty: a 45-second spot commissioned alone costs ~13.8 min of build (18× realtime).
+       My workaround: batch 4–6 spots as one 5-minute commission and I slice the audio into separate
+       queueable spots. Worth it if you want the takeover feel.</div>
+    <label class="opt"><input type="checkbox" name="standalone_spots" value="yes">
+      <span>Yes — build a spot library and sprinkle them into late-night music</span></label>
+  </fieldset>
+</section>
+
+<section>
+  <h2>5 · Station furniture</h2>
+  <fieldset>
+    <label class="opt"><input type="checkbox" name="furniture" value="station_ids" checked>
+      <span>Station IDs / jingles in their voices ("You're locked to Bad Signal…") <span class="rec">recommended</span></span></label>
+    <label class="opt"><input type="checkbox" name="furniture" value="news_flash">
+      <span>A fake news flash segment inside episodes</span></label>
+    <label class="opt"><input type="checkbox" name="furniture" value="callers">
+      <span>Fictional callers (voiced by whichever host isn't answering)</span></label>
+    <label class="opt"><input type="checkbox" name="furniture" value="transmitter_forecast" checked>
+      <span>The "transmitter forecast" — weather but wrong in a specific way <span class="rec">recommended</span></span></label>
+    <label class="opt"><input type="checkbox" name="furniture" value="music_commentary" checked>
+      <span>They comment on actual songs from your library that aired that night <span class="rec">recommended</span></span></label>
+  </fieldset>
+  <div class="qlabel">How aware are they of the real Radio Dan?</div>
+  <div class="hint">June's best episode came from noticing the machine. The bible already has Duke convinced
+     the automation is sentient, and June existing "as a rumour".</div>
+  <div class="slider">
+    <input type="range" name="meta_awareness" min="0" max="100" value="70"
+           oninput="this.nextElementSibling.value=this.value+'% aware'">
+    <output>70% aware</output>
+    <div class="ends"><span>sealed fiction</span><span>fully aware of the machinery</span></div>
+  </div>
+  <fieldset>
+    <span class="qlabel">They may reference (tick to allow)</span>
+    <label class="opt"><input type="checkbox" name="may_reference" value="june" checked><span>June Ferry (as the rumour she is to them)</span></label>
+    <label class="opt"><input type="checkbox" name="may_reference" value="bob"><span>Bad Mouth Bob and the daytime DJs</span></label>
+    <label class="opt"><input type="checkbox" name="may_reference" value="greeter" checked><span>The machine that greets the listener at the door</span></label>
+    <label class="opt"><input type="checkbox" name="may_reference" value="dan_by_name"><span>The one listener, Dan, by name</span></label>
+  </fieldset>
+</section>
+
+<section>
+  <h2>6 · Event triggers</h2>
+  <p class="lead">Signals the station can already measure. Ticking one means it may provoke
+     Bad Signal material — a commissioned special, or a reference written into the next episode.</p>
+  <fieldset>
+    <label class="opt"><input type="checkbox" name="triggers" value="late_night_connect" checked>
+      <span>You connect between 22:00–03:00 <span class="rec">recommended</span><span class="d">If an episode is ready, the night greeting hands over to Duke &amp; Nyx instead of June.</span></span></label>
+    <label class="opt"><input type="checkbox" name="triggers" value="long_session" checked>
+      <span>You've been listening &gt;45 min <span class="rec">recommended</span><span class="d">"You're still here? Nobody's ever still here." — one-off inserts.</span></span></label>
+    <label class="opt"><input type="checkbox" name="triggers" value="comeback_7d">
+      <span>You return after 7+ days away<span class="d">A comeback special: "while you were gone" recap of fictional events.</span></span></label>
+    <label class="opt"><input type="checkbox" name="triggers" value="starred_song" checked>
+      <span>You star a song <span class="rec">recommended</span><span class="d">The hosts get told what you starred and react next episode.</span></span></label>
+    <label class="opt"><input type="checkbox" name="triggers" value="skip_storm">
+      <span>You skip 3+ songs in 10 minutes<span class="d">They take it personally on air.</span></span></label>
+    <label class="opt"><input type="checkbox" name="triggers" value="seed_change">
+      <span>The music seed/genre changes<span class="d">Duke has opinions about the new direction.</span></span></label>
+    <label class="opt"><input type="checkbox" name="triggers" value="friday_slot" checked>
+      <span>Friday 22:00 weekly anchor slot <span class="rec">recommended</span><span class="d">One dependable appointment; everything else is chaos on top.</span></span></label>
+    <label class="opt"><input type="checkbox" name="triggers" value="system_events" checked>
+      <span>Real system events: watchdog strikes, TTS failures, disk milestones <span class="rec">recommended</span><span class="d">Fed to the show as "the transmitter is haunted" lore. Duke's sentient-automation theory gets evidence.</span></span></label>
+    <label class="opt"><input type="checkbox" name="triggers" value="weather_extreme">
+      <span>Real Gothenburg weather extremes<span class="d">Storm outside → storm show.</span></span></label>
+    <label class="opt"><input type="checkbox" name="triggers" value="full_moon">
+      <span>Full moon</span></label>
+    <label class="opt"><input type="checkbox" name="triggers" value="manual_api" checked>
+      <span>Manual ambush endpoint <span class="rec">recommended</span><span class="d">POST /api/… and they go on air about whatever you type.</span></span></label>
+  </fieldset>
+  <div class="qlabel">Trigger sensitivity</div>
+  <div class="hint">How eagerly triggers spend real build time. Left: triggers mostly colour the next scheduled
+     episode. Right: triggers commission fresh audio on the spot.</div>
+  <div class="slider">
+    <input type="range" name="trigger_sensitivity" min="0" max="100" value="35"
+           oninput="this.nextElementSibling.value=this.value+'%'">
+    <output>35%</output>
+    <div class="ends"><span>frugal</span><span>trigger-happy</span></div>
+  </div>
+  <div class="qlabel">Hard budget: max commissions per day (all shows)</div>
+  <div class="slider">
+    <input type="range" name="max_commissions_per_day" min="1" max="8" value="3"
+           oninput="this.nextElementSibling.value=this.value+' per day'">
+    <output>3 per day</output>
+    <div class="ends"><span>1</span><span>8</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>7 · Canon, and how much I decide alone</h2>
+  <div class="qlabel">Serialization</div>
+  <div class="slider">
+    <input type="range" name="serialization" min="0" max="100" value="55"
+           oninput="this.nextElementSibling.value=this.value+'%'">
+    <output>55%</output>
+    <div class="ends"><span>every episode standalone</span><span>heavy arcs &amp; cliffhangers</span></div>
+  </div>
+  <fieldset>
+    <span class="qlabel">Episode 1</span>
+    <label class="opt"><input type="radio" name="episode1_mode" value="in_media_res" checked>
+      <span>In media res — no origin story, they've clearly been doing this forever <span class="rec">recommended — GTA stations never explain themselves</span></span></label>
+    <label class="opt"><input type="radio" name="episode1_mode" value="origin">
+      <span>An origin: their first night on the frequency</span></label>
+  </fieldset>
+  <fieldset>
+    <span class="qlabel">Between your check-ins, I may invent on my own: (tick to allow)</span>
+    <label class="opt"><input type="checkbox" name="autonomy" value="new_traits" checked><span>New traits for Duke &amp; Nyx</span></label>
+    <label class="opt"><input type="checkbox" name="autonomy" value="new_brands" checked><span>New fictional brands</span></label>
+    <label class="opt"><input type="checkbox" name="autonomy" value="side_characters"><span>New recurring side characters (never voiced hosts — mentioned only)</span></label>
+    <label class="opt"><input type="checkbox" name="autonomy" value="new_segments"><span>New recurring segments</span></label>
+    <label class="opt"><input type="checkbox" name="autonomy" value="tune_cooldowns" checked><span>Tuning trait rarity/cooldowns from what lands well</span></label>
+  </fieldset>
+  <div class="qlabel">How often should I report to you?</div>
+  <div class="slider">
+    <input type="range" name="checkin_days" min="1" max="30" value="7"
+           oninput="this.nextElementSibling.value='every '+this.value+' day(s)'">
+    <output>every 7 day(s)</output>
+    <div class="ends"><span>every episode</span><span>monthly digest</span></div>
+  </div>
+</section>
+
+<section>
+  <h2>8 · Anything else</h2>
+  <textarea name="freetext" placeholder="Anything the sliders can't say — references, GTA stations you loved (VCPR? Chatterbox FM? WCTR?), lines they'd say, hard no-gos…" style="min-height:7rem"></textarea>
+</section>
+
+</form>
+</main>
+
+<div class="submitbar">
+  <button type="button" id="send">Send to the station</button>
+  <span class="st" id="status">drafts autosave locally</span>
+</div>
+
+<script>
+const form = document.getElementById('f');
+const statusEl = document.getElementById('status');
+
+function collect() {
+  const data = {};
+  for (const el of form.elements) {
+    if (!el.name) continue;
+    if (el.type === 'checkbox') {
+      (data[el.name] = data[el.name] || []);
+      if (el.checked) data[el.name].push(el.value);
+    } else if (el.type === 'radio') {
+      if (el.checked) data[el.name] = el.value;
+    } else {
+      data[el.name] = el.value;
+    }
+  }
+  return data;
+}
+
+function apply(data) {
+  if (!data) return;
+  for (const el of form.elements) {
+    if (!el.name || !(el.name in data)) continue;
+    const v = data[el.name];
+    if (el.type === 'checkbox') el.checked = Array.isArray(v) && v.includes(el.value);
+    else if (el.type === 'radio') el.checked = (v === el.value);
+    else el.value = v;
+    if (el.type === 'range') {
+      const out = el.parentElement.querySelector('output');
+      if (out) el.dispatchEvent(new Event('input'));
+    }
+  }
+}
+
+// Draft autosave + restore, then server copy (server wins — it's what I read).
+form.addEventListener('input', () => {
+  localStorage.setItem('gta_design_draft', JSON.stringify(collect()));
+  statusEl.textContent = 'draft saved locally';
+  statusEl.className = 'st';
+});
+try { apply(JSON.parse(localStorage.getItem('gta_design_draft'))); } catch (e) {}
+fetch('/api/design/gta').then(r => r.ok ? r.json() : null).then(d => {
+  if (d && d.answers) { apply(d.answers); statusEl.textContent = 'loaded your last submission'; }
+}).catch(() => {});
+
+document.getElementById('send').addEventListener('click', async () => {
+  statusEl.textContent = 'sending…'; statusEl.className = 'st';
+  try {
+    const r = await fetch('/api/design/gta', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(collect()),
+    });
+    if (!r.ok) throw new Error(await r.text());
+    statusEl.textContent = '✓ received by the station — I\'ll take it from here';
+    statusEl.className = 'st ok';
+  } catch (e) {
+    statusEl.textContent = 'failed: ' + e.message;
+    statusEl.className = 'st err';
+  }
+});
+</script>
+</body>
+</html>
