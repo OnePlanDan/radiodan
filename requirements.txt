@@ -16,5 +16,8 @@ aiosqlite>=0.20.0
 # ID3 tag reading for music library scanning
 mutagen>=1.47.0
 
+# Dev-journal rendering for the /journal web page
+markdown>=3.6
+
 # Type hints support
 typing-extensions>=4.9.0

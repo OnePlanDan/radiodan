@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Radio Dan — Dev Journal</title>
+<style>
+  :root { color-scheme: dark;
+    --bg:#0c0d10; --panel:#14161c; --line:#242833; --ink:#e8e6e0; --dim:#9aa0ab;
+    --faint:#5c6270; --accent:#e8b04b; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font-family:system-ui,-apple-system,sans-serif; line-height:1.55; }
+  .wrap { max-width:820px; margin:0 auto; padding:1rem 1rem 4rem; }
+  header { display:flex; align-items:baseline; justify-content:space-between; padding:.8rem 0; }
+  header .brand { letter-spacing:.28em; text-transform:uppercase; font-size:.8rem; color:var(--dim); }
+  header nav a { color:var(--faint); font-size:.8rem; margin-left:.8rem; text-decoration:none; }
+  header nav a:hover { color:var(--accent); }
+
+  table { width:100%; border-collapse:collapse; background:var(--panel);
+          border:1px solid var(--line); border-radius:12px; overflow:hidden; }
+  th { text-align:left; color:var(--faint); font-size:.75rem; text-transform:uppercase;
+       letter-spacing:.1em; padding:.6rem .8rem; border-bottom:1px solid var(--line); }
+  td { padding:.55rem .8rem; border-bottom:1px solid #1a1d25; font-size:.92rem; }
+  tr:last-child td { border-bottom:0; }
+  tbody tr { cursor:pointer; }
+  tbody tr:hover td { background:#181b23; }
+  td.date { color:var(--faint); white-space:nowrap; font-size:.82rem; }
+  td.author { color:var(--faint); font-size:.82rem; white-space:nowrap; }
+  td.title { color:var(--ink); }
+
+  article { display:none; background:var(--panel); border:1px solid var(--line);
+            border-radius:12px; padding:1.4rem 1.6rem; margin-top:1rem; }
+  article.open { display:block; }
+  article .meta { color:var(--faint); font-size:.8rem; margin-bottom:.8rem; }
+  article .meta b { color:var(--accent); font-size:1.1rem; display:block; margin-bottom:.15rem; }
+  article h1, article h2, article h3 { color:var(--accent); }
+  article a { color:var(--accent); }
+  article code { background:#0f1116; border:1px solid var(--line); border-radius:5px;
+                 padding:.08em .35em; font-size:.88em; }
+  article pre { background:#0f1116; border:1px solid var(--line); border-radius:10px;
+                padding:.9rem 1rem; overflow-x:auto; }
+  article pre code { border:0; padding:0; background:none; }
+  article blockquote { border-left:3px solid var(--accent); margin:1em 0;
+                       padding:.2em 1em; color:var(--dim); background:#10131a;
+                       border-radius:0 8px 8px 0; }
+  article table { margin:1em 0; }
+  article img, article svg { max-width:100%; }
+  .mermaid { background:#0f1116; border:1px solid var(--line); border-radius:10px;
+             padding:1rem; margin:1em 0; text-align:center; }
+  #back { display:none; margin:1rem 0 0; background:none; border:1px solid var(--line);
+          color:var(--dim); border-radius:10px; padding:.5rem 1rem; font:inherit; cursor:pointer; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">Radio Dan · dev journal</div>
+    <nav><a href="/player">player</a><a href="/settings">settings</a><a href="/design/gta">brief</a><a href="/api">api</a></nav>
+  </header>
+
+  <table id="list">
+    <thead><tr><th>Date</th><th>Title</th><th>Author</th></tr></thead>
+    <tbody></tbody>
+  </table>
+  <button id="back">← all entries</button>
+  <article id="reader">
+    <div class="meta"><b id="r-title"></b><span id="r-sub"></span></div>
+    <div id="r-body"></div>
+  </article>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+<script>
+const $ = id => document.getElementById(id);
+let entries = [];
+
+if (window.mermaid) mermaid.initialize({ startOnLoad: false, theme: 'dark' });
+
+async function load() {
+  const d = await (await fetch('/api/journal')).json();
+  entries = d.entries;
+  const tbody = $('list').querySelector('tbody');
+  tbody.innerHTML = entries.map(e =>
+    `<tr data-id="${e.id}"><td class="date">${e.date}</td>` +
+    `<td class="title">${e.title}</td><td class="author">${e.author}</td></tr>`
+  ).join('');
+  tbody.onclick = ev => {
+    const row = ev.target.closest('tr');
+    if (row) location.hash = row.dataset.id;
+  };
+  route();
+}
+
+async function openEntry(id) {
+  const r = await fetch('/api/journal/' + encodeURIComponent(id));
+  if (!r.ok) { location.hash = ''; return; }
+  const e = await r.json();
+  $('r-title').textContent = e.title;
+  $('r-sub').textContent = `${e.date} · ${e.author}`;
+  $('r-body').innerHTML = e.html;
+
+  // ```mermaid fences arrive as code blocks — turn them into live diagrams.
+  if (window.mermaid) {
+    $('r-body').querySelectorAll('pre > code.language-mermaid').forEach((code, i) => {
+      const div = document.createElement('div');
+      div.className = 'mermaid';
+      div.id = 'mmd-' + i;
+      div.textContent = code.textContent;
+      code.parentElement.replaceWith(div);
+    });
+    try { await mermaid.run({ querySelector: '#r-body .mermaid' }); } catch (err) {}
+  }
+
+  $('list').style.display = 'none';
+  $('reader').classList.add('open');
+  $('back').style.display = 'inline-block';
+  window.scrollTo(0, 0);
+}
+
+function showList() {
+  $('reader').classList.remove('open');
+  $('back').style.display = 'none';
+  $('list').style.display = 'table';
+}
+
+function route() {
+  const id = location.hash.slice(1);
+  if (id) openEntry(id); else showList();
+}
+$('back').onclick = () => { location.hash = ''; };
+window.onhashchange = route;
+load();
+</script>
+</body>
+</html>
