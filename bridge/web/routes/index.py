@@ -157,6 +157,7 @@ async def api_index(request: web.Request) -> web.Response:
         "station_stats": "GET /api/stats",
         "design_brief_gta": "GET /design/gta (form for the owner)",
         "the_player": "GET /player (the station's own front door)",
+        "all_the_knobs": "GET /settings (every setting, visible and turnable)",
         "named_presence": "POST /api/presence",
         "summon_late_night": "POST /api/player/summon",
         "now_playing_page": "GET /now (human-friendly, with album art)",

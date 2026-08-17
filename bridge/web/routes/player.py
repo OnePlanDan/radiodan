@@ -27,9 +27,6 @@ routes = web.RouteTableDef()
 
 _PAGES_DIR = Path(__file__).parent.parent / "pages"
 
-# The form's answer: at most this many episodes ordered per day, all shows.
-MAX_COMMISSIONS_PER_DAY = 3
-
 LATENIGHT_SHOW = "radiodan-latenight"
 
 
@@ -114,11 +111,12 @@ async def summon_badsignal(request: web.Request) -> web.Response:
     ordered_today = sum(
         1 for r in await commissions.recent(50) if r["requested_at"] >= midnight
     )
-    if ordered_today >= MAX_COMMISSIONS_PER_DAY:
+    cap = getattr(commissions, "max_per_day", 3)
+    if ordered_today >= cap:
         return web.json_response({
             "status": "budget_spent",
             "note": f"The station already ordered {ordered_today} episodes today "
-                    f"(cap {MAX_COMMISSIONS_PER_DAY}). Duke and Nyx rest until tomorrow.",
+                    f"(cap {cap}). Duke and Nyx rest until tomorrow.",
         })
 
     concept = (

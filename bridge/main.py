@@ -395,6 +395,22 @@ async def main() -> None:
         # After commissions: the greeter orders and airs the daily bulletin.
         await greeter.start()
 
+        # Replay knobs turned on /settings over the YAML config — a setting
+        # changed through the GUI survives restarts without editing YAML.
+        try:
+            saved = await config_store.get_section("greeter")
+            if saved:
+                applied = greeter.apply_settings(saved)
+                logger.info(f"Restored greeter settings from store: {applied}")
+            if commissions is not None:
+                saved = await config_store.get_section("commissions")
+                if "max_per_day" in saved:
+                    commissions.max_per_day = max(1, int(saved["max_per_day"]))
+                if "auto_requeue" in saved:
+                    commissions.auto_requeue = bool(saved["auto_requeue"])
+        except Exception:
+            logger.exception("Could not replay stored settings (using YAML values)")
+
         # Wire feedback loop: track changes drive playlist advancement
         stream_context.on("track_changed", playlist_planner.advance)
 

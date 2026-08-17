@@ -76,12 +76,15 @@ class CommissionService:
         poll_interval: float = 60.0,
         auto_requeue: bool = True,
         owned_shows: list[str] | None = None,
+        max_per_day: int = 3,
     ):
         self.client = client
         self.db_path = db_path
         self.programme_dir = Path(programme_dir)
         self.poll_interval = max(15.0, poll_interval)
         self.auto_requeue = auto_requeue
+        # Build-budget ceiling across all shows, from the design brief.
+        self.max_per_day = max(1, int(max_per_day))
         # Commissioning writes to a live series — episode number, recap, traits,
         # debts. Only shows this station owns are ours to order against.
         self.owned_shows = set(owned_shows or [])

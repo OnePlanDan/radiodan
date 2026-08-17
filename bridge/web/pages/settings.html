@@ -1,0 +1,219 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Radio Dan — Settings</title>
+<style>
+  :root { color-scheme: dark;
+    --bg:#0c0d10; --panel:#14161c; --line:#242833; --ink:#e8e6e0; --dim:#9aa0ab;
+    --faint:#5c6270; --accent:#e8b04b; --good:#7bd88f; --warn:#e06c75; }
+  * { box-sizing:border-box; }
+  body { margin:0; background:var(--bg); color:var(--ink);
+         font-family:system-ui,-apple-system,sans-serif; line-height:1.5; }
+  .wrap { max-width:640px; margin:0 auto; padding:1rem 1rem 4rem; }
+  header { display:flex; align-items:baseline; justify-content:space-between; padding:.8rem 0; }
+  header .brand { letter-spacing:.28em; text-transform:uppercase; font-size:.8rem; color:var(--dim); }
+  header nav a { color:var(--faint); font-size:.8rem; margin-left:.8rem; text-decoration:none; }
+  header nav a:hover { color:var(--accent); }
+  section { background:var(--panel); border:1px solid var(--line); border-radius:14px;
+            padding:1rem 1.1rem; margin:.9rem 0; }
+  h2 { margin:.1rem 0 .6rem; font-size:1rem; color:var(--accent); }
+  .knob { display:grid; grid-template-columns: 150px 1fr auto; gap:.7rem; align-items:center;
+          padding:.45rem 0; border-bottom:1px dashed #1c2029; }
+  .knob:last-child { border-bottom:0; }
+  .knob label { color:var(--dim); font-size:.88rem; }
+  .knob output, .knob .val { color:var(--accent); font-size:.85rem; min-width:3.2em; text-align:right; }
+  input[type=range] { width:100%; accent-color:var(--accent); }
+  input[type=text], input[type=number], select {
+    width:100%; background:#0f1116; color:var(--ink); border:1px solid var(--line);
+    border-radius:8px; padding:.45rem .6rem; font:inherit; }
+  input[type=checkbox] { transform:scale(1.3); accent-color:var(--accent); }
+  .chips { color:var(--faint); font-size:.85rem; }
+  #toast { position:fixed; bottom:1rem; left:50%; transform:translateX(-50%);
+           background:#1c1f27; border:1px solid var(--line); border-radius:12px;
+           padding:.55rem 1rem; font-size:.88rem; opacity:0; transition:opacity .25s;
+           pointer-events:none; }
+  #toast.show { opacity:1; }
+  .note { color:var(--faint); font-size:.78rem; margin:.4rem 0 0; }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand">Radio Dan · settings</div>
+    <nav><a href="/player">player</a><a href="/now">now</a><a href="/design/gta">brief</a><a href="/api">api</a></nav>
+  </header>
+
+  <section id="s-playback">
+    <h2>Playback</h2>
+    <div class="knob"><label>Music volume</label>
+      <input type="range" min="0" max="1" step="0.02" data-vol="music"><output>–</output></div>
+    <div class="knob"><label>Voice volume</label>
+      <input type="range" min="0" max="1" step="0.02" data-vol="tts"><output>–</output></div>
+    <div class="knob"><label>Earcon volume</label>
+      <input type="range" min="0" max="1" step="0.02" data-vol="earcon"><output>–</output></div>
+    <div class="knob"><label>Duck amount</label>
+      <input type="range" min="0" max="1" step="0.01" id="duck"><output>–</output></div>
+    <div class="knob"><label>Crossfade (s)</label>
+      <input type="range" min="0" max="12" step="0.5" id="crossfade"><output>–</output></div>
+  </section>
+
+  <section id="s-greeter">
+    <h2>Greeter</h2>
+    <div class="knob"><label>Enabled</label>
+      <span></span><input type="checkbox" data-g="enabled"></div>
+    <div class="knob"><label>Listener name</label>
+      <input type="text" data-g="listener_name" data-type="text"><span></span></div>
+    <div class="knob"><label>Cooldown (min)</label>
+      <input type="range" min="0" max="60" step="1" data-g="cooldown_seconds" data-scale="60"><output>–</output></div>
+    <div class="knob"><label>Presence poll (s)</label>
+      <input type="range" min="3" max="60" step="1" data-g="poll_interval"><output>–</output></div>
+    <div class="knob"><label>Boot grace (min)</label>
+      <input type="range" min="0" max="60" step="1" data-g="boot_grace_seconds" data-scale="60"><output>–</output></div>
+    <div class="knob"><label>News hour</label>
+      <input type="range" min="0" max="23" step="1" data-g="news_hour"><output>–</output></div>
+    <div class="knob"><label>First connect airs bulletin</label>
+      <span></span><input type="checkbox" data-g="first_connect_episode"></div>
+    <div class="knob"><label>Greeting style</label>
+      <input type="text" data-g="instruct" data-type="text"><span></span></div>
+    <p class="note">Changes apply immediately and survive restarts.</p>
+  </section>
+
+  <section id="s-commissions">
+    <h2>Commissioning</h2>
+    <div class="knob"><label>Max episodes / day</label>
+      <input type="range" min="1" max="8" step="1" data-c="max_per_day"><output>–</output></div>
+    <div class="knob"><label>Auto-retry failures</label>
+      <span></span><input type="checkbox" data-c="auto_requeue"></div>
+    <div class="knob"><label>Owned shows</label>
+      <span class="chips" id="owned"></span><span></span></div>
+  </section>
+
+  <section id="s-producer">
+    <h2>Producer brains</h2>
+    <div class="knob"><label>Interpreter</label>
+      <input type="text" id="m-interpreter" placeholder="ollama:gpt-oss:20b"><span></span></div>
+    <div class="knob"><label>Script writer</label>
+      <input type="text" id="m-script_generator" placeholder="ollama:gpt-oss:20b"><span></span></div>
+    <div class="knob"><label>Vision</label>
+      <input type="text" id="m-vision" placeholder="ollama:gemma3:27b"><span></span></div>
+    <p class="note">Format: backend:model (backend = ollama or claude_cli). Applies until restart; the boot default lives in station.yaml.</p>
+  </section>
+</div>
+<div id="toast"></div>
+
+<script>
+const $$ = sel => document.querySelectorAll(sel);
+function toast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.remove('show'), 2200);
+}
+async function api(path, method='GET', body) {
+  const r = await fetch(path, {method, headers: body ? {'Content-Type':'application/json'} : {},
+                               body: body ? JSON.stringify(body) : undefined});
+  const d = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(d.error || r.statusText);
+  return d;
+}
+const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+
+function showVal(input) {
+  const out = input.closest('.knob').querySelector('output');
+  if (!out) return;
+  let v = parseFloat(input.value);
+  if (input.dataset.scale) v = Math.round(v);   // slider already in display units
+  out.textContent = input.dataset.g === 'news_hour' ? String(v).padStart(2,'0') + ':00' : v;
+}
+
+/* ---------- load everything ---------- */
+async function load() {
+  const s = await api('/api/settings');
+  const p = s.playback || {};
+  $$('#s-playback [data-vol]').forEach(el => {
+    el.value = p[el.dataset.vol + '_vol'] ?? 1; showVal(el); });
+  const duck = document.getElementById('duck');
+  duck.value = p.duck_amount ?? 0.25; showVal(duck);
+  const cf = document.getElementById('crossfade');
+  cf.value = p.crossfade_duration ?? 5; showVal(cf);
+
+  const g = s.greeter || {};
+  $$('#s-greeter [data-g]').forEach(el => {
+    const key = el.dataset.g, v = g[key];
+    if (el.type === 'checkbox') el.checked = !!v;
+    else if (el.dataset.type === 'text') el.value = v ?? '';
+    else { el.value = el.dataset.scale ? (v / el.dataset.scale) : v; showVal(el); }
+  });
+
+  const c = s.commissions || {};
+  $$('#s-commissions [data-c]').forEach(el => {
+    if (el.type === 'checkbox') el.checked = !!c[el.dataset.c];
+    else { el.value = c[el.dataset.c] ?? 3; showVal(el); }
+  });
+  document.getElementById('owned').textContent = (c.owned_shows || []).join(' · ') || '—';
+}
+load().catch(e => toast('load failed: ' + e.message));
+
+/* ---------- playback knobs (existing APIs) ---------- */
+$$('#s-playback [data-vol]').forEach(el => {
+  el.oninput = () => showVal(el);
+  el.onchange = async () => {
+    try { await api('/api/playback/volume', 'PUT', {target: el.dataset.vol, value: parseFloat(el.value)});
+          toast(el.dataset.vol + ' volume set'); }
+    catch (e) { toast('failed: ' + e.message); }
+  };
+});
+document.getElementById('duck').oninput = e => showVal(e.target);
+document.getElementById('duck').onchange = async e => {
+  try { await api('/api/playback/duck', 'PUT', {amount: parseFloat(e.target.value)}); toast('duck set'); }
+  catch (err) { toast('failed: ' + err.message); }
+};
+document.getElementById('crossfade').oninput = e => showVal(e.target);
+document.getElementById('crossfade').onchange = async e => {
+  try { await api('/api/playback/crossfade', 'PUT', {duration: parseFloat(e.target.value)}); toast('crossfade set'); }
+  catch (err) { toast('failed: ' + err.message); }
+};
+
+/* ---------- greeter knobs ---------- */
+const sendGreeter = debounce(async (key, value) => {
+  try { await api('/api/settings/greeter', 'PUT', {[key]: value}); toast('greeter: ' + key + ' set'); }
+  catch (e) { toast('failed: ' + e.message); }
+}, 350);
+$$('#s-greeter [data-g]').forEach(el => {
+  const key = el.dataset.g;
+  if (el.type === 'checkbox') el.onchange = () => sendGreeter(key, el.checked);
+  else if (el.dataset.type === 'text') el.onchange = () => sendGreeter(key, el.value);
+  else { el.oninput = () => showVal(el);
+         el.onchange = () => sendGreeter(key,
+           el.dataset.scale ? parseFloat(el.value) * el.dataset.scale : parseFloat(el.value)); }
+});
+
+/* ---------- commissioning knobs ---------- */
+$$('#s-commissions [data-c]').forEach(el => {
+  const key = el.dataset.c;
+  if (el.type === 'checkbox') el.onchange = async () => {
+    try { await api('/api/settings/commissions', 'PUT', {[key]: el.checked}); toast(key + ' set'); }
+    catch (e) { toast('failed: ' + e.message); }
+  };
+  else { el.oninput = () => showVal(el);
+         el.onchange = async () => {
+           try { await api('/api/settings/commissions', 'PUT', {[key]: parseInt(el.value)}); toast(key + ' set'); }
+           catch (e) { toast('failed: ' + e.message); } }; }
+});
+
+/* ---------- producer brains ---------- */
+['interpreter','script_generator','vision'].forEach(role => {
+  const el = document.getElementById('m-' + role);
+  el.onchange = async () => {
+    const [backend, ...rest] = el.value.split(':');
+    const model = rest.join(':');
+    if (!backend || !model) { toast('use backend:model'); return; }
+    try { await api('/api/producer/models', 'PUT', {[role]: {backend, model}});
+          toast(role + ' → ' + el.value); }
+    catch (e) { toast('failed: ' + e.message); }
+  };
+});
+</script>
+</body>
+</html>

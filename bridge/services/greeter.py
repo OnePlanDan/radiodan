@@ -617,6 +617,56 @@ class GreeterService:
         await self._db.commit()
 
     # =====================================================================
+    # KNOBS
+    # =====================================================================
+
+    # What the /settings page may turn, with the type each value is coerced to.
+    TUNABLE = {
+        "enabled": bool,
+        "listener_name": str,
+        "poll_interval": float,
+        "cooldown_seconds": float,
+        "boot_grace_seconds": float,
+        "speaker": str,
+        "instruct": str,
+        "news_hour": int,
+        "first_connect_episode": bool,
+    }
+
+    def settings(self) -> dict:
+        return {key: getattr(self, key) for key in self.TUNABLE}
+
+    def apply_settings(self, changes: dict) -> dict:
+        """Apply allow-listed setting changes live. Returns what was applied.
+
+        Toggling `enabled` starts or stops the poll loop in place, so the
+        knob works without a restart. Unknown keys are ignored, bad values
+        raise — a knob that silently does nothing is worse than an error.
+        """
+        applied = {}
+        for key, value in changes.items():
+            kind = self.TUNABLE.get(key)
+            if kind is None:
+                continue
+            if kind is bool and isinstance(value, str):
+                value = value.lower() in ("1", "true", "yes", "on")
+            value = kind(value)
+            if key == "poll_interval":
+                value = max(3.0, value)
+            setattr(self, key, value)
+            applied[key] = value
+
+        if "enabled" in applied:
+            if self.enabled and self._task is None and self._db is not None:
+                self._task = asyncio.create_task(self._run())
+                logger.info("Greeter enabled via settings")
+            elif not self.enabled and self._task is not None:
+                self._task.cancel()
+                self._task = None
+                logger.info("Greeter disabled via settings")
+        return applied
+
+    # =====================================================================
     # NAMED PRESENCE (from the player page)
     # =====================================================================
 

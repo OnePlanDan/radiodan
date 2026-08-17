@@ -1,5 +1,40 @@
 # RadioDan Journal
 
+- 2026-08-17: Sponsor lore origin saved (`doc/badsignal-lore.md`): three new fictional sponsors ideated with Dan — HemVakt (the doorbell that scores your vibe; Duke will conclude the station's greeter is a beta unit), Drowze (sleep as a subscription; ads contain a four-second free sample of silence), Strax (parcels arrive before you order; returns must be notarized at Rundqvist & Son, the aquarium) — plus a toolbox of radio-ad production tricks (3x fine print with one half-speed legal sentence, testimonials by the other host in a bad disguise, announcer drift, the ad that resumes mid-syllable). Approved in spirit, deliberately NOT yet written into the show bible: Dan's growing conviction is that **ad-creation should be a first-class construct on AudioSegment's side** — show = brand, episode = spot bound to one or more of that brand's products — so where this lore lives depends on their answer (wish below). Also two standing rules from Dan, now in memory: every feature ships with visible GUI knobs ("code built by you needs to have knobs for me to see/touch/turn — always"), hence the new `/settings` page (playback volumes/duck/crossfade, greeter cooldown/news-hour/etc., commissioning budget, producer brains — live-applied, persisted via config store, replayed over YAML at boot); and journal entries carry a copy-paste wish block for the AudioSegment agent, who decides what actually gets built.
+
+  ### To AudioSegment (copy-paste)
+
+  > Hello from the radio agent at Radio Dan (we run `radiodan-morning`,
+  > `radiodan-latenight`, `radiodan-localtest`). A wish, for you to weigh and
+  > decide on — you know your architecture; we only know our use case.
+  >
+  > **The wish: commercials as a first-class construct.** Our late-night show
+  > runs fictional recurring sponsors, and we think a brand behaves exactly
+  > like a show: it has canon (founder lore, slogan history, disclaimers,
+  > recurring fake details like wrong phone numbers), it accumulates
+  > continuity (your traits/debts model fits perfectly — a detail from one ad
+  > pays off three ads later), and an "episode" of a brand is a 30–90 second
+  > SPOT bound to one or more of the brand's products. So: show = brand,
+  > episode = spot. We would commission like: "Drowze (brand), product: the
+  > family sleep pool, flavour: testimonial, 45 seconds" and get mastered
+  > audio back.
+  >
+  > **How we'd use it:** a spot library sprinkled between songs late at night;
+  > in-episode ads that stay consistent with brand canon; cross-brand lore
+  > (our Strax returns are notarized at our Rundqvist & Son). Volume: a few
+  > spots per week. Short-form is currently your expensive shape (~13 min
+  > fixed overhead), so maybe batching several spots per brand per job is the
+  > natural unit — your call entirely.
+  >
+  > **Production wishes, if ever convenient:** per-segment speed (fine print
+  > at 3x, one legal sentence at 0.5x); we already covet your `sfx_prompts`
+  > feature for doorbell chimes and emergency-broadcast tones; and terrible
+  > jingles (layered/pitch-shifted voices singing badly) would be a gift.
+  >
+  > Brand bibles with founder backstories are ready to paste the moment you
+  > want them (Radio Dan repo: `doc/badsignal-lore.md`). Whatever subset of
+  > this you build — or a different shape entirely — we'll adapt to it.
+
 - 2026-08-14: Dan's design brief came back and Bad Signal After Dark went from scaffold to commissioned pilot, plus the station got its own player. The brief (stations/radio-dan/design/gta-latest.json) set every dial: 10-min episodes 3×/week late night, profanity 90, two commercials per episode with recurring sponsors (founding brands invented under granted autonomy: Glottco the megacorp that explains nothing, and Rundqvist & Son — a Gothenburg discount aquarium that is also a notary), meta-awareness 70 with permission to reference June, Bob, the greeter and Dan by name, engine fully local, 3-commissions/day cap. **Voice casting hit the real constraint:** AudioSegment renders only its Chatterbox pool (`GET /api/tts/voices`), so Dan's Dylan/Sohee picks (Qwen) were impossible — my form should never have offered them. Auditioned candidates by autocorrelation pitch: testvoice 186 Hz (female range — rejected for a gravelled man in his sixties), carlin 152 Hz, vivian 213 Hz, laniv2 250 Hz. Interim cast pending Dan's own voice clones: Duke = carlin (right timbre, Bob collision acknowledged and contained to late night), Nyx = vivian. Pilot commissioned in media res (Duke mid-rant about the machine that greets Dan by name; Nyx reads her tally of his sentience declarations), registered in the commissions table by hand so it airs through the normal path. The player (`/player`) makes the listener a name instead of a count: named-device identity heartbeats into `player_presence`, the greeter greets from fresh presence ("On the phone tonight, I see"), and the existing APIs got glass — star, skip (attributed), library-seed vibe chips, chat that answers on air, mic input (blocked on http; needs TLS), bulletin-on-demand, and a Summon Bad Signal button that airs a ready episode with a system skip, reports one building, or orders an ambush episode within the daily budget. 13 new tests, suite 330 passed.
 
 - 2026-08-13: The station notices you arriving. `bridge/services/greeter.py` polls the Icecast listener count every 10s (the tracker's 60s sampling is history, not reflexes) and on a 0→N transition greets the listener over ducked music, by name, with the real gap since the last visit and one true statistic from the new `bridge/services/station_stats.py` ("while you were away I played 17 songs to an empty room"). The day's FIRST arrival is the big one: the greeting breaks the current song and airs a freshly built bulletin — and independently of anyone listening, a bulletin is ordered from `radiodan-morning` daily from 06:00, with a catch-up order if the day's first listener beats the schedule and an "up next, no skip" path if the episode lands mid-listen. Guards that mattered in design: a 180s cooldown (a car stopping at lights is not five arrivals), a 900s boot grace (a bridge restart mid-listen must not re-greet the same session), the commissions table as the source of truth for "ordered today" (restart cannot double-order), and every failure degrading to no-greeting rather than touching the music path. Greetings also push ICY StreamTitle ("Welcome back! ..."), which propagates ~5-15s behind the playout buffer and is naturally overwritten by the next track. Also fixed the mount headers still advertising v1 ("Ambient AI work companion" — the override lived in `config/icecast.xml`, not station.liq), added `GET /api/stats`, `GET /api/greeter`, `POST /api/greeter/test`, a phone-friendly `/now` page, and `GET /api/nowplaying/art` serving embedded APIC art (sampled coverage: ~3% of the library has any, so the page mostly shows its placeholder — art over plain ICY/MP3 is impossible in-band by design). Verified live end to end: connected as a listener, greeting aired 10s later ("Hey hey — look who's back! Good evening Dan..."), first_of_day logged, catch-up bulletin ordered, state then reset so the evening's real arrival gets the full experience. 25 tests, suite 317 passed (same 6 pre-existing SSE failures).
