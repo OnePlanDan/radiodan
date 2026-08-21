@@ -106,7 +106,7 @@ class WatchdogConfig:
 
 @dataclass
 class TTSConfig:
-    endpoint: str = "http://localhost:42001/tts/custom-voice"
+    endpoint: str = "http://172.17.21.207:42001/tts/custom-voice"
     speaker: str = "Aiden"
     language: str = "English"
     instruct: str = "Speak calmly and clearly"
@@ -140,7 +140,7 @@ class TTSConfig:
 
 @dataclass
 class STTConfig:
-    endpoint: str = "http://localhost:5000/v1/audio/transcriptions"
+    endpoint: str = "http://172.17.21.207:42002/transcribe"
 
 
 @dataclass
@@ -301,7 +301,7 @@ class Config:
 
         # Env vars override yaml for deployment-specific endpoints
         tts = TTSConfig(
-            endpoint=os.getenv("TTS_ENDPOINT", tts_cfg.get("endpoint", "http://localhost:42001/tts/custom-voice")),
+            endpoint=os.getenv("TTS_ENDPOINT", tts_cfg.get("endpoint", "http://172.17.21.207:42001/tts/custom-voice")),
             speaker=tts_cfg.get("speaker", "Aiden"),
             language=tts_cfg.get("language", "English"),
             instruct=tts_cfg.get("instruct", "Speak calmly and clearly"),
@@ -320,7 +320,7 @@ class Config:
 
         stt_cfg = audio_cfg.get("stt", {})
         stt = STTConfig(
-            endpoint=os.getenv("STT_ENDPOINT", stt_cfg.get("endpoint", "http://localhost:5000/v1/audio/transcriptions")),
+            endpoint=os.getenv("STT_ENDPOINT", stt_cfg.get("endpoint", "http://172.17.21.207:42002/transcribe")),
         )
 
         # Ollama/AI config — interpolate station_name into system_prompt

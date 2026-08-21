@@ -63,7 +63,7 @@ audio:
     scan_pause_seconds: 5.0
 
   tts:
-    endpoint: http://localhost:42001/tts/custom-voice
+    endpoint: http://172.17.21.207:42001/tts/custom-voice
     speaker: Aiden
     language: English
     instruct: "Speak calmly and clearly"
@@ -97,13 +97,13 @@ audio:
           speaker: carlin
       # Chatterbox voices fail over to the local Qwen box's default voice.
       laniv3:
-        - endpoint: http://localhost:42001/tts/custom-voice
+        - endpoint: http://172.17.21.207:42001/tts/custom-voice
           speaker: Aiden
       vivianv2:
-        - endpoint: http://localhost:42001/tts/custom-voice
+        - endpoint: http://172.17.21.207:42001/tts/custom-voice
           speaker: Aiden
       snoop:
-        - endpoint: http://localhost:42001/tts/custom-voice
+        - endpoint: http://172.17.21.207:42001/tts/custom-voice
           speaker: Aiden
 
     # Any voice with no chain of its own lands here rather than in silence.
@@ -126,7 +126,9 @@ audio:
     health_check_on_start: true
 
   stt:
-    endpoint: http://localhost:5000/v1/audio/transcriptions
+    # screamscriber on Apollo (moved off Forge 2026-08; the old localhost:5000
+    # whisper is gone). Same contract: multipart `file` in, {"text": ...} out.
+    endpoint: http://172.17.21.207:42002/transcribe
 
 # Greeting listeners on arrival + the daily bulletin.
 # The station has exactly one regular listener; greeting him by name is the point.

@@ -130,6 +130,49 @@ async def test_commission_budget_knob(aiohttp_client, greeter):
     assert app["commissions"].max_per_day == 1, "floor of one"
 
 
+async def test_service_catalog_collects_every_endpoint_once(aiohttp_client):
+    """"What are we calling?" must be one click — and deduplicated."""
+    from bridge.web.routes.settings import _service_catalog
+
+    class TTS:
+        endpoint = "http://apollo:42001/tts/custom-voice"
+        voice_map = {"laniv3": "http://chatterbox:11700/api/tts/custom"}
+        fallbacks = {"Eric": [{"endpoint": "http://chatterbox:11700/api/tts/custom",
+                               "speaker": "carlin"}]}
+        default_fallback = {"endpoint": "http://chatterbox:11700/api/tts/custom",
+                            "speaker": "carlin"}
+
+    class STT:
+        endpoint = "http://apollo:42002/transcribe"
+
+    class Client:
+        base_url = "http://mnemosyne:8100/api"
+
+    class Comm:
+        client = Client()
+
+    class Tracker:
+        status_url = "http://localhost:49996/status-json.xsl"
+
+    app = web.Application()
+    app["ctx_kwargs"] = {"tts_service": TTS(), "stt_service": STT()}
+    app["commissions"] = Comm()
+    app["listener_tracker"] = Tracker()
+
+    class Req:
+        pass
+    req = Req()
+    req.app = app
+    services = _service_catalog(req)
+
+    urls = [s["url"] for s in services]
+    assert urls.count("http://chatterbox:11700/api/tts/custom") == 1, "deduplicated"
+    assert "http://apollo:42001/tts/custom-voice" in urls
+    assert "http://apollo:42002/transcribe" in urls
+    assert "http://mnemosyne:8100/api" in urls
+    assert "http://localhost:49996/status-json.xsl" in urls
+
+
 async def test_the_settings_page_is_served(aiohttp_client):
     app = web.Application()
     app.router.add_routes(settings_routes)
