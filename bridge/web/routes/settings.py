@@ -122,10 +122,17 @@ async def _probe_services(request: web.Request) -> list[dict]:
     services = _service_catalog(request)
 
     async def probe(entry: dict) -> dict:
+        # Probe the origin root, not the endpoint path: POST-only paths often
+        # hang or reject a bare GET, and "is the host answering HTTP at all"
+        # is the question being asked. Any status code counts as alive.
+        from urllib.parse import urlsplit
+
+        parts = urlsplit(entry["url"])
+        origin = f"{parts.scheme}://{parts.netloc}/"
         try:
             async with aiohttp.ClientSession() as session:
                 async with session.get(
-                    entry["url"], timeout=aiohttp.ClientTimeout(total=2.5)
+                    origin, timeout=aiohttp.ClientTimeout(total=2.5)
                 ) as resp:
                     return {**entry, "reachable": True, "http_status": resp.status}
         except Exception as e:
