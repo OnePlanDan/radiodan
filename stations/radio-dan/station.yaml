@@ -169,10 +169,13 @@ plugins:
     models:
       interpreter:
         backend: ollama          # ollama | claude_cli
-        model: gpt-oss:20b
+        # qwen3.8:27b (2026-08-22): reasoning model — valid JSON first try in
+        # testing where gpt-oss:20b discarded ~6% of builds; ~20s/reply is
+        # irrelevant at a 50-min pre-generation horizon.
+        model: qwen3.8:27b
       script_generator:
         backend: ollama
-        model: gpt-oss:20b
+        model: qwen3.8:27b
       vision:
         backend: ollama
         model: gemma4:26b
